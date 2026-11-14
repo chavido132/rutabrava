@@ -19876,11 +19876,11 @@ const CIU571=(()=>{
      const s=.62;COL.push([x-rad*s,z-rad*s,x+rad*s,z+rad*s]);M.cols++}}}catch(e){err('cerros',e)}return HILLS}
  const hillH=(h,x,z)=>{const d=Math.hypot(x-h.x,z-h.z)/h.rad;if(d>=1)return 0;const n=.08*Math.sin((x+h.seed%97)*.11)*Math.cos((z-h.seed%53)*.09);return h.H*Math.pow(Math.cos(d*Math.PI/2),1.6)*(1+n)};
  function buildHill(h){const g=new THREE.Group();g.userData.ciu571=1;try{const seg=36,rings=12;const pos=[],col=[],idx=[];
-   for(let i=0;i<=rings;i++){const rr=i/rings;for(let j=0;j<=seg;j++){const a=j/seg*6.283;const x=h.x+Math.cos(a)*h.rad*rr,z=h.z+Math.sin(a)*h.rad*rr;const y=h.base+hillH(h,x,z)-.3;pos.push(x,y,z);const t=(hsh(x,z)%100)/100;const B=[.54,.48,.35],T2=t<.5?[.65,.56,.38]:[.44,.5,.29];col.push(B[0]+(T2[0]-B[0])*t,B[1]+(T2[1]-B[1])*t,B[2]+(T2[2]-B[2])*t)}}
+   for(let i=0;i<=rings;i++){const rr=i/rings;for(let j=0;j<=seg;j++){const a=j/seg*6.283;const x=h.x+Math.cos(a)*h.rad*rr,z=h.z+Math.sin(a)*h.rad*rr;const y=GH(x,z)+hillH(h,x,z)-.3;pos.push(x,y,z);const t=(hsh(x,z)%100)/100;const B=[.54,.48,.35],T2=t<.5?[.65,.56,.38]:[.44,.5,.29];col.push(B[0]+(T2[0]-B[0])*t,B[1]+(T2[1]-B[1])*t,B[2]+(T2[2]-B[2])*t)}}
    for(let i=0;i<rings;i++)for(let j=0;j<seg;j++){const a=i*(seg+1)+j,b=a+seg+1;idx.push(a,b,a+1,b,b+1,a+1)}
    const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));geo.setAttribute('color',new THREE.Float32BufferAttribute(col,3));geo.setIndex(idx);geo.computeVertexNormals&&geo.computeVertexNormals();
    g.add(new THREE.Mesh(geo,new THREE.MeshLambertMaterial({vertexColors:true})));
-   if(!lo()){/* casitas escalonadas */const W=[],WC=[],T=[],WIN=[];const n=Math.round(h.rad*h.rad*.05);for(let i=0;i<n;i++){const a=(hsh(i,h.seed)%6283)/1000,r=Math.sqrt((hsh(h.seed,i)%1000)/1000)*h.rad*.92;const x=h.x+Math.cos(a)*r,z=h.z+Math.sin(a)*r,y=h.base+hillH(h,x,z);
+   if(!lo()){/* casitas escalonadas */const W=[],WC=[],T=[],WIN=[];const n=Math.round(h.rad*h.rad*.05);for(let i=0;i<n;i++){const a=(hsh(i,h.seed)%6283)/1000,r=Math.sqrt((hsh(h.seed,i)%1000)/1000)*h.rad*.92;const x=h.x+Math.cos(a)*r,z=h.z+Math.sin(a)*r,y=GH(x,z)+hillH(h,x,z);
       const w=3+(hsh(x,z)%3),d=3+(hsh(z,x)%3),hh=2.6+((hsh(x,i)%3)?0:2.6),ry=a+Math.PI/2+((hsh(i,3)%3)-1)*.2;W.push([x,y+hh/2-.6,z,ry,w,hh+1.2,d]);WC.push(PAL[hsh(i,x)%PAL.length]);if(hsh(i,5)%3)T.push([x+.6,y+hh+.55,z,0,1,1,1]);
       const fx=x+Math.cos(a)*(d/2+.03),fz=z+Math.sin(a)*(d/2+.03);WIN.push([fx,y+1.2,fz,ry,.8,.6,.05])}
      M.hillHouses+=n;const inst=(geo,mat,L,cols)=>{if(!L.length)return;try{const im=new THREE.InstancedMesh(geo,mat,L.length);if(typeof im.setMatrixAt!=='function')return;const o=new THREE.Object3D(),c=new THREE.Color();L.forEach((p,i)=>{o.position.set(p[0],p[1],p[2]);o.rotation.set(0,p[3],0);o.scale.set(p[4],p[5],p[6]);o.updateMatrix();im.setMatrixAt(i,o.matrix);if(cols&&im.setColorAt)im.setColorAt(i,c.setHex(cols[i]))});im.instanceMatrix.needsUpdate=true;if(cols&&im.instanceColor)im.instanceColor.needsUpdate=true;g.add(im);return im}catch(e){err('instancias',e)}};
@@ -20454,24 +20454,36 @@ setMk();upd();loop(0);window.__cascajoBootOk=true;
  addEventListener('orientationchange',later);try{screen.orientation&&screen.orientation.addEventListener('change',later)}catch(_){}
  try{visualViewport&&visualViewport.addEventListener('resize',later)}catch(_){}
  setInterval(()=>{const c=document.querySelector('#v canvas')||document.querySelector('canvas');if(c&&(Math.abs(c.clientWidth-innerWidth)>2||Math.abs(c.clientHeight-innerHeight)>2))fire()},1000)})();</script>
-<style>/* V5.75 web: iPhone. Que no se seleccione/resalte nada al dejar el dedo, que no haga zoom con doble toque,
- y las cajitas de texto a 16px (si son más chicas, Safari hace zoom solo al escribir y ya no regresa) */
-*{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
-canvas{touch-action:none}
-button,div,a{touch-action:manipulation}
-input,textarea{-webkit-user-select:text;user-select:text;font-size:16px!important;touch-action:manipulation}
-html,body{overscroll-behavior:none;touch-action:manipulation}</style>
-<script>/* V5.75 web: bloquear zoom de pellizco/doble toque y, si aun así quedó con zoom, regresarlo a normal solo */
-(function(){const stop=e=>{try{e.preventDefault()}catch(_){}};
- ['gesturestart','gesturechange','gestureend'].forEach(n=>document.addEventListener(n,stop,{passive:false}));
- document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1)stop(e)},{passive:false});
- document.addEventListener('dblclick',stop,{passive:false});
- document.addEventListener('selectstart',e=>{const t=e.target;if(!(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA')))stop(e)});
- document.addEventListener('contextmenu',stop);
+<style>/* V5.75 web · iPhone en Safari (fuera de Claude Safari NO respeta «sin zoom»):
+ · con dos dedos (palanca + botón) Safari creía que era pellizco y hacía zoom → aquí NADA permite zoom (touch-action:none);
+   solo las listas que se deslizan dejan mover con el dedo (pan), que no incluye zoom.
+ · nada se selecciona ni se resalta al dejar el dedo; las cajitas de texto a 16px (más chicas = Safari hace zoom al escribir). */
+*{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;-webkit-tap-highlight-color:transparent!important;touch-action:none!important}
+*:focus{outline:none}
+input,textarea{-webkit-user-select:text!important;user-select:text!important;font-size:16px!important;touch-action:manipulation!important}
+html,body{position:fixed!important;inset:0;width:100%;height:100%;overflow:hidden!important;overscroll-behavior:none}</style>
+<script>(function(){
+ const isField=t=>t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.tagName==='SELECT');
+ const scroller=t=>{for(let e=t;e&&e!==document.body&&e.nodeType===1;e=e.parentElement){const c=getComputedStyle(e);
+   if((/(auto|scroll)/.test(c.overflowY)&&e.scrollHeight>e.clientHeight+1)||(/(auto|scroll)/.test(c.overflowX)&&e.scrollWidth>e.clientWidth+1))return e}return null};
+ const stop=e=>{try{if(e.cancelable)e.preventDefault()}catch(_){}};
+ const O={passive:false,capture:true};
+ /* en «captura» en window: así nos enteramos antes que el juego (sus controles detienen el evento y antes no llegaba) */
+ ['gesturestart','gesturechange','gestureend'].forEach(n=>window.addEventListener(n,stop,O));
+ window.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1){stop(e);return}if(!scroller(e.target)&&!isField(e.target))stop(e)},O);
+ window.addEventListener('dblclick',stop,O);
+ window.addEventListener('selectstart',e=>{if(!isField(e.target))stop(e)},O);
+ window.addEventListener('contextmenu',stop,O);
+ /* las listas que sí se deslizan: dejar mover con un dedo (sin zoom) */
+ const mark=()=>{try{for(const e of document.querySelectorAll('div,ul,section')){const c=getComputedStyle(e);
+   if(/(auto|scroll)/.test(c.overflowY+c.overflowX)){if(e.style.getPropertyValue('touch-action')!=='pan-x pan-y')e.style.setProperty('touch-action','pan-x pan-y','important');
+    for(const k of e.querySelectorAll('*'))if(!isField(k)&&k.style.getPropertyValue('touch-action')!=='pan-x pan-y')k.style.setProperty('touch-action','pan-x pan-y','important')}}}catch(_){}};
+ /* si aun así quedó con zoom o movida, regresarla sola */
  const meta=document.querySelector('meta[name=viewport]');const base=meta?meta.content:'';
- const fix=()=>{try{const vv=window.visualViewport;const ae=document.activeElement;const typing=ae&&(ae.tagName==='INPUT'||ae.tagName==='TEXTAREA');
-  if(vv&&vv.scale>1.02&&!typing&&meta){meta.content=base+',minimum-scale=1';setTimeout(()=>{meta.content=base},60);scrollTo(0,0)}
-  if(!typing&&(scrollX||scrollY))scrollTo(0,0);
+ const fix=()=>{try{const ae=document.activeElement;const typing=isField(ae);const vv=window.visualViewport;
+  if(vv&&vv.scale>1.02&&!typing&&meta){meta.content=base+',minimum-scale=1';setTimeout(()=>{meta.content=base},80)}
+  if(!typing&&(scrollX||scrollY||document.documentElement.scrollTop||document.body.scrollTop)){scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0}
   const sel=getSelection&&getSelection();if(sel&&sel.rangeCount&&!typing)sel.removeAllRanges()}catch(_){}};
- setInterval(fix,700);document.addEventListener('focusout',()=>setTimeout(fix,250))})();</script>
+ setInterval(()=>{mark();fix()},600);window.addEventListener('focusout',()=>setTimeout(fix,250),true);
+})();</script>
 </body></html>
