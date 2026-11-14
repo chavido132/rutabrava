@@ -20446,4 +20446,10 @@ try{window.AMIGOS575=AMIGOS575}catch(_){}
 setMk();upd();loop(0);window.__cascajoBootOk=true;
 </script>
 
+<script>/* V5.75 web: al girar el iPhone, Safari da el tamaño viejo; se vuelve a medir varias veces y cada segundo se revisa */
+(function(){let busy=false;const fire=()=>{if(busy)return;busy=true;try{dispatchEvent(new Event('resize'))}catch(_){}busy=false};
+ const later=()=>{[120,350,800,1500].forEach(t=>setTimeout(fire,t))};
+ addEventListener('orientationchange',later);try{screen.orientation&&screen.orientation.addEventListener('change',later)}catch(_){}
+ try{visualViewport&&visualViewport.addEventListener('resize',later)}catch(_){}
+ setInterval(()=>{const c=document.querySelector('#v canvas')||document.querySelector('canvas');if(c&&(Math.abs(c.clientWidth-innerWidth)>2||Math.abs(c.clientHeight-innerHeight)>2))fire()},1000)})();</script>
 </body></html>
