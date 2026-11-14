@@ -17713,10 +17713,10 @@ const MULTI553=(()=>{
   UI.p=document.createElement('div');UI.p.id='mpp553';UI.p.innerHTML='<div class=b></div>';document.body.appendChild(UI.p);
   const stop=e=>{try{e.stopPropagation()}catch(_){}};['pointerdown','touchstart','keydown'].forEach(n=>UI.p.addEventListener(n,stop));
   UI.btn.addEventListener('pointerdown',e=>{try{e.preventDefault();e.stopPropagation()}catch(_){}open(!UI.p.classList.contains('show'))});
-  UI.p.addEventListener('click',e=>{const t=e.target;if(t===UI.p){open(false);return}const a=t&&t.dataset&&t.dataset.a;if(!a)return;
+  UI.p.addEventListener('click',e=>{const t=e.target;if(t===UI.p){if(performance.now()-(UI.t553||0)>700)open(false);return}const a=t&&t.dataset&&t.dataset.a;if(!a)return;
    if(a==='reintentar'){M.available=null;M.why='';paint();ensure()}else if(a==='crear')create();else if(a==='unir'){const i=UI.p.querySelector('#mpc553');joinCode(i?i.value:'',false)}else if(a==='salir')leave();else if(a==='cerrar')open(false);else if(a==='nombre'){const i=UI.p.querySelector('#mpn553');if(i&&i.value.trim()){st().name=i.value.trim().slice(0,24);lookSig='';sendNow(true);try{save()}catch(_){}paint()}}else if(a==='carrera'){if(raceCreate())open(false)}else if(a==='trabajos'){open(false);try{ENLINEA553.menu()}catch(_){}}else if(a==='chat'){const i=UI.p.querySelector('#mpt553');if(i&&chat(i.value))i.value=''}else if(a.startsWith('f'))say(+a.slice(1))})}catch(e){err('interfaz',e)}
  let note='';
- function open(on){try{UI.p.classList.toggle('show',!!on);if(on){ensure();paint()}}catch(_){}}
+ function open(on){try{if(on)UI.t553=performance.now();UI.p.classList.toggle('show',!!on);if(on){ensure();paint()}}catch(_){}}
  const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
  function paint(msg){if(msg!==undefined)note=msg;try{UI.btn.textContent=G?'👥 '+(AV.size+1):'👥';UI.btn.classList.toggle('on',!!G);if(!UI.p.classList.contains('show'))return;const b=UI.p.firstChild;
    let h='<h3>👥 Multijugador por Internet</h3>';
@@ -17725,12 +17725,14 @@ const MULTI553=(()=>{
    else if(M.available===null)h+='<p class=s>Conectando…</p>';
    else if(!G){h+='<div class=r><input id=mpn553 maxlength=24 value="'+esc(st().name)+'"><button data-a=nombre>Guardar nombre</button></div>';
     h+='<div class=r><button class=y data-a=crear>Crear partida</button></div><div class=r><input id=mpc553 placeholder="Código, ej. BRAVA-7K2Q" autocapitalize=characters><button data-a=unir>Unirme</button></div>';
-    h+='<p class=s>Tus amigos abren este mismo enlace con su cuenta (compártelo desde «Compartir»), tocan 👥 y escriben tu código.</p>'}
+    h+='<p class=s>Tus amigos abren este mismo enlace, tocan 👥 y escriben tu código.</p>'}
    else{h+='<p>Partida <span class=code>'+esc(code)+'</span>'+(host?' · la creaste tú':'')+'</p><ul><li>'+esc(st().name)+' (tú)</li>'+[...AV.values()].map(a=>'<li>'+esc(a.name)+(a.car?' · 🚗':a.rd?' · 🚗 copiloto':a.mt?' · '+(a.mt.k==='caballo'?'🐎':a.mt.k==='cuatri'?'🏍️':'🚤'):'')+' · ♥ '+(a.hp|0)+' · 💀 '+((a.sc&&a.sc.k)|0)+'/'+((a.sc&&a.sc.d)|0)+'</li>').join('')+'</ul><p class=s>💀 noqueos/veces noqueado · tú: '+SC.k+'/'+SC.d+'</p>';
     h+='<div class=r><input id=mpt553 maxlength=80 placeholder="Escribe a tus compas…"><button data-a=chat>Enviar</button></div>'+(CHAT.length?'<p class=s>'+CHAT.map(c=>'<b>'+esc(c.n)+':</b> '+esc(c.t)).join('<br>')+'</p>':'');
     h+='<div class=r><button class=y data-a=carrera>🏁 Armar carrera desde aquí</button><button class=y data-a=trabajos>💼 Trabajos</button></div>';
     h+='<div class=r>'+FR.map((t,i)=>'<button data-a=f'+i+'>'+esc(t)+'</button>').join('')+'</div><div class=r><button data-a=salir>Salir de la partida</button></div>'}
-   if(note)h+='<p class=s>'+esc(note)+'</p>';h+='<div class=r><button data-a=cerrar>Cerrar</button></div>';b.innerHTML=h}catch(e){err('panel',e)}}
+   if(note)h+='<p class=s>'+esc(note)+'</p>';h+='<div class=r><button data-a=cerrar>Cerrar</button></div>';/* V5.75: no repintar si nada cambió, y si sí, conservar lo que escribiste y el foco (si no, en iPhone se cierra el teclado) */
+   if(b.__h553===h)return;const keep={};let fid=null,fs=null;try{for(const i of b.querySelectorAll('input'))keep[i.id]=i.value;const ae=document.activeElement;if(ae&&ae.tagName==='INPUT'&&b.contains(ae)){fid=ae.id;fs=ae.selectionStart}}catch(_){}
+   b.__h553=h;b.innerHTML=h;try{for(const id in keep){const i=b.querySelector('#'+id);if(i&&(id!=='mpn553'||id===fid))i.value=keep[id]}if(fid){const i=b.querySelector('#'+fid);if(i){i.focus({preventScroll:true});try{i.setSelectionRange(fs,fs)}catch(_){}}}}catch(_){}}catch(e){err('panel',e)}}
  /* ---------- ciclo ---------- */
  let acc=0,boot=0;
  const _step=step;step=function(dt){const r=_step.apply(this,arguments);try{const d=Math.min(.1,Math.max(0,dt||0));
