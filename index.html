@@ -20454,4 +20454,24 @@ setMk();upd();loop(0);window.__cascajoBootOk=true;
  addEventListener('orientationchange',later);try{screen.orientation&&screen.orientation.addEventListener('change',later)}catch(_){}
  try{visualViewport&&visualViewport.addEventListener('resize',later)}catch(_){}
  setInterval(()=>{const c=document.querySelector('#v canvas')||document.querySelector('canvas');if(c&&(Math.abs(c.clientWidth-innerWidth)>2||Math.abs(c.clientHeight-innerHeight)>2))fire()},1000)})();</script>
+<style>/* V5.75 web: iPhone. Que no se seleccione/resalte nada al dejar el dedo, que no haga zoom con doble toque,
+ y las cajitas de texto a 16px (si son más chicas, Safari hace zoom solo al escribir y ya no regresa) */
+*{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+canvas{touch-action:none}
+button,div,a{touch-action:manipulation}
+input,textarea{-webkit-user-select:text;user-select:text;font-size:16px!important;touch-action:manipulation}
+html,body{overscroll-behavior:none;touch-action:manipulation}</style>
+<script>/* V5.75 web: bloquear zoom de pellizco/doble toque y, si aun así quedó con zoom, regresarlo a normal solo */
+(function(){const stop=e=>{try{e.preventDefault()}catch(_){}};
+ ['gesturestart','gesturechange','gestureend'].forEach(n=>document.addEventListener(n,stop,{passive:false}));
+ document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1)stop(e)},{passive:false});
+ document.addEventListener('dblclick',stop,{passive:false});
+ document.addEventListener('selectstart',e=>{const t=e.target;if(!(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA')))stop(e)});
+ document.addEventListener('contextmenu',stop);
+ const meta=document.querySelector('meta[name=viewport]');const base=meta?meta.content:'';
+ const fix=()=>{try{const vv=window.visualViewport;const ae=document.activeElement;const typing=ae&&(ae.tagName==='INPUT'||ae.tagName==='TEXTAREA');
+  if(vv&&vv.scale>1.02&&!typing&&meta){meta.content=base+',minimum-scale=1';setTimeout(()=>{meta.content=base},60);scrollTo(0,0)}
+  if(!typing&&(scrollX||scrollY))scrollTo(0,0);
+  const sel=getSelection&&getSelection();if(sel&&sel.rangeCount&&!typing)sel.removeAllRanges()}catch(_){}};
+ setInterval(fix,700);document.addEventListener('focusout',()=>setTimeout(fix,250))})();</script>
 </body></html>
