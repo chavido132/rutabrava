@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+</head><body>
 <title>RUTA BRAVA · La Deuda V5.75 (pública)</title>
 <style>
 :root{--tinta:#1d1420;--cobalto:#1f4e9c;--mostaza:#e8b83a;--hueso:#f5ead6}
@@ -121,7 +123,7 @@ html,body{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-to
  .t.drv #rb537Graphics{max-height:44px;box-sizing:border-box}
 }
 #rb531-next{width:max-content!important;max-width:min(42vw,300px);box-sizing:border-box;font-size:11px!important}
-</style></head><body>
+</style>
 <div id="v"></div><div id="hud"></div><div id="mis"></div><div id="cx"></div><div id="pr"></div><div id="ts"></div><div id="vel"></div><div id="dlg"></div>
 <button id="rbmenu" type="button" aria-label="Rutas y comercio">☷ RUTAS</button><div id="rbgps" aria-live="polite">🛣 Villa Cascajo · Carretera principal</div><div id="ini"><div><h1>RUTA BRAVA · La Deuda V5.75 (pública)</h1>
 <p>Empiezas en Nueva Brava. Tu papá te pide un garrafón. Lo que pasa después lo cambia todo.</p><p>Conduce por carretera, compra barato en un pueblo y vende caro en otro. Trabaja de trailero, compra autos con factura y sobrevive a los peligros del camino. Sandbox mexicano sin historia obligatoria.</p>
@@ -133,59 +135,8 @@ html,body{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-to
 <div id="wk"><div class="tb" id="ba" aria-label="Atacar">⚔</div><div class="tb" id="bi" aria-label="Usar">USAR</div><div class="tb" id="bj" aria-label="Saltar">↥</div><div class="tb sm" id="bz" aria-label="Apuntar">◎</div><div class="tb sm" id="bw" aria-label="Cambiar arma">ARMA</div><div class="tb sm" id="br" aria-label="Recargar">↻</div><div class="tb sm" id="bv" aria-label="Inventario">MOCH.</div></div>
 <div id="stw"><div id="stk"></div></div>
 <div id="dv"><div class="tb" id="gl">CLUTCH</div><div class="tb sm" id="gk">FIJAR</div><div class="tb sm" id="gu" aria-label="Subir marcha">▲</div><div class="tb sm" id="gd" aria-label="Bajar marcha">▼</div><div class="tb" id="gp">GAS</div><div class="tb" id="gb">FRENO</div><div class="tb sm" id="gv">◉ CAM</div><div class="tb sm" id="gx">SALIR</div></div></div>
-<script>
-/* V4 loader: cross-CDN fallbacks and user-readable errors. */
-(function(){
- const urls=[
-  './three.r128.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
-  'https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js',
-  'https://unpkg.com/three@0.128.0/build/three.min.js'
- ];
- let idx=0;
- const stage=document.getElementById('ini');
- const original=stage.innerHTML;
- const tell=t=>{stage.style.display='flex';stage.innerHTML='<div><h1>Ruta Brava V5.75 · La Deuda · Amigos (candidata)</h1><p>'+t+'</p></div>';};
- const run=()=>{
-  stage.innerHTML=original;
-  window.__cascajoBootOk=false;
-  let failure='';
-  const startupError=e=>{failure=String(e.message||'Fallo al iniciar').replace(/[<>&]/g,'')};
-  window.addEventListener('error',startupError);
-  try {
-   const scr=document.createElement('script');
-   scr.textContent=document.getElementById('cascajo-game').textContent;
-   document.body.appendChild(scr);
-   scr.remove();
-  } catch(err) {
-   failure=String(err&&err.message||err).replace(/[<>&]/g,'');
-   console.error('Cascajo startup error:',err);
-  }
-  setTimeout(()=>{
-   window.removeEventListener('error',startupError);
-   if(!window.__cascajoBootOk)tell('No se pudo iniciar el motor gráfico 3D.'
-    +(failure && failure!=='Script error.'?' Motivo: '+failure+'.':'')
-    +' Abre el juego en Safari desde un sitio web y comprueba que WebGL está disponible.');
-  },650);
- };
- function next(){
-  if(window.THREE){if(document.getElementById('cascajo-game'))run();else document.addEventListener('DOMContentLoaded',run,{once:true});return;}
-  if(idx>=urls.length){
-   tell('No se pudo cargar el motor 3D. Esta página necesita acceso a internet para cargar Three.js. Abre el juego en Safari desde un sitio web y revisa tu conexión. <button id="retry3d" style="padding:10px 18px;font-size:16px">Reintentar</button>');
-   document.getElementById('retry3d').onclick=()=>{idx=0;next()};return;
-  }
-  const u=urls[idx++], t=document.createElement('script');let done=false;
-  tell('Cargando motor 3D… servidor '+idx+' de '+urls.length);
-  const fail=()=>{if(done)return;done=true;t.remove();next()};
-  const timer=setTimeout(fail,5500);
-  t.onload=()=>{if(done)return;done=true;clearTimeout(timer);window.THREE?run():next()};
-  t.onerror=()=>{clearTimeout(timer);fail()};
-  t.src=u;document.head.appendChild(t);
- }
- next();
-})();
-</script>
-<script id="cascajo-game" type="text/plain">
+<script src="three.r128.min.js"></script>
+<script id="cascajo-game">
 onerror=(m,u,l)=>{const e=document.createElement('div');e.style.cssText='position:fixed;bottom:0;left:0;right:0;background:#a00;color:#fff;padding:6px;z-index:9;font:12px monospace';e.textContent='Error: '+m+' (línea '+l+')';document.body.appendChild(e)};
 if(typeof THREE==='undefined'){document.getElementById('ini').innerHTML='<div><h1>Sin librería 3D</h1><p>No se pudo cargar Three.js. Revisa tu internet y recarga la página.</p></div>';throw new Error('THREE no cargó')}
 try{if(/[#&]prueba[=-][a-z0-9_]+/i.test(String(location.hash||''))){const SP=Storage.prototype,_s=SP.setItem,_r=SP.removeItem;SP.setItem=function(k,v){if(/^cascajo3d/.test(String(k)))return;return _s.apply(this,arguments)};SP.removeItem=function(k){if(/^cascajo3d/.test(String(k)))return;return _r.apply(this,arguments)};const _g=SP.getItem;SP.getItem=function(k){if(/^cascajo3d/.test(String(k)))return null;return _g.apply(this,arguments)};window.__rbPruebaGuard=1}}catch(_){}/*RB535-PRUEBA*/
@@ -20493,4 +20444,6 @@ const AMIGOS575=(()=>{
 try{window.AMIGOS575=AMIGOS575}catch(_){}
 /*RB575-RB575_AMIGOS-END*/
 setMk();upd();loop(0);window.__cascajoBootOk=true;
-</script></body></html>
+</script>
+
+</body></html>
