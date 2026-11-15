@@ -8,7 +8,7 @@
 <link rel="manifest" href="manifest.json">
 <title>Ruta Brava</title>
 </head><body>
-<title>RUTA BRAVA · La Deuda V5.76 (pública)</title>
+<title>RUTA BRAVA · La Deuda V5.77 (pública)</title>
 <style>
 :root{--tinta:#1d1420;--cobalto:#1f4e9c;--mostaza:#e8b83a;--hueso:#f5ead6}
 html,body{margin:0;height:100%;overflow:hidden;background:var(--tinta);font-family:Rockwell,"Roboto Slab",Georgia,serif;color:var(--hueso)}
@@ -130,7 +130,7 @@ html,body{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-to
 #rb531-next{width:max-content!important;max-width:min(42vw,300px);box-sizing:border-box;font-size:11px!important}
 </style>
 <div id="v"></div><div id="hud"></div><div id="mis"></div><div id="cx"></div><div id="pr"></div><div id="ts"></div><div id="vel"></div><div id="dlg"></div>
-<button id="rbmenu" type="button" aria-label="Rutas y comercio">☷ RUTAS</button><div id="rbgps" aria-live="polite">🛣 Villa Cascajo · Carretera principal</div><div id="ini"><div><h1>RUTA BRAVA · La Deuda V5.76 (pública)</h1>
+<button id="rbmenu" type="button" aria-label="Rutas y comercio">☷ RUTAS</button><div id="rbgps" aria-live="polite">🛣 Villa Cascajo · Carretera principal</div><div id="ini"><div><h1>RUTA BRAVA · La Deuda V5.77 (pública)</h1>
 <p>Empiezas en Nueva Brava. Tu papá te pide un garrafón. Lo que pasa después lo cambia todo.</p><p>Conduce por carretera, compra barato en un pueblo y vende caro en otro. Trabaja de trailero, compra autos con factura y sobrevive a los peligros del camino. Sandbox mexicano sin historia obligatoria.</p>
 <p>WASD: mover/conducir · Ratón: mirar · E: interactuar · V: cámara · Q: arma · R: recargar · I: inventario.</p>
 <p><b>Toca o haz clic para jugar</b></p><p>En iPhone: gira el móvil, utiliza los controles discretos de los bordes. Toca RUTAS para elegir destino GPS, consultar ganancias comerciales, contratos y concesionaria. El mercado de Villa Cascajo queda hacia el este junto a la carretera.</p>
@@ -187,12 +187,13 @@ body.add(mk(new THREE.CylinderGeometry(.3,.3,1.1,12),0x1f4e9c,.75),mk(new THREE.
 const NPC=[{n:'Doña Chela',x:8,z:-8,c:0xd6336c,id:'chela'},{n:'Don Rigo',x:17,z:13.5,c:0x2b2b33,id:'rigo'},{n:'Lic. Paty',x:-4,z:10,c:0x2f9e8f,id:'paty'}];
 
 var WALKMUL510=1,STEERMUL510=1;/* V5.10: multiplicadores de la vida (1 = idéntico a V5.9) */
-const RBON553=(()=>{try{return localStorage.getItem('rb553_modo')==='enlinea'}catch(_){return false}})();const RB_KEY59=RBON553?'cascajo3d_v576o_enlinea':'cascajo3d_v576o',RB_KEYV511='cascajo3d_v511',RB_KEYV510='cascajo3d_v510',RB_KEYV59='cascajo3d_v59',RB_KEYMAIN59='cascajo3d',RB_KEYBAK59=(RBON553?'cascajo3d_v576o_enlinea_bak':'cascajo3d_v576o_bak'),RB_KEYBOOT59=(RBON553?'cascajo3d_v576o_enlinea_boot':'cascajo3d_v576o_boot'),RB_KEYBAD59=(RBON553?'cascajo3d_v576o_enlinea_corrupto':'cascajo3d_v576o_corrupto');
+const RBON553=(()=>{try{return localStorage.getItem('rb553_modo')==='enlinea'}catch(_){return false}})();const RB_KEY59=RBON553?'cascajo3d_v577o_enlinea':'cascajo3d_v577o',RB_KEYV511='cascajo3d_v511',RB_KEYV510='cascajo3d_v510',RB_KEYV59='cascajo3d_v59',RB_KEYMAIN59='cascajo3d',RB_KEYBAK59=(RBON553?'cascajo3d_v577o_enlinea_bak':'cascajo3d_v577o_bak'),RB_KEYBOOT59=(RBON553?'cascajo3d_v577o_enlinea_boot':'cascajo3d_v577o_boot'),RB_KEYBAD59=(RBON553?'cascajo3d_v577o_enlinea_corrupto':'cascajo3d_v577o_corrupto');
 /* V5.12: guardado INDEPENDIENTE (cascajo3d_v512). Si no existe, se abre una COPIA en memoria de la V5.10 y, si tampoco, de la V5.9 (status 'migrada'); esas claves NUNCA se escriben ni se borran. */
-const LOAD59=(function(){let raw=null,prev575=null,prev574=null,prev573=null,prev572=null,prev571=null,prev570=null,prev569=null,prev568=null,prev567=null,prev566=null,prev565=null,prev564=null,prev563=null,prev562=null,prev561=null,prev560=null,prev559=null,prev558=null,prev557=null,prev556=null,prev555=null,prev554=null,prev553=null,prev552=null,prev551=null,prev550=null,prev549=null,prev548=null,prev547=null,prev546=null,prev545=null,prev544=null,prev543=null,prev542=null,prev541=null,prev540=null,prev539=null,prev538=null,prev537=null,prev536c=null,prev536o=null,prev535o=null,prev534o=null,prev533o=null,prev532o=null,prev531o=null,prev524o=null,prev523o=null,prev522o=null,prev521o=null,prev520o=null,prev531x=null,prev528c=null,prev527c=null,prev5261c=null,prev524c=null,prev523c=null,prev522c=null,prev521c=null,prev520c=null,prev519o=null,prev517=null,prev519c=null,prev518c=null,prev516=null,prev5152=null,prev515=null,prev513=null,prev5121=null,prev512=null,main=null,old=null,v10=null,v11=null,status='nueva',src=null;try{raw=localStorage.getItem(RB_KEY59)}catch(e){}try{prev575=localStorage.getItem(RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o')}catch(e){}try{prev574=localStorage.getItem(RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o')}catch(e){}try{prev573=localStorage.getItem(RBON553?'cascajo3d_v573o_enlinea':'cascajo3d_v573o')}catch(e){}try{prev572=localStorage.getItem(RBON553?'cascajo3d_v572o_enlinea':'cascajo3d_v572o')}catch(e){}try{prev571=localStorage.getItem(RBON553?'cascajo3d_v571o_enlinea':'cascajo3d_v571o')}catch(e){}try{prev570=localStorage.getItem(RBON553?'cascajo3d_v570o_enlinea':'cascajo3d_v570o')}catch(e){}try{prev569=localStorage.getItem(RBON553?'cascajo3d_v569o_enlinea':'cascajo3d_v569o')}catch(e){}try{prev568=localStorage.getItem(RBON553?'cascajo3d_v568o_enlinea':'cascajo3d_v568o')}catch(e){}try{prev567=localStorage.getItem(RBON553?'cascajo3d_v567o_enlinea':'cascajo3d_v567o')}catch(e){}try{prev566=localStorage.getItem(RBON553?'cascajo3d_v566o_enlinea':'cascajo3d_v566o')}catch(e){}try{prev565=localStorage.getItem(RBON553?'cascajo3d_v565o_enlinea':'cascajo3d_v565o')}catch(e){}try{prev564=localStorage.getItem(RBON553?'cascajo3d_v564o_enlinea':'cascajo3d_v564o')}catch(e){}try{prev563=localStorage.getItem(RBON553?'cascajo3d_v563o_enlinea':'cascajo3d_v563o')}catch(e){}try{prev562=localStorage.getItem(RBON553?'cascajo3d_v562o_enlinea':'cascajo3d_v562o')}catch(e){}try{prev561=localStorage.getItem(RBON553?'cascajo3d_v561o_enlinea':'cascajo3d_v561o')}catch(e){}try{prev560=localStorage.getItem(RBON553?'cascajo3d_v560o_enlinea':'cascajo3d_v560o')}catch(e){}try{prev559=localStorage.getItem(RBON553?'cascajo3d_v559o_enlinea':'cascajo3d_v559o')}catch(e){}try{prev558=localStorage.getItem(RBON553?'cascajo3d_v558o_enlinea':'cascajo3d_v558o')}catch(e){}try{prev557=localStorage.getItem(RBON553?'cascajo3d_v557o_enlinea':'cascajo3d_v557o')}catch(e){}try{prev556=localStorage.getItem(RBON553?'cascajo3d_v556o_enlinea':'cascajo3d_v556o')}catch(e){}try{prev555=localStorage.getItem(RBON553?'cascajo3d_v555o_enlinea':'cascajo3d_v555o')}catch(e){}try{prev554=localStorage.getItem(RBON553?'cascajo3d_v554o_enlinea':'cascajo3d_v554o')}catch(e){}try{prev553=localStorage.getItem(RBON553?'cascajo3d_v553o_enlinea':'cascajo3d_v553o')}catch(e){}try{prev552=localStorage.getItem('cascajo3d_v552o')}catch(e){}try{prev551=localStorage.getItem('cascajo3d_v551o')}catch(e){}try{prev550=localStorage.getItem('cascajo3d_v550o')}catch(e){}try{prev549=localStorage.getItem('cascajo3d_v549o')}catch(e){}try{prev548=localStorage.getItem('cascajo3d_v548o')}catch(e){}try{prev547=localStorage.getItem('cascajo3d_v547o')}catch(e){}try{prev546=localStorage.getItem('cascajo3d_v546o')}catch(e){}try{prev545=localStorage.getItem('cascajo3d_v545o')}catch(e){}try{prev544=localStorage.getItem('cascajo3d_v544o')}catch(e){}try{prev543=localStorage.getItem('cascajo3d_v543o')}catch(e){}try{prev542=localStorage.getItem('cascajo3d_v542o')}catch(e){}try{prev541=localStorage.getItem('cascajo3d_v541o')}catch(e){}try{prev540=localStorage.getItem('cascajo3d_v540o')}catch(e){}try{prev539=localStorage.getItem('cascajo3d_v539o')}catch(e){}try{prev538=localStorage.getItem('cascajo3d_v538o')}catch(e){}try{prev537=localStorage.getItem('cascajo3d_v537o')}catch(e){}try{prev536c=localStorage.getItem('cascajo3d_v536criminal')}catch(e){}try{prev536o=localStorage.getItem('cascajo3d_v536o')}catch(e){}try{prev535o=localStorage.getItem('cascajo3d_v535o')}catch(e){}try{prev534o=localStorage.getItem('cascajo3d_v534o')}catch(e){}try{prev533o=localStorage.getItem('cascajo3d_v533o')}catch(e){}try{prev532o=localStorage.getItem('cascajo3d_v532o')}catch(e){}try{prev531o=localStorage.getItem('cascajo3d_v531o')}catch(e){}try{prev524o=localStorage.getItem('cascajo3d_v524o')}catch(e){}try{prev523o=localStorage.getItem('cascajo3d_v523o')}catch(e){}try{prev522o=localStorage.getItem('cascajo3d_v522o')}catch(e){}try{prev521o=localStorage.getItem('cascajo3d_v521o')}catch(e){}try{prev520o=localStorage.getItem('cascajo3d_v520o')}catch(e){}try{prev519o=localStorage.getItem('cascajo3d_v519o')}catch(e){}try{prev517=localStorage.getItem('cascajo3d_v517')}catch(e){}try{prev531x=localStorage.getItem('cascajo3d_v531x')}catch(e){}try{prev528c=localStorage.getItem('cascajo3d_v528')}catch(e){}try{prev527c=localStorage.getItem('cascajo3d_v527')}catch(e){}try{prev5261c=localStorage.getItem('cascajo3d_v5261')}catch(e){}try{prev524c=localStorage.getItem('cascajo3d_v524')}catch(e){}try{prev523c=localStorage.getItem('cascajo3d_v523')}catch(e){}try{prev522c=localStorage.getItem('cascajo3d_v522')}catch(e){}try{prev521c=localStorage.getItem('cascajo3d_v521')}catch(e){}try{prev520c=localStorage.getItem('cascajo3d_v520')}catch(e){}try{prev519c=localStorage.getItem('cascajo3d_v519')}catch(e){}try{prev518c=localStorage.getItem('cascajo3d_v518')}catch(e){}try{prev516=localStorage.getItem('cascajo3d_v516')}catch(e){}try{prev5152=localStorage.getItem('cascajo3d_v5152')}catch(e){}try{prev515=localStorage.getItem('cascajo3d_v515')}catch(e){}try{prev513=localStorage.getItem('cascajo3d_v513')}catch(e){}try{prev5121=localStorage.getItem('cascajo3d_v5121')}catch(e){}try{prev512=localStorage.getItem('cascajo3d_v512')}catch(e){}try{main=localStorage.getItem(RB_KEYMAIN59)}catch(e){}try{old=localStorage.getItem(RB_KEYV59)}catch(e){}try{v10=localStorage.getItem(RB_KEYV510)}catch(e){}try{v11=localStorage.getItem(RB_KEYV511)}catch(e){}
+const LOAD59=(function(){let raw=null,prev576=null,prev575=null,prev574=null,prev573=null,prev572=null,prev571=null,prev570=null,prev569=null,prev568=null,prev567=null,prev566=null,prev565=null,prev564=null,prev563=null,prev562=null,prev561=null,prev560=null,prev559=null,prev558=null,prev557=null,prev556=null,prev555=null,prev554=null,prev553=null,prev552=null,prev551=null,prev550=null,prev549=null,prev548=null,prev547=null,prev546=null,prev545=null,prev544=null,prev543=null,prev542=null,prev541=null,prev540=null,prev539=null,prev538=null,prev537=null,prev536c=null,prev536o=null,prev535o=null,prev534o=null,prev533o=null,prev532o=null,prev531o=null,prev524o=null,prev523o=null,prev522o=null,prev521o=null,prev520o=null,prev531x=null,prev528c=null,prev527c=null,prev5261c=null,prev524c=null,prev523c=null,prev522c=null,prev521c=null,prev520c=null,prev519o=null,prev517=null,prev519c=null,prev518c=null,prev516=null,prev5152=null,prev515=null,prev513=null,prev5121=null,prev512=null,main=null,old=null,v10=null,v11=null,status='nueva',src=null;try{raw=localStorage.getItem(RB_KEY59)}catch(e){}try{prev576=localStorage.getItem(RBON553?'cascajo3d_v576o_enlinea':'cascajo3d_v576o')}catch(e){}try{prev575=localStorage.getItem(RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o')}catch(e){}try{prev574=localStorage.getItem(RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o')}catch(e){}try{prev573=localStorage.getItem(RBON553?'cascajo3d_v573o_enlinea':'cascajo3d_v573o')}catch(e){}try{prev572=localStorage.getItem(RBON553?'cascajo3d_v572o_enlinea':'cascajo3d_v572o')}catch(e){}try{prev571=localStorage.getItem(RBON553?'cascajo3d_v571o_enlinea':'cascajo3d_v571o')}catch(e){}try{prev570=localStorage.getItem(RBON553?'cascajo3d_v570o_enlinea':'cascajo3d_v570o')}catch(e){}try{prev569=localStorage.getItem(RBON553?'cascajo3d_v569o_enlinea':'cascajo3d_v569o')}catch(e){}try{prev568=localStorage.getItem(RBON553?'cascajo3d_v568o_enlinea':'cascajo3d_v568o')}catch(e){}try{prev567=localStorage.getItem(RBON553?'cascajo3d_v567o_enlinea':'cascajo3d_v567o')}catch(e){}try{prev566=localStorage.getItem(RBON553?'cascajo3d_v566o_enlinea':'cascajo3d_v566o')}catch(e){}try{prev565=localStorage.getItem(RBON553?'cascajo3d_v565o_enlinea':'cascajo3d_v565o')}catch(e){}try{prev564=localStorage.getItem(RBON553?'cascajo3d_v564o_enlinea':'cascajo3d_v564o')}catch(e){}try{prev563=localStorage.getItem(RBON553?'cascajo3d_v563o_enlinea':'cascajo3d_v563o')}catch(e){}try{prev562=localStorage.getItem(RBON553?'cascajo3d_v562o_enlinea':'cascajo3d_v562o')}catch(e){}try{prev561=localStorage.getItem(RBON553?'cascajo3d_v561o_enlinea':'cascajo3d_v561o')}catch(e){}try{prev560=localStorage.getItem(RBON553?'cascajo3d_v560o_enlinea':'cascajo3d_v560o')}catch(e){}try{prev559=localStorage.getItem(RBON553?'cascajo3d_v559o_enlinea':'cascajo3d_v559o')}catch(e){}try{prev558=localStorage.getItem(RBON553?'cascajo3d_v558o_enlinea':'cascajo3d_v558o')}catch(e){}try{prev557=localStorage.getItem(RBON553?'cascajo3d_v557o_enlinea':'cascajo3d_v557o')}catch(e){}try{prev556=localStorage.getItem(RBON553?'cascajo3d_v556o_enlinea':'cascajo3d_v556o')}catch(e){}try{prev555=localStorage.getItem(RBON553?'cascajo3d_v555o_enlinea':'cascajo3d_v555o')}catch(e){}try{prev554=localStorage.getItem(RBON553?'cascajo3d_v554o_enlinea':'cascajo3d_v554o')}catch(e){}try{prev553=localStorage.getItem(RBON553?'cascajo3d_v553o_enlinea':'cascajo3d_v553o')}catch(e){}try{prev552=localStorage.getItem('cascajo3d_v552o')}catch(e){}try{prev551=localStorage.getItem('cascajo3d_v551o')}catch(e){}try{prev550=localStorage.getItem('cascajo3d_v550o')}catch(e){}try{prev549=localStorage.getItem('cascajo3d_v549o')}catch(e){}try{prev548=localStorage.getItem('cascajo3d_v548o')}catch(e){}try{prev547=localStorage.getItem('cascajo3d_v547o')}catch(e){}try{prev546=localStorage.getItem('cascajo3d_v546o')}catch(e){}try{prev545=localStorage.getItem('cascajo3d_v545o')}catch(e){}try{prev544=localStorage.getItem('cascajo3d_v544o')}catch(e){}try{prev543=localStorage.getItem('cascajo3d_v543o')}catch(e){}try{prev542=localStorage.getItem('cascajo3d_v542o')}catch(e){}try{prev541=localStorage.getItem('cascajo3d_v541o')}catch(e){}try{prev540=localStorage.getItem('cascajo3d_v540o')}catch(e){}try{prev539=localStorage.getItem('cascajo3d_v539o')}catch(e){}try{prev538=localStorage.getItem('cascajo3d_v538o')}catch(e){}try{prev537=localStorage.getItem('cascajo3d_v537o')}catch(e){}try{prev536c=localStorage.getItem('cascajo3d_v536criminal')}catch(e){}try{prev536o=localStorage.getItem('cascajo3d_v536o')}catch(e){}try{prev535o=localStorage.getItem('cascajo3d_v535o')}catch(e){}try{prev534o=localStorage.getItem('cascajo3d_v534o')}catch(e){}try{prev533o=localStorage.getItem('cascajo3d_v533o')}catch(e){}try{prev532o=localStorage.getItem('cascajo3d_v532o')}catch(e){}try{prev531o=localStorage.getItem('cascajo3d_v531o')}catch(e){}try{prev524o=localStorage.getItem('cascajo3d_v524o')}catch(e){}try{prev523o=localStorage.getItem('cascajo3d_v523o')}catch(e){}try{prev522o=localStorage.getItem('cascajo3d_v522o')}catch(e){}try{prev521o=localStorage.getItem('cascajo3d_v521o')}catch(e){}try{prev520o=localStorage.getItem('cascajo3d_v520o')}catch(e){}try{prev519o=localStorage.getItem('cascajo3d_v519o')}catch(e){}try{prev517=localStorage.getItem('cascajo3d_v517')}catch(e){}try{prev531x=localStorage.getItem('cascajo3d_v531x')}catch(e){}try{prev528c=localStorage.getItem('cascajo3d_v528')}catch(e){}try{prev527c=localStorage.getItem('cascajo3d_v527')}catch(e){}try{prev5261c=localStorage.getItem('cascajo3d_v5261')}catch(e){}try{prev524c=localStorage.getItem('cascajo3d_v524')}catch(e){}try{prev523c=localStorage.getItem('cascajo3d_v523')}catch(e){}try{prev522c=localStorage.getItem('cascajo3d_v522')}catch(e){}try{prev521c=localStorage.getItem('cascajo3d_v521')}catch(e){}try{prev520c=localStorage.getItem('cascajo3d_v520')}catch(e){}try{prev519c=localStorage.getItem('cascajo3d_v519')}catch(e){}try{prev518c=localStorage.getItem('cascajo3d_v518')}catch(e){}try{prev516=localStorage.getItem('cascajo3d_v516')}catch(e){}try{prev5152=localStorage.getItem('cascajo3d_v5152')}catch(e){}try{prev515=localStorage.getItem('cascajo3d_v515')}catch(e){}try{prev513=localStorage.getItem('cascajo3d_v513')}catch(e){}try{prev5121=localStorage.getItem('cascajo3d_v5121')}catch(e){}try{prev512=localStorage.getItem('cascajo3d_v512')}catch(e){}try{main=localStorage.getItem(RB_KEYMAIN59)}catch(e){}try{old=localStorage.getItem(RB_KEYV59)}catch(e){}try{v10=localStorage.getItem(RB_KEYV510)}catch(e){}try{v11=localStorage.getItem(RB_KEYV511)}catch(e){}
  const okSave=t=>{try{const j=JSON.parse(t);return !!(j&&typeof j==='object'&&!Array.isArray(j)&&Number.isFinite(j.pesos)&&!(Number.isFinite(j.v)&&j.v>12))}catch(e){return false}};
  if(raw)status='ok';
- else if((()=>{try{return !!localStorage.getItem('cascajo3d_v576o_fresh')}catch(e){return false}})()){}
+ else if((()=>{try{return !!localStorage.getItem('cascajo3d_v577o_fresh')}catch(e){return false}})()){}
+ else if(prev576&&okSave(prev576)){raw=prev576;status='migrada';src=RBON553?'cascajo3d_v576o_enlinea':'cascajo3d_v576o'}
  else if(prev575&&okSave(prev575)){raw=prev575;status='migrada';src=RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o'}
  else if(prev574&&okSave(prev574)){raw=prev574;status='migrada';src=RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o'}
  else if(prev573&&okSave(prev573)){raw=prev573;status='migrada';src=RBON553?'cascajo3d_v573o_enlinea':'cascajo3d_v573o'}
@@ -2886,7 +2887,7 @@ function roads510(){const a=AIRF510,out=[];
 function airActive510(){try{return !!(window.__air510&&window.__air510.AIR.active)}catch(e){return false}}
 
 /*RB510-WORLD-END*/
-/*RB59-BEGIN*/const BUILD59={ver:"5.76",ch:"publica",dev:false};
+/*RB59-BEGIN*/const BUILD59={ver:"5.77",ch:"publica",dev:false};
 /* =====================================================================================================
    RUTA BRAVA V5.9 (experimental) · INTEGRACIÓN: partidas seguras, minimapa, mapa completo, volante, agarre y paisaje
    Se inserta DESPUÉS del bloque V5.8 (prólogo) y ANTES del guardado en segundo plano de V5.6.
@@ -5045,7 +5046,7 @@ window.__rb513={CH513,chPhase513,chState513,chStart513,chPoint513,chUse513,chFin
    · Diagnóstico: versión, guardado, errores y FPS medidos EN EL DISPOSITIVO (informe copiable)
    ===================================================================================================== */
 const MENU513={view:'home',fps:0,ft:[],introT:0,introDone:false,started:false,winErr:0,msg:''};
-const FRESH_KEY513='cascajo3d_v576o_fresh';
+const FRESH_KEY513='cascajo3d_v577o_fresh';
 try{addEventListener('error',()=>{MENU513.winErr++})}catch(_){}
 /* «Reiniciar» (Partidas) y «Nueva partida» no deben resucitar la partida anterior copiándola otra vez al arrancar */
 try{const _rs=Save59.reset;Save59.reset=function(){const r=_rs.apply(this,arguments);if(r&&r.ok){try{localStorage.setItem(FRESH_KEY513,'1')}catch(_){}}return r}}catch(_){}
@@ -5082,14 +5083,14 @@ function menuReport513(){let sz=0;try{sz=(localStorage.getItem(RB_KEY59)||'').le
   'Errores del juego: '+e.length+(e.length?'\n · '+e.slice(0,8).join('\n · '):'')+' · errores de ventana: '+MENU513.winErr].join('\n')}
 function menuRender513(view,msg){
  const ini=$('ini');if(!ini)return;MENU513.view=view||'home';MENU513.msg=msg||'';
- const prog=menuProgress513(),v=MENU513.view;let h='<div class="m513"><h1>RUTA BRAVA</h1><div class="sub">La Deuda · V5.76 En línea+ (candidata)</div>';
+ const prog=menuProgress513(),v=MENU513.view;let h='<div class="m513"><h1>RUTA BRAVA</h1><div class="sub">La Deuda · V5.77 Juegos (candidata)</div>';
  if(v==='home'){
   h+='<div class="sum">'+esc58(menuSummary513())+'</div>'+(menuStatusNote513()?'<div class="note">'+esc58(menuStatusNote513())+'</div>':'')+
    '<div class="grid"><button class="pri" id="m513go" '+(prog||MENU513.started?'':'disabled')+'>▶ '+(MENU513.started?'SEGUIR JUGANDO':'CONTINUAR')+'</button>'+
    '<button id="m513new">✚ NUEVA PARTIDA</button><button id="m513set">⚙ AJUSTES</button><button id="m513how">🎮 CÓMO JUGAR</button><button id="m513sv">💾 PARTIDAS</button><button id="m513cr">★ CRÉDITOS</button></div>'+
    (prog?'':'<div class="note">Toca «NUEVA PARTIDA» para empezar. Empiezas en Nueva Brava. Sigue la marca dorada: tu papá te espera en la sala.</div>');
  }else if(v==='how'){h+='<div class="box"><b>Cómo se juega</b>\n'+esc58(menuControls513())+'</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
- else if(v==='credits'){h+='<div class="box"><b>Créditos</b>\nRUTA BRAVA · La Deuda (candidata V5.76)\nProducción y dirección: el productor del proyecto.\nProgramación y guion asistidos por Claude (Anthropic) y ChatGPT (OpenAI); auditoría externa pendiente (Gemini, DeepSeek).\nMotor 3D: Three.js r128 (licencia MIT), cargado desde CDN.\nTodos los personajes, lugares y sucesos son ficticios; cualquier parecido con la realidad es coincidencia.</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
+ else if(v==='credits'){h+='<div class="box"><b>Créditos</b>\nRUTA BRAVA · La Deuda (candidata V5.77)\nProducción y dirección: el productor del proyecto.\nProgramación y guion asistidos por Claude (Anthropic) y ChatGPT (OpenAI); auditoría externa pendiente (Gemini, DeepSeek).\nMotor 3D: Three.js r128 (licencia MIT), cargado desde CDN.\nTodos los personajes, lugares y sucesos son ficticios; cualquier parecido con la realidad es coincidencia.</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
  else if(v==='settings'){h+='<div class="box"><b>Ajustes</b>\nMinimapa: '+(SET59.mini?'visible':'oculto')+'\nDirección al conducir (táctil): '+(SET59.steer==='joystick'?'joystick':SET59.steer==='wheel'?'volante circular':'barra clásica')+'</div>'+
    '<div class="row"><button id="m513mm">'+(SET59.mini?'Ocultar minimapa':'Mostrar minimapa')+'</button><button id="m513st">'+(SET59.steer==='joystick'?'Usar volante circular':SET59.steer==='wheel'?'Usar barra clásica':'Usar joystick')+'</button></div>'+
    '<div class="row"><button id="m513dg">🩺 Diagnóstico</button><button id="m513sv2">💾 Partidas</button><button id="m513bk">‹ Volver</button></div>'}
@@ -11222,7 +11223,7 @@ try{window.VIS536=VIS536}catch(_){}
 function rb536LateForce(){try{const R5=window.__reg511&&__reg511.REG511;if(R5&&R5.lateForce536){R5.lateForce536=0;R5.force()}}catch(err){try{ERR59.push('regiones: '+String(err&&err.message||err))}catch(_){}}}
 rb536LateForce();
 /*RB534-VISUAL536-END*/
-try{BUILD59.ver="5.76"}catch(_){}
+try{BUILD59.ver="5.77"}catch(_){}
 /* V5.6: guardar al pasar a segundo plano / cerrar (iOS dispara pagehide y visibilitychange, no beforeunload) */
 function flushSave(){try{snapshotVehicles();rbSyncCars();if(sv.p){clearTimeout(sv.t);return svNow()}return save()}catch(e){try{return save()}catch(_){return false}}}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushSave()});addEventListener('pagehide',flushSave);
@@ -17754,7 +17755,7 @@ try{window.MULTI553=MULTI553}catch(_){}
 /*RB553-RB553_ENLINEA-BEGIN*/
 /* RUTA BRAVA V5.53 · MODO EN LÍNEA APARTE (pedido del productor: «que sea diferente el modo historia y el modo multijugador, que todos empiecen
    con 50,000 pesos en el multijugador y tengan misiones y así, separadas»).
-   · En el menú de inicio eliges 📖 HISTORIA o 🌐 EN LÍNEA. Cada modo tiene su propia partida guardada (en línea: cascajo3d_v576o_enlinea);
+   · En el menú de inicio eliges 📖 HISTORIA o 🌐 EN LÍNEA. Cada modo tiene su propia partida guardada (en línea: cascajo3d_v577o_enlinea);
      lo que hagas en uno no toca al otro. Cambiar de modo recarga el juego.
    · En línea: empiezas con $50,000 en Nueva Brava, sin prólogo ni deuda de la historia; el 👥 (multijugador) solo está aquí.
    · Trabajos en línea (📱 Trabajos o 👥 → Trabajos): entrega exprés, cobranza, encargo de coche y la camioneta de valores. Si estás en una
@@ -20630,6 +20631,124 @@ const ON576=(()=>{
 })();
 try{window.ON576=ON576}catch(_){}
 /*RB576-RB576_ONLINE-END*/
+/*RB577-RB577_JUEGOS-BEGIN*/
+/* RUTA BRAVA V5.77 · «JUEGOS» (segundo paquete de las 325 ideas del modo en línea; número = idea del documento)
+   · 44 Futbol con coches: una pelota gigante en una cancha que aparece frente a quien lo arma; la pelota la mueve el juego de quien
+     armó el partido y los demás la ven por el estado (así nadie ve una pelota distinta). Dos equipos, 3 minutos, goles en las porterías.
+   · 56 Carrera a un punto: meta = el lugar que señalaste (📌) o uno a 300 m; cuenta 3-2-1; gana el primero que llega.
+   · 81 Taxi para tu compa: el que maneja prende «🚕 Cobrar pasaje»; el copiloto paga al bajarse según la distancia.
+   · 189 Seguir al líder: una flecha con la distancia a tu amigo, todo el tiempo.
+   · 318+ En el minimapa salen el botín, el convoy, las señales y la cancha.
+   · 151 Fin de semana Bravo: viernes, sábado y domingo los retos del día pagan el doble. */
+const JU577=(()=>{
+ const M={errors:[],goals:0,matches:0,races:0,raceWins:0,fares:0,faresIn:0,follow:0,mini:0,weekend:0};
+ const err=(w,e)=>{if(M.errors.length<6)M.errors.push(w+': '+(e&&e.message||e))};
+ const X=()=>{try{return MULTI553}catch(_){return null}};
+ const O=()=>{try{return ON576}catch(_){return null}};
+ const gh=(x,z)=>{try{return G512.h(x,z)}catch(_){return 0}};
+ const T=t=>{try{toast(t)}catch(_){}};
+ const money=d=>{try{S.pesos=Math.max(0,Math.round((S.pesos||0)+d))}catch(_){}};
+ const myPeer=()=>{try{return X().myPeer}catch(_){return null}};
+ const nameOf=pe=>{try{return X().nameOf(pe)}catch(_){return 'Alguien'}};
+ const ev=(k,o)=>{try{X().event(k,o)}catch(e){err('suceso',e)}};
+ const inGame=()=>{try{return !!X().room}catch(_){return false}};
+ const myPos=()=>{try{if(DRV&&DRV.k&&DRV.k.g){const q=DRV.k.g.position;return {x:q.x,z:q.z}}}catch(_){}return {x:P.x,z:P.z}};
+ const posOf=a=>{try{if(a.car&&a.car.g){const q=a.car.g.position;return {x:q.x,z:q.z}}}catch(_){}return {x:a.x,z:a.z}};
+ const dist=(p,q)=>Math.hypot(p.x-q.x,p.z-q.z);
+ const dirTxt=to=>{const m=myPos();const dx=to.x-m.x,dz=to.z-m.z;let yaw=0;try{yaw=(DRV&&DRV.k&&DRV.k.g)?DRV.k.g.rotation.y:(P.yaw||0)}catch(_){}
+  const a=Math.atan2(-dx,-dz)-yaw;const r=Math.atan2(Math.sin(a),Math.cos(a));const A=['⬆️','↖️','⬅️','↙️','⬇️','↘️','➡️','↗️'];return A[((Math.round(r/(Math.PI/4))%8)+8)%8]+' '+Math.round(Math.hypot(dx,dz))+' m'};
+ const peersAll=()=>{const L=[];try{const me=myPeer();if(me)L.push(me);for(const a of X().AV.values())L.push(a.peer)}catch(_){}return L};
+ const mmss=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+ let ui=null;function bar(txt){try{if(typeof document==='undefined')return;if(!ui){ui=document.createElement('div');ui.id='j577';ui.style.cssText='position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 76px);z-index:40;max-width:min(86vw,520px);padding:5px 12px;border-radius:12px;background:rgba(14,26,34,.84);color:#bff3ff;font:600 13px/1.3 system-ui,sans-serif;text-align:center;pointer-events:none;border:1px solid #48d1ff';document.body.appendChild(ui)}
+  ui.style.display=txt?'block':'none';if(txt&&ui.textContent!==txt)ui.textContent=txt}catch(_){}}
+
+ /* ---------- 151 fin de semana Bravo ---------- */
+ const weekend=()=>{const d=new Date().getDay();return d===5||d===6||d===0};
+ /* los retos los cuenta V5.76; aquí solo se ve si se cumplió uno nuevo y, en fin de semana, se paga otra vez lo mismo */
+ let doneN=-1;function wkTick(){try{const o=O();if(!o)return;const n=Object.keys(o.st().done||{}).length;if(doneN>=0&&n>doneN&&weekend()){money(150*(n-doneN));M.weekend+=n-doneN;T('🎉 Fin de semana Bravo: ese reto paga doble (+$150 más)')}doneN=n}catch(_){}}
+
+ /* ---------- 44 futbol con coches ---------- */
+ let FB=null;/* {id, by, cx, cz, end, team:{peer:0|1}, s:[0,0], ball:{x,z,vx,vz}, mesh, prev:Map, rx,rz} */
+ const W=34,H=20,GW=7,BR=1.3;
+ function fbMesh(){try{const g=new THREE.Mesh(new THREE.SphereGeometry(BR,16,12),new THREE.MeshLambertMaterial({color:0xf4f4f4}));
+   const s=new THREE.Mesh(new THREE.SphereGeometry(BR*1.01,8,6),new THREE.MeshBasicMaterial({color:0x111111,wireframe:true}));g.add(s);g.userData.o577=1;sc.add(g);return g}catch(e){err('pelota',e);return null}}
+ function fbStart(){if(!inGame()){T('Primero entra a una partida 👥');return}if(peersAll().length<2){T('Necesitas al menos un amigo');return}if(FB){T('Ya hay partido');return}
+  const m=myPos();let yaw=0;try{yaw=(DRV&&DRV.k&&DRV.k.g)?DRV.k.g.rotation.y:(P.yaw||0)}catch(_){}
+  const cx=Math.round(m.x-Math.sin(yaw)*30),cz=Math.round(m.z-Math.cos(yaw)*30);const ps=peersAll().slice().sort(()=>Math.random()-.5);const team={};ps.forEach((p,i)=>team[p]=i%2);
+  const o={id:Math.floor(Math.random()*1e9),cx,cz,team,dur:180};ev('futbol577',o);fbBegin(o,myPeer());try{X().open(false)}catch(_){}}
+ function fbBegin(o,by){try{if(FB)fbEnd('');M.matches++;FB={id:o.id,by,cx:o.cx,cz:o.cz,end:performance.now()/1000+(o.dur||180),team:o.team||{},s:[0,0],ball:{x:o.cx,z:o.cz,vx:0,vz:0},prev:new Map(),mesh:fbMesh(),rx:o.cx,rz:o.cz};
+  const on=O();if(on){on.beam('gA',o.cx-W,o.cz,0xff4040,'🥅 ROJO',o.dur+5);on.beam('gB',o.cx+W,o.cz,0x4080ff,'🥅 AZUL',o.dur+5)}
+  const t=FB.team[myPeer()];T('⚽ Futbol con coches: eres del equipo '+(t===0?'ROJO (mete gol en la portería AZUL)':'AZUL (mete gol en la portería ROJA)'));try{O().did('juego')}catch(_){}}catch(e){err('futbol',e)}}
+ function fbEnd(msg){if(!FB)return;try{if(FB.mesh)sc.remove(FB.mesh)}catch(_){}try{O().unbeam('gA');O().unbeam('gB')}catch(_){}const f=FB;FB=null;bar('');
+  if(msg===undefined){const me=f.team[myPeer()];const w=f.s[0]===f.s[1]?-1:(f.s[0]>f.s[1]?0:1);if(w===me){money(300);T('🏆 ¡Ganó tu equipo '+f.s[0]+'-'+f.s[1]+'! +$300')}else T(w<0?'🤝 Empate '+f.s[0]+'-'+f.s[1]:'⚽ Perdió tu equipo '+f.s[0]+'-'+f.s[1])}else if(msg)T(msg)}
+ function fbSim(dt){const f=FB,b=f.ball;const me=myPeer();
+  /* coches que empujan: el mío y los de los amigos */const cars=[{id:me,p:myPos()}];for(const a of X().AV.values())cars.push({id:a.peer,p:posOf(a)});
+  for(const c of cars){const pr=f.prev.get(c.id)||c.p;const vx=(c.p.x-pr.x)/Math.max(dt,1e-3),vz=(c.p.z-pr.z)/Math.max(dt,1e-3);f.prev.set(c.id,{x:c.p.x,z:c.p.z});
+   const dx=b.x-c.p.x,dz=b.z-c.p.z,d=Math.hypot(dx,dz);if(d<BR+1.6&&d>1e-3){const sp=Math.max(6,Math.hypot(vx,vz)*1.25);b.vx=dx/d*sp;b.vz=dz/d*sp;b.x=c.p.x+dx/d*(BR+1.6);b.z=c.p.z+dz/d*(BR+1.6)}}
+  b.x+=b.vx*dt;b.z+=b.vz*dt;const k=Math.pow(.55,dt);b.vx*=k;b.vz*=k;
+  const lx=b.x-f.cx,lz=b.z-f.cz;
+  if(Math.abs(lz)>H-BR){b.vz=-b.vz*.8;b.z=f.cz+Math.sign(lz)*(H-BR)}
+  if(Math.abs(lx)>W-BR){if(Math.abs(lz)<GW){const side=lx<0?1:0;/* portería roja (izquierda) = gol del AZUL */f.s[side]++;M.goals++;ev('gol577',{id:f.id,s:f.s.slice(),by:side});T('⚽ ¡GOOOL del '+(side===0?'ROJO':'AZUL')+'! '+f.s[0]+'-'+f.s[1]);b.x=f.cx;b.z=f.cz;b.vx=b.vz=0}
+   else{b.vx=-b.vx*.8;b.x=f.cx+Math.sign(lx)*(W-BR)}}}
+ function fbTick(dt){if(!FB)return;const f=FB;const L=Math.max(0,f.end-performance.now()/1000);
+  if(f.by===myPeer())fbSim(dt);else{const a=X().AV.get(f.by);if(a&&a.fb577&&a.fb577.id===f.id){f.ball.x=a.fb577.x;f.ball.z=a.fb577.z;if(a.fb577.s)f.s=a.fb577.s.slice()}else if(!a){fbEnd('⚽ Se fue quien armó el partido');return}}
+  f.rx+=(f.ball.x-f.rx)*Math.min(1,dt*12);f.rz+=(f.ball.z-f.rz)*Math.min(1,dt*12);
+  if(f.mesh){f.mesh.position.set(f.rx,gh(f.rx,f.rz)+BR,f.rz);f.mesh.rotation.x+=dt*(f.ball.vz||0)*.6;f.mesh.rotation.z-=dt*(f.ball.vx||0)*.6}
+  bar('⚽ ROJO '+f.s[0]+' - '+f.s[1]+' AZUL · '+mmss(L)+' · pelota '+dirTxt({x:f.rx,z:f.rz}));
+  if(L<=0)fbEnd()}
+
+ /* ---------- 56 carrera a un punto ---------- */
+ let RC=null;/* {id,x,z,go,by,won} */
+ function rcStart(){if(!inGame()){T('Primero entra a una partida 👥');return}if(RC){T('Ya hay carrera');return}const m=myPos();let x,z;
+  try{const b=O().BEAMS.get('yo');if(b&&dist(b,m)>60){x=b.x;z=b.z}}catch(_){}
+  if(x===undefined){let yaw=0;try{yaw=(DRV&&DRV.k&&DRV.k.g)?DRV.k.g.rotation.y:(P.yaw||0)}catch(_){}x=m.x-Math.sin(yaw)*300;z=m.z-Math.cos(yaw)*300}
+  const o={id:Math.floor(Math.random()*1e9),x:Math.round(x),z:Math.round(z)};ev('carrera577',o);rcBegin(o,myPeer());try{X().open(false)}catch(_){}}
+ function rcBegin(o,by){RC={id:o.id,x:o.x,z:o.z,go:performance.now()/1000+3.5,by,won:false,start:performance.now()/1000};M.races++;try{O().beam('meta',o.x,o.z,0x7dff6a,'🏁 META',300)}catch(_){}T('🏁 Carrera a la meta verde: '+dirTxt(o)+' · ¡prepárate!');try{O().did('juego')}catch(_){}}
+ function rcEnd(msg){if(!RC)return;try{O().unbeam('meta')}catch(_){}RC=null;bar('');if(msg)T(msg)}
+ function rcTick(){if(!RC)return;const now=performance.now()/1000;const d=dist(myPos(),RC);
+  if(now<RC.go){bar('🏁 '+Math.ceil(RC.go-now)+'…');return}
+  if(now-RC.start>300){rcEnd('⏱️ Nadie llegó a la meta');return}
+  bar('🏁 ¡ARRANCA! Meta '+dirTxt(RC));if(d<9&&!RC.won){RC.won=true;M.raceWins++;money(300);ev('gane577',{id:RC.id});rcEnd('🏆 ¡Ganaste la carrera! +$300')}}
+
+ /* ---------- 81 taxi ---------- */
+ let taxi=false,rideFrom=null,rideD=0,rideLast=null;
+ function taxiTick(){try{const r=X().ride;if(r){const a=X().AV.get(r.peer);const p=a?posOf(a):myPos();if(!rideFrom){rideFrom=r.peer;rideD=0;rideLast=p}else{rideD+=Math.min(50,dist(p,rideLast));rideLast=p}}
+   else if(rideFrom){const a=X().AV.get(rideFrom);const fare=Math.min(800,Math.round(20+rideD*.08));if(a&&a.taxi577&&rideD>40){if((S.pesos||0)>=fare){money(-fare);ev('pasaje577',{to:rideFrom,m:fare});M.fares++;T('🚕 Pagaste $'+fare+' de pasaje a '+a.name)}else T('🚕 No te alcanzó para el pasaje')}rideFrom=null;rideD=0}}catch(e){err('taxi',e)}}
+
+ /* ---------- 189 seguir al líder ---------- */
+ let FOL=null;function folTick(){if(!FOL||FB||RC)return;const a=X().AV.get(FOL);if(!a){FOL=null;bar('');return}bar('👣 Siguiendo a '+a.name+' · '+dirTxt(posOf(a)))}
+
+ /* ---------- minimapa: marcas de juego ---------- */
+ try{const _rm=renderMini59;renderMini59=function(){const r=_rm.apply(this,arguments);try{if(!inGame()||INSIDE58)return r;const c=MINI59.ctx,N=MINI59.N;const sp=DRV?Math.abs(DRV.v):0,s=sp>22?.62:sp>9?.85:1.1;const m=myPos();
+   const L=[];try{for(const [k,b] of O().BEAMS)L.push([k==='botin'?'💰':k==='convoy'?'🚚':k==='meta'?'🏁':k[0]==='g'?'🥅':'📌',b.x,b.z])}catch(_){}if(FB)L.push(['⚽',FB.rx,FB.rz]);
+   for(const [e,x0,z0] of L){let x=N/2+(x0-m.x)*s,y=N/2+(z0-m.z)*s;const dx=x-N/2,dy=y-N/2,d=Math.hypot(dx,dy),R0=N/2-10;if(d>R0){x=N/2+dx/d*R0;y=N/2+dy/d*R0}c.save();c.font='14px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(e,x,y);c.restore();M.mini++}}catch(_){}return r}}catch(e){err('minimapa',e)}
+
+ /* ---------- sucesos, estado, panel ---------- */
+ function onEv(a,e){if(!e||typeof e.k!=='string'||!e.k.endsWith('577'))return;const me=myPeer();
+  if(e.k==='futbol577'&&isFinite(e.cx)){if(!FB)fbBegin(e,a.peer)}
+  else if(e.k==='gol577'&&FB&&FB.id===e.id&&FB.by!==me){if(Array.isArray(e.s))FB.s=e.s.slice();T('⚽ ¡GOOOL del '+(e.by===0?'ROJO':'AZUL')+'! '+FB.s[0]+'-'+FB.s[1])}
+  else if(e.k==='carrera577'&&isFinite(e.x)){if(!RC)rcBegin(e,a.peer)}
+  else if(e.k==='gane577'&&RC&&RC.id===e.id&&!RC.won)rcEnd('🏁 Ganó '+a.name)
+  else if(e.k==='pasaje577'&&e.to===me){const m=Math.max(0,Math.min(800,e.m|0));if(m){money(m);M.faresIn++;T('🚕 '+a.name+' te pagó $'+m+' de pasaje')}}}
+ function onUpd(a,pr){a.taxi577=!!pr.tx577;a.fb577=pr.fb577||null}
+ function onPack(o){if(taxi)o.tx577=1;if(FB&&FB.by===myPeer())o.fb577={id:FB.id,x:Math.round(FB.ball.x*10)/10,z:Math.round(FB.ball.z*10)/10,s:FB.s}}
+ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+ function panel(){let h='<div class=r><button class=y data-a=j577fut>⚽ Futbol con coches</button><button class=y data-a=j577car>🏁 Carrera a un punto</button><button data-a=j577taxi>🚕 '+(taxi?'Ya no cobrar pasaje':'Cobrar pasaje')+'</button></div>';
+  const AV=X().AV;if(AV.size)h+='<div class=r>'+[...AV.values()].map(a=>'<button data-a="j577fol:'+esc(a.peer)+'">👣 '+(FOL===a.peer?'Dejar de seguir':'Seguir a')+' '+esc(a.name)+'</button>').join('')+'</div>';
+  if(FB||RC)h+='<div class=r><button data-a=j577fin>⏹️ Terminar '+(FB?'partido':'carrera')+'</button></div>';
+  if(weekend())h+='<p class=s>🎉 Fin de semana Bravo: los retos del día pagan doble.</p>';return h}
+ function click(a){if(a==='j577fut'){fbStart();return true}if(a==='j577car'){rcStart();return true}
+  if(a==='j577taxi'){taxi=!taxi;T(taxi?'🚕 Cobrarás pasaje a tus compas que se suban':'🚕 Ya no cobras pasaje');try{X().sendNow(false);X().paint()}catch(_){}return true}
+  if(a.startsWith('j577fol:')){const pe=a.slice(8);FOL=FOL===pe?null:pe;if(FOL)M.follow++;else bar('');try{X().open(false)}catch(_){}return true}
+  if(a==='j577fin'){fbEnd('⏹️ Partido terminado');rcEnd('⏹️ Carrera terminada');return true}return false}
+ function tick(dt){try{fbTick(dt);rcTick();taxiTick();folTick();wkTick()}catch(e){err('cuadro',e)}}
+ let hooked=false;function hook(){if(hooked)return;const x=X();if(!x||!x.EXT)return;hooked=true;x.EXT.ev.push(onEv);x.EXT.upd.push(onUpd);x.EXT.pack.push(onPack);x.EXT.panel.push(panel);x.EXT.click.push(click);x.EXT.tick.push(tick)}
+ hook();
+ if(typeof setInterval==='function')setInterval(()=>{try{hook();if(!inGame()){if(FB)fbEnd('');if(RC)rcEnd('');if(FOL){FOL=null;bar('')}}}catch(_){}},1500);
+ return {M,fbStart,fbBegin,fbEnd,rcStart,rcBegin,rcEnd,onEv,click,panel,weekend,get fb(){return FB},get rc(){return RC},get taxi(){return taxi},set taxi(v){taxi=!!v},get follow(){return FOL}};
+})();
+try{window.JU577=JU577}catch(_){}
+/*RB577-RB577_JUEGOS-END*/
 setMk();upd();loop(0);window.__cascajoBootOk=true;
 </script>
 
