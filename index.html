@@ -2,8 +2,13 @@
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ruta Brava">
+<link rel="apple-touch-icon" href="icono180.png">
+<link rel="manifest" href="manifest.json">
+<title>Ruta Brava</title>
 </head><body>
-<title>RUTA BRAVA · La Deuda V5.75 (pública)</title>
+<title>RUTA BRAVA · La Deuda V5.76 (pública)</title>
 <style>
 :root{--tinta:#1d1420;--cobalto:#1f4e9c;--mostaza:#e8b83a;--hueso:#f5ead6}
 html,body{margin:0;height:100%;overflow:hidden;background:var(--tinta);font-family:Rockwell,"Roboto Slab",Georgia,serif;color:var(--hueso)}
@@ -125,7 +130,7 @@ html,body{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-to
 #rb531-next{width:max-content!important;max-width:min(42vw,300px);box-sizing:border-box;font-size:11px!important}
 </style>
 <div id="v"></div><div id="hud"></div><div id="mis"></div><div id="cx"></div><div id="pr"></div><div id="ts"></div><div id="vel"></div><div id="dlg"></div>
-<button id="rbmenu" type="button" aria-label="Rutas y comercio">☷ RUTAS</button><div id="rbgps" aria-live="polite">🛣 Villa Cascajo · Carretera principal</div><div id="ini"><div><h1>RUTA BRAVA · La Deuda V5.75 (pública)</h1>
+<button id="rbmenu" type="button" aria-label="Rutas y comercio">☷ RUTAS</button><div id="rbgps" aria-live="polite">🛣 Villa Cascajo · Carretera principal</div><div id="ini"><div><h1>RUTA BRAVA · La Deuda V5.76 (pública)</h1>
 <p>Empiezas en Nueva Brava. Tu papá te pide un garrafón. Lo que pasa después lo cambia todo.</p><p>Conduce por carretera, compra barato en un pueblo y vende caro en otro. Trabaja de trailero, compra autos con factura y sobrevive a los peligros del camino. Sandbox mexicano sin historia obligatoria.</p>
 <p>WASD: mover/conducir · Ratón: mirar · E: interactuar · V: cámara · Q: arma · R: recargar · I: inventario.</p>
 <p><b>Toca o haz clic para jugar</b></p><p>En iPhone: gira el móvil, utiliza los controles discretos de los bordes. Toca RUTAS para elegir destino GPS, consultar ganancias comerciales, contratos y concesionaria. El mercado de Villa Cascajo queda hacia el este junto a la carretera.</p>
@@ -182,12 +187,13 @@ body.add(mk(new THREE.CylinderGeometry(.3,.3,1.1,12),0x1f4e9c,.75),mk(new THREE.
 const NPC=[{n:'Doña Chela',x:8,z:-8,c:0xd6336c,id:'chela'},{n:'Don Rigo',x:17,z:13.5,c:0x2b2b33,id:'rigo'},{n:'Lic. Paty',x:-4,z:10,c:0x2f9e8f,id:'paty'}];
 
 var WALKMUL510=1,STEERMUL510=1;/* V5.10: multiplicadores de la vida (1 = idéntico a V5.9) */
-const RBON553=(()=>{try{return localStorage.getItem('rb553_modo')==='enlinea'}catch(_){return false}})();const RB_KEY59=RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o',RB_KEYV511='cascajo3d_v511',RB_KEYV510='cascajo3d_v510',RB_KEYV59='cascajo3d_v59',RB_KEYMAIN59='cascajo3d',RB_KEYBAK59=(RBON553?'cascajo3d_v575o_enlinea_bak':'cascajo3d_v575o_bak'),RB_KEYBOOT59=(RBON553?'cascajo3d_v575o_enlinea_boot':'cascajo3d_v575o_boot'),RB_KEYBAD59=(RBON553?'cascajo3d_v575o_enlinea_corrupto':'cascajo3d_v575o_corrupto');
+const RBON553=(()=>{try{return localStorage.getItem('rb553_modo')==='enlinea'}catch(_){return false}})();const RB_KEY59=RBON553?'cascajo3d_v576o_enlinea':'cascajo3d_v576o',RB_KEYV511='cascajo3d_v511',RB_KEYV510='cascajo3d_v510',RB_KEYV59='cascajo3d_v59',RB_KEYMAIN59='cascajo3d',RB_KEYBAK59=(RBON553?'cascajo3d_v576o_enlinea_bak':'cascajo3d_v576o_bak'),RB_KEYBOOT59=(RBON553?'cascajo3d_v576o_enlinea_boot':'cascajo3d_v576o_boot'),RB_KEYBAD59=(RBON553?'cascajo3d_v576o_enlinea_corrupto':'cascajo3d_v576o_corrupto');
 /* V5.12: guardado INDEPENDIENTE (cascajo3d_v512). Si no existe, se abre una COPIA en memoria de la V5.10 y, si tampoco, de la V5.9 (status 'migrada'); esas claves NUNCA se escriben ni se borran. */
-const LOAD59=(function(){let raw=null,prev574=null,prev573=null,prev572=null,prev571=null,prev570=null,prev569=null,prev568=null,prev567=null,prev566=null,prev565=null,prev564=null,prev563=null,prev562=null,prev561=null,prev560=null,prev559=null,prev558=null,prev557=null,prev556=null,prev555=null,prev554=null,prev553=null,prev552=null,prev551=null,prev550=null,prev549=null,prev548=null,prev547=null,prev546=null,prev545=null,prev544=null,prev543=null,prev542=null,prev541=null,prev540=null,prev539=null,prev538=null,prev537=null,prev536c=null,prev536o=null,prev535o=null,prev534o=null,prev533o=null,prev532o=null,prev531o=null,prev524o=null,prev523o=null,prev522o=null,prev521o=null,prev520o=null,prev531x=null,prev528c=null,prev527c=null,prev5261c=null,prev524c=null,prev523c=null,prev522c=null,prev521c=null,prev520c=null,prev519o=null,prev517=null,prev519c=null,prev518c=null,prev516=null,prev5152=null,prev515=null,prev513=null,prev5121=null,prev512=null,main=null,old=null,v10=null,v11=null,status='nueva',src=null;try{raw=localStorage.getItem(RB_KEY59)}catch(e){}try{prev574=localStorage.getItem(RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o')}catch(e){}try{prev573=localStorage.getItem(RBON553?'cascajo3d_v573o_enlinea':'cascajo3d_v573o')}catch(e){}try{prev572=localStorage.getItem(RBON553?'cascajo3d_v572o_enlinea':'cascajo3d_v572o')}catch(e){}try{prev571=localStorage.getItem(RBON553?'cascajo3d_v571o_enlinea':'cascajo3d_v571o')}catch(e){}try{prev570=localStorage.getItem(RBON553?'cascajo3d_v570o_enlinea':'cascajo3d_v570o')}catch(e){}try{prev569=localStorage.getItem(RBON553?'cascajo3d_v569o_enlinea':'cascajo3d_v569o')}catch(e){}try{prev568=localStorage.getItem(RBON553?'cascajo3d_v568o_enlinea':'cascajo3d_v568o')}catch(e){}try{prev567=localStorage.getItem(RBON553?'cascajo3d_v567o_enlinea':'cascajo3d_v567o')}catch(e){}try{prev566=localStorage.getItem(RBON553?'cascajo3d_v566o_enlinea':'cascajo3d_v566o')}catch(e){}try{prev565=localStorage.getItem(RBON553?'cascajo3d_v565o_enlinea':'cascajo3d_v565o')}catch(e){}try{prev564=localStorage.getItem(RBON553?'cascajo3d_v564o_enlinea':'cascajo3d_v564o')}catch(e){}try{prev563=localStorage.getItem(RBON553?'cascajo3d_v563o_enlinea':'cascajo3d_v563o')}catch(e){}try{prev562=localStorage.getItem(RBON553?'cascajo3d_v562o_enlinea':'cascajo3d_v562o')}catch(e){}try{prev561=localStorage.getItem(RBON553?'cascajo3d_v561o_enlinea':'cascajo3d_v561o')}catch(e){}try{prev560=localStorage.getItem(RBON553?'cascajo3d_v560o_enlinea':'cascajo3d_v560o')}catch(e){}try{prev559=localStorage.getItem(RBON553?'cascajo3d_v559o_enlinea':'cascajo3d_v559o')}catch(e){}try{prev558=localStorage.getItem(RBON553?'cascajo3d_v558o_enlinea':'cascajo3d_v558o')}catch(e){}try{prev557=localStorage.getItem(RBON553?'cascajo3d_v557o_enlinea':'cascajo3d_v557o')}catch(e){}try{prev556=localStorage.getItem(RBON553?'cascajo3d_v556o_enlinea':'cascajo3d_v556o')}catch(e){}try{prev555=localStorage.getItem(RBON553?'cascajo3d_v555o_enlinea':'cascajo3d_v555o')}catch(e){}try{prev554=localStorage.getItem(RBON553?'cascajo3d_v554o_enlinea':'cascajo3d_v554o')}catch(e){}try{prev553=localStorage.getItem(RBON553?'cascajo3d_v553o_enlinea':'cascajo3d_v553o')}catch(e){}try{prev552=localStorage.getItem('cascajo3d_v552o')}catch(e){}try{prev551=localStorage.getItem('cascajo3d_v551o')}catch(e){}try{prev550=localStorage.getItem('cascajo3d_v550o')}catch(e){}try{prev549=localStorage.getItem('cascajo3d_v549o')}catch(e){}try{prev548=localStorage.getItem('cascajo3d_v548o')}catch(e){}try{prev547=localStorage.getItem('cascajo3d_v547o')}catch(e){}try{prev546=localStorage.getItem('cascajo3d_v546o')}catch(e){}try{prev545=localStorage.getItem('cascajo3d_v545o')}catch(e){}try{prev544=localStorage.getItem('cascajo3d_v544o')}catch(e){}try{prev543=localStorage.getItem('cascajo3d_v543o')}catch(e){}try{prev542=localStorage.getItem('cascajo3d_v542o')}catch(e){}try{prev541=localStorage.getItem('cascajo3d_v541o')}catch(e){}try{prev540=localStorage.getItem('cascajo3d_v540o')}catch(e){}try{prev539=localStorage.getItem('cascajo3d_v539o')}catch(e){}try{prev538=localStorage.getItem('cascajo3d_v538o')}catch(e){}try{prev537=localStorage.getItem('cascajo3d_v537o')}catch(e){}try{prev536c=localStorage.getItem('cascajo3d_v536criminal')}catch(e){}try{prev536o=localStorage.getItem('cascajo3d_v536o')}catch(e){}try{prev535o=localStorage.getItem('cascajo3d_v535o')}catch(e){}try{prev534o=localStorage.getItem('cascajo3d_v534o')}catch(e){}try{prev533o=localStorage.getItem('cascajo3d_v533o')}catch(e){}try{prev532o=localStorage.getItem('cascajo3d_v532o')}catch(e){}try{prev531o=localStorage.getItem('cascajo3d_v531o')}catch(e){}try{prev524o=localStorage.getItem('cascajo3d_v524o')}catch(e){}try{prev523o=localStorage.getItem('cascajo3d_v523o')}catch(e){}try{prev522o=localStorage.getItem('cascajo3d_v522o')}catch(e){}try{prev521o=localStorage.getItem('cascajo3d_v521o')}catch(e){}try{prev520o=localStorage.getItem('cascajo3d_v520o')}catch(e){}try{prev519o=localStorage.getItem('cascajo3d_v519o')}catch(e){}try{prev517=localStorage.getItem('cascajo3d_v517')}catch(e){}try{prev531x=localStorage.getItem('cascajo3d_v531x')}catch(e){}try{prev528c=localStorage.getItem('cascajo3d_v528')}catch(e){}try{prev527c=localStorage.getItem('cascajo3d_v527')}catch(e){}try{prev5261c=localStorage.getItem('cascajo3d_v5261')}catch(e){}try{prev524c=localStorage.getItem('cascajo3d_v524')}catch(e){}try{prev523c=localStorage.getItem('cascajo3d_v523')}catch(e){}try{prev522c=localStorage.getItem('cascajo3d_v522')}catch(e){}try{prev521c=localStorage.getItem('cascajo3d_v521')}catch(e){}try{prev520c=localStorage.getItem('cascajo3d_v520')}catch(e){}try{prev519c=localStorage.getItem('cascajo3d_v519')}catch(e){}try{prev518c=localStorage.getItem('cascajo3d_v518')}catch(e){}try{prev516=localStorage.getItem('cascajo3d_v516')}catch(e){}try{prev5152=localStorage.getItem('cascajo3d_v5152')}catch(e){}try{prev515=localStorage.getItem('cascajo3d_v515')}catch(e){}try{prev513=localStorage.getItem('cascajo3d_v513')}catch(e){}try{prev5121=localStorage.getItem('cascajo3d_v5121')}catch(e){}try{prev512=localStorage.getItem('cascajo3d_v512')}catch(e){}try{main=localStorage.getItem(RB_KEYMAIN59)}catch(e){}try{old=localStorage.getItem(RB_KEYV59)}catch(e){}try{v10=localStorage.getItem(RB_KEYV510)}catch(e){}try{v11=localStorage.getItem(RB_KEYV511)}catch(e){}
+const LOAD59=(function(){let raw=null,prev575=null,prev574=null,prev573=null,prev572=null,prev571=null,prev570=null,prev569=null,prev568=null,prev567=null,prev566=null,prev565=null,prev564=null,prev563=null,prev562=null,prev561=null,prev560=null,prev559=null,prev558=null,prev557=null,prev556=null,prev555=null,prev554=null,prev553=null,prev552=null,prev551=null,prev550=null,prev549=null,prev548=null,prev547=null,prev546=null,prev545=null,prev544=null,prev543=null,prev542=null,prev541=null,prev540=null,prev539=null,prev538=null,prev537=null,prev536c=null,prev536o=null,prev535o=null,prev534o=null,prev533o=null,prev532o=null,prev531o=null,prev524o=null,prev523o=null,prev522o=null,prev521o=null,prev520o=null,prev531x=null,prev528c=null,prev527c=null,prev5261c=null,prev524c=null,prev523c=null,prev522c=null,prev521c=null,prev520c=null,prev519o=null,prev517=null,prev519c=null,prev518c=null,prev516=null,prev5152=null,prev515=null,prev513=null,prev5121=null,prev512=null,main=null,old=null,v10=null,v11=null,status='nueva',src=null;try{raw=localStorage.getItem(RB_KEY59)}catch(e){}try{prev575=localStorage.getItem(RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o')}catch(e){}try{prev574=localStorage.getItem(RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o')}catch(e){}try{prev573=localStorage.getItem(RBON553?'cascajo3d_v573o_enlinea':'cascajo3d_v573o')}catch(e){}try{prev572=localStorage.getItem(RBON553?'cascajo3d_v572o_enlinea':'cascajo3d_v572o')}catch(e){}try{prev571=localStorage.getItem(RBON553?'cascajo3d_v571o_enlinea':'cascajo3d_v571o')}catch(e){}try{prev570=localStorage.getItem(RBON553?'cascajo3d_v570o_enlinea':'cascajo3d_v570o')}catch(e){}try{prev569=localStorage.getItem(RBON553?'cascajo3d_v569o_enlinea':'cascajo3d_v569o')}catch(e){}try{prev568=localStorage.getItem(RBON553?'cascajo3d_v568o_enlinea':'cascajo3d_v568o')}catch(e){}try{prev567=localStorage.getItem(RBON553?'cascajo3d_v567o_enlinea':'cascajo3d_v567o')}catch(e){}try{prev566=localStorage.getItem(RBON553?'cascajo3d_v566o_enlinea':'cascajo3d_v566o')}catch(e){}try{prev565=localStorage.getItem(RBON553?'cascajo3d_v565o_enlinea':'cascajo3d_v565o')}catch(e){}try{prev564=localStorage.getItem(RBON553?'cascajo3d_v564o_enlinea':'cascajo3d_v564o')}catch(e){}try{prev563=localStorage.getItem(RBON553?'cascajo3d_v563o_enlinea':'cascajo3d_v563o')}catch(e){}try{prev562=localStorage.getItem(RBON553?'cascajo3d_v562o_enlinea':'cascajo3d_v562o')}catch(e){}try{prev561=localStorage.getItem(RBON553?'cascajo3d_v561o_enlinea':'cascajo3d_v561o')}catch(e){}try{prev560=localStorage.getItem(RBON553?'cascajo3d_v560o_enlinea':'cascajo3d_v560o')}catch(e){}try{prev559=localStorage.getItem(RBON553?'cascajo3d_v559o_enlinea':'cascajo3d_v559o')}catch(e){}try{prev558=localStorage.getItem(RBON553?'cascajo3d_v558o_enlinea':'cascajo3d_v558o')}catch(e){}try{prev557=localStorage.getItem(RBON553?'cascajo3d_v557o_enlinea':'cascajo3d_v557o')}catch(e){}try{prev556=localStorage.getItem(RBON553?'cascajo3d_v556o_enlinea':'cascajo3d_v556o')}catch(e){}try{prev555=localStorage.getItem(RBON553?'cascajo3d_v555o_enlinea':'cascajo3d_v555o')}catch(e){}try{prev554=localStorage.getItem(RBON553?'cascajo3d_v554o_enlinea':'cascajo3d_v554o')}catch(e){}try{prev553=localStorage.getItem(RBON553?'cascajo3d_v553o_enlinea':'cascajo3d_v553o')}catch(e){}try{prev552=localStorage.getItem('cascajo3d_v552o')}catch(e){}try{prev551=localStorage.getItem('cascajo3d_v551o')}catch(e){}try{prev550=localStorage.getItem('cascajo3d_v550o')}catch(e){}try{prev549=localStorage.getItem('cascajo3d_v549o')}catch(e){}try{prev548=localStorage.getItem('cascajo3d_v548o')}catch(e){}try{prev547=localStorage.getItem('cascajo3d_v547o')}catch(e){}try{prev546=localStorage.getItem('cascajo3d_v546o')}catch(e){}try{prev545=localStorage.getItem('cascajo3d_v545o')}catch(e){}try{prev544=localStorage.getItem('cascajo3d_v544o')}catch(e){}try{prev543=localStorage.getItem('cascajo3d_v543o')}catch(e){}try{prev542=localStorage.getItem('cascajo3d_v542o')}catch(e){}try{prev541=localStorage.getItem('cascajo3d_v541o')}catch(e){}try{prev540=localStorage.getItem('cascajo3d_v540o')}catch(e){}try{prev539=localStorage.getItem('cascajo3d_v539o')}catch(e){}try{prev538=localStorage.getItem('cascajo3d_v538o')}catch(e){}try{prev537=localStorage.getItem('cascajo3d_v537o')}catch(e){}try{prev536c=localStorage.getItem('cascajo3d_v536criminal')}catch(e){}try{prev536o=localStorage.getItem('cascajo3d_v536o')}catch(e){}try{prev535o=localStorage.getItem('cascajo3d_v535o')}catch(e){}try{prev534o=localStorage.getItem('cascajo3d_v534o')}catch(e){}try{prev533o=localStorage.getItem('cascajo3d_v533o')}catch(e){}try{prev532o=localStorage.getItem('cascajo3d_v532o')}catch(e){}try{prev531o=localStorage.getItem('cascajo3d_v531o')}catch(e){}try{prev524o=localStorage.getItem('cascajo3d_v524o')}catch(e){}try{prev523o=localStorage.getItem('cascajo3d_v523o')}catch(e){}try{prev522o=localStorage.getItem('cascajo3d_v522o')}catch(e){}try{prev521o=localStorage.getItem('cascajo3d_v521o')}catch(e){}try{prev520o=localStorage.getItem('cascajo3d_v520o')}catch(e){}try{prev519o=localStorage.getItem('cascajo3d_v519o')}catch(e){}try{prev517=localStorage.getItem('cascajo3d_v517')}catch(e){}try{prev531x=localStorage.getItem('cascajo3d_v531x')}catch(e){}try{prev528c=localStorage.getItem('cascajo3d_v528')}catch(e){}try{prev527c=localStorage.getItem('cascajo3d_v527')}catch(e){}try{prev5261c=localStorage.getItem('cascajo3d_v5261')}catch(e){}try{prev524c=localStorage.getItem('cascajo3d_v524')}catch(e){}try{prev523c=localStorage.getItem('cascajo3d_v523')}catch(e){}try{prev522c=localStorage.getItem('cascajo3d_v522')}catch(e){}try{prev521c=localStorage.getItem('cascajo3d_v521')}catch(e){}try{prev520c=localStorage.getItem('cascajo3d_v520')}catch(e){}try{prev519c=localStorage.getItem('cascajo3d_v519')}catch(e){}try{prev518c=localStorage.getItem('cascajo3d_v518')}catch(e){}try{prev516=localStorage.getItem('cascajo3d_v516')}catch(e){}try{prev5152=localStorage.getItem('cascajo3d_v5152')}catch(e){}try{prev515=localStorage.getItem('cascajo3d_v515')}catch(e){}try{prev513=localStorage.getItem('cascajo3d_v513')}catch(e){}try{prev5121=localStorage.getItem('cascajo3d_v5121')}catch(e){}try{prev512=localStorage.getItem('cascajo3d_v512')}catch(e){}try{main=localStorage.getItem(RB_KEYMAIN59)}catch(e){}try{old=localStorage.getItem(RB_KEYV59)}catch(e){}try{v10=localStorage.getItem(RB_KEYV510)}catch(e){}try{v11=localStorage.getItem(RB_KEYV511)}catch(e){}
  const okSave=t=>{try{const j=JSON.parse(t);return !!(j&&typeof j==='object'&&!Array.isArray(j)&&Number.isFinite(j.pesos)&&!(Number.isFinite(j.v)&&j.v>12))}catch(e){return false}};
  if(raw)status='ok';
- else if((()=>{try{return !!localStorage.getItem('cascajo3d_v575o_fresh')}catch(e){return false}})()){}
+ else if((()=>{try{return !!localStorage.getItem('cascajo3d_v576o_fresh')}catch(e){return false}})()){}
+ else if(prev575&&okSave(prev575)){raw=prev575;status='migrada';src=RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o'}
  else if(prev574&&okSave(prev574)){raw=prev574;status='migrada';src=RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o'}
  else if(prev573&&okSave(prev573)){raw=prev573;status='migrada';src=RBON553?'cascajo3d_v573o_enlinea':'cascajo3d_v573o'}
  else if(prev572&&okSave(prev572)){raw=prev572;status='migrada';src=RBON553?'cascajo3d_v572o_enlinea':'cascajo3d_v572o'}
@@ -2880,7 +2886,7 @@ function roads510(){const a=AIRF510,out=[];
 function airActive510(){try{return !!(window.__air510&&window.__air510.AIR.active)}catch(e){return false}}
 
 /*RB510-WORLD-END*/
-/*RB59-BEGIN*/const BUILD59={ver:"5.75",ch:"publica",dev:false};
+/*RB59-BEGIN*/const BUILD59={ver:"5.76",ch:"publica",dev:false};
 /* =====================================================================================================
    RUTA BRAVA V5.9 (experimental) · INTEGRACIÓN: partidas seguras, minimapa, mapa completo, volante, agarre y paisaje
    Se inserta DESPUÉS del bloque V5.8 (prólogo) y ANTES del guardado en segundo plano de V5.6.
@@ -5039,7 +5045,7 @@ window.__rb513={CH513,chPhase513,chState513,chStart513,chPoint513,chUse513,chFin
    · Diagnóstico: versión, guardado, errores y FPS medidos EN EL DISPOSITIVO (informe copiable)
    ===================================================================================================== */
 const MENU513={view:'home',fps:0,ft:[],introT:0,introDone:false,started:false,winErr:0,msg:''};
-const FRESH_KEY513='cascajo3d_v575o_fresh';
+const FRESH_KEY513='cascajo3d_v576o_fresh';
 try{addEventListener('error',()=>{MENU513.winErr++})}catch(_){}
 /* «Reiniciar» (Partidas) y «Nueva partida» no deben resucitar la partida anterior copiándola otra vez al arrancar */
 try{const _rs=Save59.reset;Save59.reset=function(){const r=_rs.apply(this,arguments);if(r&&r.ok){try{localStorage.setItem(FRESH_KEY513,'1')}catch(_){}}return r}}catch(_){}
@@ -5076,14 +5082,14 @@ function menuReport513(){let sz=0;try{sz=(localStorage.getItem(RB_KEY59)||'').le
   'Errores del juego: '+e.length+(e.length?'\n · '+e.slice(0,8).join('\n · '):'')+' · errores de ventana: '+MENU513.winErr].join('\n')}
 function menuRender513(view,msg){
  const ini=$('ini');if(!ini)return;MENU513.view=view||'home';MENU513.msg=msg||'';
- const prog=menuProgress513(),v=MENU513.view;let h='<div class="m513"><h1>RUTA BRAVA</h1><div class="sub">La Deuda · V5.75 Amigos (candidata)</div>';
+ const prog=menuProgress513(),v=MENU513.view;let h='<div class="m513"><h1>RUTA BRAVA</h1><div class="sub">La Deuda · V5.76 En línea+ (candidata)</div>';
  if(v==='home'){
   h+='<div class="sum">'+esc58(menuSummary513())+'</div>'+(menuStatusNote513()?'<div class="note">'+esc58(menuStatusNote513())+'</div>':'')+
    '<div class="grid"><button class="pri" id="m513go" '+(prog||MENU513.started?'':'disabled')+'>▶ '+(MENU513.started?'SEGUIR JUGANDO':'CONTINUAR')+'</button>'+
    '<button id="m513new">✚ NUEVA PARTIDA</button><button id="m513set">⚙ AJUSTES</button><button id="m513how">🎮 CÓMO JUGAR</button><button id="m513sv">💾 PARTIDAS</button><button id="m513cr">★ CRÉDITOS</button></div>'+
    (prog?'':'<div class="note">Toca «NUEVA PARTIDA» para empezar. Empiezas en Nueva Brava. Sigue la marca dorada: tu papá te espera en la sala.</div>');
  }else if(v==='how'){h+='<div class="box"><b>Cómo se juega</b>\n'+esc58(menuControls513())+'</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
- else if(v==='credits'){h+='<div class="box"><b>Créditos</b>\nRUTA BRAVA · La Deuda (candidata V5.75)\nProducción y dirección: el productor del proyecto.\nProgramación y guion asistidos por Claude (Anthropic) y ChatGPT (OpenAI); auditoría externa pendiente (Gemini, DeepSeek).\nMotor 3D: Three.js r128 (licencia MIT), cargado desde CDN.\nTodos los personajes, lugares y sucesos son ficticios; cualquier parecido con la realidad es coincidencia.</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
+ else if(v==='credits'){h+='<div class="box"><b>Créditos</b>\nRUTA BRAVA · La Deuda (candidata V5.76)\nProducción y dirección: el productor del proyecto.\nProgramación y guion asistidos por Claude (Anthropic) y ChatGPT (OpenAI); auditoría externa pendiente (Gemini, DeepSeek).\nMotor 3D: Three.js r128 (licencia MIT), cargado desde CDN.\nTodos los personajes, lugares y sucesos son ficticios; cualquier parecido con la realidad es coincidencia.</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
  else if(v==='settings'){h+='<div class="box"><b>Ajustes</b>\nMinimapa: '+(SET59.mini?'visible':'oculto')+'\nDirección al conducir (táctil): '+(SET59.steer==='joystick'?'joystick':SET59.steer==='wheel'?'volante circular':'barra clásica')+'</div>'+
    '<div class="row"><button id="m513mm">'+(SET59.mini?'Ocultar minimapa':'Mostrar minimapa')+'</button><button id="m513st">'+(SET59.steer==='joystick'?'Usar volante circular':SET59.steer==='wheel'?'Usar barra clásica':'Usar joystick')+'</button></div>'+
    '<div class="row"><button id="m513dg">🩺 Diagnóstico</button><button id="m513sv2">💾 Partidas</button><button id="m513bk">‹ Volver</button></div>'}
@@ -11216,7 +11222,7 @@ try{window.VIS536=VIS536}catch(_){}
 function rb536LateForce(){try{const R5=window.__reg511&&__reg511.REG511;if(R5&&R5.lateForce536){R5.lateForce536=0;R5.force()}}catch(err){try{ERR59.push('regiones: '+String(err&&err.message||err))}catch(_){}}}
 rb536LateForce();
 /*RB534-VISUAL536-END*/
-try{BUILD59.ver="5.75"}catch(_){}
+try{BUILD59.ver="5.76"}catch(_){}
 /* V5.6: guardar al pasar a segundo plano / cerrar (iOS dispara pagehide y visibilitychange, no beforeunload) */
 function flushSave(){try{snapshotVehicles();rbSyncCars();if(sv.p){clearTimeout(sv.t);return svNow()}return save()}catch(e){try{return save()}catch(_){return false}}}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushSave()});addEventListener('pagehide',flushSave);
@@ -17574,7 +17580,7 @@ const MULTI553=(()=>{
  const r2=v=>Math.round(v*100)/100;
  const FR=['¡Vente!','¡Aguas, la poli!','¡Sígueme!','¡Jajaja!','¡Ayuda!','¡Ya me voy!'];
  let R=null,G=null,code=null,host=false,started=0,myPeer=null;
- const AV=new Map();const seen=new Map();const EV=[];let evSeq=0;const SC={k:0,d:0};const CHAT=[];let RIDE=null,RACE=null;
+ /* V5.76: ganchos para que otros módulos agreguen cosas al estado, a los sucesos, al panel y a los botones */const EXT={panel0:[],pack:[],upd:[],ev:[],panel:[],click:[],tick:[]};const AV=new Map();const seen=new Map();const EV=[];let evSeq=0;const SC={k:0,d:0};const CHAT=[];let RIDE=null,RACE=null;
  /* ---------- conexión ---------- */
  async function ensure(){if(R)return R;M.tries++;
   /* V5.75: el visor de Claude a veces inyecta «claude.use» unos segundos DESPUÉS de cargar (sobre todo en la app del iPhone); antes se
@@ -17604,14 +17610,14 @@ const MULTI553=(()=>{
   if(DRV&&DRV.k&&DRV.k.g){const g=DRV.k.g,q=g.position;o.car={m:g.userData.m541||null,c:g.userData.c541!=null?g.userData.c541:null,vt:DRV.k.vt||'sedan',x:r2(q.x),y:r2(q.y),z:r2(q.z),r:r2(g.rotation.y)}}else o.car=null;
   try{const m=FIERROS552.MNT;o.mt=m?{k:m.kind,x:r2(m.x),z:r2(m.z),r:r2(m.yaw)}:null}catch(_){o.mt=null}
   try{o.hg=window.__hg555||null}catch(_){}o.ev=EV.slice(-6);o.sc={k:SC.k,d:SC.d};o.rd=RIDE?RIDE.peer:null;o.rc=RACE?{id:RACE.id,cp:RACE.cp,fin:RACE.fin}:null;if(host){try{o.t=Math.round(W537.now())}catch(_){}try{o.wx=CLIMA545.M.now||null}catch(_){}}
-  const L=myLook(),sig=JSON.stringify(L);if(sig!==lookSig){lookSig=sig;o.look=L}return o}
+  const L=myLook(),sig=JSON.stringify(L);if(sig!==lookSig){lookSig=sig;o.look=L}for(const f of EXT.pack)try{f(o)}catch(e){err('ext',e)}return o}
  const PELEA_A=()=>{try{const A=PELEA547.ME;return A.anim?A.anim+':'+Math.floor(A.lastHit*10):''}catch(_){return ''}};
  function sendNow(full){if(!G)return;try{const o=pack();if(full)o.look=myLook();G.presence(o).catch(e=>err('estado',e&&e.code));M.sent++}catch(e){err('estado',e)}}
  function event(k,extra){evSeq++;EV.push(Object.assign({i:evSeq,k},extra||{}));if(EV.length>12)EV.shift();sendNow(false)}
  /* ---------- lo que recibes ---------- */
  function onPeers(ch){try{for(const p of ch.left)dropAv(AV.get(p.peer)),AV.delete(p.peer);
    for(const p of ch.peers){if(p.isMe&&p.sameTab){myPeer=p.peer;continue}if(p.isMe)continue;const pr=p.presence||{};if(!pr.v)continue;M.recv++;
-    let a=AV.get(p.peer);if(!a){a=mkAv(p.peer,pr);AV.set(p.peer,a)}upd(a,pr)}
+    let a=AV.get(p.peer);if(!a){a=mkAv(p.peer,pr);AV.set(p.peer,a)}upd(a,pr);for(const f of EXT.upd)try{f(a,pr)}catch(e){err('ext',e)}}
    M.peersMax=Math.max(M.peersMax,AV.size+1);paint()}catch(e){err('jugadores',e)}}
  function mkAv(peer,pr){const L=pr.look||{};const g=person(0x2e6d8a,0x2a3550,L.sk||0xc68a5f,L.hc||0x1a1109,0);g.userData.pop='multi553';
   try{for(const c of g.children){if(c.geometry===HD||c.geometry===NKG)c.material=new THREE.MeshLambertMaterial({color:L.sk||0xc68a5f});if(c.geometry===HRG)c.material=new THREE.MeshLambertMaterial({color:L.hc||0x1a1109})}}catch(_){}
@@ -17630,7 +17636,7 @@ const MULTI553=(()=>{
   /* hora y clima del anfitrión */if(pr.h&&!host){try{if(pr.t!=null&&Math.abs(W537.now()-pr.t)>90){W537.state.t=pr.t;M.timeSync++}}catch(_){}try{if(pr.wx&&CLIMA545.M.now!==pr.wx){CLIMA545.force(pr.wx);M.weatherSync++}}catch(_){}}
   /* golpe visible */if(pr.a&&pr.a!==a.lastA){a.lastA=pr.a;a.punch=.35}
   /* sucesos nuevos */const last=seen.get(a.peer)||0;let mx=last;for(const e of (pr.ev||[])){if(!e||typeof e.i!=='number'||e.i<=last)continue;mx=Math.max(mx,e.i);onEvent(a,e)}seen.set(a.peer,mx)}
- function onEvent(a,e){try{if(e.k==='frase'){M.saysIn++;const t=FR[e.f|0]||'…';bubble(a.car?a.car.g:a.g,t)}
+ function onEvent(a,e){for(const f of EXT.ev)try{f(a,e)}catch(er){err('ext',er)}try{if(e.k==='frase'){M.saysIn++;const t=FR[e.f|0]||'…';bubble(a.car?a.car.g:a.g,t)}
    else if((e.k==='golpe'||e.k==='bala')&&e.to&&e.to===myPeer){const d=Math.max(1,Math.min(60,e.d|0));if(e.k==='golpe')M.hitsIn++;else M.shotsIn++;
     try{if(e.k==='golpe'){const dx=P.x-a.x,dz=P.z-a.z,dd=Math.hypot(dx,dz)||1;if(!blk(P.x+dx/dd*.35,P.z+dz/dd*.35)){P.x+=dx/dd*.35;P.z+=dz/dd*.35}}}catch(_){}
     const h0=S.hp||0;hurtP(d);try{toast((e.k==='golpe'?'👊 Te pegó ':'🔫 Te dio un balazo ')+a.name)}catch(_){}
@@ -17713,7 +17719,7 @@ const MULTI553=(()=>{
   UI.p=document.createElement('div');UI.p.id='mpp553';UI.p.innerHTML='<div class=b></div>';document.body.appendChild(UI.p);
   const stop=e=>{try{e.stopPropagation()}catch(_){}};['pointerdown','touchstart','keydown'].forEach(n=>UI.p.addEventListener(n,stop));
   UI.btn.addEventListener('pointerdown',e=>{try{e.preventDefault();e.stopPropagation()}catch(_){}open(!UI.p.classList.contains('show'))});
-  UI.p.addEventListener('click',e=>{const t=e.target;if(t===UI.p){if(performance.now()-(UI.t553||0)>700)open(false);return}const a=t&&t.dataset&&t.dataset.a;if(!a)return;
+  UI.p.addEventListener('click',e=>{const t=e.target;if(t===UI.p){if(performance.now()-(UI.t553||0)>700)open(false);return}const a=t&&t.dataset&&t.dataset.a;if(!a)return;if(EXT.click.some(f=>{try{return f(a,UI.p)}catch(_){return false}}))return;
    if(a==='reintentar'){M.available=null;M.why='';paint();ensure()}else if(a==='crear')create();else if(a==='unir'){const i=UI.p.querySelector('#mpc553');joinCode(i?i.value:'',false)}else if(a==='salir')leave();else if(a==='cerrar')open(false);else if(a==='nombre'){const i=UI.p.querySelector('#mpn553');if(i&&i.value.trim()){st().name=i.value.trim().slice(0,24);lookSig='';sendNow(true);try{save()}catch(_){}paint()}}else if(a==='carrera'){if(raceCreate())open(false)}else if(a==='trabajos'){open(false);try{ENLINEA553.menu()}catch(_){}}else if(a==='chat'){const i=UI.p.querySelector('#mpt553');if(i&&chat(i.value))i.value=''}else if(a.startsWith('f'))say(+a.slice(1))})}catch(e){err('interfaz',e)}
  let note='';
  function open(on){try{if(on)UI.t553=performance.now();UI.p.classList.toggle('show',!!on);if(on){ensure();paint()}}catch(_){}}
@@ -17725,11 +17731,11 @@ const MULTI553=(()=>{
    else if(M.available===null)h+='<p class=s>Conectando…</p>';
    else if(!G){h+='<div class=r><input id=mpn553 maxlength=24 value="'+esc(st().name)+'"><button data-a=nombre>Guardar nombre</button></div>';
     h+='<div class=r><button class=y data-a=crear>Crear partida</button></div><div class=r><input id=mpc553 placeholder="Código, ej. BRAVA-7K2Q" autocapitalize=characters><button data-a=unir>Unirme</button></div>';
-    h+='<p class=s>Tus amigos abren este mismo enlace, tocan 👥 y escriben tu código.</p>'}
+    h+='<p class=s>Tus amigos abren este mismo enlace, tocan 👥 y escriben tu código.</p>';for(const f of EXT.panel0)try{h+=f()||''}catch(e){err('ext',e)}}
    else{h+='<p>Partida <span class=code>'+esc(code)+'</span>'+(host?' · la creaste tú':'')+'</p><ul><li>'+esc(st().name)+' (tú)</li>'+[...AV.values()].map(a=>'<li>'+esc(a.name)+(a.car?' · 🚗':a.rd?' · 🚗 copiloto':a.mt?' · '+(a.mt.k==='caballo'?'🐎':a.mt.k==='cuatri'?'🏍️':'🚤'):'')+' · ♥ '+(a.hp|0)+' · 💀 '+((a.sc&&a.sc.k)|0)+'/'+((a.sc&&a.sc.d)|0)+'</li>').join('')+'</ul><p class=s>💀 noqueos/veces noqueado · tú: '+SC.k+'/'+SC.d+'</p>';
     h+='<div class=r><input id=mpt553 maxlength=80 placeholder="Escribe a tus compas…"><button data-a=chat>Enviar</button></div>'+(CHAT.length?'<p class=s>'+CHAT.map(c=>'<b>'+esc(c.n)+':</b> '+esc(c.t)).join('<br>')+'</p>':'');
     h+='<div class=r><button class=y data-a=carrera>🏁 Armar carrera desde aquí</button><button class=y data-a=trabajos>💼 Trabajos</button></div>';
-    h+='<div class=r>'+FR.map((t,i)=>'<button data-a=f'+i+'>'+esc(t)+'</button>').join('')+'</div><div class=r><button data-a=salir>Salir de la partida</button></div>'}
+    for(const f of EXT.panel)try{h+=f()||''}catch(e){err('ext',e)}h+='<div class=r>'+FR.map((t,i)=>'<button data-a=f'+i+'>'+esc(t)+'</button>').join('')+'</div><div class=r><button data-a=salir>Salir de la partida</button></div>'}
    if(note)h+='<p class=s>'+esc(note)+'</p>';h+='<div class=r><button data-a=cerrar>Cerrar</button></div>';/* V5.75: no repintar si nada cambió, y si sí, conservar lo que escribiste y el foco (si no, en iPhone se cierra el teclado) */
    if(b.__h553===h)return;const keep={};let fid=null,fs=null;try{for(const i of b.querySelectorAll('input'))keep[i.id]=i.value;const ae=document.activeElement;if(ae&&ae.tagName==='INPUT'&&b.contains(ae)){fid=ae.id;fs=ae.selectionStart}}catch(_){}
    b.__h553=h;b.innerHTML=h;try{for(const id in keep){const i=b.querySelector('#'+id);if(i&&(id!=='mpn553'||id===fid))i.value=keep[id]}if(fid){const i=b.querySelector('#'+fid);if(i){i.focus({preventScroll:true});try{i.setSelectionRange(fs,fs)}catch(_){}}}}catch(_){}}catch(e){err('panel',e)}}
@@ -17737,10 +17743,10 @@ const MULTI553=(()=>{
  let acc=0,boot=0;
  const _step=step;step=function(dt){const r=_step.apply(this,arguments);try{const d=Math.min(.1,Math.max(0,dt||0));
    boot+=d;if(!R&&M.tries<3&&boot>2*(M.tries+1))ensure();
-   if(G){sendAcc+=d;if(sendAcc>=.1){sendAcc=0;sendNow(false)}draw(d);rideStep();raceStep(d)}else{if(RIDE)rideOff();if(RACE)raceEnd(true)}
+   if(G){sendAcc+=d;if(sendAcc>=.1){sendAcc=0;sendNow(false)}draw(d);rideStep();raceStep(d);for(const f of EXT.tick)try{f(d)}catch(e){err('ext',e)}}else{if(RIDE)rideOff();if(RACE)raceEnd(true)}
    acc+=d;if(acc>1){acc=0;if(UI.p&&UI.p.classList.contains('show'))paint()}
    try{UI.btn.style.display=(typeof INSIDE58!=='undefined')&&document.body.classList.contains('dlg')?'none':''}catch(_){}}catch(e){err('paso',e)}return r};
- return {M,AV,FR,SC,CHAT,jobEvent:o=>{if(G)event('trabajo',{o})},state:st,rideOn,rideOff,rideNear,raceCreate,raceJoin,raceEnd,place,chat,get ride(){return RIDE},get race(){return RACE},ensure,create,joinCode,leave,say,open,paint,pack,front,get room(){return G},get code(){return code},get host(){return host},get myPeer(){return myPeer},roomName};
+ return {M,AV,FR,EXT,event,sendNow,nameOf:pe=>nameOf(pe),SC,CHAT,jobEvent:o=>{if(G)event('trabajo',{o})},state:st,rideOn,rideOff,rideNear,raceCreate,raceJoin,raceEnd,place,chat,get ride(){return RIDE},get race(){return RACE},ensure,create,joinCode,leave,say,open,paint,pack,front,get room(){return G},get code(){return code},get host(){return host},get myPeer(){return myPeer},roomName};
 })();
 try{window.MULTI553=MULTI553}catch(_){}
 /*RB553-RB553_MULTI-END*/
@@ -17748,7 +17754,7 @@ try{window.MULTI553=MULTI553}catch(_){}
 /*RB553-RB553_ENLINEA-BEGIN*/
 /* RUTA BRAVA V5.53 · MODO EN LÍNEA APARTE (pedido del productor: «que sea diferente el modo historia y el modo multijugador, que todos empiecen
    con 50,000 pesos en el multijugador y tengan misiones y así, separadas»).
-   · En el menú de inicio eliges 📖 HISTORIA o 🌐 EN LÍNEA. Cada modo tiene su propia partida guardada (en línea: cascajo3d_v575o_enlinea);
+   · En el menú de inicio eliges 📖 HISTORIA o 🌐 EN LÍNEA. Cada modo tiene su propia partida guardada (en línea: cascajo3d_v576o_enlinea);
      lo que hagas en uno no toca al otro. Cambiar de modo recarga el juego.
    · En línea: empiezas con $50,000 en Nueva Brava, sin prólogo ni deuda de la historia; el 👥 (multijugador) solo está aquí.
    · Trabajos en línea (📱 Trabajos o 👥 → Trabajos): entrega exprés, cobranza, encargo de coche y la camioneta de valores. Si estás en una
@@ -20445,6 +20451,185 @@ const AMIGOS575=(()=>{
 })();
 try{window.AMIGOS575=AMIGOS575}catch(_){}
 /*RB575-RB575_AMIGOS-END*/
+/*RB576-RB576_ONLINE-BEGIN*/
+/* RUTA BRAVA V5.76 · «EN LÍNEA+» (pedido del productor: lluvia de 325 ideas para el modo en línea → «haz todas»).
+   Primer paquete, lo que más se nota al jugar con amigos (número = idea del documento):
+   · 316 Ir con tu amigo · 318 Señalar un lugar (columna de luz que todos ven) · 176 Gestos (saludar, bailar, choque) y claxon con
+     «La Cucaracha» · 177 más frases rápidas · 194/244 Regalar dinero (con tope diario) · 306 Invitar por WhatsApp · 308 Entrar
+     directo con el link (el código va en el link) · 312 Volver a tu última partida
+   · Juegos entre amigos: 106 Policías y ladrones · 36 Las traes · 41 Cazar el botín · 1 Convoy Bravo (llegar todos juntos a otra ciudad)
+   · 273 Retos diarios (3 al día, con premio) · 275 logros nuevos.
+   Todo viaja por los «sucesos» y el «estado» de V5.53 (funciona igual por la sala de Claude o por el código entre amigos de V5.75).
+   Cada quien cobra en SU partida; nadie le quita dinero a otro (los regalos los pone el que regala). */
+const ON576=(()=>{
+ const M={errors:[],gestOut:0,gestIn:0,pings:0,honks:0,gifts:0,giftsIn:0,goto:0,games:0,caught:0,loot:0,convoys:0,daily:0,joinLink:0,invites:0};
+ const err=(w,e)=>{if(M.errors.length<6)M.errors.push(w+': '+(e&&e.message||e))};
+ const X=()=>{try{return MULTI553}catch(_){return null}};
+ const st=()=>{const s=X().state();if(!s.o576||typeof s.o576!=='object')s.o576={last:'',day:'',done:{},giftDay:'',giftIn:0};return s.o576};
+ const gh=(x,z)=>{try{return G512.h(x,z)}catch(_){return 0}};
+ const T=t=>{try{toast(t)}catch(_){}};
+ const money=d=>{try{S.pesos=Math.max(0,Math.round((S.pesos||0)+d))}catch(_){}};
+ const today=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
+ const myPos=()=>{try{if(DRV&&DRV.k&&DRV.k.g){const q=DRV.k.g.position;return {x:q.x,z:q.z}}}catch(_){}return {x:P.x,z:P.z}};
+ const posOf=a=>{try{if(a.car&&a.car.g){const q=a.car.g.position;return {x:q.x,z:q.z}}}catch(_){}return {x:a.x,z:a.z}};
+ const dist=(p,q)=>Math.hypot(p.x-q.x,p.z-q.z);
+ const dirTxt=(to)=>{const m=myPos();const dx=to.x-m.x,dz=to.z-m.z;const d=Math.hypot(dx,dz);let yaw=0;try{yaw=(DRV&&DRV.k&&DRV.k.g)?DRV.k.g.rotation.y:(P.yaw||0)}catch(_){}
+  /* ángulo relativo a hacia dónde miras */const a=Math.atan2(-dx,-dz)-yaw;const r=Math.atan2(Math.sin(a),Math.cos(a));const A=['⬆️','↖️','⬅️','↙️','⬇️','↘️','➡️','↗️'];const i=((Math.round(r/(Math.PI/4))%8)+8)%8;return A[i]+' '+Math.round(d)+' m'};
+ const ev=(k,o)=>{try{X().event(k,o)}catch(e){err('suceso',e)}};
+ const myPeer=()=>{try{return X().myPeer}catch(_){return null}};
+ const nameOf=pe=>{try{return X().nameOf(pe)}catch(_){return 'Alguien'}};
+ const inGame=()=>{try{return !!X().room}catch(_){return false}};
+
+ /* ---------- retos diarios (273) ---------- */
+ const RETOS=[['gesto','Haz un gesto a un amigo'],['senal','Señala un lugar en el mapa'],['juego','Juega un juego entre amigos'],['regalo','Regálale dinero a un amigo'],
+  ['chat','Escríbele a tus compas'],['ir','Usa «Ir con mi amigo»'],['claxon','Tócales el claxon de La Cucaracha'],['botin','Gana un botín'],['convoy','Llega en convoy a otra ciudad'],['atrapa','Atrapa a un ladrón o escápate']];
+ function todays(){const s=st();const d=today();if(s.day!==d){s.day=d;s.done={}}let h=0;for(const c of d)h=(h*31+c.charCodeAt(0))>>>0;const L=RETOS.slice();const out=[];while(out.length<3&&L.length){h=(h*1103515245+12345)>>>0;out.push(L.splice(h%L.length,1)[0])}return out}
+ function did(k){try{const s=st();todays();if(s.done[k])return;const r=todays().find(x=>x[0]===k);if(!r)return;s.done[k]=1;M.daily++;money(150);T('✅ Reto del día: '+r[1]+' · +$150');
+   if(todays().every(x=>s.done[x[0]]))logro('dia576')}catch(e){err('reto',e)}}
+ /* ---------- logros (275) ---------- */
+ function logro(id){try{PC558.unlock(id)}catch(_){}}
+ try{const L=PC558.L;const add=(r)=>{if(!L.find(x=>x[0]===r[0]))L.push(r)};const no=()=>false;
+  add(['amigo576','🤝','Ya somos compas','Juega en línea con un amigo',no]);add(['poli576','🚓','Brazo de la ley','Atrapa a un ladrón en Policías y ladrones',no]);
+  add(['botin576','💰','Cazador de botines','Gana un botín',no]);add(['convoy576','🚚','Convoy Bravo','Llega en convoy con tus amigos',no]);
+  add(['regalo576','🎁','Buen compa','Regálale dinero a un amigo',no]);add(['dia576','📅','Cumplido','Completa los 3 retos del día',no])}catch(_){}
+
+ /* ---------- columna de luz (señal, botín, destino) ---------- */
+ const BEAMS=new Map();
+ function beam(key,x,z,color,txt,life){try{unbeam(key);const g=new THREE.Group();const y=gh(x,z);
+   const m=new THREE.Mesh(new THREE.CylinderGeometry(.7,.7,70,10,1,true),new THREE.MeshBasicMaterial({color,transparent:true,opacity:.42,depthWrite:false,side:THREE.DoubleSide}));m.position.set(0,35,0);g.add(m);
+   const r=new THREE.Mesh(new THREE.TorusGeometry(2.2,.18,6,24),new THREE.MeshBasicMaterial({color}));r.rotation.x=Math.PI/2;r.position.y=.25;g.add(r);
+   if(txt)try{const l=label58(txt);l.scale.set(4.2,.9,1);l.position.set(0,4.2,0);g.add(l)}catch(_){}
+   g.position.set(x,y,z);g.userData.o576=1;sc.add(g);BEAMS.set(key,{g,x,z,t:life||9999})}catch(e){err('luz',e)}}
+ function unbeam(key){const b=BEAMS.get(key);if(b){try{sc.remove(b.g)}catch(_){}BEAMS.delete(key)}}
+
+ /* ---------- claxon con melodía (176) ---------- */
+ let AC=null;
+ function honk(vol){try{if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return;AC=new C()}if(AC.state==='suspended')AC.resume();
+   /* «La Cucaracha» (canción popular tradicional) en claxon de dos tonos */
+   const N=[[392,.14],[392,.14],[392,.14],[523,.34],[659,.3],[0,.12],[392,.14],[392,.14],[392,.14],[523,.34],[659,.42]];let t=AC.currentTime+.02;
+   for(const [f,d] of N){if(f){for(const k of [1,1.26]){const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=f*k*.5;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.06*vol,t+.01);g.gain.setValueAtTime(.06*vol,t+d-.03);g.gain.linearRampToValueAtTime(0,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d+.02)}}t+=d}}catch(e){err('claxon',e)}}
+
+ /* ---------- gestos (176) ---------- */
+ const GEST={hola:['👋','¡Quiubo!'],baile:['💃','¡A bailar!'],choque:['🤜🤛','¡Choca esos cinco!'],risa:['😂','¡Jajaja!']};
+ const ANIM=new Map();/* peer → {k,t} */let myAnim=null;
+ function gesture(k){if(!GEST[k])return;M.gestOut++;ev('gesto576',{g:k});myAnim={k,t:3};T(GEST[k][0]+' '+GEST[k][1]);did('gesto')}
+
+ /* ---------- juegos entre amigos ---------- */
+ let GAME=null;/* {t:'pyl'|'traes'|'botin'|'convoy', id, end, role, roles, it, x,z, name, arrived:Set, caught:Set, won} */
+ let ui=null;
+ function bar(txt){try{if(typeof document==='undefined')return;if(!ui){ui=document.createElement('div');ui.id='j576';ui.style.cssText='position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 44px);z-index:40;max-width:min(86vw,520px);padding:6px 12px;border-radius:12px;background:rgba(20,16,28,.82);color:#ffe9a8;font:600 13px/1.3 system-ui,sans-serif;text-align:center;pointer-events:none;border:1px solid #e8b931';document.body.appendChild(ui)}
+   ui.style.display=txt?'block':'none';if(txt&&ui.textContent!==txt)ui.textContent=txt}catch(_){}}
+ const peersAll=()=>{const L=[];try{const me=myPeer();if(me)L.push(me);for(const a of X().AV.values())L.push(a.peer)}catch(_){}return L};
+ const left=()=>{if(!GAME)return 0;return Math.max(0,GAME.end-performance.now()/1000)};
+ const mmss=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+ function start(t){if(!inGame()){T('Primero entra a una partida 👥');return}if(GAME&&left()>0){T('Ya hay un juego: '+GAME.name);return}
+  const ps=peersAll();if(ps.length<2&&t!=='botin'){T('Necesitas al menos un amigo en la partida');return}
+  const id=Math.floor(Math.random()*1e9);const o={t,id};
+  if(t==='pyl'){const sh=ps.slice().sort(()=>Math.random()-.5);const np=Math.max(1,Math.round(ps.length/3));o.pol=sh.slice(0,np);o.dur=300}
+  else if(t==='traes'){o.it=ps[Math.floor(Math.random()*ps.length)];o.dur=180}
+  else if(t==='botin'){const m=myPos();let x=0,z=0;for(let k=0;k<30;k++){const a=Math.random()*6.283,r=140+Math.random()*220;x=m.x+Math.cos(a)*r;z=m.z+Math.sin(a)*r;let b=false;try{b=blk(x,z)}catch(_){}if(!b)break}o.x=Math.round(x);o.z=Math.round(z);o.dur=240}
+  else if(t==='convoy'){let C=[];try{C=NET511.net().CITIES.filter(c=>c&&isFinite(c.x))}catch(_){}const m=myPos();C=C.filter(c=>dist(c,m)>350).sort((a,b)=>dist(a,m)-dist(b,m));const c=C[Math.min(C.length-1,Math.floor(Math.random()*Math.min(3,C.length)))];
+   if(!c){T('No encontré otra ciudad para el convoy');return}o.x=Math.round(c.x);o.z=Math.round(c.z);o.cn=c.name||'otra ciudad';o.dur=900}
+  ev('juego576',o);begin(o,myPeer());try{X().open(false)}catch(_){}}
+ function begin(o,by){try{const now=performance.now()/1000;M.games++;did('juego');const me=myPeer();
+  GAME={t:o.t,id:o.id,end:now+(o.dur||180),by,arrived:new Set(),caught:new Set(),won:false,hold:0,x:o.x,z:o.z};
+  if(o.t==='pyl'){GAME.name='Policías y ladrones';GAME.pol=new Set(o.pol||[]);GAME.role=GAME.pol.has(me)?'poli':'ladron';T(GAME.role==='poli'?'🚓 Eres POLICÍA: atrapa a los ladrones (acércate a ellos)':'🏃 Eres LADRÓN: que no te alcance la policía 5 minutos')}
+  else if(o.t==='traes'){GAME.name='Las traes';GAME.it=o.it;GAME.safe=now+3;T(o.it===me?'🫵 ¡LA TRAES! Toca a alguien para pasársela':'🏃 '+nameOf(o.it)+' la trae: ¡corre!')}
+  else if(o.t==='botin'){GAME.name='Cazar el botín';beam('botin',o.x,o.z,0xffc832,'💰 BOTÍN',o.dur||240);T('💰 ¡Apareció un botín! Corre a la columna dorada')}
+  else if(o.t==='convoy'){GAME.name='Convoy a '+o.cn;GAME.cn=o.cn;beam('convoy',o.x,o.z,0x48d1ff,'🚚 '+o.cn,o.dur||900);T('🚚 Convoy Bravo: lleguen TODOS juntos a '+o.cn+' (columna azul)')}}catch(e){err('juego',e)}}
+ function finish(msg){if(!GAME)return;try{unbeam('botin');unbeam('convoy')}catch(_){}T(msg);bar('');GAME=null}
+ function gameTick(dt){if(!GAME)return;const me=myPeer();const L=left();const mp=myPos();const AV=X().AV;
+  if(GAME.t==='pyl'){const thieves=peersAll().filter(p=>!GAME.pol.has(p));const free=thieves.filter(p=>!GAME.caught.has(p));
+   if(GAME.role==='poli'){let best=null,bd=1e9;for(const a of AV.values()){if(GAME.pol.has(a.peer)||GAME.caught.has(a.peer))continue;const d=dist(posOf(a),mp);if(d<bd){bd=d;best=a}}
+    if(best&&bd<3.6){GAME.hold+=dt;if(GAME.hold>.8){GAME.hold=0;GAME.caught.add(best.peer);ev('atrapa576',{id:GAME.id,to:best.peer});M.caught++;logro('poli576');did('atrapa');money(250);T('🚓 ¡Atrapaste a '+best.name+'! +$250')}}else GAME.hold=0;
+    bar('🚓 POLICÍA · '+mmss(L)+' · ladrones libres '+free.length+(best?' · más cerca '+dirTxt(posOf(best)):''))}
+   else bar((GAME.caught.has(me)?'⛓️ Te atraparon':'🏃 LADRÓN')+' · '+mmss(L)+' · libres '+free.length);
+   if(!free.length){finish('🚓 ¡La policía atrapó a todos!');return}
+   if(L<=0){if(GAME.role==='ladron'&&!GAME.caught.has(me)){money(400);did('atrapa');T('🏃 ¡Escapaste! +$400')}finish('⏱️ Se acabó: '+free.length+' ladrón(es) escaparon')}return}
+  if(GAME.t==='traes'){const now=performance.now()/1000;if(GAME.it===me){let best=null,bd=1e9;for(const a of AV.values()){const d=dist(posOf(a),mp);if(d<bd){bd=d;best=a}}
+    if(best&&bd<2.6&&now>GAME.safe){GAME.it=best.peer;GAME.safe=now+3;ev('pasa576',{id:GAME.id,to:best.peer});T('✋ Se la pasaste a '+best.name)}
+    bar('🫵 LA TRAES · '+mmss(L)+(best?' · '+best.name+' '+dirTxt(posOf(best)):''))}
+   else{const a=AV.get(GAME.it);bar('🏃 La trae '+nameOf(GAME.it)+' · '+mmss(L)+(a?' · '+dirTxt(posOf(a)):''))}
+   if(L<=0){if(GAME.it!==me){money(200);T('🏆 ¡No la traías al final! +$200')}finish('⏱️ Se acabó Las traes: perdió '+nameOf(GAME.it))}return}
+  if(GAME.t==='botin'){const d=dist(mp,GAME);bar('💰 BOTÍN · '+mmss(L)+' · '+dirTxt(GAME));
+   if(d<3.5&&!GAME.won){GAME.won=true;ev('botinok576',{id:GAME.id});M.loot++;money(500);logro('botin576');did('botin');finish('💰 ¡Te llevaste el botín! +$500');return}
+   if(L<=0)finish('⏱️ Nadie agarró el botín');return}
+  if(GAME.t==='convoy'){const d=dist(mp,GAME);if(d<45&&!GAME.arrived.has(me)){GAME.arrived.add(me);ev('llego576',{id:GAME.id});T('🚚 Llegaste a '+GAME.cn+'; esperen a los demás')}
+   const all=peersAll();const n=all.filter(p=>GAME.arrived.has(p)).length;bar('🚚 Convoy a '+GAME.cn+' · '+mmss(L)+' · llegaron '+n+'/'+all.length+(GAME.arrived.has(me)?'':' · '+dirTxt(GAME)));
+   if(n>=all.length&&all.length>=2){M.convoys++;money(800);logro('convoy576');did('convoy');finish('🚚 ¡Convoy completo! Todos llegaron a '+GAME.cn+' · +$800');return}
+   if(L<=0)finish('⏱️ El convoy no llegó completo a tiempo')}}
+
+ /* ---------- sucesos que llegan ---------- */
+ function onEv(a,e){if(!e||typeof e.k!=='string'||!e.k.endsWith('576'))return;const me=myPeer();
+  if(e.k==='gesto576'&&GEST[e.g]){M.gestIn++;ANIM.set(a.peer,{k:e.g,t:3});T(GEST[e.g][0]+' '+a.name+': '+GEST[e.g][1])}
+  else if(e.k==='claxon576'){const d=dist(posOf(a),myPos());honk(Math.max(.15,1-d/250));T('🎺 '+a.name+' te tocó el claxon')}
+  else if(e.k==='senal576'&&isFinite(e.x)&&isFinite(e.z)){beam('s'+a.peer,e.x,e.z,0xff4fa3,'📌 '+String(a.name).slice(0,14),60);T('📌 '+a.name+' señaló un lugar · '+dirTxt({x:e.x,z:e.z}))}
+  else if(e.k==='regalo576'&&e.to===me){const s=st();const d=today();if(s.giftDay!==d){s.giftDay=d;s.giftIn=0}const m=Math.max(0,Math.min(1000,e.m|0,20000-s.giftIn));if(m>0){s.giftIn+=m;money(m);M.giftsIn++;T('🎁 '+a.name+' te regaló $'+m)}}
+  else if(e.k==='juego576'&&e.t){if(GAME&&left()>0&&GAME.id!==e.id)return;begin(e,a.peer)}
+  else if(e.k==='atrapa576'&&GAME&&GAME.id===e.id){GAME.caught.add(e.to);if(e.to===me)T('⛓️ ¡'+a.name+' te atrapó!');else T('🚓 '+a.name+' atrapó a '+nameOf(e.to))}
+  else if(e.k==='pasa576'&&GAME&&GAME.id===e.id){GAME.it=e.to;GAME.safe=performance.now()/1000+3;if(e.to===me)T('🫵 ¡'+a.name+' te la pasó! Ahora LA TRAES')}
+  else if(e.k==='botinok576'&&GAME&&GAME.id===e.id&&GAME.t==='botin'&&!GAME.won)finish('💰 '+a.name+' se llevó el botín')
+  else if(e.k==='llego576'&&GAME&&GAME.id===e.id)GAME.arrived.add(a.peer)}
+
+ /* ---------- cada cuadro ---------- */
+ function tick(dt){try{const now=performance.now()/1000;
+   for(const [k,b] of BEAMS){b.t-=dt;if(b.t<=0)unbeam(k);else try{b.g.children[1].rotation.z+=dt*1.5}catch(_){}}
+   for(const [pe,an] of ANIM){an.t-=dt;const a=X().AV.get(pe);if(!a||an.t<=0){ANIM.delete(pe);continue}const g=a.g;if(!g)continue;
+    if(an.k==='baile'){g.rotation.y+=now*6%6.283;g.position.y+=Math.abs(Math.sin(now*8))*.25}else if(an.k==='hola'||an.k==='risa')g.position.y+=Math.abs(Math.sin(now*10))*.12;else if(an.k==='choque')g.rotation.y+=Math.sin(now*14)*.3}
+   if(myAnim){myAnim.t-=dt;if(myAnim.t<=0)myAnim=null}
+   gameTick(dt)}catch(e){err('cuadro',e)}}
+
+ /* ---------- panel ---------- */
+ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+ function panel(){const AV=X().AV;let h='<div class=r><button data-a=g576hola>👋 Saludar</button><button data-a=g576baile>💃 Bailar</button><button data-a=g576choque>🤜🤛 Choque</button><button data-a=g576risa>😂</button><button data-a=o576claxon>🎺 Claxon</button><button data-a=o576senal>📌 Señalar aquí</button></div>';
+  if(AV.size){h+='<p class=s>Con tus amigos:</p>';for(const a of AV.values()){const pe=esc(a.peer);h+='<div class=r><b style="align-self:center">'+esc(a.name)+'</b><button data-a="o576ir:'+pe+'">📍 Ir con él</button><button data-a="o576reg:'+pe+':100">🎁 $100</button><button data-a="o576reg:'+pe+':500">🎁 $500</button></div>'}}
+  h+='<p class=s>Juegos entre amigos:</p><div class=r><button class=y data-a=o576pyl>🚓 Policías y ladrones</button><button class=y data-a=o576traes>🫵 Las traes</button><button class=y data-a=o576botin>💰 Botín</button><button class=y data-a=o576convoy>🚚 Convoy</button></div>';
+  if(GAME)h+='<div class=r><button data-a=o576fin>⏹️ Terminar '+esc(GAME.name)+'</button></div>';
+  h+='<div class=r><button data-a=o576inv>📲 Invitar por WhatsApp</button></div>';
+  const s=st();const R=todays();h+='<p class=s>📅 Retos de hoy ($150 c/u): '+R.map(r=>(s.done[r[0]]?'✅ ':'⬜ ')+esc(r[1])).join(' · ')+'</p>';return h}
+ function panel0(){const s=st();let h='';if(s.last)h+='<div class=r><button class=y data-a=o576last>↩️ Volver a '+esc(s.last)+'</button></div>';return h}
+ function click(a){
+  if(a.startsWith('g576')){gesture(a.slice(4));return true}
+  if(a==='o576claxon'){M.honks++;honk(1);ev('claxon576',{});did('claxon');return true}
+  if(a==='o576senal'){const m=myPos();M.pings++;ev('senal576',{x:Math.round(m.x),z:Math.round(m.z)});beam('yo',m.x,m.z,0xff4fa3,'📌 Aquí',60);T('📌 Señalaste este lugar a tus amigos');did('senal');return true}
+  if(a.startsWith('o576ir:')){const pe=a.slice(7);const f=X().AV.get(pe);if(!f){T('Ya no está');return true}
+   try{if(DRV&&DRV.k){T('🚗 Bájate del coche para ir con tu amigo');return true}}catch(_){}
+   try{if(typeof INSIDE58!=='undefined'&&INSIDE58){T('Sal a la calle primero');return true}}catch(_){}
+   const now=performance.now()/1000;if(M.gotoT&&now-M.gotoT<20){T('Espera unos segundos');return true}M.gotoT=now;
+   const q=posOf(f);let x=q.x+2.5,z=q.z+2.5;for(let k=0;k<12;k++){let b=false;try{b=blk(x,z)}catch(_){}if(!b)break;const an=k*.52;x=q.x+Math.cos(an)*3.5;z=q.z+Math.sin(an)*3.5}
+   P.x=x;P.z=z;P.y=gh(x,z);P.tp=1;M.goto++;did('ir');T('📍 Llegaste con '+f.name);try{X().open(false)}catch(_){}return true}
+  if(a.startsWith('o576reg:')){const [,pe,ms]=a.split(':');const m=+ms|0;const f=X().AV.get(pe);if(!f)return true;if((S.pesos||0)<m){T('No te alcanza para regalar $'+m);return true}
+   money(-m);ev('regalo576',{to:pe,m});M.gifts++;logro('regalo576');did('regalo');T('🎁 Le regalaste $'+m+' a '+f.name);return true}
+  if(a==='o576pyl'){start('pyl');return true}if(a==='o576traes'){start('traes');return true}if(a==='o576botin'){start('botin');return true}if(a==='o576convoy'){start('convoy');return true}
+  if(a==='o576fin'){finish('⏹️ Juego terminado');return true}
+  if(a==='o576inv'){invite();return true}
+  if(a==='o576last'){const s=st();if(s.last)X().joinCode(s.last,false);return true}
+  return false}
+ /* ---------- invitar (306) y entrar con el link (308) ---------- */
+ function link(){try{const c=X().code;return location.origin+location.pathname+(c?'#'+c:'')}catch(_){return ''}}
+ async function invite(){M.invites++;const c=X().code||'';const u=link();const txt='¡Vente a jugar RUTA BRAVA conmigo! 🚗🔥 Abre este link'+(c?' y entra a mi partida '+c:'')+': '+u;
+  try{if(navigator.share){await navigator.share({title:'Ruta Brava',text:txt,url:u});return}}catch(_){}
+  try{window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank')}catch(_){}
+  try{await navigator.clipboard.writeText(txt);T('📋 Copié la invitación')}catch(_){}}
+ let linkCode=null,linkTried=0,linkBusy=false,linkAt=0;
+ try{const h=(location.hash||'').replace('#','').toUpperCase().replace(/[^A-Z0-9-]/g,'');const m=h.match(/^BRAVA-?([A-Z0-9]{4})$/);if(m)linkCode='BRAVA-'+m[1]}catch(_){}
+ function linkStep(){try{if(!linkCode||linkTried>3)return;if(inGame()){linkCode=null;return}
+   const on=(typeof RBON553!=='undefined')&&RBON553;const started=(typeof MENU513!=='undefined')&&MENU513.started;if(!started)return;
+   if(!on){if(!linkTried){linkTried=1;T('👥 Te invitaron a '+linkCode+': entra al 🌐 Modo en línea para unirte')}return}
+   if(linkBusy)return;const now=Date.now();if(now-linkAt<15000)return;linkAt=now;linkBusy=true;linkTried++;M.joinLink++;X().joinCode(linkCode,false).then(ok=>{linkBusy=false;if(ok)linkCode=null}).catch(()=>{linkBusy=false})}catch(e){linkBusy=false;err('link',e)}}
+ /* recordar la última partida (312) y logro de jugar con amigo */
+ let lastCode=null;function watch(){try{const c=X().code;if(c&&c!==lastCode){lastCode=c;st().last=c;try{save()}catch(_){}}if(c&&X().AV.size)logro('amigo576')}catch(_){}}
+ /* ---------- enganche ---------- */
+ let hooked=false;function hook(){if(hooked)return;const x=X();if(!x||!x.EXT)return;hooked=true;
+  x.EXT.ev.push(onEv);x.EXT.panel.push(panel);x.EXT.panel0.push(panel0);x.EXT.click.push(click);x.EXT.tick.push(tick);
+  try{for(const f of ['¡Espérame!','¿Quién jala?','¡Vámonos!','¡Qué onda!','¡Gracias, compa!'])if(!x.FR.includes(f))x.FR.push(f)}catch(_){}
+  /* el chat también cuenta para el reto */try{const c0=x.chat;if(typeof c0==='function'){}}catch(_){}}
+ hook();
+ if(typeof setInterval==='function')setInterval(()=>{try{hook();linkStep();watch();const x=X();if(x&&x.M&&(x.M.chatOut|0)>(M.chatSeen|0)){M.chatSeen=x.M.chatOut;did('chat')}if(!inGame()&&GAME)finish('Saliste de la partida')}catch(_){}},1500);
+ return {M,st,todays,did,gesture,honk,beam,unbeam,start,begin,finish,onEv,tick,panel,panel0,click,invite,get game(){return GAME},BEAMS,ANIM,RETOS};
+})();
+try{window.ON576=ON576}catch(_){}
+/*RB576-RB576_ONLINE-END*/
 setMk();upd();loop(0);window.__cascajoBootOk=true;
 </script>
 
