@@ -8,7 +8,7 @@
 <link rel="manifest" href="manifest.json">
 <title>Ruta Brava</title>
 </head><body>
-<title>RUTA BRAVA · La Deuda V5.77 (pública)</title>
+<title>RUTA BRAVA · La Deuda V5.78 (pública)</title>
 <style>
 :root{--tinta:#1d1420;--cobalto:#1f4e9c;--mostaza:#e8b83a;--hueso:#f5ead6}
 html,body{margin:0;height:100%;overflow:hidden;background:var(--tinta);font-family:Rockwell,"Roboto Slab",Georgia,serif;color:var(--hueso)}
@@ -130,7 +130,7 @@ html,body{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-to
 #rb531-next{width:max-content!important;max-width:min(42vw,300px);box-sizing:border-box;font-size:11px!important}
 </style>
 <div id="v"></div><div id="hud"></div><div id="mis"></div><div id="cx"></div><div id="pr"></div><div id="ts"></div><div id="vel"></div><div id="dlg"></div>
-<button id="rbmenu" type="button" aria-label="Rutas y comercio">☷ RUTAS</button><div id="rbgps" aria-live="polite">🛣 Villa Cascajo · Carretera principal</div><div id="ini"><div><h1>RUTA BRAVA · La Deuda V5.77 (pública)</h1>
+<button id="rbmenu" type="button" aria-label="Rutas y comercio">☷ RUTAS</button><div id="rbgps" aria-live="polite">🛣 Villa Cascajo · Carretera principal</div><div id="ini"><div><h1>RUTA BRAVA · La Deuda V5.78 (pública)</h1>
 <p>Empiezas en Nueva Brava. Tu papá te pide un garrafón. Lo que pasa después lo cambia todo.</p><p>Conduce por carretera, compra barato en un pueblo y vende caro en otro. Trabaja de trailero, compra autos con factura y sobrevive a los peligros del camino. Sandbox mexicano sin historia obligatoria.</p>
 <p>WASD: mover/conducir · Ratón: mirar · E: interactuar · V: cámara · Q: arma · R: recargar · I: inventario.</p>
 <p><b>Toca o haz clic para jugar</b></p><p>En iPhone: gira el móvil, utiliza los controles discretos de los bordes. Toca RUTAS para elegir destino GPS, consultar ganancias comerciales, contratos y concesionaria. El mercado de Villa Cascajo queda hacia el este junto a la carretera.</p>
@@ -187,12 +187,13 @@ body.add(mk(new THREE.CylinderGeometry(.3,.3,1.1,12),0x1f4e9c,.75),mk(new THREE.
 const NPC=[{n:'Doña Chela',x:8,z:-8,c:0xd6336c,id:'chela'},{n:'Don Rigo',x:17,z:13.5,c:0x2b2b33,id:'rigo'},{n:'Lic. Paty',x:-4,z:10,c:0x2f9e8f,id:'paty'}];
 
 var WALKMUL510=1,STEERMUL510=1;/* V5.10: multiplicadores de la vida (1 = idéntico a V5.9) */
-const RBON553=(()=>{try{return localStorage.getItem('rb553_modo')==='enlinea'}catch(_){return false}})();const RB_KEY59=RBON553?'cascajo3d_v577o_enlinea':'cascajo3d_v577o',RB_KEYV511='cascajo3d_v511',RB_KEYV510='cascajo3d_v510',RB_KEYV59='cascajo3d_v59',RB_KEYMAIN59='cascajo3d',RB_KEYBAK59=(RBON553?'cascajo3d_v577o_enlinea_bak':'cascajo3d_v577o_bak'),RB_KEYBOOT59=(RBON553?'cascajo3d_v577o_enlinea_boot':'cascajo3d_v577o_boot'),RB_KEYBAD59=(RBON553?'cascajo3d_v577o_enlinea_corrupto':'cascajo3d_v577o_corrupto');
+const RBON553=(()=>{try{return localStorage.getItem('rb553_modo')==='enlinea'}catch(_){return false}})();const RB_KEY59=RBON553?'cascajo3d_v578o_enlinea':'cascajo3d_v578o',RB_KEYV511='cascajo3d_v511',RB_KEYV510='cascajo3d_v510',RB_KEYV59='cascajo3d_v59',RB_KEYMAIN59='cascajo3d',RB_KEYBAK59=(RBON553?'cascajo3d_v578o_enlinea_bak':'cascajo3d_v578o_bak'),RB_KEYBOOT59=(RBON553?'cascajo3d_v578o_enlinea_boot':'cascajo3d_v578o_boot'),RB_KEYBAD59=(RBON553?'cascajo3d_v578o_enlinea_corrupto':'cascajo3d_v578o_corrupto');
 /* V5.12: guardado INDEPENDIENTE (cascajo3d_v512). Si no existe, se abre una COPIA en memoria de la V5.10 y, si tampoco, de la V5.9 (status 'migrada'); esas claves NUNCA se escriben ni se borran. */
-const LOAD59=(function(){let raw=null,prev576=null,prev575=null,prev574=null,prev573=null,prev572=null,prev571=null,prev570=null,prev569=null,prev568=null,prev567=null,prev566=null,prev565=null,prev564=null,prev563=null,prev562=null,prev561=null,prev560=null,prev559=null,prev558=null,prev557=null,prev556=null,prev555=null,prev554=null,prev553=null,prev552=null,prev551=null,prev550=null,prev549=null,prev548=null,prev547=null,prev546=null,prev545=null,prev544=null,prev543=null,prev542=null,prev541=null,prev540=null,prev539=null,prev538=null,prev537=null,prev536c=null,prev536o=null,prev535o=null,prev534o=null,prev533o=null,prev532o=null,prev531o=null,prev524o=null,prev523o=null,prev522o=null,prev521o=null,prev520o=null,prev531x=null,prev528c=null,prev527c=null,prev5261c=null,prev524c=null,prev523c=null,prev522c=null,prev521c=null,prev520c=null,prev519o=null,prev517=null,prev519c=null,prev518c=null,prev516=null,prev5152=null,prev515=null,prev513=null,prev5121=null,prev512=null,main=null,old=null,v10=null,v11=null,status='nueva',src=null;try{raw=localStorage.getItem(RB_KEY59)}catch(e){}try{prev576=localStorage.getItem(RBON553?'cascajo3d_v576o_enlinea':'cascajo3d_v576o')}catch(e){}try{prev575=localStorage.getItem(RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o')}catch(e){}try{prev574=localStorage.getItem(RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o')}catch(e){}try{prev573=localStorage.getItem(RBON553?'cascajo3d_v573o_enlinea':'cascajo3d_v573o')}catch(e){}try{prev572=localStorage.getItem(RBON553?'cascajo3d_v572o_enlinea':'cascajo3d_v572o')}catch(e){}try{prev571=localStorage.getItem(RBON553?'cascajo3d_v571o_enlinea':'cascajo3d_v571o')}catch(e){}try{prev570=localStorage.getItem(RBON553?'cascajo3d_v570o_enlinea':'cascajo3d_v570o')}catch(e){}try{prev569=localStorage.getItem(RBON553?'cascajo3d_v569o_enlinea':'cascajo3d_v569o')}catch(e){}try{prev568=localStorage.getItem(RBON553?'cascajo3d_v568o_enlinea':'cascajo3d_v568o')}catch(e){}try{prev567=localStorage.getItem(RBON553?'cascajo3d_v567o_enlinea':'cascajo3d_v567o')}catch(e){}try{prev566=localStorage.getItem(RBON553?'cascajo3d_v566o_enlinea':'cascajo3d_v566o')}catch(e){}try{prev565=localStorage.getItem(RBON553?'cascajo3d_v565o_enlinea':'cascajo3d_v565o')}catch(e){}try{prev564=localStorage.getItem(RBON553?'cascajo3d_v564o_enlinea':'cascajo3d_v564o')}catch(e){}try{prev563=localStorage.getItem(RBON553?'cascajo3d_v563o_enlinea':'cascajo3d_v563o')}catch(e){}try{prev562=localStorage.getItem(RBON553?'cascajo3d_v562o_enlinea':'cascajo3d_v562o')}catch(e){}try{prev561=localStorage.getItem(RBON553?'cascajo3d_v561o_enlinea':'cascajo3d_v561o')}catch(e){}try{prev560=localStorage.getItem(RBON553?'cascajo3d_v560o_enlinea':'cascajo3d_v560o')}catch(e){}try{prev559=localStorage.getItem(RBON553?'cascajo3d_v559o_enlinea':'cascajo3d_v559o')}catch(e){}try{prev558=localStorage.getItem(RBON553?'cascajo3d_v558o_enlinea':'cascajo3d_v558o')}catch(e){}try{prev557=localStorage.getItem(RBON553?'cascajo3d_v557o_enlinea':'cascajo3d_v557o')}catch(e){}try{prev556=localStorage.getItem(RBON553?'cascajo3d_v556o_enlinea':'cascajo3d_v556o')}catch(e){}try{prev555=localStorage.getItem(RBON553?'cascajo3d_v555o_enlinea':'cascajo3d_v555o')}catch(e){}try{prev554=localStorage.getItem(RBON553?'cascajo3d_v554o_enlinea':'cascajo3d_v554o')}catch(e){}try{prev553=localStorage.getItem(RBON553?'cascajo3d_v553o_enlinea':'cascajo3d_v553o')}catch(e){}try{prev552=localStorage.getItem('cascajo3d_v552o')}catch(e){}try{prev551=localStorage.getItem('cascajo3d_v551o')}catch(e){}try{prev550=localStorage.getItem('cascajo3d_v550o')}catch(e){}try{prev549=localStorage.getItem('cascajo3d_v549o')}catch(e){}try{prev548=localStorage.getItem('cascajo3d_v548o')}catch(e){}try{prev547=localStorage.getItem('cascajo3d_v547o')}catch(e){}try{prev546=localStorage.getItem('cascajo3d_v546o')}catch(e){}try{prev545=localStorage.getItem('cascajo3d_v545o')}catch(e){}try{prev544=localStorage.getItem('cascajo3d_v544o')}catch(e){}try{prev543=localStorage.getItem('cascajo3d_v543o')}catch(e){}try{prev542=localStorage.getItem('cascajo3d_v542o')}catch(e){}try{prev541=localStorage.getItem('cascajo3d_v541o')}catch(e){}try{prev540=localStorage.getItem('cascajo3d_v540o')}catch(e){}try{prev539=localStorage.getItem('cascajo3d_v539o')}catch(e){}try{prev538=localStorage.getItem('cascajo3d_v538o')}catch(e){}try{prev537=localStorage.getItem('cascajo3d_v537o')}catch(e){}try{prev536c=localStorage.getItem('cascajo3d_v536criminal')}catch(e){}try{prev536o=localStorage.getItem('cascajo3d_v536o')}catch(e){}try{prev535o=localStorage.getItem('cascajo3d_v535o')}catch(e){}try{prev534o=localStorage.getItem('cascajo3d_v534o')}catch(e){}try{prev533o=localStorage.getItem('cascajo3d_v533o')}catch(e){}try{prev532o=localStorage.getItem('cascajo3d_v532o')}catch(e){}try{prev531o=localStorage.getItem('cascajo3d_v531o')}catch(e){}try{prev524o=localStorage.getItem('cascajo3d_v524o')}catch(e){}try{prev523o=localStorage.getItem('cascajo3d_v523o')}catch(e){}try{prev522o=localStorage.getItem('cascajo3d_v522o')}catch(e){}try{prev521o=localStorage.getItem('cascajo3d_v521o')}catch(e){}try{prev520o=localStorage.getItem('cascajo3d_v520o')}catch(e){}try{prev519o=localStorage.getItem('cascajo3d_v519o')}catch(e){}try{prev517=localStorage.getItem('cascajo3d_v517')}catch(e){}try{prev531x=localStorage.getItem('cascajo3d_v531x')}catch(e){}try{prev528c=localStorage.getItem('cascajo3d_v528')}catch(e){}try{prev527c=localStorage.getItem('cascajo3d_v527')}catch(e){}try{prev5261c=localStorage.getItem('cascajo3d_v5261')}catch(e){}try{prev524c=localStorage.getItem('cascajo3d_v524')}catch(e){}try{prev523c=localStorage.getItem('cascajo3d_v523')}catch(e){}try{prev522c=localStorage.getItem('cascajo3d_v522')}catch(e){}try{prev521c=localStorage.getItem('cascajo3d_v521')}catch(e){}try{prev520c=localStorage.getItem('cascajo3d_v520')}catch(e){}try{prev519c=localStorage.getItem('cascajo3d_v519')}catch(e){}try{prev518c=localStorage.getItem('cascajo3d_v518')}catch(e){}try{prev516=localStorage.getItem('cascajo3d_v516')}catch(e){}try{prev5152=localStorage.getItem('cascajo3d_v5152')}catch(e){}try{prev515=localStorage.getItem('cascajo3d_v515')}catch(e){}try{prev513=localStorage.getItem('cascajo3d_v513')}catch(e){}try{prev5121=localStorage.getItem('cascajo3d_v5121')}catch(e){}try{prev512=localStorage.getItem('cascajo3d_v512')}catch(e){}try{main=localStorage.getItem(RB_KEYMAIN59)}catch(e){}try{old=localStorage.getItem(RB_KEYV59)}catch(e){}try{v10=localStorage.getItem(RB_KEYV510)}catch(e){}try{v11=localStorage.getItem(RB_KEYV511)}catch(e){}
+const LOAD59=(function(){let raw=null,prev577=null,prev576=null,prev575=null,prev574=null,prev573=null,prev572=null,prev571=null,prev570=null,prev569=null,prev568=null,prev567=null,prev566=null,prev565=null,prev564=null,prev563=null,prev562=null,prev561=null,prev560=null,prev559=null,prev558=null,prev557=null,prev556=null,prev555=null,prev554=null,prev553=null,prev552=null,prev551=null,prev550=null,prev549=null,prev548=null,prev547=null,prev546=null,prev545=null,prev544=null,prev543=null,prev542=null,prev541=null,prev540=null,prev539=null,prev538=null,prev537=null,prev536c=null,prev536o=null,prev535o=null,prev534o=null,prev533o=null,prev532o=null,prev531o=null,prev524o=null,prev523o=null,prev522o=null,prev521o=null,prev520o=null,prev531x=null,prev528c=null,prev527c=null,prev5261c=null,prev524c=null,prev523c=null,prev522c=null,prev521c=null,prev520c=null,prev519o=null,prev517=null,prev519c=null,prev518c=null,prev516=null,prev5152=null,prev515=null,prev513=null,prev5121=null,prev512=null,main=null,old=null,v10=null,v11=null,status='nueva',src=null;try{raw=localStorage.getItem(RB_KEY59)}catch(e){}try{prev577=localStorage.getItem(RBON553?'cascajo3d_v577o_enlinea':'cascajo3d_v577o')}catch(e){}try{prev576=localStorage.getItem(RBON553?'cascajo3d_v576o_enlinea':'cascajo3d_v576o')}catch(e){}try{prev575=localStorage.getItem(RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o')}catch(e){}try{prev574=localStorage.getItem(RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o')}catch(e){}try{prev573=localStorage.getItem(RBON553?'cascajo3d_v573o_enlinea':'cascajo3d_v573o')}catch(e){}try{prev572=localStorage.getItem(RBON553?'cascajo3d_v572o_enlinea':'cascajo3d_v572o')}catch(e){}try{prev571=localStorage.getItem(RBON553?'cascajo3d_v571o_enlinea':'cascajo3d_v571o')}catch(e){}try{prev570=localStorage.getItem(RBON553?'cascajo3d_v570o_enlinea':'cascajo3d_v570o')}catch(e){}try{prev569=localStorage.getItem(RBON553?'cascajo3d_v569o_enlinea':'cascajo3d_v569o')}catch(e){}try{prev568=localStorage.getItem(RBON553?'cascajo3d_v568o_enlinea':'cascajo3d_v568o')}catch(e){}try{prev567=localStorage.getItem(RBON553?'cascajo3d_v567o_enlinea':'cascajo3d_v567o')}catch(e){}try{prev566=localStorage.getItem(RBON553?'cascajo3d_v566o_enlinea':'cascajo3d_v566o')}catch(e){}try{prev565=localStorage.getItem(RBON553?'cascajo3d_v565o_enlinea':'cascajo3d_v565o')}catch(e){}try{prev564=localStorage.getItem(RBON553?'cascajo3d_v564o_enlinea':'cascajo3d_v564o')}catch(e){}try{prev563=localStorage.getItem(RBON553?'cascajo3d_v563o_enlinea':'cascajo3d_v563o')}catch(e){}try{prev562=localStorage.getItem(RBON553?'cascajo3d_v562o_enlinea':'cascajo3d_v562o')}catch(e){}try{prev561=localStorage.getItem(RBON553?'cascajo3d_v561o_enlinea':'cascajo3d_v561o')}catch(e){}try{prev560=localStorage.getItem(RBON553?'cascajo3d_v560o_enlinea':'cascajo3d_v560o')}catch(e){}try{prev559=localStorage.getItem(RBON553?'cascajo3d_v559o_enlinea':'cascajo3d_v559o')}catch(e){}try{prev558=localStorage.getItem(RBON553?'cascajo3d_v558o_enlinea':'cascajo3d_v558o')}catch(e){}try{prev557=localStorage.getItem(RBON553?'cascajo3d_v557o_enlinea':'cascajo3d_v557o')}catch(e){}try{prev556=localStorage.getItem(RBON553?'cascajo3d_v556o_enlinea':'cascajo3d_v556o')}catch(e){}try{prev555=localStorage.getItem(RBON553?'cascajo3d_v555o_enlinea':'cascajo3d_v555o')}catch(e){}try{prev554=localStorage.getItem(RBON553?'cascajo3d_v554o_enlinea':'cascajo3d_v554o')}catch(e){}try{prev553=localStorage.getItem(RBON553?'cascajo3d_v553o_enlinea':'cascajo3d_v553o')}catch(e){}try{prev552=localStorage.getItem('cascajo3d_v552o')}catch(e){}try{prev551=localStorage.getItem('cascajo3d_v551o')}catch(e){}try{prev550=localStorage.getItem('cascajo3d_v550o')}catch(e){}try{prev549=localStorage.getItem('cascajo3d_v549o')}catch(e){}try{prev548=localStorage.getItem('cascajo3d_v548o')}catch(e){}try{prev547=localStorage.getItem('cascajo3d_v547o')}catch(e){}try{prev546=localStorage.getItem('cascajo3d_v546o')}catch(e){}try{prev545=localStorage.getItem('cascajo3d_v545o')}catch(e){}try{prev544=localStorage.getItem('cascajo3d_v544o')}catch(e){}try{prev543=localStorage.getItem('cascajo3d_v543o')}catch(e){}try{prev542=localStorage.getItem('cascajo3d_v542o')}catch(e){}try{prev541=localStorage.getItem('cascajo3d_v541o')}catch(e){}try{prev540=localStorage.getItem('cascajo3d_v540o')}catch(e){}try{prev539=localStorage.getItem('cascajo3d_v539o')}catch(e){}try{prev538=localStorage.getItem('cascajo3d_v538o')}catch(e){}try{prev537=localStorage.getItem('cascajo3d_v537o')}catch(e){}try{prev536c=localStorage.getItem('cascajo3d_v536criminal')}catch(e){}try{prev536o=localStorage.getItem('cascajo3d_v536o')}catch(e){}try{prev535o=localStorage.getItem('cascajo3d_v535o')}catch(e){}try{prev534o=localStorage.getItem('cascajo3d_v534o')}catch(e){}try{prev533o=localStorage.getItem('cascajo3d_v533o')}catch(e){}try{prev532o=localStorage.getItem('cascajo3d_v532o')}catch(e){}try{prev531o=localStorage.getItem('cascajo3d_v531o')}catch(e){}try{prev524o=localStorage.getItem('cascajo3d_v524o')}catch(e){}try{prev523o=localStorage.getItem('cascajo3d_v523o')}catch(e){}try{prev522o=localStorage.getItem('cascajo3d_v522o')}catch(e){}try{prev521o=localStorage.getItem('cascajo3d_v521o')}catch(e){}try{prev520o=localStorage.getItem('cascajo3d_v520o')}catch(e){}try{prev519o=localStorage.getItem('cascajo3d_v519o')}catch(e){}try{prev517=localStorage.getItem('cascajo3d_v517')}catch(e){}try{prev531x=localStorage.getItem('cascajo3d_v531x')}catch(e){}try{prev528c=localStorage.getItem('cascajo3d_v528')}catch(e){}try{prev527c=localStorage.getItem('cascajo3d_v527')}catch(e){}try{prev5261c=localStorage.getItem('cascajo3d_v5261')}catch(e){}try{prev524c=localStorage.getItem('cascajo3d_v524')}catch(e){}try{prev523c=localStorage.getItem('cascajo3d_v523')}catch(e){}try{prev522c=localStorage.getItem('cascajo3d_v522')}catch(e){}try{prev521c=localStorage.getItem('cascajo3d_v521')}catch(e){}try{prev520c=localStorage.getItem('cascajo3d_v520')}catch(e){}try{prev519c=localStorage.getItem('cascajo3d_v519')}catch(e){}try{prev518c=localStorage.getItem('cascajo3d_v518')}catch(e){}try{prev516=localStorage.getItem('cascajo3d_v516')}catch(e){}try{prev5152=localStorage.getItem('cascajo3d_v5152')}catch(e){}try{prev515=localStorage.getItem('cascajo3d_v515')}catch(e){}try{prev513=localStorage.getItem('cascajo3d_v513')}catch(e){}try{prev5121=localStorage.getItem('cascajo3d_v5121')}catch(e){}try{prev512=localStorage.getItem('cascajo3d_v512')}catch(e){}try{main=localStorage.getItem(RB_KEYMAIN59)}catch(e){}try{old=localStorage.getItem(RB_KEYV59)}catch(e){}try{v10=localStorage.getItem(RB_KEYV510)}catch(e){}try{v11=localStorage.getItem(RB_KEYV511)}catch(e){}
  const okSave=t=>{try{const j=JSON.parse(t);return !!(j&&typeof j==='object'&&!Array.isArray(j)&&Number.isFinite(j.pesos)&&!(Number.isFinite(j.v)&&j.v>12))}catch(e){return false}};
  if(raw)status='ok';
- else if((()=>{try{return !!localStorage.getItem('cascajo3d_v577o_fresh')}catch(e){return false}})()){}
+ else if((()=>{try{return !!localStorage.getItem('cascajo3d_v578o_fresh')}catch(e){return false}})()){}
+ else if(prev577&&okSave(prev577)){raw=prev577;status='migrada';src=RBON553?'cascajo3d_v577o_enlinea':'cascajo3d_v577o'}
  else if(prev576&&okSave(prev576)){raw=prev576;status='migrada';src=RBON553?'cascajo3d_v576o_enlinea':'cascajo3d_v576o'}
  else if(prev575&&okSave(prev575)){raw=prev575;status='migrada';src=RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o'}
  else if(prev574&&okSave(prev574)){raw=prev574;status='migrada';src=RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o'}
@@ -2887,7 +2888,7 @@ function roads510(){const a=AIRF510,out=[];
 function airActive510(){try{return !!(window.__air510&&window.__air510.AIR.active)}catch(e){return false}}
 
 /*RB510-WORLD-END*/
-/*RB59-BEGIN*/const BUILD59={ver:"5.77",ch:"publica",dev:false};
+/*RB59-BEGIN*/const BUILD59={ver:"5.78",ch:"publica",dev:false};
 /* =====================================================================================================
    RUTA BRAVA V5.9 (experimental) · INTEGRACIÓN: partidas seguras, minimapa, mapa completo, volante, agarre y paisaje
    Se inserta DESPUÉS del bloque V5.8 (prólogo) y ANTES del guardado en segundo plano de V5.6.
@@ -5046,7 +5047,7 @@ window.__rb513={CH513,chPhase513,chState513,chStart513,chPoint513,chUse513,chFin
    · Diagnóstico: versión, guardado, errores y FPS medidos EN EL DISPOSITIVO (informe copiable)
    ===================================================================================================== */
 const MENU513={view:'home',fps:0,ft:[],introT:0,introDone:false,started:false,winErr:0,msg:''};
-const FRESH_KEY513='cascajo3d_v577o_fresh';
+const FRESH_KEY513='cascajo3d_v578o_fresh';
 try{addEventListener('error',()=>{MENU513.winErr++})}catch(_){}
 /* «Reiniciar» (Partidas) y «Nueva partida» no deben resucitar la partida anterior copiándola otra vez al arrancar */
 try{const _rs=Save59.reset;Save59.reset=function(){const r=_rs.apply(this,arguments);if(r&&r.ok){try{localStorage.setItem(FRESH_KEY513,'1')}catch(_){}}return r}}catch(_){}
@@ -5083,14 +5084,14 @@ function menuReport513(){let sz=0;try{sz=(localStorage.getItem(RB_KEY59)||'').le
   'Errores del juego: '+e.length+(e.length?'\n · '+e.slice(0,8).join('\n · '):'')+' · errores de ventana: '+MENU513.winErr].join('\n')}
 function menuRender513(view,msg){
  const ini=$('ini');if(!ini)return;MENU513.view=view||'home';MENU513.msg=msg||'';
- const prog=menuProgress513(),v=MENU513.view;let h='<div class="m513"><h1>RUTA BRAVA</h1><div class="sub">La Deuda · V5.77 Juegos (candidata)</div>';
+ const prog=menuProgress513(),v=MENU513.view;let h='<div class="m513"><h1>RUTA BRAVA</h1><div class="sub">La Deuda · V5.78 Fiesta (candidata)</div>';
  if(v==='home'){
   h+='<div class="sum">'+esc58(menuSummary513())+'</div>'+(menuStatusNote513()?'<div class="note">'+esc58(menuStatusNote513())+'</div>':'')+
    '<div class="grid"><button class="pri" id="m513go" '+(prog||MENU513.started?'':'disabled')+'>▶ '+(MENU513.started?'SEGUIR JUGANDO':'CONTINUAR')+'</button>'+
    '<button id="m513new">✚ NUEVA PARTIDA</button><button id="m513set">⚙ AJUSTES</button><button id="m513how">🎮 CÓMO JUGAR</button><button id="m513sv">💾 PARTIDAS</button><button id="m513cr">★ CRÉDITOS</button></div>'+
    (prog?'':'<div class="note">Toca «NUEVA PARTIDA» para empezar. Empiezas en Nueva Brava. Sigue la marca dorada: tu papá te espera en la sala.</div>');
  }else if(v==='how'){h+='<div class="box"><b>Cómo se juega</b>\n'+esc58(menuControls513())+'</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
- else if(v==='credits'){h+='<div class="box"><b>Créditos</b>\nRUTA BRAVA · La Deuda (candidata V5.77)\nProducción y dirección: el productor del proyecto.\nProgramación y guion asistidos por Claude (Anthropic) y ChatGPT (OpenAI); auditoría externa pendiente (Gemini, DeepSeek).\nMotor 3D: Three.js r128 (licencia MIT), cargado desde CDN.\nTodos los personajes, lugares y sucesos son ficticios; cualquier parecido con la realidad es coincidencia.</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
+ else if(v==='credits'){h+='<div class="box"><b>Créditos</b>\nRUTA BRAVA · La Deuda (candidata V5.78)\nProducción y dirección: el productor del proyecto.\nProgramación y guion asistidos por Claude (Anthropic) y ChatGPT (OpenAI); auditoría externa pendiente (Gemini, DeepSeek).\nMotor 3D: Three.js r128 (licencia MIT), cargado desde CDN.\nTodos los personajes, lugares y sucesos son ficticios; cualquier parecido con la realidad es coincidencia.</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
  else if(v==='settings'){h+='<div class="box"><b>Ajustes</b>\nMinimapa: '+(SET59.mini?'visible':'oculto')+'\nDirección al conducir (táctil): '+(SET59.steer==='joystick'?'joystick':SET59.steer==='wheel'?'volante circular':'barra clásica')+'</div>'+
    '<div class="row"><button id="m513mm">'+(SET59.mini?'Ocultar minimapa':'Mostrar minimapa')+'</button><button id="m513st">'+(SET59.steer==='joystick'?'Usar volante circular':SET59.steer==='wheel'?'Usar barra clásica':'Usar joystick')+'</button></div>'+
    '<div class="row"><button id="m513dg">🩺 Diagnóstico</button><button id="m513sv2">💾 Partidas</button><button id="m513bk">‹ Volver</button></div>'}
@@ -11223,7 +11224,7 @@ try{window.VIS536=VIS536}catch(_){}
 function rb536LateForce(){try{const R5=window.__reg511&&__reg511.REG511;if(R5&&R5.lateForce536){R5.lateForce536=0;R5.force()}}catch(err){try{ERR59.push('regiones: '+String(err&&err.message||err))}catch(_){}}}
 rb536LateForce();
 /*RB534-VISUAL536-END*/
-try{BUILD59.ver="5.77"}catch(_){}
+try{BUILD59.ver="5.78"}catch(_){}
 /* V5.6: guardar al pasar a segundo plano / cerrar (iOS dispara pagehide y visibilitychange, no beforeunload) */
 function flushSave(){try{snapshotVehicles();rbSyncCars();if(sv.p){clearTimeout(sv.t);return svNow()}return save()}catch(e){try{return save()}catch(_){return false}}}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushSave()});addEventListener('pagehide',flushSave);
@@ -17701,7 +17702,7 @@ const MULTI553=(()=>{
  /* ---------- tus compas en el minimapa ---------- */
  const COLS=['#38e1f5','#ff6ad5','#7dff6a','#ffb347','#b28dff','#ff5e5e'];
  try{const _rm=renderMini59;renderMini59=function(){const r=_rm.apply(this,arguments);try{if(!G||!AV.size||INSIDE58)return r;const c=MINI59.ctx,N=MINI59.N;if(!c)return r;const sp=DRV?Math.abs(DRV.v):0,s=sp>22?.62:sp>9?.95:1.5,R0=N/2-6;let i=0;
-    for(const a of AV.values()){const col=COLS[i++%COLS.length];const x=N/2+(a.x-P.x)*s,y=N/2+(a.z-P.z)*s,dx=x-N/2,dy=y-N/2,d=Math.hypot(dx,dy);c.save();
+    for(const a of AV.values()){const col=COLS[i++%COLS.length];if(a.hide578)continue;const x=N/2+(a.x-P.x)*s,y=N/2+(a.z-P.z)*s,dx=x-N/2,dy=y-N/2,d=Math.hypot(dx,dy);c.save();
      if(d<R0){c.beginPath();c.arc(x,y,7,0,6.283);c.fillStyle=col;c.fill();c.lineWidth=2;c.strokeStyle='#10131a';c.stroke();c.fillStyle='#10131a';c.font='bold 9px system-ui';c.textAlign='center';c.textBaseline='middle';c.fillText(String(a.name||'?').slice(0,1).toUpperCase(),x,y+.5)}
      else{const an=Math.atan2(dy,dx),ax=N/2+Math.cos(an)*R0,ay=N/2+Math.sin(an)*R0;c.translate(ax,ay);c.rotate(an);c.beginPath();c.moveTo(9,0);c.lineTo(-5,-7);c.lineTo(-5,7);c.closePath();c.fillStyle=col;c.fill()}c.restore();M.miniDraws=(M.miniDraws||0)+1}}catch(e){err('minimapa',e)}return r}}catch(e){err('minimapa',e)}
  try{const _c=cand58;cand58=function(){const r=_c.apply(this,arguments);if(dl||DRV||INSIDE58)return r;try{if(RIDE){const a=AV.get(RIDE.peer);return {label:'🚪 Bajarte del coche de '+(a?a.name:'tu amigo'),fn:rideOff}}const a=rideNear();if(a&&(!r||Math.hypot(a.car.x-P.x,a.car.z-P.z)<2.6))return {label:'🚗 Subirte de copiloto con '+a.name,fn:()=>rideOn(a)}}catch(e){err('usar',e)}return r}}catch(e){err('usar',e)}
@@ -17755,7 +17756,7 @@ try{window.MULTI553=MULTI553}catch(_){}
 /*RB553-RB553_ENLINEA-BEGIN*/
 /* RUTA BRAVA V5.53 · MODO EN LÍNEA APARTE (pedido del productor: «que sea diferente el modo historia y el modo multijugador, que todos empiecen
    con 50,000 pesos en el multijugador y tengan misiones y así, separadas»).
-   · En el menú de inicio eliges 📖 HISTORIA o 🌐 EN LÍNEA. Cada modo tiene su propia partida guardada (en línea: cascajo3d_v577o_enlinea);
+   · En el menú de inicio eliges 📖 HISTORIA o 🌐 EN LÍNEA. Cada modo tiene su propia partida guardada (en línea: cascajo3d_v578o_enlinea);
      lo que hagas en uno no toca al otro. Cambiar de modo recarga el juego.
    · En línea: empiezas con $50,000 en Nueva Brava, sin prólogo ni deuda de la historia; el 👥 (multijugador) solo está aquí.
    · Trabajos en línea (📱 Trabajos o 👥 → Trabajos): entrega exprés, cobranza, encargo de coche y la camioneta de valores. Si estás en una
@@ -20749,6 +20750,145 @@ const JU577=(()=>{
 })();
 try{window.JU577=JU577}catch(_){}
 /*RB577-RB577_JUEGOS-END*/
+/*RB578-RB578_FIESTA-BEGIN*/
+/* RUTA BRAVA V5.78 · «FIESTA» (tercer paquete de las 325 ideas del modo en línea; número = idea del documento)
+   · 47 Sumo de coches: círculo de 18 m; el que queda fuera pierde; el último adentro gana.
+   · 32 Rey del punto: zona de 10 m; gana el que pase más tiempo adentro en 2 minutos.
+   · 35 Escondidas: uno se esconde (30 s de ventaja, no sale en el minimapa ni su nombre); los demás lo buscan.
+   · 59 Arrancones: recta de 400 m desde donde estás; 3-2-1 y gana el primero en cruzar.
+   · 261 Trivia de México: 5 preguntas, 15 s cada una, gana el que más acierte.
+   · 246 Lotería mexicana: cada quien su tabla; «el gritón» canta una carta cada 4 s; gana la primera fila completa.
+   · 180 Selfie de grupo: foto del juego con el nombre de todos, para guardar o mandar.
+   Cada quien decide en SU juego (si salió del círculo, si acertó…) y avisa a los demás; el premio lo cobra cada quien en su partida. */
+const FI578=(()=>{
+ const M={errors:[],sumo:0,rey:0,hide:0,drag:0,trivia:0,lot:0,selfies:0,wins:0};
+ const err=(w,e)=>{if(M.errors.length<6)M.errors.push(w+': '+(e&&e.message||e))};
+ const X=()=>{try{return MULTI553}catch(_){return null}};const O=()=>{try{return ON576}catch(_){return null}};
+ const gh=(x,z)=>{try{return G512.h(x,z)}catch(_){return 0}};const T=t=>{try{toast(t)}catch(_){}};
+ const money=d=>{try{S.pesos=Math.max(0,Math.round((S.pesos||0)+d))}catch(_){}};
+ const myPeer=()=>{try{return X().myPeer}catch(_){return null}};const nameOf=pe=>{try{return X().nameOf(pe)}catch(_){return 'Alguien'}};
+ const ev=(k,o)=>{try{X().event(k,o)}catch(e){err('suceso',e)}};const inGame=()=>{try{return !!X().room}catch(_){return false}};
+ const myPos=()=>{try{if(DRV&&DRV.k&&DRV.k.g){const q=DRV.k.g.position;return {x:q.x,z:q.z}}}catch(_){}return {x:P.x,z:P.z}};
+ const myYaw=()=>{try{return (DRV&&DRV.k&&DRV.k.g)?DRV.k.g.rotation.y:(P.yaw||0)}catch(_){return 0}};
+ const posOf=a=>{try{if(a.car&&a.car.g){const q=a.car.g.position;return {x:q.x,z:q.z}}}catch(_){}return {x:a.x,z:a.z}};
+ const dist=(p,q)=>Math.hypot(p.x-q.x,p.z-q.z);
+ const peersAll=()=>{const L=[];try{const me=myPeer();if(me)L.push(me);for(const a of X().AV.values())L.push(a.peer)}catch(_){}return L};
+ const now=()=>performance.now()/1000;const mmss=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+ const did=()=>{try{O().did('juego')}catch(_){}};
+ let ui=null;function bar(txt){try{if(typeof document==='undefined')return;if(!ui){ui=document.createElement('div');ui.id='j578';ui.style.cssText='position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 108px);z-index:40;max-width:min(86vw,520px);padding:5px 12px;border-radius:12px;background:rgba(34,14,30,.84);color:#ffd0f0;font:600 13px/1.3 system-ui,sans-serif;text-align:center;pointer-events:none;border:1px solid #ff6ad5';document.body.appendChild(ui)}
+  ui.style.display=txt?'block':'none';if(txt&&ui.textContent!==txt)ui.textContent=txt}catch(_){}}
+ /* ventana para trivia, lotería y selfie */
+ let box=null;function card(html){try{if(typeof document==='undefined')return null;if(!box){box=document.createElement('div');box.id='o578';box.style.cssText='position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:60;width:min(92vw,520px);max-height:84vh;overflow:auto;padding:12px;border-radius:16px;background:rgba(20,16,28,.95);color:#fff;font:15px/1.35 system-ui,sans-serif;border:2px solid #e8b931;box-sizing:border-box';
+   box.addEventListener('click',e=>{const a=e.target&&e.target.dataset&&e.target.dataset.f;if(a)onBox(a,e.target)});for(const k of ['pointerdown','touchstart','mousedown'])box.addEventListener(k,e=>e.stopPropagation());document.body.appendChild(box)}
+  box.style.display=html?'block':'none';if(html&&box.__h!==html){box.__h=html;box.innerHTML=html}return box}catch(e){err('ventana',e);return null}}
+ const BTN='style="margin:4px;padding:10px 12px;border-radius:10px;border:1px solid #e8b931;background:#2a2238;color:#fff;font:600 15px system-ui;min-width:42%"';
+
+ let G=null;/* juego de zona actual: {t:'sumo'|'rey'|'drag'|'hide', id, x,z, ...} */
+ function zone(t){if(!inGame()){T('Primero entra a una partida 👥');return}if(G||TR||LO){T('Ya hay un juego');return}if(peersAll().length<2){T('Necesitas al menos un amigo');return}
+  const m=myPos(),y=myYaw();const o={t,id:Math.floor(Math.random()*1e9)};
+  if(t==='sumo'){o.x=Math.round(m.x-Math.sin(y)*22);o.z=Math.round(m.z-Math.cos(y)*22);o.r=18}
+  else if(t==='rey'){let b=null;try{b=O().BEAMS.get('yo')}catch(_){}if(b&&dist(b,m)<400){o.x=Math.round(b.x);o.z=Math.round(b.z)}else{o.x=Math.round(m.x-Math.sin(y)*40);o.z=Math.round(m.z-Math.cos(y)*40)}o.r=10}
+  else if(t==='drag'){o.x=Math.round(m.x);o.z=Math.round(m.z);o.dx=-Math.sin(y);o.dz=-Math.cos(y)}
+  else if(t==='hide'){const ps=peersAll();o.it=ps[Math.floor(Math.random()*ps.length)]}
+  ev('zona578',o);begin(o,myPeer());try{X().open(false)}catch(_){}}
+ function begin(o,by){try{const me=myPeer();G=Object.assign({},o,{by,t0:now(),out:new Set(),tin:0,won:false});did();
+  const on=O();
+  if(o.t==='sumo'){M.sumo++;G.start=now()+10;G.end=G.start+180;try{on.beam('z578',o.x,o.z,0xff6ad5,'🤼 SUMO',200)}catch(_){}T('🤼 Sumo: métanse al círculo rosa en 10 s; el que quede fuera pierde')}
+  else if(o.t==='rey'){M.rey++;G.start=now()+5;G.end=G.start+120;try{on.beam('z578',o.x,o.z,0xffd23f,'👑 REY',130)}catch(_){}T('👑 Rey del punto: quédate en la columna dorada el mayor tiempo')}
+  else if(o.t==='drag'){M.drag++;G.start=now()+4;G.end=G.start+90;try{on.beam('z578',o.x+o.dx*400,o.z+o.dz*400,0x7dff6a,'🏁 400 m',100)}catch(_){}T('🏎️ Arrancones: 400 m en línea recta hacia la columna verde')}
+  else if(o.t==='hide'){M.hide++;G.start=now()+30;G.end=G.start+180;T(o.it===me?'🙈 ¡Te toca esconderte! Tienes 30 s; no sales en su minimapa':'🔎 '+nameOf(o.it)+' se esconde: en 30 s empiezas a buscar')}}catch(e){err('zona',e)}}
+ function end(msg){if(!G)return;try{O().unbeam('z578')}catch(_){}G=null;bar('');if(msg)T(msg)}
+ function zoneTick(dt){if(!G)return;const t=now(),me=myPeer(),m=myPos(),AV=X().AV;const L=Math.max(0,G.end-t);
+  if(G.t==='sumo'){if(t<G.start){bar('🤼 Sumo en '+Math.ceil(G.start-t)+' s: ¡métete al círculo!');return}
+   if(!G.joined){G.joined=true;G.alive=new Set(peersAll());if(dist(m,G)>G.r){G.alive.delete(me);G.out.add(me);ev('fuera578',{id:G.id})}}
+   if(!G.out.has(me)&&dist(m,G)>G.r){G.out.add(me);ev('fuera578',{id:G.id});T('🤼 ¡Te sacaron del círculo!')}
+   const live=peersAll().filter(p=>!G.out.has(p));bar('🤼 SUMO · '+mmss(L)+' · quedan '+live.length+(G.out.has(me)?' · estás fuera':''));
+   if(live.length<=1||L<=0){if(live.length===1&&live[0]===me){money(400);M.wins++;end('🏆 ¡Ganaste el sumo! +$400')}else end(live.length===1?'🤼 Ganó el sumo '+nameOf(live[0]):'🤼 Se acabó el tiempo: empate')}return}
+  if(G.t==='rey'){if(t<G.start){bar('👑 Empieza en '+Math.ceil(G.start-t)+' s');return}if(dist(m,G)<=G.r)G.tin+=dt;
+   let best=me,bt=G.tin;for(const a of AV.values()){const v=a.rey578&&a.rey578.id===G.id?a.rey578.s:0;if(v>bt){bt=v;best=a.peer}}
+   bar('👑 REY · '+mmss(L)+' · tú '+Math.round(G.tin)+' s · va ganando '+(best===me?'TÚ':nameOf(best))+' ('+Math.round(bt)+' s)');
+   if(L<=0){if(best===me&&G.tin>0){money(300);M.wins++;end('👑 ¡Eres el rey del punto! +$300')}else end('👑 Rey del punto: '+nameOf(best))}return}
+  if(G.t==='drag'){if(t<G.start){bar('🏎️ '+Math.ceil(G.start-t)+'…');return}const d=(m.x-G.x)*G.dx+(m.z-G.z)*G.dz;
+   bar('🏎️ ¡ARRANCA! '+Math.max(0,Math.round(400-d))+' m');if(d>=400&&!G.won){G.won=true;money(300);M.wins++;ev('gane578',{id:G.id});end('🏁 ¡Ganaste el arrancón! +$300 ('+(t-G.start).toFixed(1)+' s)')}else if(L<=0)end('⏱️ Nadie llegó');return}
+  if(G.t==='hide'){const hider=G.it===me;const a=AV.get(G.it);if(a)a.hide578=true;try{if(a&&a.lab)a.lab.visible=false}catch(_){}
+   if(t<G.start){bar(hider?'🙈 ¡Escóndete! '+Math.ceil(G.start-t)+' s':'🔎 Cuenta… '+Math.ceil(G.start-t)+' s');return}
+   if(hider){bar('🙈 Escondido · '+mmss(L));if(L<=0){money(400);M.wins++;endHide('🙈 ¡No te encontraron! +$400')}}
+   else{if(!a){endHide('');return}const d=dist(m,posOf(a));const hint=d<15?'🔥 ¡quemándote!':d<40?'🌡️ caliente':d<90?'🙂 tibio':'🧊 frío';bar('🔎 Busca a '+a.name+' · '+mmss(L)+' · '+hint);
+    if(d<4&&!G.won){G.won=true;money(300);M.wins++;ev('hallado578',{id:G.id});endHide('🔎 ¡Encontraste a '+a.name+'! +$300')}else if(L<=0)endHide('🙈 '+a.name+' ganó: nadie lo encontró')}}}
+ function endHide(msg){try{for(const a of X().AV.values()){a.hide578=false;if(a.lab)a.lab.visible=true}}catch(_){}end(msg)}
+
+ /* ---------- 261 trivia ---------- */
+ const Q=[['¿Capital de Jalisco?','Guadalajara','Monterrey','Puebla','Morelia'],['¿En qué año empezó la Independencia de México?','1810','1910','1821','1857'],['¿Qué se celebra el 2 de noviembre?','Día de Muertos','Independencia','Revolución','Navidad'],
+  ['¿Volcán más alto de México?','Pico de Orizaba','Popocatépetl','Iztaccíhuatl','Nevado de Toluca'],['¿De qué estado es el mole poblano?','Puebla','Oaxaca','Yucatán','Sonora'],['¿Qué animal está en la bandera?','Águila','Jaguar','Serpiente sola','Coyote'],
+  ['¿Moneda de México?','Peso','Real','Dólar','Colón'],['¿Península del sureste?','Yucatán','Baja California','Florida','Paria'],['¿Bebida que se hace del agave azul?','Tequila','Pulque','Tepache','Horchata'],
+  ['¿Cuántos estados tiene México (sin la capital)?','31','32','30','29'],['¿Ciudad conocida como «La Sultana del Norte»?','Monterrey','Saltillo','Chihuahua','Torreón'],['¿Río que hace frontera con EE. UU.?','Río Bravo','Río Lerma','Usumacinta','Balsas'],
+  ['¿Pintora famosa por sus autorretratos?','Frida Kahlo','Remedios Varo','María Izquierdo','Leonora Carrington'],['¿Dónde está Chichén Itzá?','Yucatán','Chiapas','Campeche','Quintana Roo'],['¿Qué se rompe en las posadas?','Piñata','Rosca','Olla','Tamal'],
+  ['¿Ingrediente base de la tortilla?','Maíz','Arroz','Papa','Avena'],['¿Fiesta del 16 de septiembre?','Independencia','Revolución','Constitución','Batalla de Puebla'],['¿Qué es el «Popo»?','Un volcán','Un río','Un platillo','Un baile'],
+  ['¿Música de Veracruz con arpa y jarana?','Son jarocho','Norteño','Banda','Huapango'],['¿Qué trae la Rosca de Reyes adentro?','Un muñequito','Una moneda','Un anillo','Nada']];
+ let TR=null;/* {id, qs, t0, i, ans:{}, score} */
+ function triviaStart(){if(!inGame()){T('Primero entra a una partida 👥');return}if(G||TR||LO){T('Ya hay un juego');return}const idx=[...Q.keys()].sort(()=>Math.random()-.5).slice(0,5);
+  const o={id:Math.floor(Math.random()*1e9),qs:idx};ev('trivia578',o);triviaBegin(o,myPeer());try{X().open(false)}catch(_){}}
+ function triviaBegin(o,by){M.trivia++;did();TR={id:o.id,qs:(o.qs||[]).filter(i=>Q[i]),t0:now()+3,i:-1,ans:{},score:0,shuffle:{}};T('🧠 Trivia de México: 5 preguntas, 15 s cada una')}
+ function triviaTick(){if(!TR)return;const t=now()-TR.t0;if(t<0){card('<p style="text-align:center;font-size:20px">🧠 Trivia en '+Math.ceil(-t)+'…</p>');return}
+  const i=Math.floor(t/15);if(i>=TR.qs.length){triviaEnd();return}
+  const q=Q[TR.qs[i]];if(!TR.shuffle[i])TR.shuffle[i]=[1,2,3,4].sort(()=>Math.random()-.5);const a=TR.ans[i];
+  let h='<p style="margin:0 0 6px;color:#ffe9a8">🧠 Pregunta '+(i+1)+'/'+TR.qs.length+' · '+Math.ceil(15-(t%15))+' s · llevas '+TR.score+'</p><p style="font-size:18px;margin:4px 0 8px"><b>'+q[0]+'</b></p><div>';
+  for(const k of TR.shuffle[i])h+='<button data-f="t'+i+':'+k+'" '+BTN+(a!==undefined?' disabled':'')+'>'+(a===k?(k===1?'✅ ':'❌ '):(a!==undefined&&k===1?'✅ ':''))+q[k]+'</button>';h+='</div>';card(h)}
+ function triviaEnd(){const tr=TR;TR=null;let best=myPeer(),bs=tr.score;try{for(const a of X().AV.values()){const v=a.tri578&&a.tri578.id===tr.id?a.tri578.s:0;if(v>bs){bs=v;best=a.peer}}}catch(_){}
+  card('');if(best===myPeer()&&tr.score>0){money(300);M.wins++;T('🧠 ¡Ganaste la trivia con '+tr.score+'! +$300')}else T('🧠 Trivia: ganó '+nameOf(best)+' ('+bs+') · tú '+tr.score)}
+
+ /* ---------- 246 lotería ---------- */
+ const CARTAS=['El Gallo','El Diablito','La Dama','El Catrín','El Paraguas','La Sirena','La Escalera','La Botella','El Barril','El Árbol','El Melón','El Valiente','El Gorrito','La Muerte','La Pera','La Bandera','El Bandolón','El Violoncello','La Garza','El Pájaro','La Mano','La Bota','La Luna','El Cotorro','El Borracho','El Negrito','El Corazón','La Sandía','El Tambor','El Camarón','Las Jaras','El Músico','La Araña','El Soldado','La Estrella','El Cazo','El Mundo','El Apache','El Nopal','El Alacrán','La Rosa','La Calavera','La Campana','El Cantarito','El Venado','El Sol','La Corona','La Chalupa','El Pino','El Pescado','La Palma','La Maceta','El Arpa','La Rana'];
+ const rng=s=>()=>{s=(s*1103515245+12345)>>>0;return s/4294967296};
+ let LO=null;/* {id, seed, t0, deck, tabla, marks} */
+ function loteriaStart(){if(!inGame()){T('Primero entra a una partida 👥');return}if(G||TR||LO){T('Ya hay un juego');return}const o={id:Math.floor(Math.random()*1e9),seed:Math.floor(Math.random()*1e9)};ev('loteria578',o);loteriaBegin(o,myPeer());try{X().open(false)}catch(_){}}
+ function loteriaBegin(o){M.lot++;did();const r=rng(o.seed);const deck=[...CARTAS.keys()];for(let i=deck.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}
+  let h=0;for(const c of String(myPeer()||'yo'))h=(h*31+c.charCodeAt(0))>>>0;const r2=rng(h^o.seed);const pool=[...CARTAS.keys()];const tabla=[];while(tabla.length<16){tabla.push(pool.splice(Math.floor(r2()*pool.length),1)[0])}
+  LO={id:o.id,t0:now()+3,deck,tabla,marks:new Set(),done:false};T('🎴 Lotería: marca tus cartas cuando las canten; llena una fila y grita ¡LOTERÍA!')}
+ const sung=()=>LO?Math.max(0,Math.min(LO.deck.length,Math.floor((now()-LO.t0)/4)+1)):0;
+ function loteriaTick(){if(!LO)return;const n=sung();if(now()<LO.t0){card('<p style="text-align:center;font-size:20px">🎴 Lotería en '+Math.ceil(LO.t0-now())+'…</p>');return}
+  const cur=LO.deck[n-1];let h='<p style="margin:0 0 6px;color:#ffe9a8">🎴 Cantó: <b style="font-size:20px">'+CARTAS[cur]+'</b> · carta '+n+'/'+LO.deck.length+'</p><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px">';
+  LO.tabla.forEach((c,i)=>{const mk=LO.marks.has(i);h+='<button data-f="l'+i+'" style="padding:8px 2px;border-radius:8px;border:1px solid #e8b931;background:'+(mk?'#7a1e3a':'#2a2238')+';color:#fff;font:600 12px system-ui;min-height:44px">'+(mk?'🫘 ':'')+CARTAS[c]+'</button>'});
+  h+='</div><div style="text-align:center"><button data-f=lgo '+BTN+'>🎉 ¡LOTERÍA!</button><button data-f=lsal '+BTN+'>Salir</button></div>';card(h);
+  if(n>=LO.deck.length&&now()-LO.t0>LO.deck.length*4+8)loteriaEnd('🎴 Se acabaron las cartas')}
+ function loteriaWin(){/* una fila completa, con cartas que ya cantaron */const c=new Set(LO.deck.slice(0,sung()));for(let r=0;r<4;r++){let ok=true;for(let k=0;k<4;k++){const i=r*4+k;if(!LO.marks.has(i)||!c.has(LO.tabla[i]))ok=false}if(ok)return true}return false}
+ function loteriaEnd(msg){LO=null;card('');if(msg)T(msg)}
+
+ /* ---------- 180 selfie de grupo ---------- */
+ function selfie(){try{M.selfies++;R.render(sc,cam);const src=R.domElement;const w=Math.min(1280,src.width),h=Math.round(src.height*w/src.width);const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.drawImage(src,0,0,w,h);
+   const names=[X().state().name].concat([...X().AV.values()].map(a=>a.name));x.fillStyle='rgba(20,16,28,.72)';x.fillRect(0,h-54,w,54);x.fillStyle='#e8b931';x.font='bold 22px system-ui';x.fillText('RUTA BRAVA',14,h-30);x.fillStyle='#fff';x.font='16px system-ui';x.fillText(names.join(' · ').slice(0,90),14,h-10);
+   const url=c.toDataURL('image/jpeg',.88);card('<p style="margin:0 0 6px">📸 Selfie de grupo · déjala apretada para guardarla</p><img src="'+url+'" style="width:100%;border-radius:10px"><div style="text-align:center"><button data-f=sshare '+BTN+'>📲 Mandar</button><button data-f=scerrar '+BTN+'>Cerrar</button></div>');
+   SELF=url;try{O().did('juego')}catch(_){}}catch(e){err('selfie',e);T('No se pudo tomar la foto')}}
+ let SELF=null;
+ async function shareSelfie(){try{const b=await (await fetch(SELF)).blob();const f=new File([b],'ruta_brava.jpg',{type:'image/jpeg'});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Ruta Brava'});return}}catch(_){}T('Déjala apretada para guardarla')}
+ function onBox(a){try{if(a[0]==='t'&&TR){const [i,k]=a.slice(1).split(':').map(Number);const ti=Math.floor((now()-TR.t0)/15);if(i!==ti||TR.ans[i]!==undefined)return;TR.ans[i]=k;if(k===1)TR.score++;X().sendNow(false);TR.__h=null}
+   else if(a[0]==='l'&&LO){if(a==='lgo'){if(loteriaWin()&&!LO.done){LO.done=true;money(400);M.wins++;ev('loteria_ok578',{id:LO.id});loteriaEnd('🎉 ¡LOTERÍA! Ganaste +$400')}else T('🎴 Todavía no: necesitas una fila completa con cartas que ya cantaron')}
+    else if(a==='lsal')loteriaEnd('');else{const i=+a.slice(1);if(LO.marks.has(i))LO.marks.delete(i);else LO.marks.add(i)}}
+   else if(a==='sshare')shareSelfie();else if(a==='scerrar')card('')}catch(e){err('ventana',e)}}
+
+ /* ---------- enganche ---------- */
+ function onEv(a,e){if(!e||typeof e.k!=='string'||!e.k.endsWith('578'))return;
+  if(e.k==='zona578'){if(!G&&!TR&&!LO)begin(e,a.peer)}
+  else if(e.k==='fuera578'&&G&&G.id===e.id){G.out.add(a.peer);T('🤼 '+a.name+' quedó fuera')}
+  else if(e.k==='gane578'&&G&&G.id===e.id&&!G.won)end('🏁 Ganó '+a.name)
+  else if(e.k==='hallado578'&&G&&G.id===e.id&&!G.won)endHide('🔎 '+a.name+' encontró a '+nameOf(G.it))
+  else if(e.k==='trivia578'&&!TR&&!G&&!LO)triviaBegin(e,a.peer)
+  else if(e.k==='loteria578'&&!LO&&!G&&!TR)loteriaBegin(e,a.peer)
+  else if(e.k==='loteria_ok578'&&LO&&LO.id===e.id)loteriaEnd('🎴 ¡'+a.name+' gritó LOTERÍA!')}
+ function onUpd(a,pr){a.rey578=pr.rey578||null;a.tri578=pr.tri578||null}
+ function onPack(o){if(G&&G.t==='rey')o.rey578={id:G.id,s:Math.round(G.tin)};if(TR)o.tri578={id:TR.id,s:TR.score}}
+ function panel(){return '<p class=s>Más juegos:</p><div class=r><button class=y data-a=f578sumo>🤼 Sumo</button><button class=y data-a=f578rey>👑 Rey del punto</button><button class=y data-a=f578hide>🙈 Escondidas</button><button class=y data-a=f578drag>🏎️ Arrancones</button><button class=y data-a=f578tri>🧠 Trivia</button><button class=y data-a=f578lot>🎴 Lotería</button><button data-a=f578self>📸 Selfie de grupo</button>'+(G||TR||LO?'<button data-a=f578fin>⏹️ Terminar juego</button>':'')+'</div>'}
+ function click(a){if(!a.startsWith('f578'))return false;const k=a.slice(4);
+  if(k==='sumo'||k==='rey'||k==='hide'||k==='drag')zone(k);else if(k==='tri')triviaStart();else if(k==='lot')loteriaStart();else if(k==='self'){try{X().open(false)}catch(_){}selfie()}
+  else if(k==='fin'){if(G)(G.t==='hide'?endHide:end)('⏹️ Juego terminado');if(TR){TR=null;card('')}if(LO)loteriaEnd('⏹️ Lotería terminada')}return true}
+ function tick(dt){try{zoneTick(dt);triviaTick();loteriaTick()}catch(e){err('cuadro',e)}}
+ let hooked=false;function hook(){if(hooked)return;const x=X();if(!x||!x.EXT)return;hooked=true;x.EXT.ev.push(onEv);x.EXT.upd.push(onUpd);x.EXT.pack.push(onPack);x.EXT.panel.push(panel);x.EXT.click.push(click);x.EXT.tick.push(tick)}
+ hook();
+ if(typeof setInterval==='function')setInterval(()=>{try{hook();if(!inGame()){if(G)endHide('');if(TR){TR=null;card('')}if(LO)loteriaEnd('')}}catch(_){}},1500);
+ return {M,zone,begin,end,triviaStart,triviaBegin,loteriaStart,loteriaBegin,loteriaWin,onBox,selfie,Q,CARTAS,get g(){return G},get tr(){return TR},get lo(){return LO},sung};
+})();
+try{window.FI578=FI578}catch(_){}
+/*RB578-RB578_FIESTA-END*/
 setMk();upd();loop(0);window.__cascajoBootOk=true;
 </script>
 
