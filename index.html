@@ -8,7 +8,7 @@
 <link rel="manifest" href="manifest.json">
 <title>Ruta Brava</title>
 </head><body>
-<title>RUTA BRAVA · La Deuda V5.82 (pública)</title>
+<title>RUTA BRAVA · La Deuda V5.83 (pública)</title>
 <style>
 :root{--tinta:#1d1420;--cobalto:#1f4e9c;--mostaza:#e8b83a;--hueso:#f5ead6}
 html,body{margin:0;height:100%;overflow:hidden;background:var(--tinta);font-family:Rockwell,"Roboto Slab",Georgia,serif;color:var(--hueso)}
@@ -130,7 +130,7 @@ html,body{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-to
 #rb531-next{width:max-content!important;max-width:min(42vw,300px);box-sizing:border-box;font-size:11px!important}
 </style>
 <div id="v"></div><div id="hud"></div><div id="mis"></div><div id="cx"></div><div id="pr"></div><div id="ts"></div><div id="vel"></div><div id="dlg"></div>
-<button id="rbmenu" type="button" aria-label="Rutas y comercio">☷ RUTAS</button><div id="rbgps" aria-live="polite">🛣 Villa Cascajo · Carretera principal</div><div id="ini"><div><h1>RUTA BRAVA · La Deuda V5.82 (pública)</h1>
+<button id="rbmenu" type="button" aria-label="Rutas y comercio">☷ RUTAS</button><div id="rbgps" aria-live="polite">🛣 Villa Cascajo · Carretera principal</div><div id="ini"><div><h1>RUTA BRAVA · La Deuda V5.83 (pública)</h1>
 <p>Empiezas en Nueva Brava. Tu papá te pide un garrafón. Lo que pasa después lo cambia todo.</p><p>Conduce por carretera, compra barato en un pueblo y vende caro en otro. Trabaja de trailero, compra autos con factura y sobrevive a los peligros del camino. Sandbox mexicano sin historia obligatoria.</p>
 <p>WASD: mover/conducir · Ratón: mirar · E: interactuar · V: cámara · Q: arma · R: recargar · I: inventario.</p>
 <p><b>Toca o haz clic para jugar</b></p><p>En iPhone: gira el móvil, utiliza los controles discretos de los bordes. Toca RUTAS para elegir destino GPS, consultar ganancias comerciales, contratos y concesionaria. El mercado de Villa Cascajo queda hacia el este junto a la carretera.</p>
@@ -187,12 +187,13 @@ body.add(mk(new THREE.CylinderGeometry(.3,.3,1.1,12),0x1f4e9c,.75),mk(new THREE.
 const NPC=[{n:'Doña Chela',x:8,z:-8,c:0xd6336c,id:'chela'},{n:'Don Rigo',x:17,z:13.5,c:0x2b2b33,id:'rigo'},{n:'Lic. Paty',x:-4,z:10,c:0x2f9e8f,id:'paty'}];
 
 var WALKMUL510=1,STEERMUL510=1;/* V5.10: multiplicadores de la vida (1 = idéntico a V5.9) */
-const RBON553=(()=>{try{return localStorage.getItem('rb553_modo')==='enlinea'}catch(_){return false}})();const RB_KEY59=RBON553?'cascajo3d_v582o_enlinea':'cascajo3d_v582o',RB_KEYV511='cascajo3d_v511',RB_KEYV510='cascajo3d_v510',RB_KEYV59='cascajo3d_v59',RB_KEYMAIN59='cascajo3d',RB_KEYBAK59=(RBON553?'cascajo3d_v582o_enlinea_bak':'cascajo3d_v582o_bak'),RB_KEYBOOT59=(RBON553?'cascajo3d_v582o_enlinea_boot':'cascajo3d_v582o_boot'),RB_KEYBAD59=(RBON553?'cascajo3d_v582o_enlinea_corrupto':'cascajo3d_v582o_corrupto');
+const RBON553=(()=>{try{return localStorage.getItem('rb553_modo')==='enlinea'}catch(_){return false}})();const RB_KEY59=RBON553?'cascajo3d_v583o_enlinea':'cascajo3d_v583o',RB_KEYV511='cascajo3d_v511',RB_KEYV510='cascajo3d_v510',RB_KEYV59='cascajo3d_v59',RB_KEYMAIN59='cascajo3d',RB_KEYBAK59=(RBON553?'cascajo3d_v583o_enlinea_bak':'cascajo3d_v583o_bak'),RB_KEYBOOT59=(RBON553?'cascajo3d_v583o_enlinea_boot':'cascajo3d_v583o_boot'),RB_KEYBAD59=(RBON553?'cascajo3d_v583o_enlinea_corrupto':'cascajo3d_v583o_corrupto');
 /* V5.12: guardado INDEPENDIENTE (cascajo3d_v512). Si no existe, se abre una COPIA en memoria de la V5.10 y, si tampoco, de la V5.9 (status 'migrada'); esas claves NUNCA se escriben ni se borran. */
-const LOAD59=(function(){let raw=null,prev581=null,prev580=null,prev579=null,prev578=null,prev577=null,prev576=null,prev575=null,prev574=null,prev573=null,prev572=null,prev571=null,prev570=null,prev569=null,prev568=null,prev567=null,prev566=null,prev565=null,prev564=null,prev563=null,prev562=null,prev561=null,prev560=null,prev559=null,prev558=null,prev557=null,prev556=null,prev555=null,prev554=null,prev553=null,prev552=null,prev551=null,prev550=null,prev549=null,prev548=null,prev547=null,prev546=null,prev545=null,prev544=null,prev543=null,prev542=null,prev541=null,prev540=null,prev539=null,prev538=null,prev537=null,prev536c=null,prev536o=null,prev535o=null,prev534o=null,prev533o=null,prev532o=null,prev531o=null,prev524o=null,prev523o=null,prev522o=null,prev521o=null,prev520o=null,prev531x=null,prev528c=null,prev527c=null,prev5261c=null,prev524c=null,prev523c=null,prev522c=null,prev521c=null,prev520c=null,prev519o=null,prev517=null,prev519c=null,prev518c=null,prev516=null,prev5152=null,prev515=null,prev513=null,prev5121=null,prev512=null,main=null,old=null,v10=null,v11=null,status='nueva',src=null;try{raw=localStorage.getItem(RB_KEY59)}catch(e){}try{prev581=localStorage.getItem(RBON553?'cascajo3d_v581o_enlinea':'cascajo3d_v581o')}catch(e){}try{prev580=localStorage.getItem(RBON553?'cascajo3d_v580o_enlinea':'cascajo3d_v580o')}catch(e){}try{prev579=localStorage.getItem(RBON553?'cascajo3d_v579o_enlinea':'cascajo3d_v579o')}catch(e){}try{prev578=localStorage.getItem(RBON553?'cascajo3d_v578o_enlinea':'cascajo3d_v578o')}catch(e){}try{prev577=localStorage.getItem(RBON553?'cascajo3d_v577o_enlinea':'cascajo3d_v577o')}catch(e){}try{prev576=localStorage.getItem(RBON553?'cascajo3d_v576o_enlinea':'cascajo3d_v576o')}catch(e){}try{prev575=localStorage.getItem(RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o')}catch(e){}try{prev574=localStorage.getItem(RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o')}catch(e){}try{prev573=localStorage.getItem(RBON553?'cascajo3d_v573o_enlinea':'cascajo3d_v573o')}catch(e){}try{prev572=localStorage.getItem(RBON553?'cascajo3d_v572o_enlinea':'cascajo3d_v572o')}catch(e){}try{prev571=localStorage.getItem(RBON553?'cascajo3d_v571o_enlinea':'cascajo3d_v571o')}catch(e){}try{prev570=localStorage.getItem(RBON553?'cascajo3d_v570o_enlinea':'cascajo3d_v570o')}catch(e){}try{prev569=localStorage.getItem(RBON553?'cascajo3d_v569o_enlinea':'cascajo3d_v569o')}catch(e){}try{prev568=localStorage.getItem(RBON553?'cascajo3d_v568o_enlinea':'cascajo3d_v568o')}catch(e){}try{prev567=localStorage.getItem(RBON553?'cascajo3d_v567o_enlinea':'cascajo3d_v567o')}catch(e){}try{prev566=localStorage.getItem(RBON553?'cascajo3d_v566o_enlinea':'cascajo3d_v566o')}catch(e){}try{prev565=localStorage.getItem(RBON553?'cascajo3d_v565o_enlinea':'cascajo3d_v565o')}catch(e){}try{prev564=localStorage.getItem(RBON553?'cascajo3d_v564o_enlinea':'cascajo3d_v564o')}catch(e){}try{prev563=localStorage.getItem(RBON553?'cascajo3d_v563o_enlinea':'cascajo3d_v563o')}catch(e){}try{prev562=localStorage.getItem(RBON553?'cascajo3d_v562o_enlinea':'cascajo3d_v562o')}catch(e){}try{prev561=localStorage.getItem(RBON553?'cascajo3d_v561o_enlinea':'cascajo3d_v561o')}catch(e){}try{prev560=localStorage.getItem(RBON553?'cascajo3d_v560o_enlinea':'cascajo3d_v560o')}catch(e){}try{prev559=localStorage.getItem(RBON553?'cascajo3d_v559o_enlinea':'cascajo3d_v559o')}catch(e){}try{prev558=localStorage.getItem(RBON553?'cascajo3d_v558o_enlinea':'cascajo3d_v558o')}catch(e){}try{prev557=localStorage.getItem(RBON553?'cascajo3d_v557o_enlinea':'cascajo3d_v557o')}catch(e){}try{prev556=localStorage.getItem(RBON553?'cascajo3d_v556o_enlinea':'cascajo3d_v556o')}catch(e){}try{prev555=localStorage.getItem(RBON553?'cascajo3d_v555o_enlinea':'cascajo3d_v555o')}catch(e){}try{prev554=localStorage.getItem(RBON553?'cascajo3d_v554o_enlinea':'cascajo3d_v554o')}catch(e){}try{prev553=localStorage.getItem(RBON553?'cascajo3d_v553o_enlinea':'cascajo3d_v553o')}catch(e){}try{prev552=localStorage.getItem('cascajo3d_v552o')}catch(e){}try{prev551=localStorage.getItem('cascajo3d_v551o')}catch(e){}try{prev550=localStorage.getItem('cascajo3d_v550o')}catch(e){}try{prev549=localStorage.getItem('cascajo3d_v549o')}catch(e){}try{prev548=localStorage.getItem('cascajo3d_v548o')}catch(e){}try{prev547=localStorage.getItem('cascajo3d_v547o')}catch(e){}try{prev546=localStorage.getItem('cascajo3d_v546o')}catch(e){}try{prev545=localStorage.getItem('cascajo3d_v545o')}catch(e){}try{prev544=localStorage.getItem('cascajo3d_v544o')}catch(e){}try{prev543=localStorage.getItem('cascajo3d_v543o')}catch(e){}try{prev542=localStorage.getItem('cascajo3d_v542o')}catch(e){}try{prev541=localStorage.getItem('cascajo3d_v541o')}catch(e){}try{prev540=localStorage.getItem('cascajo3d_v540o')}catch(e){}try{prev539=localStorage.getItem('cascajo3d_v539o')}catch(e){}try{prev538=localStorage.getItem('cascajo3d_v538o')}catch(e){}try{prev537=localStorage.getItem('cascajo3d_v537o')}catch(e){}try{prev536c=localStorage.getItem('cascajo3d_v536criminal')}catch(e){}try{prev536o=localStorage.getItem('cascajo3d_v536o')}catch(e){}try{prev535o=localStorage.getItem('cascajo3d_v535o')}catch(e){}try{prev534o=localStorage.getItem('cascajo3d_v534o')}catch(e){}try{prev533o=localStorage.getItem('cascajo3d_v533o')}catch(e){}try{prev532o=localStorage.getItem('cascajo3d_v532o')}catch(e){}try{prev531o=localStorage.getItem('cascajo3d_v531o')}catch(e){}try{prev524o=localStorage.getItem('cascajo3d_v524o')}catch(e){}try{prev523o=localStorage.getItem('cascajo3d_v523o')}catch(e){}try{prev522o=localStorage.getItem('cascajo3d_v522o')}catch(e){}try{prev521o=localStorage.getItem('cascajo3d_v521o')}catch(e){}try{prev520o=localStorage.getItem('cascajo3d_v520o')}catch(e){}try{prev519o=localStorage.getItem('cascajo3d_v519o')}catch(e){}try{prev517=localStorage.getItem('cascajo3d_v517')}catch(e){}try{prev531x=localStorage.getItem('cascajo3d_v531x')}catch(e){}try{prev528c=localStorage.getItem('cascajo3d_v528')}catch(e){}try{prev527c=localStorage.getItem('cascajo3d_v527')}catch(e){}try{prev5261c=localStorage.getItem('cascajo3d_v5261')}catch(e){}try{prev524c=localStorage.getItem('cascajo3d_v524')}catch(e){}try{prev523c=localStorage.getItem('cascajo3d_v523')}catch(e){}try{prev522c=localStorage.getItem('cascajo3d_v522')}catch(e){}try{prev521c=localStorage.getItem('cascajo3d_v521')}catch(e){}try{prev520c=localStorage.getItem('cascajo3d_v520')}catch(e){}try{prev519c=localStorage.getItem('cascajo3d_v519')}catch(e){}try{prev518c=localStorage.getItem('cascajo3d_v518')}catch(e){}try{prev516=localStorage.getItem('cascajo3d_v516')}catch(e){}try{prev5152=localStorage.getItem('cascajo3d_v5152')}catch(e){}try{prev515=localStorage.getItem('cascajo3d_v515')}catch(e){}try{prev513=localStorage.getItem('cascajo3d_v513')}catch(e){}try{prev5121=localStorage.getItem('cascajo3d_v5121')}catch(e){}try{prev512=localStorage.getItem('cascajo3d_v512')}catch(e){}try{main=localStorage.getItem(RB_KEYMAIN59)}catch(e){}try{old=localStorage.getItem(RB_KEYV59)}catch(e){}try{v10=localStorage.getItem(RB_KEYV510)}catch(e){}try{v11=localStorage.getItem(RB_KEYV511)}catch(e){}
+const LOAD59=(function(){let raw=null,prev582=null,prev581=null,prev580=null,prev579=null,prev578=null,prev577=null,prev576=null,prev575=null,prev574=null,prev573=null,prev572=null,prev571=null,prev570=null,prev569=null,prev568=null,prev567=null,prev566=null,prev565=null,prev564=null,prev563=null,prev562=null,prev561=null,prev560=null,prev559=null,prev558=null,prev557=null,prev556=null,prev555=null,prev554=null,prev553=null,prev552=null,prev551=null,prev550=null,prev549=null,prev548=null,prev547=null,prev546=null,prev545=null,prev544=null,prev543=null,prev542=null,prev541=null,prev540=null,prev539=null,prev538=null,prev537=null,prev536c=null,prev536o=null,prev535o=null,prev534o=null,prev533o=null,prev532o=null,prev531o=null,prev524o=null,prev523o=null,prev522o=null,prev521o=null,prev520o=null,prev531x=null,prev528c=null,prev527c=null,prev5261c=null,prev524c=null,prev523c=null,prev522c=null,prev521c=null,prev520c=null,prev519o=null,prev517=null,prev519c=null,prev518c=null,prev516=null,prev5152=null,prev515=null,prev513=null,prev5121=null,prev512=null,main=null,old=null,v10=null,v11=null,status='nueva',src=null;try{raw=localStorage.getItem(RB_KEY59)}catch(e){}try{prev582=localStorage.getItem(RBON553?'cascajo3d_v582o_enlinea':'cascajo3d_v582o')}catch(e){}try{prev581=localStorage.getItem(RBON553?'cascajo3d_v581o_enlinea':'cascajo3d_v581o')}catch(e){}try{prev580=localStorage.getItem(RBON553?'cascajo3d_v580o_enlinea':'cascajo3d_v580o')}catch(e){}try{prev579=localStorage.getItem(RBON553?'cascajo3d_v579o_enlinea':'cascajo3d_v579o')}catch(e){}try{prev578=localStorage.getItem(RBON553?'cascajo3d_v578o_enlinea':'cascajo3d_v578o')}catch(e){}try{prev577=localStorage.getItem(RBON553?'cascajo3d_v577o_enlinea':'cascajo3d_v577o')}catch(e){}try{prev576=localStorage.getItem(RBON553?'cascajo3d_v576o_enlinea':'cascajo3d_v576o')}catch(e){}try{prev575=localStorage.getItem(RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o')}catch(e){}try{prev574=localStorage.getItem(RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o')}catch(e){}try{prev573=localStorage.getItem(RBON553?'cascajo3d_v573o_enlinea':'cascajo3d_v573o')}catch(e){}try{prev572=localStorage.getItem(RBON553?'cascajo3d_v572o_enlinea':'cascajo3d_v572o')}catch(e){}try{prev571=localStorage.getItem(RBON553?'cascajo3d_v571o_enlinea':'cascajo3d_v571o')}catch(e){}try{prev570=localStorage.getItem(RBON553?'cascajo3d_v570o_enlinea':'cascajo3d_v570o')}catch(e){}try{prev569=localStorage.getItem(RBON553?'cascajo3d_v569o_enlinea':'cascajo3d_v569o')}catch(e){}try{prev568=localStorage.getItem(RBON553?'cascajo3d_v568o_enlinea':'cascajo3d_v568o')}catch(e){}try{prev567=localStorage.getItem(RBON553?'cascajo3d_v567o_enlinea':'cascajo3d_v567o')}catch(e){}try{prev566=localStorage.getItem(RBON553?'cascajo3d_v566o_enlinea':'cascajo3d_v566o')}catch(e){}try{prev565=localStorage.getItem(RBON553?'cascajo3d_v565o_enlinea':'cascajo3d_v565o')}catch(e){}try{prev564=localStorage.getItem(RBON553?'cascajo3d_v564o_enlinea':'cascajo3d_v564o')}catch(e){}try{prev563=localStorage.getItem(RBON553?'cascajo3d_v563o_enlinea':'cascajo3d_v563o')}catch(e){}try{prev562=localStorage.getItem(RBON553?'cascajo3d_v562o_enlinea':'cascajo3d_v562o')}catch(e){}try{prev561=localStorage.getItem(RBON553?'cascajo3d_v561o_enlinea':'cascajo3d_v561o')}catch(e){}try{prev560=localStorage.getItem(RBON553?'cascajo3d_v560o_enlinea':'cascajo3d_v560o')}catch(e){}try{prev559=localStorage.getItem(RBON553?'cascajo3d_v559o_enlinea':'cascajo3d_v559o')}catch(e){}try{prev558=localStorage.getItem(RBON553?'cascajo3d_v558o_enlinea':'cascajo3d_v558o')}catch(e){}try{prev557=localStorage.getItem(RBON553?'cascajo3d_v557o_enlinea':'cascajo3d_v557o')}catch(e){}try{prev556=localStorage.getItem(RBON553?'cascajo3d_v556o_enlinea':'cascajo3d_v556o')}catch(e){}try{prev555=localStorage.getItem(RBON553?'cascajo3d_v555o_enlinea':'cascajo3d_v555o')}catch(e){}try{prev554=localStorage.getItem(RBON553?'cascajo3d_v554o_enlinea':'cascajo3d_v554o')}catch(e){}try{prev553=localStorage.getItem(RBON553?'cascajo3d_v553o_enlinea':'cascajo3d_v553o')}catch(e){}try{prev552=localStorage.getItem('cascajo3d_v552o')}catch(e){}try{prev551=localStorage.getItem('cascajo3d_v551o')}catch(e){}try{prev550=localStorage.getItem('cascajo3d_v550o')}catch(e){}try{prev549=localStorage.getItem('cascajo3d_v549o')}catch(e){}try{prev548=localStorage.getItem('cascajo3d_v548o')}catch(e){}try{prev547=localStorage.getItem('cascajo3d_v547o')}catch(e){}try{prev546=localStorage.getItem('cascajo3d_v546o')}catch(e){}try{prev545=localStorage.getItem('cascajo3d_v545o')}catch(e){}try{prev544=localStorage.getItem('cascajo3d_v544o')}catch(e){}try{prev543=localStorage.getItem('cascajo3d_v543o')}catch(e){}try{prev542=localStorage.getItem('cascajo3d_v542o')}catch(e){}try{prev541=localStorage.getItem('cascajo3d_v541o')}catch(e){}try{prev540=localStorage.getItem('cascajo3d_v540o')}catch(e){}try{prev539=localStorage.getItem('cascajo3d_v539o')}catch(e){}try{prev538=localStorage.getItem('cascajo3d_v538o')}catch(e){}try{prev537=localStorage.getItem('cascajo3d_v537o')}catch(e){}try{prev536c=localStorage.getItem('cascajo3d_v536criminal')}catch(e){}try{prev536o=localStorage.getItem('cascajo3d_v536o')}catch(e){}try{prev535o=localStorage.getItem('cascajo3d_v535o')}catch(e){}try{prev534o=localStorage.getItem('cascajo3d_v534o')}catch(e){}try{prev533o=localStorage.getItem('cascajo3d_v533o')}catch(e){}try{prev532o=localStorage.getItem('cascajo3d_v532o')}catch(e){}try{prev531o=localStorage.getItem('cascajo3d_v531o')}catch(e){}try{prev524o=localStorage.getItem('cascajo3d_v524o')}catch(e){}try{prev523o=localStorage.getItem('cascajo3d_v523o')}catch(e){}try{prev522o=localStorage.getItem('cascajo3d_v522o')}catch(e){}try{prev521o=localStorage.getItem('cascajo3d_v521o')}catch(e){}try{prev520o=localStorage.getItem('cascajo3d_v520o')}catch(e){}try{prev519o=localStorage.getItem('cascajo3d_v519o')}catch(e){}try{prev517=localStorage.getItem('cascajo3d_v517')}catch(e){}try{prev531x=localStorage.getItem('cascajo3d_v531x')}catch(e){}try{prev528c=localStorage.getItem('cascajo3d_v528')}catch(e){}try{prev527c=localStorage.getItem('cascajo3d_v527')}catch(e){}try{prev5261c=localStorage.getItem('cascajo3d_v5261')}catch(e){}try{prev524c=localStorage.getItem('cascajo3d_v524')}catch(e){}try{prev523c=localStorage.getItem('cascajo3d_v523')}catch(e){}try{prev522c=localStorage.getItem('cascajo3d_v522')}catch(e){}try{prev521c=localStorage.getItem('cascajo3d_v521')}catch(e){}try{prev520c=localStorage.getItem('cascajo3d_v520')}catch(e){}try{prev519c=localStorage.getItem('cascajo3d_v519')}catch(e){}try{prev518c=localStorage.getItem('cascajo3d_v518')}catch(e){}try{prev516=localStorage.getItem('cascajo3d_v516')}catch(e){}try{prev5152=localStorage.getItem('cascajo3d_v5152')}catch(e){}try{prev515=localStorage.getItem('cascajo3d_v515')}catch(e){}try{prev513=localStorage.getItem('cascajo3d_v513')}catch(e){}try{prev5121=localStorage.getItem('cascajo3d_v5121')}catch(e){}try{prev512=localStorage.getItem('cascajo3d_v512')}catch(e){}try{main=localStorage.getItem(RB_KEYMAIN59)}catch(e){}try{old=localStorage.getItem(RB_KEYV59)}catch(e){}try{v10=localStorage.getItem(RB_KEYV510)}catch(e){}try{v11=localStorage.getItem(RB_KEYV511)}catch(e){}
  const okSave=t=>{try{const j=JSON.parse(t);return !!(j&&typeof j==='object'&&!Array.isArray(j)&&Number.isFinite(j.pesos)&&!(Number.isFinite(j.v)&&j.v>12))}catch(e){return false}};
  if(raw)status='ok';
- else if((()=>{try{return !!localStorage.getItem('cascajo3d_v582o_fresh')}catch(e){return false}})()){}
+ else if((()=>{try{return !!localStorage.getItem('cascajo3d_v583o_fresh')}catch(e){return false}})()){}
+ else if(prev582&&okSave(prev582)){raw=prev582;status='migrada';src=RBON553?'cascajo3d_v582o_enlinea':'cascajo3d_v582o'}
  else if(prev581&&okSave(prev581)){raw=prev581;status='migrada';src=RBON553?'cascajo3d_v581o_enlinea':'cascajo3d_v581o'}
  else if(prev580&&okSave(prev580)){raw=prev580;status='migrada';src=RBON553?'cascajo3d_v580o_enlinea':'cascajo3d_v580o'}
  else if(prev579&&okSave(prev579)){raw=prev579;status='migrada';src=RBON553?'cascajo3d_v579o_enlinea':'cascajo3d_v579o'}
@@ -2892,7 +2893,7 @@ function roads510(){const a=AIRF510,out=[];
 function airActive510(){try{return !!(window.__air510&&window.__air510.AIR.active)}catch(e){return false}}
 
 /*RB510-WORLD-END*/
-/*RB59-BEGIN*/const BUILD59={ver:"5.82",ch:"publica",dev:false};
+/*RB59-BEGIN*/const BUILD59={ver:"5.83",ch:"publica",dev:false};
 /* =====================================================================================================
    RUTA BRAVA V5.9 (experimental) · INTEGRACIÓN: partidas seguras, minimapa, mapa completo, volante, agarre y paisaje
    Se inserta DESPUÉS del bloque V5.8 (prólogo) y ANTES del guardado en segundo plano de V5.6.
@@ -5051,7 +5052,7 @@ window.__rb513={CH513,chPhase513,chState513,chStart513,chPoint513,chUse513,chFin
    · Diagnóstico: versión, guardado, errores y FPS medidos EN EL DISPOSITIVO (informe copiable)
    ===================================================================================================== */
 const MENU513={view:'home',fps:0,ft:[],introT:0,introDone:false,started:false,winErr:0,msg:''};
-const FRESH_KEY513='cascajo3d_v582o_fresh';
+const FRESH_KEY513='cascajo3d_v583o_fresh';
 try{addEventListener('error',()=>{MENU513.winErr++})}catch(_){}
 /* «Reiniciar» (Partidas) y «Nueva partida» no deben resucitar la partida anterior copiándola otra vez al arrancar */
 try{const _rs=Save59.reset;Save59.reset=function(){const r=_rs.apply(this,arguments);if(r&&r.ok){try{localStorage.setItem(FRESH_KEY513,'1')}catch(_){}}return r}}catch(_){}
@@ -5088,14 +5089,14 @@ function menuReport513(){let sz=0;try{sz=(localStorage.getItem(RB_KEY59)||'').le
   'Errores del juego: '+e.length+(e.length?'\n · '+e.slice(0,8).join('\n · '):'')+' · errores de ventana: '+MENU513.winErr].join('\n')}
 function menuRender513(view,msg){
  const ini=$('ini');if(!ini)return;MENU513.view=view||'home';MENU513.msg=msg||'';
- const prog=menuProgress513(),v=MENU513.view;let h='<div class="m513"><h1>RUTA BRAVA</h1><div class="sub">La Deuda · V5.82 Ciudad viva (candidata)</div>';
+ const prog=menuProgress513(),v=MENU513.view;let h='<div class="m513"><h1>RUTA BRAVA</h1><div class="sub">La Deuda · V5.83 Sonidos del barrio (candidata)</div>';
  if(v==='home'){
   h+='<div class="sum">'+esc58(menuSummary513())+'</div>'+(menuStatusNote513()?'<div class="note">'+esc58(menuStatusNote513())+'</div>':'')+
    '<div class="grid"><button class="pri" id="m513go" '+(prog||MENU513.started?'':'disabled')+'>▶ '+(MENU513.started?'SEGUIR JUGANDO':'CONTINUAR')+'</button>'+
    '<button id="m513new">✚ NUEVA PARTIDA</button><button id="m513set">⚙ AJUSTES</button><button id="m513how">🎮 CÓMO JUGAR</button><button id="m513sv">💾 PARTIDAS</button><button id="m513cr">★ CRÉDITOS</button></div>'+
    (prog?'':'<div class="note">Toca «NUEVA PARTIDA» para empezar. Empiezas en Nueva Brava. Sigue la marca dorada: tu papá te espera en la sala.</div>');
  }else if(v==='how'){h+='<div class="box"><b>Cómo se juega</b>\n'+esc58(menuControls513())+'</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
- else if(v==='credits'){h+='<div class="box"><b>Créditos</b>\nRUTA BRAVA · La Deuda (candidata V5.82)\nProducción y dirección: el productor del proyecto.\nProgramación y guion asistidos por Claude (Anthropic) y ChatGPT (OpenAI); auditoría externa pendiente (Gemini, DeepSeek).\nMotor 3D: Three.js r128 (licencia MIT), cargado desde CDN.\nTodos los personajes, lugares y sucesos son ficticios; cualquier parecido con la realidad es coincidencia.</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
+ else if(v==='credits'){h+='<div class="box"><b>Créditos</b>\nRUTA BRAVA · La Deuda (candidata V5.83)\nProducción y dirección: el productor del proyecto.\nProgramación y guion asistidos por Claude (Anthropic) y ChatGPT (OpenAI); auditoría externa pendiente (Gemini, DeepSeek).\nMotor 3D: Three.js r128 (licencia MIT), cargado desde CDN.\nTodos los personajes, lugares y sucesos son ficticios; cualquier parecido con la realidad es coincidencia.</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
  else if(v==='settings'){h+='<div class="box"><b>Ajustes</b>\nMinimapa: '+(SET59.mini?'visible':'oculto')+'\nDirección al conducir (táctil): '+(SET59.steer==='joystick'?'joystick':SET59.steer==='wheel'?'volante circular':'barra clásica')+'</div>'+
    '<div class="row"><button id="m513mm">'+(SET59.mini?'Ocultar minimapa':'Mostrar minimapa')+'</button><button id="m513st">'+(SET59.steer==='joystick'?'Usar volante circular':SET59.steer==='wheel'?'Usar barra clásica':'Usar joystick')+'</button></div>'+
    '<div class="row"><button id="m513dg">🩺 Diagnóstico</button><button id="m513sv2">💾 Partidas</button><button id="m513bk">‹ Volver</button></div>'}
@@ -11228,7 +11229,7 @@ try{window.VIS536=VIS536}catch(_){}
 function rb536LateForce(){try{const R5=window.__reg511&&__reg511.REG511;if(R5&&R5.lateForce536){R5.lateForce536=0;R5.force()}}catch(err){try{ERR59.push('regiones: '+String(err&&err.message||err))}catch(_){}}}
 rb536LateForce();
 /*RB534-VISUAL536-END*/
-try{BUILD59.ver="5.82"}catch(_){}
+try{BUILD59.ver="5.83"}catch(_){}
 /* V5.6: guardar al pasar a segundo plano / cerrar (iOS dispara pagehide y visibilitychange, no beforeunload) */
 function flushSave(){try{snapshotVehicles();rbSyncCars();if(sv.p){clearTimeout(sv.t);return svNow()}return save()}catch(e){try{return save()}catch(_){return false}}}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushSave()});addEventListener('pagehide',flushSave);
@@ -17760,7 +17761,7 @@ try{window.MULTI553=MULTI553}catch(_){}
 /*RB553-RB553_ENLINEA-BEGIN*/
 /* RUTA BRAVA V5.53 · MODO EN LÍNEA APARTE (pedido del productor: «que sea diferente el modo historia y el modo multijugador, que todos empiecen
    con 50,000 pesos en el multijugador y tengan misiones y así, separadas»).
-   · En el menú de inicio eliges 📖 HISTORIA o 🌐 EN LÍNEA. Cada modo tiene su propia partida guardada (en línea: cascajo3d_v582o_enlinea);
+   · En el menú de inicio eliges 📖 HISTORIA o 🌐 EN LÍNEA. Cada modo tiene su propia partida guardada (en línea: cascajo3d_v583o_enlinea);
      lo que hagas en uno no toca al otro. Cambiar de modo recarga el juego.
    · En línea: empiezas con $50,000 en Nueva Brava, sin prólogo ni deuda de la historia; el 👥 (multijugador) solo está aquí.
    · Trabajos en línea (📱 Trabajos o 👥 → Trabajos): entrega exprés, cobranza, encargo de coche y la camioneta de valores. Si estás en una
@@ -20954,7 +20955,7 @@ const BA579=(()=>{
    g.position.set(x,y,z);g.userData.o579=1;sc.add(g);FIRES.set(k,{g,fl,x,z,t:600})}catch(e){err('fogata',e)}}
  function fireDrop(k){const f=FIRES.get(k);if(f){try{sc.remove(f.g)}catch(_){}FIRES.delete(k)}}
  let rest=0;function fireTick(dt){const t=now();let near=false;const m=myPos();for(const [k,f] of FIRES){f.t-=dt;if(f.t<=0){fireDrop(k);continue}f.fl.forEach((c,i)=>{c.scale.y=1+.25*Math.sin(t*9+i*2);c.rotation.y+=dt*(1+i)});if(dist(m,f)<5)near=true}
-  if(near){rest+=dt;if(rest>3){rest=0;try{if(typeof S.energia==='number')S.energia=Math.min(100,S.energia+1);if(typeof S.en==='number')S.en=Math.min(100,S.en+1)}catch(_){}}}}
+  if(near){rest+=dt;if(rest>3){rest=0;try{if(typeof L510!=='undefined'&&typeof L510.energy==='number')L510.energy=Math.min(100,L510.energy+1)}catch(_){}/* V5.83: el cansancio vive en L510.energy */}}}
 
  /* ---------- 323 reportar ---------- */
  function report(){M.reports++;const x=X();const d={ver:(()=>{try{return BUILD59.ver}catch(_){return '?'}})(),ua:navigator.userAgent,via:x.M.via,why:x.M.why,code:x.code,amigos:x.AV.size,
@@ -21323,6 +21324,89 @@ const CV582=(()=>{
 })();
 try{window.CV582=CV582}catch(_){}
 /*RB582-RB582_CIUDADVIVA-END*/
+/*RB583-RB583_SONIDOS-BEGIN*/
+/* RUTA BRAVA V5.83 · «SONIDOS DEL BARRIO» (ideas del doc de 500 del mapa; número = idea del documento)
+   · Pregones: cada pocos minutos pasa por tu colonia un vendedor de verdad (lo ves y lo oyes): 85 tamales, 83 el gas, 86 el afilador,
+     camotes. Al de los tamales y al de los camotes les puedes comprar (te quitan el hambre).
+   · 357 La Llorona: a medianoche, en las orillas de las ciudades, a veces se aparece y se oye «¡Ay, mis hijos!». Si la alcanzas a ver, logro.
+   · 359/168 Ovni: los viernes en la noche una luz rara cruza el cielo sobre el cerro.
+   · 426 Eclipse: una vez por semana del juego, a mediodía, el cielo se oscurece un minuto.
+   Todo respeta el botón «Voces» (si están apagadas, no suena nada). */
+const SO583=(()=>{
+ const M={errors:[],vendors:0,buys:0,llorona:0,seen:0,ufo:0,eclipse:0,says:0,tones:0};
+ const err=(w,e)=>{if(M.errors.length<6)M.errors.push(w+': '+(e&&e.message||e))};
+ const gh=(x,z)=>{try{return G512.h(x,z)}catch(_){return 0}};const T=t=>{try{toast(t)}catch(_){}};
+ const money=d=>{try{S.pesos=Math.max(0,Math.round((S.pesos||0)+d))}catch(_){}};
+ const isBlk=(x,z)=>{try{return !!blk(x,z)}catch(_){return false}};
+ const cities=()=>{try{return NET511.net().CITIES.filter(c=>c&&isFinite(c.x))}catch(_){return []}};
+ const clock=()=>{try{return W537.clock()}catch(_){return {h:12,day:0}}};
+ const soundOn=()=>{try{return VOCES556.PREF.on!==false}catch(_){return true}};const vol=()=>{try{return VOCES556.PREF.vol}catch(_){return 1}};
+ const indoors=()=>{try{return !!INSIDE58}catch(_){return false}};
+ const cityHere=()=>{for(const c of cities())if(Math.hypot(P.x-c.x,P.z-c.z)<(c.R||130)+20)return c;return null};
+ let AC=null;function ac(){try{if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C()}if(AC.state==='suspended')AC.resume();return AC}catch(_){return null}}
+ function tone(f,t0,d,type,v,f2){if(!soundOn())return;const a=ac();if(!a)return;try{M.tones++;const o=a.createOscillator(),g=a.createGain();o.type=type||'sine';const t=a.currentTime+t0;o.frequency.setValueAtTime(f,t);if(f2)o.frequency.linearRampToValueAtTime(f2,t+d);const V=(v||.06)*vol();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(V,t+.02);g.gain.setValueAtTime(V,t+Math.max(.03,d-.08));g.gain.linearRampToValueAtTime(0,t+d);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d+.05)}catch(_){}}
+ function say(t,o){if(!soundOn())return;try{M.says++;VOCES556.speak(t,Object.assign({kind:'gente',pri:1},o||{}))}catch(_){}}
+
+ /* ---------- pregones ---------- */
+ const KINDS={
+  tamales:{ic:'🫔',name:'Tamales',col:0xd9482b,buy:['🫔 Comprar tamal ($25)',25,22],cry(v){say('¡Ricos tamales oaxaqueños! ¡Tamales calientitos!',{pitch:.82,rate:.95,vol:v})}},
+  gas:{ic:'🛢️',name:'El gas',col:0x2a7bd8,cry(v){[523,659,784,659,523,659,784,1047].forEach((f,i)=>tone(f,i*.22,.2,'square',.035*v));setTimeout(()=>say('¡El gaaas!',{pitch:.7,rate:.8,vol:v}),1900)}},
+  afilador:{ic:'🔪',name:'El afilador',col:0x8a8f99,cry(v){for(let k=0;k<2;k++){tone(900,k*1.2,.45,'sine',.07*v,2100);tone(2100,k*1.2+.45,.55,'sine',.07*v,900)}}},
+  camotes:{ic:'🍠',name:'Camotes',col:0x7a4b2a,buy:['🍠 Comprar camote ($20)',20,18],cry(v){tone(1180,0,2.4,'sawtooth',.03*v,1150);tone(1185,0,2.4,'sine',.04*v)}}};
+ let V=null,nextAt=60+Math.random()*60,acc=0;
+ function vendorMesh(k){const K=KINDS[k];const g=new THREE.Group();const cart=new THREE.Mesh(new THREE.BoxGeometry(1.2,.8,1.6),new THREE.MeshLambertMaterial({color:K.col}));cart.position.y=.75;g.add(cart);
+  for(const [x,z] of [[-.6,-.6],[.6,-.6],[0,.7]]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.28,.28,.12,10),new THREE.MeshLambertMaterial({color:0x222222}));w.rotation.z=Math.PI/2;w.position.set(x,.28,z);g.add(w)}
+  const p=person(0x5a6a3a,0x2a3550,0xb07a52,0x1a1109,0);p.position.set(0,0,1.25);g.add(p);
+  if(k==='gas'){const tank=new THREE.Mesh(new THREE.CylinderGeometry(.3,.3,.9,10),new THREE.MeshLambertMaterial({color:0xd9d9d9}));tank.position.set(0,1.6,-.2);g.add(tank)}
+  if(k==='camotes'){const pipe=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,.8,6),new THREE.MeshLambertMaterial({color:0x444444}));pipe.position.set(.4,1.5,-.5);g.add(pipe)}
+  try{const l=label58(K.ic+' '+K.name);l.scale.set(2.6,.55,1);l.position.y=2.6;g.add(l)}catch(_){}g.userData.o583=1;return g}
+ function spawnVendor(){const c=cityHere();if(!c||indoors())return false;const ks=Object.keys(KINDS);const k=ks[Math.floor(Math.random()*ks.length)];
+  for(let t=0;t<20;t++){const a=Math.random()*6.283,d=18+Math.random()*16;const x=P.x+Math.cos(a)*d,z=P.z+Math.sin(a)*d;if(isBlk(x,z))continue;
+   const h=Math.random()*6.283;try{const g=vendorMesh(k);g.position.set(x,gh(x,z),z);g.rotation.y=h;sc.add(g);V={k,g,x,z,h,t:45,cry:0};M.vendors++;return true}catch(e){err('vendedor',e);return false}}return false}
+ function vendorTick(dt){if(V){V.t-=dt;V.cry-=dt;const nx=V.x-Math.sin(V.h)*dt*1.1,nz=V.z-Math.cos(V.h)*dt*1.1;if(!isBlk(nx,nz)){V.x=nx;V.z=nz}else V.h+=Math.PI*.7;V.g.position.set(V.x,gh(V.x,V.z),V.z);V.g.rotation.y=V.h;
+   const d=Math.hypot(P.x-V.x,P.z-V.z);if(V.cry<=0&&d<90){V.cry=11;KINDS[V.k].cry(Math.max(.2,1-d/90))}if(V.t<=0||d>160){try{sc.remove(V.g)}catch(_){}V=null}return}
+  acc+=dt;if(acc>=nextAt){acc=0;nextAt=150+Math.random()*110;spawnVendor()}}
+ function buy(){if(!V)return;const b=KINDS[V.k].buy;if(!b)return;if((S.pesos||0)<b[1]){T('No te alcanza');return}money(-b[1]);M.buys++;try{L510.food=Math.min(100,(L510.food||0)+b[2])}catch(_){}T((V.k==='tamales'?'🫔 ¡Qué rico tamal!':'🍠 ¡Qué rico camote!')+' Se te quitó el hambre')}
+ try{const _c=cand58;cand58=function(){const r=_c.apply(this,arguments);try{if(dl||DRV||indoors()||!V||!KINDS[V.k].buy)return r;if(Math.hypot(P.x-V.x,P.z-V.z)<3.2)return {label:KINDS[V.k].buy[0],fn:buy}}catch(_){}return r}}catch(e){err('usar',e)}
+
+ /* ---------- La Llorona ---------- */
+ let LL=null,llDay=-1;
+ function lloronaTick(dt){const c=clock();const mid=c.h>=23.6||c.h<.6;
+  if(LL){LL.t-=dt;const tt=performance.now()/1000;LL.g.position.y=gh(LL.x,LL.z)+.3+Math.sin(tt*1.6)*.25;LL.g.children.forEach(m=>{if(m.material&&m.material.opacity!==undefined)m.material.opacity=Math.min(.55,LL.t/6*.55)});
+   const d=Math.hypot(P.x-LL.x,P.z-LL.z);if(!LL.seen&&d<35){LL.seen=true;M.seen++;try{PC558.unlock('llorona583')}catch(_){}T('😱 ¡Viste a La Llorona!')}if(LL.t<=0){try{sc.remove(LL.g)}catch(_){}LL=null}return}
+  if(!mid||llDay===c.day||indoors())return;let near=null;for(const q of cities()){const d=Math.hypot(P.x-q.x,P.z-q.z),R=(q.R||130);if(d>R*.9&&d<R*2.2){near=q;break}}if(!near)return;
+  if(Math.random()>.02)return;/* no todas las noches ni de golpe */llDay=c.day;
+  for(let t=0;t<15;t++){const a=Math.random()*6.283,d=45+Math.random()*30;const x=P.x+Math.cos(a)*d,z=P.z+Math.sin(a)*d;if(isBlk(x,z))continue;
+   try{const g=new THREE.Group();const m=new THREE.MeshBasicMaterial({color:0xe8f0ff,transparent:true,opacity:.55,depthWrite:false});const robe=new THREE.Mesh(new THREE.ConeGeometry(.6,2.2,10,1,true),m);robe.position.y=1.1;g.add(robe);
+    const head=new THREE.Mesh(new THREE.SphereGeometry(.25,10,8),m.clone());head.position.y=2.35;g.add(head);const veil=new THREE.Mesh(new THREE.ConeGeometry(.4,1.2,10,1,true),m.clone());veil.position.y=2.1;g.add(veil);
+    g.position.set(x,gh(x,z),z);g.userData.o583=1;sc.add(g);LL={g,x,z,t:14,seen:false};M.llorona++;say('¡Aaay, mis hijos!',{pitch:1.5,rate:.55,pri:2});tone(220,0,3,'sine',.03,196);T('🌫️ Se oye un lamento a lo lejos…')}catch(e){err('llorona',e)}break}}
+ try{const L=PC558.L;if(!L.find(x=>x[0]==='llorona583'))L.push(['llorona583','😱','Sin miedo','Ve a La Llorona a medianoche',()=>false])}catch(_){}
+
+ /* ---------- ovni (viernes en la noche) ---------- */
+ let UFO=null,ufoDay=-1;
+ const friday=()=>new Date().getDay()===5;
+ function ufoTick(dt){const c=clock();const n=c.h>=21||c.h<4;if(UFO){UFO.t-=dt;UFO.a+=dt*.35;UFO.g.position.set(P.x+Math.cos(UFO.a)*220,140+Math.sin(UFO.a*3)*20,P.z+Math.sin(UFO.a)*220-60);UFO.g.rotation.y+=dt*3;if(UFO.t<=0){try{sc.remove(UFO.g)}catch(_){}UFO=null}return}
+  if(!n||!(friday()||UFO_FORCE)||ufoDay===c.day||indoors())return;if(!UFO_FORCE&&Math.random()>.01)return;ufoDay=c.day;
+  try{const g=new THREE.Group();const disk=new THREE.Mesh(new THREE.CylinderGeometry(6,9,1.6,20),new THREE.MeshBasicMaterial({color:0x9fffc8,fog:false}));g.add(disk);
+   const dome=new THREE.Mesh(new THREE.SphereGeometry(3.2,14,8,0,6.283,0,Math.PI/2),new THREE.MeshBasicMaterial({color:0xd8fff0,transparent:true,opacity:.8,fog:false}));dome.position.y=.6;g.add(dome);
+   for(let i=0;i<8;i++){const l=new THREE.Mesh(new THREE.SphereGeometry(.6,6,4),new THREE.MeshBasicMaterial({color:[0xff4fa3,0xffd23f,0x48d1ff][i%3],fog:false}));const a=i/8*6.283;l.position.set(Math.cos(a)*8,-.4,Math.sin(a)*8);g.add(l)}
+   g.traverse(o=>{o.renderOrder=21});g.userData.o583=1;sc.add(g);UFO={g,t:40,a:Math.random()*6.283};M.ufo++;T('🛸 ¿Qué es esa luz en el cielo?');tone(300,0,4,'sine',.03,900)}catch(e){err('ovni',e)}}
+ let UFO_FORCE=false;
+
+ /* ---------- eclipse (una vez por semana del juego, a mediodía) ---------- */
+ let EC=null;
+ function eclipseTick(dt){const c=clock();if(EC){EC.t-=dt;const k=Math.sin(Math.PI*Math.max(0,Math.min(1,1-EC.t/60)));try{if(EC.ov)EC.ov.style.opacity=String(.62*k)}catch(_){}if(EC.t<=0){try{EC.ov&&EC.ov.remove()}catch(_){}EC=null}return}
+  if(!((c.day|0)%7===3&&c.h>=12&&c.h<12.3))return;if(EC_DAY===c.day)return;EC_DAY=c.day;startEclipse()}
+ let EC_DAY=-1;
+ function startEclipse(){try{let ov=null;if(typeof document!=='undefined'){ov=document.createElement('div');ov.id='ec583';ov.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:5;background:radial-gradient(circle at 70% 18%,rgba(255,240,200,.0) 0,rgba(255,240,200,.0) 34px,rgba(255,230,160,.9) 38px,rgba(10,12,30,1) 60px);opacity:0;transition:opacity .3s';document.body.appendChild(ov)}
+   EC={t:60,ov};M.eclipse++;T('🌑 ¡Eclipse! El cielo se oscurece un minuto. No veas directo al sol')}catch(e){err('eclipse',e)}}
+
+ /* ---------- ciclo ---------- */
+ const _step=step;step=function(dt){const r=_step.apply(this,arguments);try{const d=Math.min(.1,Math.max(0,dt||0));vendorTick(d);lloronaTick(d);ufoTick(d);eclipseTick(d)}catch(e){err('paso',e)}return r};
+ return {M,KINDS,spawnVendor,buy,startEclipse,get vendor(){return V},get llorona(){return LL},get ufo(){return UFO},get eclipse(){return EC},set ufoForce(v){UFO_FORCE=!!v},forceLlorona(){llDay=-1;const c=clock();LL=null;return c},cityHere};
+})();
+try{window.SO583=SO583}catch(_){}
+/*RB583-RB583_SONIDOS-END*/
 setMk();upd();loop(0);window.__cascajoBootOk=true;
 </script>
 
