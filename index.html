@@ -8,7 +8,7 @@
 <link rel="manifest" href="manifest.json">
 <title>Ruta Brava</title>
 </head><body>
-<title>RUTA BRAVA · La Deuda V5.80 (pública)</title>
+<title>RUTA BRAVA · La Deuda V5.81 (pública)</title>
 <style>
 :root{--tinta:#1d1420;--cobalto:#1f4e9c;--mostaza:#e8b83a;--hueso:#f5ead6}
 html,body{margin:0;height:100%;overflow:hidden;background:var(--tinta);font-family:Rockwell,"Roboto Slab",Georgia,serif;color:var(--hueso)}
@@ -130,7 +130,7 @@ html,body{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-to
 #rb531-next{width:max-content!important;max-width:min(42vw,300px);box-sizing:border-box;font-size:11px!important}
 </style>
 <div id="v"></div><div id="hud"></div><div id="mis"></div><div id="cx"></div><div id="pr"></div><div id="ts"></div><div id="vel"></div><div id="dlg"></div>
-<button id="rbmenu" type="button" aria-label="Rutas y comercio">☷ RUTAS</button><div id="rbgps" aria-live="polite">🛣 Villa Cascajo · Carretera principal</div><div id="ini"><div><h1>RUTA BRAVA · La Deuda V5.80 (pública)</h1>
+<button id="rbmenu" type="button" aria-label="Rutas y comercio">☷ RUTAS</button><div id="rbgps" aria-live="polite">🛣 Villa Cascajo · Carretera principal</div><div id="ini"><div><h1>RUTA BRAVA · La Deuda V5.81 (pública)</h1>
 <p>Empiezas en Nueva Brava. Tu papá te pide un garrafón. Lo que pasa después lo cambia todo.</p><p>Conduce por carretera, compra barato en un pueblo y vende caro en otro. Trabaja de trailero, compra autos con factura y sobrevive a los peligros del camino. Sandbox mexicano sin historia obligatoria.</p>
 <p>WASD: mover/conducir · Ratón: mirar · E: interactuar · V: cámara · Q: arma · R: recargar · I: inventario.</p>
 <p><b>Toca o haz clic para jugar</b></p><p>En iPhone: gira el móvil, utiliza los controles discretos de los bordes. Toca RUTAS para elegir destino GPS, consultar ganancias comerciales, contratos y concesionaria. El mercado de Villa Cascajo queda hacia el este junto a la carretera.</p>
@@ -187,12 +187,13 @@ body.add(mk(new THREE.CylinderGeometry(.3,.3,1.1,12),0x1f4e9c,.75),mk(new THREE.
 const NPC=[{n:'Doña Chela',x:8,z:-8,c:0xd6336c,id:'chela'},{n:'Don Rigo',x:17,z:13.5,c:0x2b2b33,id:'rigo'},{n:'Lic. Paty',x:-4,z:10,c:0x2f9e8f,id:'paty'}];
 
 var WALKMUL510=1,STEERMUL510=1;/* V5.10: multiplicadores de la vida (1 = idéntico a V5.9) */
-const RBON553=(()=>{try{return localStorage.getItem('rb553_modo')==='enlinea'}catch(_){return false}})();const RB_KEY59=RBON553?'cascajo3d_v580o_enlinea':'cascajo3d_v580o',RB_KEYV511='cascajo3d_v511',RB_KEYV510='cascajo3d_v510',RB_KEYV59='cascajo3d_v59',RB_KEYMAIN59='cascajo3d',RB_KEYBAK59=(RBON553?'cascajo3d_v580o_enlinea_bak':'cascajo3d_v580o_bak'),RB_KEYBOOT59=(RBON553?'cascajo3d_v580o_enlinea_boot':'cascajo3d_v580o_boot'),RB_KEYBAD59=(RBON553?'cascajo3d_v580o_enlinea_corrupto':'cascajo3d_v580o_corrupto');
+const RBON553=(()=>{try{return localStorage.getItem('rb553_modo')==='enlinea'}catch(_){return false}})();const RB_KEY59=RBON553?'cascajo3d_v581o_enlinea':'cascajo3d_v581o',RB_KEYV511='cascajo3d_v511',RB_KEYV510='cascajo3d_v510',RB_KEYV59='cascajo3d_v59',RB_KEYMAIN59='cascajo3d',RB_KEYBAK59=(RBON553?'cascajo3d_v581o_enlinea_bak':'cascajo3d_v581o_bak'),RB_KEYBOOT59=(RBON553?'cascajo3d_v581o_enlinea_boot':'cascajo3d_v581o_boot'),RB_KEYBAD59=(RBON553?'cascajo3d_v581o_enlinea_corrupto':'cascajo3d_v581o_corrupto');
 /* V5.12: guardado INDEPENDIENTE (cascajo3d_v512). Si no existe, se abre una COPIA en memoria de la V5.10 y, si tampoco, de la V5.9 (status 'migrada'); esas claves NUNCA se escriben ni se borran. */
-const LOAD59=(function(){let raw=null,prev579=null,prev578=null,prev577=null,prev576=null,prev575=null,prev574=null,prev573=null,prev572=null,prev571=null,prev570=null,prev569=null,prev568=null,prev567=null,prev566=null,prev565=null,prev564=null,prev563=null,prev562=null,prev561=null,prev560=null,prev559=null,prev558=null,prev557=null,prev556=null,prev555=null,prev554=null,prev553=null,prev552=null,prev551=null,prev550=null,prev549=null,prev548=null,prev547=null,prev546=null,prev545=null,prev544=null,prev543=null,prev542=null,prev541=null,prev540=null,prev539=null,prev538=null,prev537=null,prev536c=null,prev536o=null,prev535o=null,prev534o=null,prev533o=null,prev532o=null,prev531o=null,prev524o=null,prev523o=null,prev522o=null,prev521o=null,prev520o=null,prev531x=null,prev528c=null,prev527c=null,prev5261c=null,prev524c=null,prev523c=null,prev522c=null,prev521c=null,prev520c=null,prev519o=null,prev517=null,prev519c=null,prev518c=null,prev516=null,prev5152=null,prev515=null,prev513=null,prev5121=null,prev512=null,main=null,old=null,v10=null,v11=null,status='nueva',src=null;try{raw=localStorage.getItem(RB_KEY59)}catch(e){}try{prev579=localStorage.getItem(RBON553?'cascajo3d_v579o_enlinea':'cascajo3d_v579o')}catch(e){}try{prev578=localStorage.getItem(RBON553?'cascajo3d_v578o_enlinea':'cascajo3d_v578o')}catch(e){}try{prev577=localStorage.getItem(RBON553?'cascajo3d_v577o_enlinea':'cascajo3d_v577o')}catch(e){}try{prev576=localStorage.getItem(RBON553?'cascajo3d_v576o_enlinea':'cascajo3d_v576o')}catch(e){}try{prev575=localStorage.getItem(RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o')}catch(e){}try{prev574=localStorage.getItem(RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o')}catch(e){}try{prev573=localStorage.getItem(RBON553?'cascajo3d_v573o_enlinea':'cascajo3d_v573o')}catch(e){}try{prev572=localStorage.getItem(RBON553?'cascajo3d_v572o_enlinea':'cascajo3d_v572o')}catch(e){}try{prev571=localStorage.getItem(RBON553?'cascajo3d_v571o_enlinea':'cascajo3d_v571o')}catch(e){}try{prev570=localStorage.getItem(RBON553?'cascajo3d_v570o_enlinea':'cascajo3d_v570o')}catch(e){}try{prev569=localStorage.getItem(RBON553?'cascajo3d_v569o_enlinea':'cascajo3d_v569o')}catch(e){}try{prev568=localStorage.getItem(RBON553?'cascajo3d_v568o_enlinea':'cascajo3d_v568o')}catch(e){}try{prev567=localStorage.getItem(RBON553?'cascajo3d_v567o_enlinea':'cascajo3d_v567o')}catch(e){}try{prev566=localStorage.getItem(RBON553?'cascajo3d_v566o_enlinea':'cascajo3d_v566o')}catch(e){}try{prev565=localStorage.getItem(RBON553?'cascajo3d_v565o_enlinea':'cascajo3d_v565o')}catch(e){}try{prev564=localStorage.getItem(RBON553?'cascajo3d_v564o_enlinea':'cascajo3d_v564o')}catch(e){}try{prev563=localStorage.getItem(RBON553?'cascajo3d_v563o_enlinea':'cascajo3d_v563o')}catch(e){}try{prev562=localStorage.getItem(RBON553?'cascajo3d_v562o_enlinea':'cascajo3d_v562o')}catch(e){}try{prev561=localStorage.getItem(RBON553?'cascajo3d_v561o_enlinea':'cascajo3d_v561o')}catch(e){}try{prev560=localStorage.getItem(RBON553?'cascajo3d_v560o_enlinea':'cascajo3d_v560o')}catch(e){}try{prev559=localStorage.getItem(RBON553?'cascajo3d_v559o_enlinea':'cascajo3d_v559o')}catch(e){}try{prev558=localStorage.getItem(RBON553?'cascajo3d_v558o_enlinea':'cascajo3d_v558o')}catch(e){}try{prev557=localStorage.getItem(RBON553?'cascajo3d_v557o_enlinea':'cascajo3d_v557o')}catch(e){}try{prev556=localStorage.getItem(RBON553?'cascajo3d_v556o_enlinea':'cascajo3d_v556o')}catch(e){}try{prev555=localStorage.getItem(RBON553?'cascajo3d_v555o_enlinea':'cascajo3d_v555o')}catch(e){}try{prev554=localStorage.getItem(RBON553?'cascajo3d_v554o_enlinea':'cascajo3d_v554o')}catch(e){}try{prev553=localStorage.getItem(RBON553?'cascajo3d_v553o_enlinea':'cascajo3d_v553o')}catch(e){}try{prev552=localStorage.getItem('cascajo3d_v552o')}catch(e){}try{prev551=localStorage.getItem('cascajo3d_v551o')}catch(e){}try{prev550=localStorage.getItem('cascajo3d_v550o')}catch(e){}try{prev549=localStorage.getItem('cascajo3d_v549o')}catch(e){}try{prev548=localStorage.getItem('cascajo3d_v548o')}catch(e){}try{prev547=localStorage.getItem('cascajo3d_v547o')}catch(e){}try{prev546=localStorage.getItem('cascajo3d_v546o')}catch(e){}try{prev545=localStorage.getItem('cascajo3d_v545o')}catch(e){}try{prev544=localStorage.getItem('cascajo3d_v544o')}catch(e){}try{prev543=localStorage.getItem('cascajo3d_v543o')}catch(e){}try{prev542=localStorage.getItem('cascajo3d_v542o')}catch(e){}try{prev541=localStorage.getItem('cascajo3d_v541o')}catch(e){}try{prev540=localStorage.getItem('cascajo3d_v540o')}catch(e){}try{prev539=localStorage.getItem('cascajo3d_v539o')}catch(e){}try{prev538=localStorage.getItem('cascajo3d_v538o')}catch(e){}try{prev537=localStorage.getItem('cascajo3d_v537o')}catch(e){}try{prev536c=localStorage.getItem('cascajo3d_v536criminal')}catch(e){}try{prev536o=localStorage.getItem('cascajo3d_v536o')}catch(e){}try{prev535o=localStorage.getItem('cascajo3d_v535o')}catch(e){}try{prev534o=localStorage.getItem('cascajo3d_v534o')}catch(e){}try{prev533o=localStorage.getItem('cascajo3d_v533o')}catch(e){}try{prev532o=localStorage.getItem('cascajo3d_v532o')}catch(e){}try{prev531o=localStorage.getItem('cascajo3d_v531o')}catch(e){}try{prev524o=localStorage.getItem('cascajo3d_v524o')}catch(e){}try{prev523o=localStorage.getItem('cascajo3d_v523o')}catch(e){}try{prev522o=localStorage.getItem('cascajo3d_v522o')}catch(e){}try{prev521o=localStorage.getItem('cascajo3d_v521o')}catch(e){}try{prev520o=localStorage.getItem('cascajo3d_v520o')}catch(e){}try{prev519o=localStorage.getItem('cascajo3d_v519o')}catch(e){}try{prev517=localStorage.getItem('cascajo3d_v517')}catch(e){}try{prev531x=localStorage.getItem('cascajo3d_v531x')}catch(e){}try{prev528c=localStorage.getItem('cascajo3d_v528')}catch(e){}try{prev527c=localStorage.getItem('cascajo3d_v527')}catch(e){}try{prev5261c=localStorage.getItem('cascajo3d_v5261')}catch(e){}try{prev524c=localStorage.getItem('cascajo3d_v524')}catch(e){}try{prev523c=localStorage.getItem('cascajo3d_v523')}catch(e){}try{prev522c=localStorage.getItem('cascajo3d_v522')}catch(e){}try{prev521c=localStorage.getItem('cascajo3d_v521')}catch(e){}try{prev520c=localStorage.getItem('cascajo3d_v520')}catch(e){}try{prev519c=localStorage.getItem('cascajo3d_v519')}catch(e){}try{prev518c=localStorage.getItem('cascajo3d_v518')}catch(e){}try{prev516=localStorage.getItem('cascajo3d_v516')}catch(e){}try{prev5152=localStorage.getItem('cascajo3d_v5152')}catch(e){}try{prev515=localStorage.getItem('cascajo3d_v515')}catch(e){}try{prev513=localStorage.getItem('cascajo3d_v513')}catch(e){}try{prev5121=localStorage.getItem('cascajo3d_v5121')}catch(e){}try{prev512=localStorage.getItem('cascajo3d_v512')}catch(e){}try{main=localStorage.getItem(RB_KEYMAIN59)}catch(e){}try{old=localStorage.getItem(RB_KEYV59)}catch(e){}try{v10=localStorage.getItem(RB_KEYV510)}catch(e){}try{v11=localStorage.getItem(RB_KEYV511)}catch(e){}
+const LOAD59=(function(){let raw=null,prev580=null,prev579=null,prev578=null,prev577=null,prev576=null,prev575=null,prev574=null,prev573=null,prev572=null,prev571=null,prev570=null,prev569=null,prev568=null,prev567=null,prev566=null,prev565=null,prev564=null,prev563=null,prev562=null,prev561=null,prev560=null,prev559=null,prev558=null,prev557=null,prev556=null,prev555=null,prev554=null,prev553=null,prev552=null,prev551=null,prev550=null,prev549=null,prev548=null,prev547=null,prev546=null,prev545=null,prev544=null,prev543=null,prev542=null,prev541=null,prev540=null,prev539=null,prev538=null,prev537=null,prev536c=null,prev536o=null,prev535o=null,prev534o=null,prev533o=null,prev532o=null,prev531o=null,prev524o=null,prev523o=null,prev522o=null,prev521o=null,prev520o=null,prev531x=null,prev528c=null,prev527c=null,prev5261c=null,prev524c=null,prev523c=null,prev522c=null,prev521c=null,prev520c=null,prev519o=null,prev517=null,prev519c=null,prev518c=null,prev516=null,prev5152=null,prev515=null,prev513=null,prev5121=null,prev512=null,main=null,old=null,v10=null,v11=null,status='nueva',src=null;try{raw=localStorage.getItem(RB_KEY59)}catch(e){}try{prev580=localStorage.getItem(RBON553?'cascajo3d_v580o_enlinea':'cascajo3d_v580o')}catch(e){}try{prev579=localStorage.getItem(RBON553?'cascajo3d_v579o_enlinea':'cascajo3d_v579o')}catch(e){}try{prev578=localStorage.getItem(RBON553?'cascajo3d_v578o_enlinea':'cascajo3d_v578o')}catch(e){}try{prev577=localStorage.getItem(RBON553?'cascajo3d_v577o_enlinea':'cascajo3d_v577o')}catch(e){}try{prev576=localStorage.getItem(RBON553?'cascajo3d_v576o_enlinea':'cascajo3d_v576o')}catch(e){}try{prev575=localStorage.getItem(RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o')}catch(e){}try{prev574=localStorage.getItem(RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o')}catch(e){}try{prev573=localStorage.getItem(RBON553?'cascajo3d_v573o_enlinea':'cascajo3d_v573o')}catch(e){}try{prev572=localStorage.getItem(RBON553?'cascajo3d_v572o_enlinea':'cascajo3d_v572o')}catch(e){}try{prev571=localStorage.getItem(RBON553?'cascajo3d_v571o_enlinea':'cascajo3d_v571o')}catch(e){}try{prev570=localStorage.getItem(RBON553?'cascajo3d_v570o_enlinea':'cascajo3d_v570o')}catch(e){}try{prev569=localStorage.getItem(RBON553?'cascajo3d_v569o_enlinea':'cascajo3d_v569o')}catch(e){}try{prev568=localStorage.getItem(RBON553?'cascajo3d_v568o_enlinea':'cascajo3d_v568o')}catch(e){}try{prev567=localStorage.getItem(RBON553?'cascajo3d_v567o_enlinea':'cascajo3d_v567o')}catch(e){}try{prev566=localStorage.getItem(RBON553?'cascajo3d_v566o_enlinea':'cascajo3d_v566o')}catch(e){}try{prev565=localStorage.getItem(RBON553?'cascajo3d_v565o_enlinea':'cascajo3d_v565o')}catch(e){}try{prev564=localStorage.getItem(RBON553?'cascajo3d_v564o_enlinea':'cascajo3d_v564o')}catch(e){}try{prev563=localStorage.getItem(RBON553?'cascajo3d_v563o_enlinea':'cascajo3d_v563o')}catch(e){}try{prev562=localStorage.getItem(RBON553?'cascajo3d_v562o_enlinea':'cascajo3d_v562o')}catch(e){}try{prev561=localStorage.getItem(RBON553?'cascajo3d_v561o_enlinea':'cascajo3d_v561o')}catch(e){}try{prev560=localStorage.getItem(RBON553?'cascajo3d_v560o_enlinea':'cascajo3d_v560o')}catch(e){}try{prev559=localStorage.getItem(RBON553?'cascajo3d_v559o_enlinea':'cascajo3d_v559o')}catch(e){}try{prev558=localStorage.getItem(RBON553?'cascajo3d_v558o_enlinea':'cascajo3d_v558o')}catch(e){}try{prev557=localStorage.getItem(RBON553?'cascajo3d_v557o_enlinea':'cascajo3d_v557o')}catch(e){}try{prev556=localStorage.getItem(RBON553?'cascajo3d_v556o_enlinea':'cascajo3d_v556o')}catch(e){}try{prev555=localStorage.getItem(RBON553?'cascajo3d_v555o_enlinea':'cascajo3d_v555o')}catch(e){}try{prev554=localStorage.getItem(RBON553?'cascajo3d_v554o_enlinea':'cascajo3d_v554o')}catch(e){}try{prev553=localStorage.getItem(RBON553?'cascajo3d_v553o_enlinea':'cascajo3d_v553o')}catch(e){}try{prev552=localStorage.getItem('cascajo3d_v552o')}catch(e){}try{prev551=localStorage.getItem('cascajo3d_v551o')}catch(e){}try{prev550=localStorage.getItem('cascajo3d_v550o')}catch(e){}try{prev549=localStorage.getItem('cascajo3d_v549o')}catch(e){}try{prev548=localStorage.getItem('cascajo3d_v548o')}catch(e){}try{prev547=localStorage.getItem('cascajo3d_v547o')}catch(e){}try{prev546=localStorage.getItem('cascajo3d_v546o')}catch(e){}try{prev545=localStorage.getItem('cascajo3d_v545o')}catch(e){}try{prev544=localStorage.getItem('cascajo3d_v544o')}catch(e){}try{prev543=localStorage.getItem('cascajo3d_v543o')}catch(e){}try{prev542=localStorage.getItem('cascajo3d_v542o')}catch(e){}try{prev541=localStorage.getItem('cascajo3d_v541o')}catch(e){}try{prev540=localStorage.getItem('cascajo3d_v540o')}catch(e){}try{prev539=localStorage.getItem('cascajo3d_v539o')}catch(e){}try{prev538=localStorage.getItem('cascajo3d_v538o')}catch(e){}try{prev537=localStorage.getItem('cascajo3d_v537o')}catch(e){}try{prev536c=localStorage.getItem('cascajo3d_v536criminal')}catch(e){}try{prev536o=localStorage.getItem('cascajo3d_v536o')}catch(e){}try{prev535o=localStorage.getItem('cascajo3d_v535o')}catch(e){}try{prev534o=localStorage.getItem('cascajo3d_v534o')}catch(e){}try{prev533o=localStorage.getItem('cascajo3d_v533o')}catch(e){}try{prev532o=localStorage.getItem('cascajo3d_v532o')}catch(e){}try{prev531o=localStorage.getItem('cascajo3d_v531o')}catch(e){}try{prev524o=localStorage.getItem('cascajo3d_v524o')}catch(e){}try{prev523o=localStorage.getItem('cascajo3d_v523o')}catch(e){}try{prev522o=localStorage.getItem('cascajo3d_v522o')}catch(e){}try{prev521o=localStorage.getItem('cascajo3d_v521o')}catch(e){}try{prev520o=localStorage.getItem('cascajo3d_v520o')}catch(e){}try{prev519o=localStorage.getItem('cascajo3d_v519o')}catch(e){}try{prev517=localStorage.getItem('cascajo3d_v517')}catch(e){}try{prev531x=localStorage.getItem('cascajo3d_v531x')}catch(e){}try{prev528c=localStorage.getItem('cascajo3d_v528')}catch(e){}try{prev527c=localStorage.getItem('cascajo3d_v527')}catch(e){}try{prev5261c=localStorage.getItem('cascajo3d_v5261')}catch(e){}try{prev524c=localStorage.getItem('cascajo3d_v524')}catch(e){}try{prev523c=localStorage.getItem('cascajo3d_v523')}catch(e){}try{prev522c=localStorage.getItem('cascajo3d_v522')}catch(e){}try{prev521c=localStorage.getItem('cascajo3d_v521')}catch(e){}try{prev520c=localStorage.getItem('cascajo3d_v520')}catch(e){}try{prev519c=localStorage.getItem('cascajo3d_v519')}catch(e){}try{prev518c=localStorage.getItem('cascajo3d_v518')}catch(e){}try{prev516=localStorage.getItem('cascajo3d_v516')}catch(e){}try{prev5152=localStorage.getItem('cascajo3d_v5152')}catch(e){}try{prev515=localStorage.getItem('cascajo3d_v515')}catch(e){}try{prev513=localStorage.getItem('cascajo3d_v513')}catch(e){}try{prev5121=localStorage.getItem('cascajo3d_v5121')}catch(e){}try{prev512=localStorage.getItem('cascajo3d_v512')}catch(e){}try{main=localStorage.getItem(RB_KEYMAIN59)}catch(e){}try{old=localStorage.getItem(RB_KEYV59)}catch(e){}try{v10=localStorage.getItem(RB_KEYV510)}catch(e){}try{v11=localStorage.getItem(RB_KEYV511)}catch(e){}
  const okSave=t=>{try{const j=JSON.parse(t);return !!(j&&typeof j==='object'&&!Array.isArray(j)&&Number.isFinite(j.pesos)&&!(Number.isFinite(j.v)&&j.v>12))}catch(e){return false}};
  if(raw)status='ok';
- else if((()=>{try{return !!localStorage.getItem('cascajo3d_v580o_fresh')}catch(e){return false}})()){}
+ else if((()=>{try{return !!localStorage.getItem('cascajo3d_v581o_fresh')}catch(e){return false}})()){}
+ else if(prev580&&okSave(prev580)){raw=prev580;status='migrada';src=RBON553?'cascajo3d_v580o_enlinea':'cascajo3d_v580o'}
  else if(prev579&&okSave(prev579)){raw=prev579;status='migrada';src=RBON553?'cascajo3d_v579o_enlinea':'cascajo3d_v579o'}
  else if(prev578&&okSave(prev578)){raw=prev578;status='migrada';src=RBON553?'cascajo3d_v578o_enlinea':'cascajo3d_v578o'}
  else if(prev577&&okSave(prev577)){raw=prev577;status='migrada';src=RBON553?'cascajo3d_v577o_enlinea':'cascajo3d_v577o'}
@@ -2890,7 +2891,7 @@ function roads510(){const a=AIRF510,out=[];
 function airActive510(){try{return !!(window.__air510&&window.__air510.AIR.active)}catch(e){return false}}
 
 /*RB510-WORLD-END*/
-/*RB59-BEGIN*/const BUILD59={ver:"5.80",ch:"publica",dev:false};
+/*RB59-BEGIN*/const BUILD59={ver:"5.81",ch:"publica",dev:false};
 /* =====================================================================================================
    RUTA BRAVA V5.9 (experimental) · INTEGRACIÓN: partidas seguras, minimapa, mapa completo, volante, agarre y paisaje
    Se inserta DESPUÉS del bloque V5.8 (prólogo) y ANTES del guardado en segundo plano de V5.6.
@@ -5049,7 +5050,7 @@ window.__rb513={CH513,chPhase513,chState513,chStart513,chPoint513,chUse513,chFin
    · Diagnóstico: versión, guardado, errores y FPS medidos EN EL DISPOSITIVO (informe copiable)
    ===================================================================================================== */
 const MENU513={view:'home',fps:0,ft:[],introT:0,introDone:false,started:false,winErr:0,msg:''};
-const FRESH_KEY513='cascajo3d_v580o_fresh';
+const FRESH_KEY513='cascajo3d_v581o_fresh';
 try{addEventListener('error',()=>{MENU513.winErr++})}catch(_){}
 /* «Reiniciar» (Partidas) y «Nueva partida» no deben resucitar la partida anterior copiándola otra vez al arrancar */
 try{const _rs=Save59.reset;Save59.reset=function(){const r=_rs.apply(this,arguments);if(r&&r.ok){try{localStorage.setItem(FRESH_KEY513,'1')}catch(_){}}return r}}catch(_){}
@@ -5086,14 +5087,14 @@ function menuReport513(){let sz=0;try{sz=(localStorage.getItem(RB_KEY59)||'').le
   'Errores del juego: '+e.length+(e.length?'\n · '+e.slice(0,8).join('\n · '):'')+' · errores de ventana: '+MENU513.winErr].join('\n')}
 function menuRender513(view,msg){
  const ini=$('ini');if(!ini)return;MENU513.view=view||'home';MENU513.msg=msg||'';
- const prog=menuProgress513(),v=MENU513.view;let h='<div class="m513"><h1>RUTA BRAVA</h1><div class="sub">La Deuda · V5.80 Barrio (candidata)</div>';
+ const prog=menuProgress513(),v=MENU513.view;let h='<div class="m513"><h1>RUTA BRAVA</h1><div class="sub">La Deuda · V5.81 Tesoros (candidata)</div>';
  if(v==='home'){
   h+='<div class="sum">'+esc58(menuSummary513())+'</div>'+(menuStatusNote513()?'<div class="note">'+esc58(menuStatusNote513())+'</div>':'')+
    '<div class="grid"><button class="pri" id="m513go" '+(prog||MENU513.started?'':'disabled')+'>▶ '+(MENU513.started?'SEGUIR JUGANDO':'CONTINUAR')+'</button>'+
    '<button id="m513new">✚ NUEVA PARTIDA</button><button id="m513set">⚙ AJUSTES</button><button id="m513how">🎮 CÓMO JUGAR</button><button id="m513sv">💾 PARTIDAS</button><button id="m513cr">★ CRÉDITOS</button></div>'+
    (prog?'':'<div class="note">Toca «NUEVA PARTIDA» para empezar. Empiezas en Nueva Brava. Sigue la marca dorada: tu papá te espera en la sala.</div>');
  }else if(v==='how'){h+='<div class="box"><b>Cómo se juega</b>\n'+esc58(menuControls513())+'</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
- else if(v==='credits'){h+='<div class="box"><b>Créditos</b>\nRUTA BRAVA · La Deuda (candidata V5.80)\nProducción y dirección: el productor del proyecto.\nProgramación y guion asistidos por Claude (Anthropic) y ChatGPT (OpenAI); auditoría externa pendiente (Gemini, DeepSeek).\nMotor 3D: Three.js r128 (licencia MIT), cargado desde CDN.\nTodos los personajes, lugares y sucesos son ficticios; cualquier parecido con la realidad es coincidencia.</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
+ else if(v==='credits'){h+='<div class="box"><b>Créditos</b>\nRUTA BRAVA · La Deuda (candidata V5.81)\nProducción y dirección: el productor del proyecto.\nProgramación y guion asistidos por Claude (Anthropic) y ChatGPT (OpenAI); auditoría externa pendiente (Gemini, DeepSeek).\nMotor 3D: Three.js r128 (licencia MIT), cargado desde CDN.\nTodos los personajes, lugares y sucesos son ficticios; cualquier parecido con la realidad es coincidencia.</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
  else if(v==='settings'){h+='<div class="box"><b>Ajustes</b>\nMinimapa: '+(SET59.mini?'visible':'oculto')+'\nDirección al conducir (táctil): '+(SET59.steer==='joystick'?'joystick':SET59.steer==='wheel'?'volante circular':'barra clásica')+'</div>'+
    '<div class="row"><button id="m513mm">'+(SET59.mini?'Ocultar minimapa':'Mostrar minimapa')+'</button><button id="m513st">'+(SET59.steer==='joystick'?'Usar volante circular':SET59.steer==='wheel'?'Usar barra clásica':'Usar joystick')+'</button></div>'+
    '<div class="row"><button id="m513dg">🩺 Diagnóstico</button><button id="m513sv2">💾 Partidas</button><button id="m513bk">‹ Volver</button></div>'}
@@ -11226,7 +11227,7 @@ try{window.VIS536=VIS536}catch(_){}
 function rb536LateForce(){try{const R5=window.__reg511&&__reg511.REG511;if(R5&&R5.lateForce536){R5.lateForce536=0;R5.force()}}catch(err){try{ERR59.push('regiones: '+String(err&&err.message||err))}catch(_){}}}
 rb536LateForce();
 /*RB534-VISUAL536-END*/
-try{BUILD59.ver="5.80"}catch(_){}
+try{BUILD59.ver="5.81"}catch(_){}
 /* V5.6: guardar al pasar a segundo plano / cerrar (iOS dispara pagehide y visibilitychange, no beforeunload) */
 function flushSave(){try{snapshotVehicles();rbSyncCars();if(sv.p){clearTimeout(sv.t);return svNow()}return save()}catch(e){try{return save()}catch(_){return false}}}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushSave()});addEventListener('pagehide',flushSave);
@@ -17758,7 +17759,7 @@ try{window.MULTI553=MULTI553}catch(_){}
 /*RB553-RB553_ENLINEA-BEGIN*/
 /* RUTA BRAVA V5.53 · MODO EN LÍNEA APARTE (pedido del productor: «que sea diferente el modo historia y el modo multijugador, que todos empiecen
    con 50,000 pesos en el multijugador y tengan misiones y así, separadas»).
-   · En el menú de inicio eliges 📖 HISTORIA o 🌐 EN LÍNEA. Cada modo tiene su propia partida guardada (en línea: cascajo3d_v580o_enlinea);
+   · En el menú de inicio eliges 📖 HISTORIA o 🌐 EN LÍNEA. Cada modo tiene su propia partida guardada (en línea: cascajo3d_v581o_enlinea);
      lo que hagas en uno no toca al otro. Cambiar de modo recarga el juego.
    · En línea: empiezas con $50,000 en Nueva Brava, sin prólogo ni deuda de la historia; el 👥 (multijugador) solo está aquí.
    · Trabajos en línea (📱 Trabajos o 👥 → Trabajos): entrega exprés, cobranza, encargo de coche y la camioneta de valores. Si estás en una
@@ -21114,6 +21115,106 @@ const BR580=(()=>{
 })();
 try{window.BR580=BR580}catch(_){}
 /*RB580-RB580_BARRIO-END*/
+/*RB581-RB581_TESOROS-BEGIN*/
+/* RUTA BRAVA V5.81 · «TESOROS» (ideas del doc de 500 del mapa y del de 325 del modo en línea)
+   · 351 Calaveritas: 50 calaveritas de azúcar escondidas en las ciudades y sus orillas. Cada 10 que juntas, +$500; con las 50, logro.
+     Funcionan en la historia y en línea (en línea tus amigos ven cuántas llevas).
+   · 50 Letras gigantes «NUEVA BRAVA» a la entrada de la capital, para la foto.
+   · 398 Pozo de los deseos en el centro de Nueva Brava: tiras $10 y pasa algo.
+   · 245 Los más ricos del grupo · 144 Chat solo de tu banda · 167 Elecciones del barrio (alcalde de broma con un decreto). */
+const TE581=(()=>{
+ const M={errors:[],skulls:0,picked:0,built:0,letters:0,wishes:0,wishWins:0,bchat:0,votes:0,mayor:0,decrees:0};
+ const err=(w,e)=>{if(M.errors.length<6)M.errors.push(w+': '+(e&&e.message||e))};
+ const gh=(x,z)=>{try{return G512.h(x,z)}catch(_){return 0}};const T=t=>{try{toast(t)}catch(_){}};
+ const money=d=>{try{S.pesos=Math.max(0,Math.round((S.pesos||0)+d))}catch(_){}};
+ const isBlk=(x,z)=>{try{return !!blk(x,z)}catch(_){return false}};
+ const ST=()=>{if(!S.te581||typeof S.te581!=='object')S.te581={got:[]};if(!Array.isArray(S.te581.got))S.te581.got=[];return S.te581};
+ const rng=s=>()=>{s=(s*1103515245+12345)>>>0;return s/4294967296};
+ const cities=()=>{try{return NET511.net().CITIES.filter(c=>c&&isFinite(c.x))}catch(_){return []}};
+
+ /* ---------- calaveritas ---------- */
+ let SPOTS=null;
+ function spots(){if(SPOTS)return SPOTS;SPOTS=[];try{const C=cities();if(!C.length)return SPOTS;const r=rng(581581);let guard=0;
+   while(SPOTS.length<50&&guard++<4000){const c=C[SPOTS.length%C.length];const R=(c.R||130);const a=r()*6.283,d=R*(.25+r()*1.1);const x=c.x+Math.cos(a)*d,z=c.z+Math.sin(a)*d;
+    if(isBlk(x,z)||isBlk(x+1,z)||isBlk(x,z+1))continue;if(SPOTS.some(s=>Math.hypot(s.x-x,s.z-z)<25))continue;SPOTS.push({i:SPOTS.length,x:Math.round(x*10)/10,z:Math.round(z*10)/10,city:c.name||c.id})}}catch(e){err('lugares',e)}M.skulls=SPOTS.length;return SPOTS}
+ const LIVE=new Map();
+ function skullMesh(s){try{const g=new THREE.Group();const w=new THREE.MeshLambertMaterial({color:0xf8f2e6});const h=new THREE.Mesh(new THREE.SphereGeometry(.42,12,10),w);h.scale.set(1,1.05,.95);h.position.y=.5;g.add(h);
+   const jaw=new THREE.Mesh(new THREE.BoxGeometry(.46,.2,.36),w);jaw.position.set(0,.2,.05);g.add(jaw);
+   const k=new THREE.MeshBasicMaterial({color:0x1c1426});for(const sx of [-.15,.15]){const e=new THREE.Mesh(new THREE.SphereGeometry(.11,8,6),k);e.position.set(sx,.55,.36);g.add(e)}
+   const f=new THREE.MeshBasicMaterial({color:0xff4fa3});const fl=new THREE.Mesh(new THREE.TorusGeometry(.16,.05,6,10),f);fl.position.set(0,.82,.12);g.add(fl);
+   const ring=new THREE.Mesh(new THREE.TorusGeometry(.8,.05,6,20),new THREE.MeshBasicMaterial({color:0xffc832,transparent:true,opacity:.7}));ring.rotation.x=Math.PI/2;ring.position.y=.05;g.add(ring);
+   g.position.set(s.x,gh(s.x,s.z)+.2,s.z);g.userData.o581=1;sc.add(g);M.built++;return g}catch(e){err('calavera',e);return null}}
+ function myPos(){try{if(DRV&&DRV.k&&DRV.k.g){const q=DRV.k.g.position;return {x:q.x,z:q.z}}}catch(_){}return {x:P.x,z:P.z}}
+ let acc=0;function skullTick(dt){acc+=dt;const got=ST().got;const m=myPos();const t=performance.now()/1000;
+  for(const [i,g] of LIVE){g.rotation.y+=dt*1.2;g.position.y=gh(g.position.x,g.position.z)+.2+Math.sin(t*2+i)*.12}
+  if(acc<.5)return;acc=0;let indoors=false;try{indoors=!!INSIDE58}catch(_){}
+  for(const s of spots()){const have=got.includes(s.i);const d=Math.hypot(s.x-m.x,s.z-m.z);const g=LIVE.get(s.i);
+   if(!have&&!indoors&&d<160&&!g){const n=skullMesh(s);if(n)LIVE.set(s.i,n)}else if(g&&(have||d>200||indoors)){try{sc.remove(g)}catch(_){}LIVE.delete(s.i)}
+   if(!have&&!indoors&&d<2.6)pick(s)}}
+ function pick(s){const st=ST();if(st.got.includes(s.i))return;st.got.push(s.i);M.picked++;const n=st.got.length;const g=LIVE.get(s.i);if(g){try{sc.remove(g)}catch(_){}LIVE.delete(s.i)}
+  if(n%10===0){money(500);T('💀 ¡Calaverita '+n+'/50! Premio +$500')}else T('💀 Calaverita '+n+'/50 · '+s.city);
+  if(n>=50)try{PC558.unlock('calaveras581')}catch(_){}try{save()}catch(_){}}
+ try{const L=PC558.L;if(!L.find(x=>x[0]==='calaveras581'))L.push(['calaveras581','💀','Coleccionista','Junta las 50 calaveritas',()=>false])}catch(_){}
+
+ /* ---------- letras gigantes ---------- */
+ let LET=null;
+ function lettersSpot(){try{const c=cities().find(c=>c.id==='capital')||cities()[0];if(!c)return null;const R=(c.R||130)+26;
+   for(let k=0;k<48;k++){const a=k/48*6.283;const x=c.x+Math.cos(a)*R,z=c.z+Math.sin(a)*R;let ok=true;for(let u=-14;u<=14&&ok;u+=2)for(const v of [-2,0,2]){const px=x-Math.sin(a)*u+Math.cos(a)*v,pz=z+Math.cos(a)*u+Math.sin(a)*v;if(isBlk(px,pz))ok=false}
+    if(ok)return {x,z,a}}}catch(e){err('letras',e)}return null}
+ function letterTex(ch,col){const cv=document.createElement('canvas');cv.width=128;cv.height=160;const x=cv.getContext('2d');x.fillStyle=col;x.fillRect(0,0,128,160);x.fillStyle='#fff';x.font='bold 140px Arial Black,Arial,sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(ch,64,86);const t=new THREE.CanvasTexture(cv);return t}
+ function buildLetters(){if(LET||typeof document==='undefined')return;const sp=lettersSpot();if(!sp){LET={none:true};return}try{const g=new THREE.Group();const txt='NUEVA BRAVA';const cols=['#e8326e','#f2a71b','#2bb673','#2a8fd8','#8a4fd8'];let k=0;
+   for(let i=0;i<txt.length;i++){const ch=txt[i];if(ch===' ')continue;const col=cols[k++%cols.length];const mat=[new THREE.MeshLambertMaterial({color:col}),new THREE.MeshLambertMaterial({color:col}),new THREE.MeshLambertMaterial({color:col}),new THREE.MeshLambertMaterial({color:col}),new THREE.MeshLambertMaterial({map:letterTex(ch,col)}),new THREE.MeshLambertMaterial({color:col})];/* letra solo al frente: por detrás se vería al revés */
+    const b=new THREE.Mesh(new THREE.BoxGeometry(2.3,3.2,.9),mat);b.position.set((i-(txt.length-1)/2)*2.55,1.6,0);g.add(b);M.letters++}
+   /* de frente a la ciudad */g.position.set(sp.x,gh(sp.x,sp.z),sp.z);g.rotation.y=Math.atan2(-Math.cos(sp.a),-Math.sin(sp.a));g.userData.o581=1;sc.add(g);LET={g,x:sp.x,z:sp.z}}catch(e){err('letras',e);LET={none:true}}}
+
+ /* ---------- pozo de los deseos ---------- */
+ let WELL=null;
+ function buildWell(){if(WELL)return;try{const c=cities().find(c=>c.id==='capital')||cities()[0];if(!c){WELL={none:true};return}let x=c.x+18,z=c.z+18;for(let k=0;k<80;k++){const a=k*.7,r=14+k*.8;x=c.x+Math.cos(a)*r;z=c.z+Math.sin(a)*r;const asf=(()=>{try{return surfKind59(x,z)==='asfalto'||surfKind59(x+2,z)==='asfalto'||surfKind59(x,z+2)==='asfalto'||surfKind59(x-2,z)==='asfalto'||surfKind59(x,z-2)==='asfalto'}catch(_){return false}})();/* fuera de la calle */if(!isBlk(x,z)&&!isBlk(x+2,z)&&!isBlk(x,z+2)&&!asf)break}
+   const g=new THREE.Group();const st=new THREE.Mesh(new THREE.CylinderGeometry(1.2,1.3,.9,16,1,true),new THREE.MeshLambertMaterial({color:0x8d8a84,side:THREE.DoubleSide}));st.position.y=.45;g.add(st);
+   const w=new THREE.Mesh(new THREE.CircleGeometry(1.1,16),new THREE.MeshBasicMaterial({color:0x1d4f7a}));w.rotation.x=-Math.PI/2;w.position.y=.3;g.add(w);
+   for(const sx of [-1.1,1.1]){const p=new THREE.Mesh(new THREE.BoxGeometry(.15,1.8,.15),new THREE.MeshLambertMaterial({color:0x5a3a1e}));p.position.set(sx,1.3,0);g.add(p)}
+   const roof=new THREE.Mesh(new THREE.ConeGeometry(1.6,.8,4),new THREE.MeshLambertMaterial({color:0xa0402a}));roof.position.y=2.5;roof.rotation.y=Math.PI/4;g.add(roof);
+   try{const l=label58('🪙 Pozo de los deseos');l.scale.set(3.2,.65,1);l.position.y=3.4;g.add(l)}catch(_){}
+   g.position.set(x,gh(x,z),z);g.userData.o581=1;sc.add(g);WELL={g,x,z}}catch(e){err('pozo',e);WELL={none:true}}}
+ const WISH=[[.08,'🍀 ¡El pozo te regresó $100!',100],[.04,'💰 ¡Suerte de feria! El pozo te dio $500',500],[.2,'✨ Se cumplirá… algún día',0],[.15,'🐸 Salió una rana. No pasa nada',0],[.15,'🌈 Sientes que hoy te va a ir bien',0],[.13,'💧 Te salpicó el agua',0],[.25,'🪙 Tu moneda brilla en el fondo',0]];
+ function wish(){if((S.pesos||0)<10){T('No traes ni para la moneda');return}money(-10);M.wishes++;let r=Math.random(),acc=0;for(const [p,t,m] of WISH){acc+=p;if(r<=acc){if(m){money(m);M.wishWins++}T(t);return}}T('🪙 Tu moneda brilla en el fondo')}
+ try{const _c=cand58;cand58=function(){const r=_c.apply(this,arguments);try{if(dl||DRV||INSIDE58||!WELL||WELL.none)return r;if(Math.hypot(P.x-WELL.x,P.z-WELL.z)<3.2)return {label:'🪙 Tirar $10 al pozo de los deseos',fn:wish}}catch(_){}return r}}catch(e){err('usar',e)}
+
+ /* ---------- en línea: ricos, chat de banda, elecciones ---------- */
+ const X=()=>{try{return MULTI553}catch(_){return null}};const myPeer=()=>{try{return X().myPeer}catch(_){return null}};const nameOf=pe=>{try{return X().nameOf(pe)}catch(_){return 'Alguien'}};
+ const ev=(k,o)=>{try{X().event(k,o)}catch(e){err('suceso',e)}};const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+ const band=()=>{try{return BA579.st().n||''}catch(_){return ''}};const BCH=[];
+ let EL=null;/* {id,end,vote,mayor} */let MAYOR=null,decreeUsed=false;
+ function elStart(){if(!X().room){T('Primero entra a una partida 👥');return}if(EL){T('Ya hay elecciones');return}const o={id:Math.floor(Math.random()*1e9),dur:45};ev('elec581',o);elBegin(o);T('🗳️ ¡Elecciones del barrio! Vota en el panel 👥 (45 s)')}
+ function elBegin(o){EL={id:o.id,end:performance.now()/1000+(o.dur||45),vote:null};M.votes++}
+ function elTick(){if(!EL)return;if(performance.now()/1000<EL.end)return;const tally=new Map();const add=v=>{if(v)tally.set(v,(tally.get(v)||0)+1)};add(EL.vote);try{for(const a of X().AV.values())if(a.vote581&&a.vote581.id===EL.id)add(a.vote581.v)}catch(_){}
+  let w=null,wn=0;for(const [k,n] of tally)if(n>wn||(n===wn&&String(k)<String(w))){wn=n;w=k}EL=null;
+  if(!w){T('🗳️ Nadie votó: el barrio sigue sin alcalde');return}MAYOR=w;decreeUsed=false;if(w===myPeer()){M.mayor++;T('🎩 ¡Ganaste! Eres ALCALDE del barrio ('+wn+' votos). Tienes un decreto en el panel 👥')}else T('🎩 '+nameOf(w)+' es el nuevo alcalde del barrio ('+wn+' votos)')}
+ function onEv(a,e){if(!e||typeof e.k!=='string'||!e.k.endsWith('581'))return;
+  if(e.k==='bchat581'&&e.b&&e.b===band()){const t=String(e.t||'').replace(/[\u0000-\u001f]/g,'').slice(0,80);if(t){BCH.push({n:a.name,t});if(BCH.length>5)BCH.shift();T('🏴 '+a.name+': '+t);try{X().paint()}catch(_){}}}
+  else if(e.k==='elec581'&&!EL){elBegin(e);T('🗳️ ¡Elecciones del barrio! Vota en el panel 👥 (45 s)')}
+  else if(e.k==='decreto581'&&MAYOR===a.peer){money(100);T('📜 Decreto del alcalde '+a.name+': ¡lluvia de dinero! +$100')}}
+ function onUpd(a,pr){a.p581=pr.p581|0;a.cal581=pr.cal581|0;a.vote581=pr.vote581||null}
+ function onPack(o){o.p581=Math.round(S.pesos||0);o.cal581=ST().got.length;if(EL&&EL.vote)o.vote581={id:EL.id,v:EL.vote}}
+ function panel(){const AV=X().AV;const rich=[[X().state().name,Math.round(S.pesos||0),ST().got.length,myPeer()]].concat([...AV.values()].map(a=>[a.name,a.p581|0,a.cal581|0,a.peer])).sort((a,b)=>b[1]-a[1]);
+  let h='<p class=s>💰 Los más ricos: '+rich.map((r,i)=>(i===0?'👑':'')+esc(r[0])+(MAYOR===r[3]?' 🎩':'')+' $'+r[1].toLocaleString('es-MX')+' · 💀'+r[2]).join(' · ')+'</p>';
+  const b=band();if(b){h+='<div class=r><input id=bc581 maxlength=80 placeholder="Solo para 🏴 '+esc(b)+'…"><button data-a=t581bchat>🏴 Enviar a mi banda</button></div>'+(BCH.length?'<p class=s>'+BCH.map(c=>'🏴 <b>'+esc(c.n)+':</b> '+esc(c.t)).join('<br>')+'</p>':'')}
+  if(EL){const left=Math.max(0,Math.ceil(EL.end-performance.now()/1000));h+='<p class=s>🗳️ Elecciones: '+left+' s · vota por:</p><div class=r>'+rich.map(r=>'<button data-a="t581v:'+esc(r[3])+'">'+(EL.vote===r[3]?'✅ ':'')+esc(r[0])+'</button>').join('')+'</div>'}
+  else h+='<div class=r><button data-a=t581elec>🗳️ Elecciones del barrio</button>'+(MAYOR===myPeer()&&!decreeUsed?'<button class=y data-a=t581dec>📜 Decreto: lluvia de dinero</button>':'')+'</div>';return h}
+ function click(a,root){if(!a.startsWith('t581'))return false;const k=a.slice(4);
+  if(k==='bchat'){const i=root&&root.querySelector?root.querySelector('#bc581'):null;const t=i?i.value.trim().slice(0,80):'';if(t&&band()){ev('bchat581',{b:band(),t});BCH.push({n:X().state().name,t});if(BCH.length>5)BCH.shift();M.bchat++;i.value='';try{X().paint()}catch(_){}}}
+  else if(k==='elec')elStart();else if(k.startsWith('v:')){if(EL){EL.vote=k.slice(2);try{X().sendNow(false);X().paint()}catch(_){}}}
+  else if(k==='dec'&&MAYOR===myPeer()&&!decreeUsed){decreeUsed=true;M.decrees++;money(100);ev('decreto581',{});T('📜 Decretaste lluvia de dinero: todos +$100');try{X().paint()}catch(_){}}return true}
+ let hooked=false;function hook(){if(hooked)return;const x=X();if(!x||!x.EXT)return;hooked=true;x.EXT.ev.push(onEv);x.EXT.upd.push(onUpd);x.EXT.pack.push(onPack);x.EXT.panel.push(panel);x.EXT.click.push(click);x.EXT.tick.push(()=>{try{elTick()}catch(e){err('elecciones',e)}})}
+ hook();
+
+ /* ---------- ciclo ---------- */
+ const _step=step;step=function(dt){const r=_step.apply(this,arguments);try{const d=Math.min(.1,Math.max(0,dt||0));if(!LET)buildLetters();if(!WELL)buildWell();skullTick(d)}catch(e){err('paso',e)}return r};
+ if(typeof setInterval==='function')setInterval(()=>{try{hook()}catch(_){}},1500);
+ return {M,spots,pick,ST,wish,buildLetters,buildWell,get letters(){return LET},get well(){return WELL},LIVE,elStart,elBegin,click,panel,get mayor(){return MAYOR},get el(){return EL}};
+})();
+try{window.TE581=TE581}catch(_){}
+/*RB581-RB581_TESOROS-END*/
 setMk();upd();loop(0);window.__cascajoBootOk=true;
 </script>
 
