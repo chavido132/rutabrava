@@ -21059,7 +21059,10 @@ const BR580=(()=>{
  let PI=null;/* {id,hp,last} */
  function pinStart(){if(!inGame()){T('Primero entra a una partida 👥');return}if(TP||ST||PI){T('Ya hay un juego');return}const o={id:Math.floor(Math.random()*1e9),hp:40};ev('pinata580',o);pinBegin(o);try{X().open(false)}catch(_){}}
  function pinBegin(o){M.pin++;did();PI={id:o.id,hp:o.hp|0||40,max:o.hp|0||40,last:0,done:false,mine:0}}
- function pinTick(){if(!PI)return;PI.hp=pinLeft();const pct=Math.max(0,PI.hp)/PI.max;card('pi'+PI.id,'<p style="text-align:center;font-size:18px;margin:0">🪅 ¡Dale a la piñata!</p><p id=k580 style="text-align:center;font-size:44px;margin:6px 0"></p><div style="text-align:center"><button data-f=pega style="margin:6px;width:80%;height:100px;border-radius:20px;border:3px solid #e8b931;background:#1e5a7a;color:#fff;font:800 26px system-ui">🏏 ¡PÉGALE!</button><br><button data-f=pisal '+BTN+'>Salir</button></div>');
+ function pinTick(){if(!PI)return;PI.hp=pinLeft();
+  /* si entre todos ya la rompieron pero los golpes llegaron cruzados, se la lleva el que más le pegó (empate: el código menor) */
+  if(PI.hp<=0&&!PI.done){let w=myPeer(),wn=PI.mine;try{for(const a of X().AV.values()){const n=a.pin580&&a.pin580.id===PI.id?a.pin580.n|0:0;if(n>wn||(n===wn&&String(a.peer)<String(w))){wn=n;w=a.peer}}}catch(_){}
+   PI.done=true;PI.doneAt=now();if(w===myPeer()){money(300);M.wins++;ev('rota580',{id:PI.id});pinEnd('🍬 ¡ROMPISTE LA PIÑATA! Te llevaste los dulces +$300')}return}const pct=Math.max(0,PI.hp)/PI.max;card('pi'+PI.id,'<p style="text-align:center;font-size:18px;margin:0">🪅 ¡Dale a la piñata!</p><p id=k580 style="text-align:center;font-size:44px;margin:6px 0"></p><div style="text-align:center"><button data-f=pega style="margin:6px;width:80%;height:100px;border-radius:20px;border:3px solid #e8b931;background:#1e5a7a;color:#fff;font:800 26px system-ui">🏏 ¡PÉGALE!</button><br><button data-f=pisal '+BTN+'>Salir</button></div>');
   setK('🪅 '+'█'.repeat(Math.round(pct*10))+'░'.repeat(10-Math.round(pct*10)))}
  /* cada quien manda en su estado cuántos golpes lleva (un número que solo sube): así no se pierde ninguno aunque se peguen muy rápido */
  function pinLeft(){if(!PI)return 0;let n=PI.mine;try{for(const a of X().AV.values())if(a.pin580&&a.pin580.id===PI.id)n+=a.pin580.n|0}catch(_){}return PI.max-n}
