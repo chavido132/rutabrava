@@ -23525,6 +23525,26 @@ const FX616=(()=>{const M={errors:[],spriteSkips:0};
  try{const SP=THREE.Sprite.prototype,_r=SP.raycast;SP.raycast=function(rc,out){if(!rc||!rc.camera){M.spriteSkips++;return}return _r.call(this,rc,out)}}catch(e){M.errors.push('sprite: '+e)}
  return {M}})();
 try{window.FX616=FX616}catch(_){}
+/* · PANTALLA (encontrado en el recorrido, sobre todo con Safari y su barra de pestañas: pantalla más bajita):
+     – el botón 👥 tapaba el número de avisos del 📱 TEL → se recorre a la derecha del TEL.
+     – el aviso de persecución y la pista de misión se encimaban entre sí y con los botones 😀 🤫 🧱 → se apilan y se angostan.
+     – el aviso (toast) tapaba el «USAR: …» → el aviso sube. */
+const LAY616=(()=>{const M={runs:0,errors:[]};
+ const $=id=>document.getElementById(id);
+ const vis=e=>{if(!e)return false;const c=getComputedStyle(e);if(c.display==='none'||c.visibility==='hidden')return false;const r=e.getBoundingClientRect();return r.width>2&&r.height>2};
+ const st=document.createElement('style');st.textContent='#rb531-next{box-sizing:border-box!important;width:var(--nxw616,min(340px,43vw))!important;top:var(--nxt616,calc(72px + env(safe-area-inset-top)))!important}#rb539pol{max-width:var(--polw616,90vw)!important;white-space:normal!important;text-align:center!important}#mp553{left:var(--mpl616,140px)!important}#ts{bottom:var(--tsb616,auto)}';document.head.appendChild(st);
+ const R=document.documentElement.style;const setv=(k,v)=>{if(R.getPropertyValue(k)!==v){if(v)R.setProperty(k,v);else R.removeProperty(k)}};
+ function fix(){M.runs++;try{
+  const tel=$('ph58b'),mp=$('mp553');if(vis(tel)&&vis(mp))setv('--mpl616',Math.round(tel.getBoundingClientRect().right+6)+'px');
+  let edge=innerWidth;for(const id of ['gesto551','sigilo550','cubre550','sir616'])try{const e=$(id);if(vis(e)){const r=e.getBoundingClientRect();if(r.top<innerHeight*.75&&r.left>innerWidth/2)edge=Math.min(edge,r.left)}}catch(_){}
+  const half=Math.max(110,Math.floor(edge-8-innerWidth/2));
+  setv('--polw616',(half*2)+'px');setv('--nxw616','min(340px, 43vw, '+(half*2)+'px)');
+  const pol=$('rb539pol'),nx=$('rb531-next');let b=0;for(const e of [pol,$('vel')])if(vis(e)){const r=e.getBoundingClientRect();if(r.left<innerWidth/2+half&&r.right>innerWidth/2-half)b=Math.max(b,r.bottom)}
+  setv('--nxt616',b?Math.round(Math.max(b+4,72))+'px':'');
+  const ts=$('ts'),pr=$('pr');let tb='';if(vis(ts)&&vis(pr)){const nat=parseFloat(getComputedStyle(ts).bottom)||106;const need=Math.round(innerHeight-pr.getBoundingClientRect().top+4);const cur=R.getPropertyValue('--tsb616');const base=cur?106:nat;if(need>base&&need<base+60)tb=need+'px'}setv('--tsb616',tb);
+ }catch(e){if(M.errors.length<4)M.errors.push(String(e))}}
+ setInterval(fix,250);return {M,fix}})();
+try{window.LAY616=LAY616}catch(_){}
 /*RB616-RB616_ARREGLOS-END*/
 
 /*RB616-RB616_LEY-BEGIN*/
@@ -23660,6 +23680,88 @@ const TW616=(()=>{
 })();
 try{window.TW616=TW616}catch(_){}
 /*RB616-RB616_TALLERES-END*/
+
+/*RB616-RB616_TOPES-BEGIN*/
+/* RUTA BRAVA V5.116 · TOPES DE VERDAD (pedido del productor: «que los topes sean físicos y tengan físicas realistas»)
+   · Los topes ahora son una joroba de verdad (11 cm de alto, 90 cm de ancho, amarillo con negro) y el coche los SIENTE:
+     primero sube la llanta de adelante y luego la de atrás (el coche cabecea), la suspensión rebota y se asienta.
+   · Despacito (< 15 km/h) pasas suave. Rápido: golpe fuerte, pierdes velocidad, el coche brinca y se daña
+     (más de ~45 km/h). Muy rápido, el coche despega del suelo un instante.
+   · Hay topes en las calles de las ciudades y en la entrada de los pueblos (como en México), además de los de carretera
+     (esos ya existían, pero sólo te frenaban de golpe y salía «¡Tope!», sin físicas). */
+const TP616=(()=>{
+ const M={errors:[],topes:0,city:0,town:0,road:0,hits:0,hard:0,air:0,instY:0,instB:0};
+ const err=(w,e)=>{if(M.errors.length<6)M.errors.push(w+': '+(e&&e.message||e))};
+ const gh=(x,z)=>{try{return G512.h(x,z)}catch(_){return 0}};
+ const H=.11,W=.9;/* alto y ancho de la joroba */
+ const LIST=[];/* {x,z,nx,nz,w} nx/nz = dirección de la calle (el coche cruza a lo largo de n) */
+ const add=(x,z,tx,tz,w,kind)=>{const l=Math.hypot(tx,tz)||1;tx/=l;tz/=l;for(const t of LIST)if(Math.hypot(t.x-x,t.z-z)<25)return false;LIST.push({x,z,nx:tx,nz:tz,w:Math.max(5,Math.min(12,w||7))});M.topes++;M[kind]++;return true};
+ let planned=false;
+ function plan(){if(planned)return;planned=true;
+  /* 1) los de carretera que ya existían: se quedan donde estaban pero con física nueva (y sin el frenón de antes) */
+  try{if(!CARR566.PLAN)CARR566.plan();for(const R of CARR566.PLAN||[]){for(const t of R.topes||[])add(t.x,t.z,Math.sin(t.rot),Math.cos(t.rot),(t.w||7)-1.4,'road');if(R.topes)R.topes.length=0}}catch(e){err('carretera',e)}
+  /* 2) entrada de cada pueblo/ciudad: donde la carretera cruza el borde del pueblo */
+  try{const C=NET511.net().CITIES;for(const e of NET511.net().E){const pts=e.pts||[];for(const c of C){const R=(c.r||60)*.85;for(let j=1;j<pts.length;j++){const a=pts[j-1],b=pts[j];const da=Math.hypot(a.x-c.x,a.z-c.z),db=Math.hypot(b.x-c.x,b.z-c.z);if((da-R)*(db-R)<0){const t=(R-da)/(db-da);const x=a.x+(b.x-a.x)*t,z=a.z+(b.z-a.z)*t;let ok=true;try{ok=surfKind59(x,z)==='asfalto'||true}catch(_){}if(ok)add(x,z,b.x-a.x,b.z-a.z,(e.w||7)-1.4,'town')}}}}}catch(e){err('pueblos',e)}
+  /* 3) calles de las ciudades grandes: a media cuadra en calles largas (centrado entre los dos carriles de la calle) */
+  try{for(const V of URBE534.cities||[]){let n=0;const L=(V.lanes||[]).filter(l=>l.len>24&&l.pts&&l.pts.length>=2);
+   for(let i=0;i<L.length&&n<16;i+=2){const l=L[i];const a=l.pts[0],b=l.pts[l.pts.length-1];const tx=b.x-a.x,tz=b.z-a.z,tl=Math.hypot(tx,tz)||1;const mx=(a.x+b.x)/2,mz=(a.z+b.z)/2;
+    /* el carril de regreso: paralelo, sentido contrario, a 2–6 m */let best=null,bd=1e9;for(const o of L){if(o===l)continue;const c=o.pts[0],d=o.pts[o.pts.length-1];const ux=d.x-c.x,uz=d.z-c.z,ul=Math.hypot(ux,uz)||1;if((ux*tx+uz*tz)/(ul*tl)>-.95)continue;const ox=(c.x+d.x)/2-mx,oz=(c.z+d.z)/2-mz;const side=Math.abs(ox*(-tz)+oz*tx)/tl,al=Math.abs(ox*tx+oz*tz)/tl;if(side>1.5&&side<6.5&&al<tl/2&&side<bd){bd=side;best={ox,oz}}}
+    if(!best)continue;const x=mx+best.ox/2,z=mz+best.oz/2;let bad=false;try{bad=blk(x,z)}catch(_){}if(bad)continue;if(add(x,z,tx,tz,bd+3.6,'city'))n++}}}catch(e){err('ciudad',e)}
+  build()}
+ /* ---------- malla: dos InstancedMesh (amarillo y negro) para todos los topes ---------- */
+ function build(){try{const SEG=.9;let ny=0,nb=0;for(const t of LIST){const n=Math.ceil(t.w/SEG);ny+=Math.ceil(n/2);nb+=Math.floor(n/2)}
+   const geo=new THREE.CylinderGeometry(.5,.5,SEG,10,1,false,0,Math.PI);geo.rotateZ(Math.PI/2);/* eje de la joroba a lo ancho (x local); media luna hacia arriba */geo.scale(1,H/.5,W);
+   const mk=(n,c)=>{const m=new THREE.InstancedMesh(geo,new THREE.MeshLambertMaterial({color:c,polygonOffset:true,polygonOffsetFactor:-12,polygonOffsetUnits:-12}),Math.max(1,n));m.userData.o616=1;m.frustumCulled=false;m.renderOrder=20;sc.add(m);return m};
+   const Y=mk(ny,0xf4c20d),B=mk(nb,0x1a1a1a);const o=new THREE.Object3D();let iy=0,ib=0;
+   for(const t of LIST){const n=Math.ceil(t.w/SEG);const rot=Math.atan2(t.nx,t.nz);/* ancho = perpendicular a la calle */const px=t.nz,pz=-t.nx;
+    t.slots=[];for(let i=0;i<n;i++){const off=-t.w/2+SEG/2+i*SEG;const x=t.x+px*off,z=t.z+pz*off;o.position.set(x,gh(x,z)+.005,z);o.rotation.set(0,rot,0);o.updateMatrix();if(i%2===0){t.slots.push([0,iy,x,z]);Y.setMatrixAt(iy++,o.matrix)}else{t.slots.push([1,ib,x,z]);B.setMatrixAt(ib++,o.matrix)}}t.rot=rot}MESH.Y=Y;MESH.B=B;
+   Y.count=iy;B.count=ib;Y.instanceMatrix.needsUpdate=true;B.instanceMatrix.needsUpdate=true;M.instY=iy;M.instB=ib}catch(e){err('malla',e)}}
+ /* la carretera está un poquito arriba del terreno: cuando te acercas, el tope se asienta sobre el asfalto de verdad */
+ const MESH={Y:null,B:null};const RC=new THREE.Raycaster();const DOWN=new THREE.Vector3(0,-1,0),ORG=new THREE.Vector3();
+ function surfY(x,z){const g0=gh(x,z);let best=g0;try{ORG.set(x,g0+3,z);RC.set(ORG,DOWN);RC.far=3.6;const near=[];for(const c of sc.children){if(!c.visible||c.isInstancedMesh||c.isLight)continue;const p=c.position;if(c.isMesh&&c.geometry){if(!c.geometry.boundingSphere)c.geometry.computeBoundingSphere();const bs=c.geometry.boundingSphere;const r=bs.radius*Math.max(c.scale.x,c.scale.z);if(Math.hypot(p.x+bs.center.x*c.scale.x-x,p.z+bs.center.z*c.scale.z-z)>r+2)continue}near.push(c)}for(const h of RC.intersectObjects(near,true)){const y=h.point.y;if(h.object.isMesh&&!h.object.isSprite&&y>g0-.05&&y<g0+.45&&!/o6\d\d|o5\d\d/.test(Object.keys((h.object.parent||{}).userData||{}).join(','))){best=Math.max(best,y)}}}catch(e){err('altura',e)}return Math.min(best,g0+.4)}
+ function settle(t){if(t.ok||!MESH.Y||!t.slots)return;t.ok=true;const o=new THREE.Object3D();for(const [m,i,x,z] of t.slots){o.position.set(x,surfY(x,z)+.005,z);o.rotation.set(0,t.rot,0);o.updateMatrix();(m?MESH.B:MESH.Y).setMatrixAt(i,o.matrix)}MESH.Y.instanceMatrix.needsUpdate=true;MESH.B.instanceMatrix.needsUpdate=true;M.settled=(M.settled||0)+1}
+ /* perfil de la joroba: s = distancia a lo largo de la calle */
+ const prof=s=>Math.abs(s)<W/2?H*Math.pow(Math.cos(Math.PI*s/W),2):0;
+ function roadIn(x,z){let h=0;for(const t of NEAR){const dx=x-t.x,dz=z-t.z;const s=dx*t.nx+dz*t.nz,a=Math.abs(dx*t.nz-dz*t.nx);if(a<t.w/2+.2)h=Math.max(h,prof(s))}return h}
+ /* ---------- física del coche que manejas ---------- */
+ let NEAR=[],nearT=0;const B={k:null,y:0,vy:0,pitch:0,vp:0,dy:0,dp:0,fx:1,fz:0,px:null,pz:null,inF:0,inR:0,lf:0,lr:0,crestF:false,crestR:false,toastT:0,sign:1};
+ function undo(){const k=B.k;if(!k||!k.g)return;try{k.g.position.y-=B.dy;if(B.dp)k.g.rotateOnAxis(AX,-B.dp*B.sign)}catch(_){}B.dy=0;B.dp=0}
+ const AX=new THREE.Vector3(0,0,1),TMP=new THREE.Vector3();
+ function axleHit(v,front){/* golpe al pasar la cresta con una llanta */const kmh=v*3.6;M.hits++;
+  if(kmh>15){const loss=Math.min(.32,(kmh-15)*.006);DRV.v*=1-loss}
+  if(kmh>45&&front){M.hard++;try{carImpact(DRV.k,Math.min(14,(kmh-45)*.25))}catch(_){}if(B.toastT<=0){B.toastT=3;try{toast(kmh>70?'💥 ¡Tope a lo bestia! El coche voló y se dañó la suspensión':'💥 ¡Tope! Le pegaste duro (bájale antes del tope)')}catch(_){}}}}
+ /* phys(dt,x,z): x,z = posición interpolada dentro del cuadro (el juego mueve el coche una vez por cuadro) */
+ function phys(dt,x,z){const k=DRV&&DRV.k;if(!k||!k.g)return;
+  if(B.px!=null){const mx=x-B.px,mz=z-B.pz,m=Math.hypot(mx,mz);if(m>.004){const sg=(DRV.v||0)<0?-1:1;B.fx=mx/m*sg;B.fz=mz/m*sg}}B.px=x;B.pz=z;
+  if(!NEAR.length&&Math.abs(B.y)<.002&&Math.abs(B.vy)<.01&&Math.abs(B.pitch)<.002&&Math.abs(B.vp)<.01){B.y=0;B.vy=0;B.pitch=0;B.vp=0;B.inF=0;B.inR=0;return}
+  const wb=(k.vt==='truck'?4.2:k.vt==='vocho'?2.4:2.7)/2;const v=Math.abs(DRV.v||0);
+  const zf=roadIn(x+B.fx*wb,z+B.fz*wb),zr=roadIn(x-B.fx*wb,z-B.fz*wb);
+  /* cresta: la llanta pasó por lo más alto (subía y ahora baja) */
+  if(B.lf>H*.6&&zf<B.lf&&!B.crestF){B.crestF=true;axleHit(v,true)}if(zf<H*.05)B.crestF=false;
+  if(B.lr>H*.6&&zr<B.lr&&!B.crestR){B.crestR=true;axleHit(v,false)}if(zr<H*.05)B.crestR=false;B.lf=zf;B.lr=zr;
+  const tgt=(zf+zr)/2,tgp=Math.atan2(zf-zr,wb*2);
+  const dIn=(tgt-B.inF)/Math.max(dt,1e-4);B.inF=tgt;const dP=(tgp-B.inR)/Math.max(dt,1e-4);B.inR=tgp;
+  const kS=140,cS=9,kP=170,cP=10,travel=.05;
+  /* lo rápido que sube el suelo bajo las llantas empuja la carrocería (a más velocidad, más golpe) */
+  if(dIn>0)B.vy+=dIn*dt*Math.min(26,1+Math.max(0,v-4)*1.3);B.vp+=dP*dt*Math.min(9,1+v*.4);
+  const air=B.y>tgt+travel&&B.vy>-.3;if(air){B.vy-=9.8*dt;if(!B.wasAir){M.air++;B.wasAir=true}}else{B.vy+=(kS*(tgt-B.y)-cS*B.vy)*dt;B.wasAir=false}
+  B.y+=B.vy*dt;if(B.y<tgt-.04){B.y=tgt-.04;B.vy=Math.max(0,B.vy)}
+  B.vp+=(kP*(tgp-B.pitch)-cP*B.vp)*dt;B.pitch+=B.vp*dt;B.pitch=Math.max(-.2,Math.min(.2,B.pitch));B.y=Math.max(-.05,Math.min(.9,B.y))}
+ function apply(){const k=B.k;if(!k||!k.g)return;try{
+  /* signo del cabeceo: ¿el eje +x local del coche apunta hacia adelante? */
+  TMP.set(1,0,0).applyQuaternion(k.g.quaternion);B.sign=(TMP.x*B.fx+TMP.z*B.fz)>=0?1:-1;
+  B.dy=B.y;B.dp=B.pitch;k.g.position.y+=B.dy;if(B.dp)k.g.rotateOnAxis(AX,B.dp*B.sign)}catch(e){err('aplicar',e)}}
+ const _st=step;let acc=0;step=function(dt,t){undo();const k0=DRV&&DRV.k;const x0=k0&&k0.g?k0.g.position.x:0,z0=k0&&k0.g?k0.g.position.z:0;const r=_st.apply(this,arguments);try{const d=Math.min(.05,Math.max(0,dt||0));if(!planned){acc+=d;if(acc>.3)plan()}else{acc+=d;if(acc>.5){acc=0;const q=DRV&&DRV.k?DRV.k.g.position:P;let n=0;for(const t of LIST){if(t.ok)continue;if(Math.abs(t.x-q.x)<140&&Math.abs(t.z-q.z)<140){settle(t);if(++n>=2)break}}}}B.toastT-=d;
+   const k=DRV&&DRV.k;if(B.k!==k){B.k=k;B.y=0;B.vy=0;B.pitch=0;B.vp=0;B.px=null;B.inF=0;B.inR=0;B.lf=0;B.lr=0;B.crestF=B.crestR=false;B.dy=0;B.dp=0}
+   if(k&&k.g){const p=k.g.position;nearT-=d;if(nearT<=0){nearT=.3;NEAR=LIST.filter(q=>Math.abs(q.x-p.x)<35&&Math.abs(q.z-p.z)<35)}
+    const sx=k===k0?x0:p.x,sz=k===k0?z0:p.z;const T=Math.min(.1,Math.max(0,dt||0));const v=Math.max(1,Math.abs(DRV.v||0));
+    /* subpasos de ~5 cm de recorrido: a 100 km/h la llanta cruza la joroba en 3 centésimas */const n=NEAR.length?Math.min(60,Math.max(1,Math.ceil(v*T/.05))):Math.max(1,Math.ceil(T/.012));
+    for(let i=1;i<=n;i++){const f=i/n;phys(T/n,sx+(p.x-sx)*f,sz+(p.z-sz)*f)}apply()}}catch(e){err('cuadro',e)}return r};
+ try{NV600.G[1][1].push('🟨 Topes de verdad: el coche sube, cabecea y rebota; si pasas rápido te frena, brinca y se daña. Hay topes en calles y entradas de pueblo')}catch(_){}
+ return {M,LIST,settle,surfY,plan,prof,get body(){return {y:B.y,pitch:B.pitch,vy:B.vy}},H,W};
+})();
+try{window.TP616=TP616}catch(_){}
+/*RB616-RB616_TOPES-END*/
 setMk();upd();loop(0);window.__cascajoBootOk=true;
 </script>
 
