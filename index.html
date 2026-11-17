@@ -23517,6 +23517,16 @@ const CP615=(()=>{
 })();
 try{window.CP615=CP615}catch(_){}
 /*RB615-RB615_CAPITAL-END*/
+/*RB616-RB616_ARREGLOS-BEGIN*/
+/* RUTA BRAVA V5.116 · ARREGLOS DEL RECORRIDO
+   · Bate/golpes/disparos tronaban con «null is not an object (evaluating 't.camera.matrixWorld')»: el rayo de la mira tocaba
+     un letrero (Sprite) y three.js necesita la cámara para eso. Ahora los letreros se ignoran si el rayo no trae cámara. */
+const FX616=(()=>{const M={errors:[],spriteSkips:0};
+ try{const SP=THREE.Sprite.prototype,_r=SP.raycast;SP.raycast=function(rc,out){if(!rc||!rc.camera){M.spriteSkips++;return}return _r.call(this,rc,out)}}catch(e){M.errors.push('sprite: '+e)}
+ return {M}})();
+try{window.FX616=FX616}catch(_){}
+/*RB616-RB616_ARREGLOS-END*/
+
 /*RB616-RB616_LEY-BEGIN*/
 /* RUTA BRAVA V5.116 · «LA LEY» (pedido del productor):
    · Si te robas una PATRULLA, eres policía. Hay patrullas estacionadas afuera de la comandancia de cada ciudad.
