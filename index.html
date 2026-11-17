@@ -5298,7 +5298,7 @@ function exVisualTuning514(k){if(!k||!k.g)return;
  }
 }
 function exTune514(action,value){if(!exAtStation514('tune')&&!exAtStation514('tune2')){toast('Debes estar en un taller físico');return false}
- const k=exTuningCar514();if(!k||!k.ownedId){toast('Estaciona cerca un vehículo de tu propiedad');return false}
+ const k=exTuningCar514();if(!k){toast('Mete un vehículo al taller');return false}
  const price=action==='paint'?160:action==='engine'?500:action==='rim'?250:action==='susp'?380:300;
  if(S.pesos<price){toast('Te faltan $'+(price-S.pesos));return false}
  k.tuning514=k.tuning514||{};k.upgrades=k.upgrades||{};
@@ -6035,12 +6035,12 @@ function garagePrice5152(k){return ({vocho:6000,sedan:12000,pickup:14000,truck:3
 function garageBuy5152(){const k=garageCar5152();if(!k||k.ownedId)return false;const price=garagePrice5152(k);if((S.pesos||0)<price){toast('Te faltan $'+(price-Math.floor(S.pesos||0))+' para quedarte con este coche');return false}
  try{S.pesos-=price;const nid=RB.nextId++;const p=k.g.position;const rec={id:nid,vt:k.vt||'sedan',plate:'BRV-'+String(nid).padStart(4,'0'),x:p.x,z:p.z,fuel:Number.isFinite(k.fuel)?k.fuel:30,condition:Number.isFinite(k.condition)?k.condition:100,cargo:{},parts:{...(k.parts||{})},upgrades:{engine:0,cargo:0,...(k.upgrades||{})},transmission531:'manual'};
   RB.owned=RB.owned||[];RB.owned.push(rec);k.ownedId=nid;k.upgrades=rec.upgrades;try{rbSyncCars()}catch(_){}upd();save();toast('🔑 ¡Ya es tuyo! Placas '+rec.plate+'. Ahora sí, a modificarlo');return true}catch(e){toast('No se pudo hacer el trámite');return false}}
-function garageRender5152(){const ui=GAR5152.ui;if(!ui)return;const k=garageCar5152(),owns=!!k?.ownedId;
+function garageRender5152(){const ui=GAR5152.ui;if(!ui)return;const k=garageCar5152(),owns=!!k,mine=!!k?.ownedId;
  const name=k?({vocho:'Vocho',pickup:'Pickup',sedan:'Sedán',truck:'Camión'}[k.vt]||k.vt):'Vehículo';
  ui.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><h2 style="margin:0;color:#f6d774">🔧 CROMO CUSTOMS</h2><button id="g52close" style="padding:9px 13px">✖ Cerrar</button></div>'+
-  '<p>Entraste al garaje conduciendo. '+(owns?'Puedes modificar tu '+name+'.':'Este '+name+' todavía no está a tu nombre. Arreglamos los papeles aquí mismo y luego lo modificas.')+'</p>'+
+  '<p>Entraste al garaje conduciendo. '+(mine?'Puedes modificar tu '+name+'.':'Puedes modificar este '+name+' aunque no sea tuyo. Si te gusta, también lo puedes comprar (abajo).')+'</p>'+
   '<p>💰 Saldo: $'+Math.floor(S.pesos||0)+' · Motor '+(k?.upgrades?.engine||0)+'/3</p>'+
-  (owns?'<div id="g52opts" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px"></div>':(k?'<button id="g52buy" style="display:block;width:100%;padding:12px;background:#e7bd51;color:#192938;border:2px solid #fff;border-radius:10px;font:bold 15px system-ui">🔑 Quedarte con este '+name+' · $'+garagePrice5152(k).toLocaleString('es-MX')+'</button><p style="opacity:.8">Te dan factura y placas; queda guardado en «Mis papeles» y ya lo puedes pintar y mejorar.</p>':'<p>Entra manejando un coche.</p>'));
+  (owns?'<div id="g52opts" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px"></div>'+(mine?'':'<button id="g52buy" style="display:block;width:100%;margin-top:10px;padding:10px;background:#3a5568;color:#fff;border:1px solid #e7bd51;border-radius:10px;font:bold 13px system-ui">🔑 Comprar este '+name+' (opcional) · $'+garagePrice5152(k).toLocaleString('es-MX')+'</button>'):(k?'<button id="g52buy" style="display:block;width:100%;padding:12px;background:#e7bd51;color:#192938;border:2px solid #fff;border-radius:10px;font:bold 15px system-ui">🔑 Quedarte con este '+name+' · $'+garagePrice5152(k).toLocaleString('es-MX')+'</button><p style="opacity:.8">Te dan factura y placas; queda guardado en «Mis papeles» y ya lo puedes pintar y mejorar.</p>':'<p>Entra manejando un coche.</p>'));
  const close=ui.querySelector('#g52close');if(close)close.addEventListener('click',garageClose5152);
  const buy=ui.querySelector('#g52buy');if(buy)buy.addEventListener('click',()=>{garageBuy5152();garageRender5152()});
  if(!owns)return;
@@ -6067,7 +6067,7 @@ const _exAt5152=exAtStation514;
 exAtStation514=function(id,max){if(id==='tune')return garageReady5152();if(id==='tune2')return false;return _exAt5152.apply(this,arguments)};
 const _exCar5152=exTuningCar514;
 exTuningCar514=function(){if(garageReady5152())return garageCar5152();return _exCar5152.apply(this,arguments)};
-Phone58.register({id:'tuning514',name:'Garaje Cromo',icon:'🔧',badge:()=>0,render(api){return {title:'🔧 Cromo Customs',text:'El tuning ya NO se compra desde la calle. Conduce tu vehículo hasta el garaje de Cromo en (x -56, z 18). La puerta se abre al acercarte. Mete el coche, estaciónalo en la bahía marcada y se abrirá el taller.',buttons:[['🧭 Ubicación del garaje',()=>{api.close();RB.navTarget='centro';save();toast('Garaje Cromo: x -56, z 18 · al sur de la calle principal')}],['Volver',()=>api.home()]]}}});
+Phone58.register({id:'tuning514',name:'Garaje Cromo',icon:'🔧',badge:()=>0,render(api){return {title:'🔧 Cromo Customs',text:'El tuning ya NO se compra desde la calle. Hay un Cromo Customs en cada ciudad y pueblo (y el original en el pueblo viejo, x -56, z 18). Entra manejando cualquier coche y se abre el menú: lo puedes modificar aunque no sea tuyo.',buttons:[['🧭 Ubicación del garaje',()=>{api.close();RB.navTarget='centro';save();toast('Garaje Cromo: x -56, z 18 · al sur de la calle principal')}],['Volver',()=>api.home()]]}}});
 
 try{polBuildPlaces5152();garageBuild5152()}catch(e){POLISH5152.errors.push('init:'+String(e));try{console.warn('RB5152',e)}catch(_){}}
 const _polStep5152=step;
@@ -23518,107 +23518,138 @@ const CP615=(()=>{
 try{window.CP615=CP615}catch(_){}
 /*RB615-RB615_CAPITAL-END*/
 /*RB616-RB616_LEY-BEGIN*/
-/* RUTA BRAVA V5.116 · «POLICÍAS Y LADRONES» (modo en línea). Mini-misión con sentido, pedida por el productor:
-   haces una travesura → te persiguen → si te atrapan vas a la celda → te tienes que fugar.
-   · Un amigo es el LADRÓN y los demás son POLICÍAS. Todo es de juego (el «botín» es una bolsa de premios de la feria).
-   · 1) ROBO: el ladrón va a la bolsa (columna roja). Al tomarla suena la alarma y a todos les llega «¡Robaron la bolsa!».
-   · 2) HUIDA: el ladrón tiene que llegar a SU escondite (columna verde, sólo él la ve) antes de que se acabe el tiempo (5 min).
-        Los policías ven una luz roja sobre el ladrón y tienen sirena/altavoz.
-   · 3) ATRAPADO: si un policía se le pega (5 m) por 1.5 s, el ladrón va a la CELDA.
-   · 4) FUGA: en la celda el ladrón lima los barrotes (5 veces). Si un policía está cuidando la celda (15 m) «el guardia te ve»
-        y no puede limar: los policías tienen que decidir entre cuidar la celda o salir a buscar. Fugado, vuelve a correr al escondite.
-   · GANA el ladrón si llega al escondite con la bolsa: +$300. GANAN los policías si se acaba el tiempo: +$150 cada uno.
-   El ladrón manda en el estado de la misión (sabe dónde está él); los demás lo leen de sus paquetes y sucesos. */
+/* RUTA BRAVA V5.116 · «LA LEY» (pedido del productor):
+   · Si te robas una PATRULLA, eres policía. Hay patrullas estacionadas afuera de la comandancia de cada ciudad.
+     Arriba de ella: torreta, sirena y altavoz (📢), y te llega el radio de la central («asalto en el banco…»).
+   · Si robas un banco (o haces cualquier delito), te persigue la policía DE VERDAD del juego y te puede meter a la cárcel
+     (mordida, abogado, entregarte o correr; en el penal, fuga de noche). Eso ya existía y no se toca.
+   · EN LÍNEA: si tu amigo trae estrellas y tú andas en patrulla, lo ves con una luz roja. Si te le pegas (6 m) 1.5 s,
+     lo detienes: a él le sale el arresto real del juego (mordida/abogado/entregarte/correr → cárcel). Tú cobras recompensa
+     ($200 por estrella). Si se te escapa, se te escapó. */
 const LY616=(()=>{
- const M={errors:[],speaker:0,games:0,robbed:0,caught:0,escapes:0,thiefWins:0,copWins:0};
+ const M={errors:[],speaker:0,built:0,stolen:0,radios:0,arrestsSent:0,arrestsIn:0,rewards:0};
  const err=(w,e)=>{if(M.errors.length<6)M.errors.push(w+': '+(e&&e.message||e))};
  const X=()=>{try{return MULTI553}catch(_){return null}};const T=t=>{try{toast(t)}catch(_){}};const gh=(x,z)=>{try{return G512.h(x,z)}catch(_){return 0}};
  const money=d=>{try{S.pesos=Math.max(0,Math.round((S.pesos||0)+d));try{upd()}catch(_){}}catch(_){}};const sv=()=>{try{save()}catch(_){}};
- const myPeer=()=>{try{return X().myPeer}catch(_){return null}};const nameOf=pe=>{try{return pe===myPeer()?'Tú':X().nameOf(pe)}catch(_){return 'Alguien'}};
+ const myPeer=()=>{try{return X().myPeer}catch(_){return null}};const nameOf=pe=>{try{return X().nameOf(pe)}catch(_){return 'Alguien'}};
  const ev=(k,o)=>{try{X().event(k,o)}catch(e){err('suceso',e)}};const inGame=()=>{try{return !!X().room}catch(_){return false}};
- const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
  const me=()=>{try{return DRV&&DRV.k?DRV.k.g.position:P}catch(_){return {x:0,z:0}}};
  const posOf=a=>a.car?{x:a.car.x,z:a.car.z}:{x:a.x,z:a.z};
  const AVs=()=>{try{return [...X().AV.values()]}catch(_){return []}};
- const TIME=300,FILES=5;
- /* ---------- altavoz y sirena (para los policías) ---------- */
- const FR=['¡Oríllese a la orilla!','¡Alto, deténgase!','¡Usted, el de la bolsa!','¡Circulen, circulen!','¡Ese carro, deténgase!'];
+ const cop=()=>{try{return !!(DRV&&DRV.k&&DRV.k.police616)}catch(_){return false}};
+ /* ---------- patrullas estacionadas ---------- */
+ const PATS=[];/* {k,spot} */
+ function spots(){const out=[];try{for(const V of URBE534.cities||[]){const c=V.city||V;const s=c.spawn||{x:c.x,z:c.z};if(Number.isFinite(s.x))out.push({id:V.id||c.name,x:s.x,z:s.z,name:c.name||V.name||'la ciudad'})}}catch(e){err('lugares',e)}return out}
+ function parkPt(s){try{const V=(URBE534.cities||[]).find(v=>(v.id||(v.city&&v.city.name))===s.id);let best=null,bd=1e9;for(const l of (V&&V.lanes)||[])for(const q of l.pts||[]){const d=Math.hypot(q.x-s.x,q.z-s.z);if(d>7&&d<30&&Math.abs(d-14)<bd){try{if(blk(q.x,q.z))continue}catch(_){}bd=Math.abs(d-14);best=q}}if(best)return {x:best.x,z:best.z}}catch(e){err('estacionar',e)}return {x:s.x+8,z:s.z}}
+ function paintCop(k){const body=0x855b39;let dressed=false;try{dressed=!!GAR541.dress(k.g,'patrulla',0xf2f2f2);k.rb541=k.rb541||'patrulla'}catch(_){}if(!dressed)k.g.traverse(o=>{if(o.isMesh&&o.material&&o.material.color&&o.material.color.getHex()===body){o.material=o.material.clone();o.material.color.setHex(0xf4f4f4)}});
+  const bar=new THREE.Group();const r=new THREE.Mesh(new THREE.BoxGeometry(.5,.2,.55),new THREE.MeshBasicMaterial({color:0xff2020})),b=new THREE.Mesh(new THREE.BoxGeometry(.5,.2,.55),new THREE.MeshBasicMaterial({color:0x2050ff}));r.position.z=-.3;b.position.z=.3;bar.add(r,b);bar.position.set(-.2,1.68,0);bar.userData.o616=1;k.g.add(bar);k.bar616={r,b};
+  try{const l=label58('🚓 POLICÍA');l.scale.set(2.2,.45,1);l.position.y=2.4;k.g.add(l);k.lab616=l}catch(_){}}
+ function build(s){try{const q=parkPt(s);const k=rbVehicle('sedan',q.x,q.z,null,true);k.police616=true;k.spot616=s.id;paintCop(k);PATS.push({k,spot:s.id});M.built++;return k}catch(e){err('patrulla',e);return null}}
+ let acc=0;function live(){const p=me();for(const s of spots()){const d=Math.hypot(p.x-s.x,p.z-s.z);const have=PATS.some(o=>o.spot===s.id&&CARS.includes(o.k));if(!have&&d<230&&d>40)build(s)}
+  /* tope: si hay más de 4, quitar la más lejana que no manejas */
+  while(PATS.length>4){let bi=-1,bd=-1;PATS.forEach((o,i)=>{if(DRV&&DRV.k===o.k)return;const a=o.k.g.position,d=Math.hypot(a.x-p.x,a.z-p.z);if(d>bd){bd=d;bi=i}});if(bi<0||bd<150)break;const o=PATS.splice(bi,1)[0];try{const i=CARS.indexOf(o.k);if(i>=0)CARS.splice(i,1);sc.remove(o.k.g)}catch(_){}}
+  for(let i=PATS.length-1;i>=0;i--)if(!CARS.includes(PATS[i].k))PATS.splice(i,1)}
+ /* ---------- sirena y altavoz ---------- */
+ const FR=['¡Oríllese a la orilla!','¡Alto, deténgase!','¡Bájese con las manos donde las vea!','¡Circulen, circulen!','¡Ese carro, deténgase!'];
  let AC=null;function siren(vol){try{if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return;AC=new C()}if(AC.state==='suspended')AC.resume();const t=AC.currentTime;const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.setValueAtTime(650,t);for(let i=0;i<4;i++){o.frequency.linearRampToValueAtTime(950,t+i*.5+.25);o.frequency.linearRampToValueAtTime(650,t+i*.5+.5)}g.gain.setValueAtTime(.05*vol,t);g.gain.linearRampToValueAtTime(0,t+2);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+2.05)}catch(_){}}
  function bubbleOn(g,t){try{return CALLE549.bubble(g,t,3.2)}catch(_){return null}}
- function speaker(){if(!inGame()){T('Primero entra a una partida 👥');return}const f=Math.floor(Math.random()*FR.length);M.speaker++;ev('alt616',{f});siren(1);try{bubbleOn(DRV&&DRV.k?DRV.k.g:body,'📢 '+FR[f])}catch(_){}T('📢 '+FR[f])}
- /* ---------- lugares ---------- */
- function okSpot(x,z){try{return !blk(x,z)&&!blk(x+3,z)&&!blk(x-3,z)&&!blk(x,z+3)&&!blk(x,z-3)&&gh(x,z)>WY()+.05}catch(_){return true}}
- function roadPt(o,minD,maxD,away){try{const c=[];for(const e of NET511.net().E)for(const q of e.pts){const d=Math.hypot(q.x-o.x,q.z-o.z);if(d>minD&&d<maxD&&(!away||away.every(a=>Math.hypot(q.x-a.x,q.z-a.z)>120)))c.push(q)}if(c.length){const q=c[Math.floor(Math.random()*c.length)];return {x:Math.round(q.x),z:Math.round(q.z)}}}catch(e){err('calles',e)}const a=Math.random()*6.283,d=(minD+maxD)/2;return {x:Math.round(o.x+Math.cos(a)*d),z:Math.round(o.z+Math.sin(a)*d)}}
- function cellSpot(o){for(let k=0;k<24;k++){const a=k/24*6.283,d=60+(k%3)*20;const x=o.x+Math.cos(a)*d,z=o.z+Math.sin(a)*d;try{if(okSpot(x,z)&&surfKind59(x,z)!=='asfalto')return {x:Math.round(x),z:Math.round(z)}}catch(_){}}return {x:Math.round(o.x+60),z:Math.round(o.z)}}
- /* ---------- estado ----------
-    G={id,thief,ph:'robo'|'huida'|'celda'|'fin',t,bag:{x,z},hide:{x,z},cell:{x,z},files,win} — el ladrón es el dueño */
- let G=null;const FIN=new Set();const VIS={bag:null,hide:null,cell:null,thief:null};let hold=0,files0=0;
- const isThief=()=>!!G&&G.thief===myPeer();
- function beam(x,z,col,txt,h){const g=new THREE.Group();g.userData.o616=1;const m=new THREE.Mesh(new THREE.CylinderGeometry(1,1,h||46,10,1,true),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.35,depthWrite:false}));m.position.y=(h||46)/2;g.add(m);try{const l=label58(txt);l.scale.set(3.6,.62,1);l.position.y=3;g.add(l)}catch(_){}g.position.set(x,gh(x,z),z);sc.add(g);return g}
- function cellMesh(x,z){const g=new THREE.Group();g.userData.o616=1;const L=[{w:6,h:.2,d:6,x:0,y:.1,z:0,c:0x8a8a8a},{w:6,h:.3,d:6,x:0,y:3.2,z:0,c:0x5a5a5a}];for(let i=0;i<=12;i++){const t=-3+i*.5;L.push({w:.08,h:3,d:.08,x:t,y:1.6,z:-3,c:0x333333},{w:.08,h:3,d:.08,x:t,y:1.6,z:3,c:0x333333},{w:.08,h:3,d:.08,x:-3,y:1.6,z:t,c:0x333333},{w:.08,h:3,d:.08,x:3,y:1.6,z:t,c:0x333333})}
-  try{g.add(merge591(L))}catch(_){}try{const l=label58('🔒 Celda de la comandancia');l.scale.set(3.4,.6,1);l.position.y=4;g.add(l)}catch(_){}g.position.set(x,gh(x,z),z);sc.add(g);return g}
- function drop(k){const o=VIS[k];if(!o)return;try{(o.parent||sc).remove(o)}catch(_){}try{free591(o)}catch(_){}VIS[k]=null}
- function visuals(){try{if(!G||G.ph==='fin'){for(const k in VIS)drop(k);return}
-  if(G.ph==='robo'){if(!VIS.bag)VIS.bag=beam(G.bag.x,G.bag.z,0xff3b3b,'💰 La bolsa de premios')}else drop('bag');
-  if(isThief()&&G.ph!=='robo'){if(!VIS.hide)VIS.hide=beam(G.hide.x,G.hide.z,0x3bff6a,'🏚 Tu escondite')}else drop('hide');
-  if(G.ph!=='robo'){if(!VIS.cell)VIS.cell=cellMesh(G.cell.x,G.cell.z)}
-  /* luz roja sobre el ladrón para los policías */
-  if(!isThief()&&(G.ph==='huida')){const a=X().AV.get(G.thief);const tg=a&&(a.car&&a.car.g||a.g);if(tg){if(!VIS.thief||VIS.thief.parent!==tg){drop('thief');const m=new THREE.Mesh(new THREE.CylinderGeometry(.5,.5,30,8,1,true),new THREE.MeshBasicMaterial({color:0xff2020,transparent:true,opacity:.4,depthWrite:false}));m.userData.o616=1;m.position.y=16;tg.add(m);VIS.thief=m}VIS.thief.visible=(performance.now()%1000)<650}}else drop('thief')}catch(e){err('marcas',e)}}
- /* ---------- HUD ---------- */
- let hud=null;function paintHud(){try{if(!hud){hud=document.createElement('div');hud.id='pyl616';hud.style.cssText='position:fixed;top:calc(env(safe-area-inset-top,0px) + 54px);left:50%;transform:translateX(-50%);z-index:30;background:rgba(20,10,10,.82);color:#fff;border:2px solid #ff5a5a;border-radius:10px;padding:5px 12px;font:bold 13px system-ui;pointer-events:none;display:none;text-align:center;max-width:86vw';document.body.appendChild(hud)}
-  if(!G||G.ph==='fin'){hud.style.display='none';return}const mm=Math.max(0,Math.ceil(G.t)),tt=Math.floor(mm/60)+':'+String(mm%60).padStart(2,'0');
-  let s;if(isThief())s={robo:'🦹 Eres el LADRÓN · ve por la bolsa (columna roja)',huida:'🦹 ¡Corre a tu escondite (columna verde)! No dejes que te alcancen',celda:'🔒 Estás en la celda · lima los barrotes '+G.files+'/'+FILES+(guarded()?' · ⚠ el guardia te ve':'')}[G.ph];
-  else s={robo:'👮 Eres POLICÍA · '+nameOf(G.thief)+' va a robar la bolsa: cuídala',huida:'👮 ¡Atrapa a '+nameOf(G.thief)+'! (luz roja) · pégatele',celda:'👮 '+nameOf(G.thief)+' está en la celda · cuídala o se fuga ('+G.files+'/'+FILES+')'}[G.ph];
-  hud.textContent=s+' · ⏱ '+tt;hud.style.display='block'}catch(e){err('hud',e)}}
- /* ---------- reglas (las corre el ladrón) ---------- */
- const cops=()=>AVs().filter(a=>G&&a.peer!==G.thief);
- function guarded(){if(!G)return false;return cops().some(a=>{const q=posOf(a);return Math.hypot(q.x-G.cell.x,q.z-G.cell.z)<15})}
- function start(){if(!inGame()){T('Primero entra a una partida 👥');return}if(G&&G.ph!=='fin'){T('Ya hay una partida de policías y ladrones');return}if(!AVs().length){T('Necesitas al menos un amigo en la partida (él es el policía)');return}
-  const p=me();const bag=roadPt(p,70,180);const hide=roadPt(bag,220,420,[p]);const cell=cellSpot(bag);
-  const o={id:Math.floor(Math.random()*1e9),thief:myPeer(),ph:'robo',t:TIME,bag,hide,cell,files:0};ev('pyl616',o);begin(o)}
- function begin(o){if(!o||!o.id||FIN.has(o.id))return;if(G&&G.id===o.id)return;for(const k in VIS)drop(k);
-  G={id:o.id,thief:String(o.thief),ph:String(o.ph||'robo'),t:+o.t||TIME,bag:{x:+o.bag.x,z:+o.bag.z},hide:{x:+o.hide.x,z:+o.hide.z},cell:{x:+o.cell.x,z:+o.cell.z},files:o.files|0,win:null};M.games++;hold=0;
-  if(isThief())T('🦹 ¡Eres el ladrón! Roba la bolsa de premios (columna roja) y escápate a tu escondite');else{T('👮 ¡Eres policía! '+nameOf(G.thief)+' va a robar la bolsa de premios. Atrápalo antes de que se esconda');siren(.6)}visuals()}
- function setPh(ph,extra){if(!G)return;G.ph=ph;Object.assign(G,extra||{});ev('pyle616',{id:G.id,ph,t:G.t,files:G.files,win:G.win});visuals();try{X().paint()}catch(_){}}
- function thiefTick(dt){const p=me();
-  if(G.ph==='robo'){if(Math.hypot(p.x-G.bag.x,p.z-G.bag.z)<6){M.robbed++;T('💰 ¡Tienes la bolsa! Sonó la alarma… corre a tu escondite (columna verde)');setPh('huida')}}
-  else if(G.ph==='huida'){
-   if(Math.hypot(p.x-G.hide.x,p.z-G.hide.z)<7){finish('ladron');return}
-   const near=cops().some(a=>{const q=posOf(a);return Math.hypot(q.x-p.x,q.z-p.z)<5});hold=near?hold+dt:0;
-   if(hold>1.5){hold=0;M.caught++;goCell();T('🚓 ¡Te atraparon! Vas a la celda. Lima los barrotes para fugarte');setPh('celda',{files:0})}}
-  else if(G.ph==='celda'){const dx=P.x-G.cell.x,dz=P.z-G.cell.z,d=Math.hypot(dx,dz);if(d>2.6){P.x=G.cell.x+dx/d*2.6;P.z=G.cell.z+dz/d*2.6}}}
- function goCell(){try{if(DRV)try{exitCar()}catch(_){}P.x=G.cell.x;P.z=G.cell.z;P.y=gh(P.x,P.z);P.tp=1}catch(e){err('celda',e)}}
- function file(){if(!G||!isThief()||G.ph!=='celda')return;if(guarded()){T('👀 El guardia te está viendo… espera a que se aleje');return}G.files++;T('🪚 Limando barrotes '+G.files+'/'+FILES);
-  if(G.files>=FILES){M.escapes++;P.x=G.cell.x+4.5;P.z=G.cell.z;P.y=gh(P.x,P.z);T('🏃 ¡Te fugaste! Corre a tu escondite antes de que te vuelvan a ver');setPh('huida')}else setPh('celda')}
- function finish(w){if(!G||G.ph==='fin')return;G.win=w;setPh('fin',{win:w});end()}
- function end(){if(!G)return;const w=G.win;FIN.add(G.id);
-  if(w==='ladron'){if(isThief()){money(300);M.thiefWins++;T('🏆 ¡Llegaste al escondite con la bolsa! +$300')}else T('😤 '+nameOf(G.thief)+' llegó a su escondite… se les escapó')}
-  else{if(isThief())T('⏱ Se acabó el tiempo… los policías ganaron esta');else{money(150);M.copWins++;T('🏆 ¡Los policías ganan! '+nameOf(G.thief)+' no llegó a su escondite · +$150')}}
-  sv();try{PC558.unlock&&PC558.unlock('policias616')}catch(_){}G.ph='fin';visuals();paintHud();const g=G;setTimeout(()=>{if(G===g)G=null;try{X().paint()}catch(_){}},4000)}
- function tick(dt){if(!G||G.ph==='fin'){paintHud();return}G.t-=dt;if(isThief()){thiefTick(dt);if(G&&G.ph!=='fin'&&G.t<=0)finish('policia')}else{const a=X().AV.get(G.thief);if(!a&&G.t<TIME-20){T('El ladrón salió de la partida');FIN.add(G.id);G.ph='fin';visuals();G=null}else if(G.t<-15){G.win='policia';end()}}if(G)visuals();paintHud()}
- try{const _c=cand58;cand58=function(){const r=_c.apply(this,arguments);try{if(G&&isThief()&&G.ph==='celda'&&!dl&&Math.hypot(P.x-G.cell.x,P.z-G.cell.z)<3.5)return {label:'🪚 Limar barrotes ('+G.files+'/'+FILES+')',fn:file}}catch(_){}return r}}catch(e){err('usar',e)}
- /* ---------- enganche ---------- */
+ let sirenOn=false;
+ function speaker(){if(!cop()){T('📢 El altavoz es de las patrullas: róbate una');return}const f=Math.floor(Math.random()*FR.length);M.speaker++;sirenOn=true;siren(1);try{bubbleOn(DRV.k.g,'📢 '+FR[f])}catch(_){}T('📢 '+FR[f]);if(inGame())ev('alt616',{f})}
+ /* ---------- botón en pantalla (sólo en patrulla) ---------- */
+ let btn=null;function paintBtn(){try{if(!btn){btn=document.createElement('button');btn.id='sir616';btn.textContent='🚨📢';btn.style.cssText='position:fixed;left:calc(env(safe-area-inset-left,0px) + 10px);top:42%;z-index:25;display:none;width:54px;height:54px;border-radius:50%;border:2px solid #fff;background:rgba(30,50,140,.85);color:#fff;font:20px system-ui;touch-action:manipulation';btn.addEventListener('click',e=>{e.stopPropagation();speaker()});document.body.appendChild(btn)}btn.style.display=cop()?'block':'none'}catch(e){err('botón',e)}}
+ /* ---------- radio de la central (también jugando solo) ---------- */
+ let lastEv=null,wasCop=false;function radio(){const c=cop();if(c&&!wasCop){M.stolen++;T('🚓 Te robaste una patrulla: ahora eres policía. 📢 Usa la sirena y escucha el radio');}wasCop=c;if(!c)return;
+  try{const e=LUG537.EV.cur;if(e&&e.id!==lastEv){lastEv=e.id;M.radios++;T('📻 Central: «Reportan asalto en '+(e.sh&&e.sh.t&&e.sh.t.n||'un banco')+'. Unidades, acudan»')}}catch(_){}}
+ /* ---------- en línea: detener a amigos con estrellas ---------- */
+ const HOLD=new Map(),COOL=new Map();const BEAM=new Map();
+ function beams(){for(const a of AVs()){const want=cop()&&(a.w616|0)>0;let m=BEAM.get(a.peer);const tg=a.car&&a.car.g||a.g;
+   if(want&&tg){if(!m||m.parent!==tg){if(m)try{m.parent.remove(m)}catch(_){}m=new THREE.Mesh(new THREE.CylinderGeometry(.5,.5,30,8,1,true),new THREE.MeshBasicMaterial({color:0xff2020,transparent:true,opacity:.4,depthWrite:false}));m.position.y=16;m.userData.o616=1;tg.add(m);BEAM.set(a.peer,m)}m.visible=(performance.now()%1000)<650}
+   else if(m){try{m.parent.remove(m)}catch(_){}BEAM.delete(a.peer)}}}
+ let seenT=0;function hunt(dt){if(!cop()||!inGame())return;const p=me();const w=AVs().filter(a=>(a.w616|0)>0);
+  if(w.length&&(seenT-=dt)<=0){seenT=25;T('📻 Central: «Se busca a '+w.map(a=>a.name+' ('+'★'.repeat(Math.min(5,a.w616|0))+')').join(', ')+'». Síganlo (luz roja)')}
+  for(const a of w){const q=posOf(a),d=Math.hypot(q.x-p.x,q.z-p.z);const now=performance.now();if((COOL.get(a.peer)||0)>now)continue;const h=d<6?(HOLD.get(a.peer)||0)+dt:0;HOLD.set(a.peer,h);
+   if(h>1.5){HOLD.set(a.peer,0);COOL.set(a.peer,now+20000);M.arrestsSent++;ev('arr616',{to:a.peer});T('🚔 ¡Le marcaste el alto a '+a.name+'!')}}}
+ function arrestedBy(a){if(!(S.wanted>0)){return}const p=me(),q=posOf(a);if(Math.hypot(p.x-q.x,p.z-q.z)>12)return;M.arrestsIn++;const w=S.wanted|0;T('🚔 ¡'+a.name+' te alcanzó en su patrulla!');ev('arrok616',{to:a.peer,w});try{arrest()}catch(e){err('arresto',e)}}
  function onEv(a,e){if(!e||typeof e.k!=='string'||!e.k.endsWith('616'))return;
   if(e.k==='alt616'){const p=me(),q=posOf(a);const d=Math.hypot(p.x-q.x,p.z-q.z);if(d<60){siren(1-d/60);const t=FR[(e.f|0)%FR.length];try{bubbleOn(a.car?a.car.g:a.g,'📢 '+t)}catch(_){}T('📢 '+a.name+': «'+t+'»')}}
-  else if(e.k==='pyl616'&&e.thief===a.peer)begin(e);
-  else if(e.k==='pyle616'&&G&&e.id===G.id&&a.peer===G.thief)remote(e)}
- function remote(e){const was=G.ph;G.t=+e.t||G.t;G.files=e.files|0;if(e.ph===was)return;G.ph=String(e.ph);
-  if(G.ph==='huida'&&was==='robo'){T('🚨 ¡ALARMA! '+nameOf(G.thief)+' robó la bolsa de premios. ¡Síganlo! (luz roja)');siren(1)}
-  else if(G.ph==='celda'){T('🚓 ¡Atraparon a '+nameOf(G.thief)+'! Está en la celda: cuídenla o se les fuga')}
-  else if(G.ph==='huida'&&was==='celda'){T('🏃 ¡'+nameOf(G.thief)+' se fugó de la celda! ¡Atrápenlo otra vez!');siren(1)}
-  else if(G.ph==='fin'){G.win=e.win;end();return}visuals()}
- function onPack(o){if(G&&isThief())o.pl616={id:G.id,thief:G.thief,ph:G.ph,t:G.t,bag:G.bag,hide:G.hide,cell:G.cell,files:G.files,win:G.win}}
- function onUpd(a,pr){const m=pr.pl616;if(!m||!m.id||m.thief!==a.peer)return;if(!G&&m.ph!=='fin')begin(m);else if(G&&G.id===m.id&&!isThief())remote(m)}
- function panel(){let h='<div class=r>';if(G&&G.ph!=='fin')h+='<button>'+(isThief()?'🦹 Eres el ladrón':'👮 Eres policía')+' · ⏱ '+Math.max(0,Math.ceil(G.t))+' s</button>';else h+='<button data-a=l616pyl>🚓 Policías y ladrones (tú eres el ladrón)</button>';
-  h+='<button data-a=l616alt>📢 Altavoz de patrulla</button></div>';if(!G)h+='<p class=s>Roba la bolsa de premios, escapa de tus amigos policías y llega a tu escondite. Si te atrapan, a la celda… y a fugarse.</p>';return h}
- function click(a){if(!a.startsWith('l616'))return false;if(a==='l616alt')speaker();else if(a==='l616pyl'){try{X().open(false)}catch(_){}start()}try{X().paint()}catch(_){}return true}
- let hooked=false;function hook(){if(hooked)return;const x=X();if(!x||!x.EXT)return;hooked=true;x.EXT.ev.push(onEv);x.EXT.pack.push(onPack);x.EXT.upd.push(onUpd);x.EXT.panel.push(panel);x.EXT.click.push(click);x.EXT.tick.push(d=>{try{tick(d)}catch(e){err('cuadro',e)}})}
+  else if(e.k==='arr616'&&e.to===myPeer())arrestedBy(a);
+  else if(e.k==='arrok616'&&e.to===myPeer()){const w=Math.max(1,Math.min(5,e.w|0));const pay=200*w;M.rewards++;money(pay);sv();T('🏅 Detuviste a '+a.name+' · recompensa +$'+pay);try{PC558.unlock&&PC558.unlock('policia616')}catch(_){}}}
+ function onPack(o){try{o.w616=S.wanted|0}catch(_){}}
+ function onUpd(a,pr){a.w616=pr.w616|0}
+ function panel(){let h='<div class=r>';if(cop())h+='<button data-a=l616alt>📢 Sirena y altavoz</button>';else h+='<button>🚓 Róbate una patrulla (afuera de la comandancia) para ser policía</button>';h+='</div>';
+  const w=AVs().filter(a=>(a.w616|0)>0);if(w.length)h+='<p class=s>🚨 Se busca: '+w.map(a=>String(a.name||'').replace(/[&<>"]/g,'')+' '+'★'.repeat(Math.min(5,a.w616|0))).join(' · ')+'</p>';return h}
+ function click(a){if(!a.startsWith('l616'))return false;if(a==='l616alt')speaker();try{X().paint()}catch(_){}return true}
+ /* ---------- cuadro ---------- */
+ const _step=step;step=function(dt){const r=_step.apply(this,arguments);try{acc+=dt;if(acc>1){acc=0;live();radio()}
+  if(cop()&&DRV.k.bar616){const on=sirenOn||(performance.now()%600<300);const f=(performance.now()%400)<200;DRV.k.bar616.r.visible=!on||f;DRV.k.bar616.b.visible=!on||!f}else sirenOn=false;
+  paintBtn()}catch(e){err('cuadro',e)}return r};
+ let hooked=false;function hook(){if(hooked)return;const x=X();if(!x||!x.EXT)return;hooked=true;x.EXT.ev.push(onEv);x.EXT.pack.push(onPack);x.EXT.upd.push(onUpd);x.EXT.panel.push(panel);x.EXT.click.push(click);x.EXT.tick.push(d=>{try{hunt(d);beams()}catch(e){err('línea',e)}})}
  hook();setInterval(()=>{try{hook()}catch(_){}},1500);
- try{NV600.G[0][1].push('🚓 Policías y ladrones: roba la bolsa, escapa de tus amigos policías; si te atrapan, fúgate de la celda')}catch(_){}
- return {M,speaker,start,file,get game(){return G},guarded};
+ try{NV600.G[1][1].push('🚓 Patrullas afuera de la comandancia: róbate una y eres policía (sirena, altavoz y radio)')}catch(_){}
+ try{NV600.G[0][1].push('🚔 En línea: en patrulla puedes detener a tus amigos que traen estrellas; a ellos les toca el arresto de verdad')}catch(_){}
+ return {M,speaker,build,spots,get pats(){return PATS},cop};
 })();
 try{window.LY616=LY616}catch(_){}
 /*RB616-RB616_LEY-END*/
+
+/*RB616-RB616_TALLERES-BEGIN*/
+/* RUTA BRAVA V5.116 · CROMO CUSTOMS EN CADA CIUDAD (pedido del productor)
+   · Antes sólo había un taller (pueblo viejo, x -56 z 18). Ahora hay una sucursal en cada ciudad y pueblo del mapa.
+   · Entras manejando y el menú de modificaciones se abre solo, al momento (ya no hay que pararse del todo).
+   · Puedes modificar CUALQUIER coche, sea tuyo o no. Si no es tuyo, también te ofrece comprarlo (opcional). */
+const TW616=(()=>{
+ const M={errors:[],placed:0,built:0,opened:0,failed:[]};
+ const err=(w,e)=>{if(M.errors.length<6)M.errors.push(w+': '+(e&&e.message||e))};
+ const gh=(x,z)=>{try{return G512.h(x,z)}catch(_){return 0}};
+ const isBlk=(x,z)=>{try{return blk(x,z)}catch(_){return false}};const asf=(x,z)=>{try{return surfKind59(x,z)==='asfalto'}catch(_){return false}};
+ const dry=(x,z)=>{try{return gh(x,z)>WY()+.05}catch(_){return true}};
+ const roadD=(x,z)=>{let best=1e9;try{for(const e of NET511.net().E){if(!e.pts)continue;for(let i=1;i<e.pts.length;i++){const a=e.pts[i-1],b=e.pts[i];const vx=b.x-a.x,vz=b.z-a.z,L=vx*vx+vz*vz||1;let t=((x-a.x)*vx+(z-a.z)*vz)/L;t=Math.max(0,Math.min(1,t));const d=Math.hypot(x-(a.x+vx*t),z-(a.z+vz*t))-(e.w||7)/2;if(d<best)best=d}}}catch(_){}return best};
+ const road=(x,z)=>asf(x,z)||roadD(x,z)<1;
+ function crowded(x,z,r){try{for(const o of sc.children){const u=o.userData;if(!u)continue;let tag=false;for(const k in u)if(/^o5\d\d$|^o6\d\d$/.test(k)){tag=true;break}if(!tag)continue;const dx=o.position.x-x,dz=o.position.z-z;if(dx*dx+dz*dz<r*r)return true}}catch(_){}return false}
+ const CITIES=()=>{try{return NET511.net().CITIES}catch(_){return []}};
+ const nearestCity=(x,z)=>{let b=null,bd=1e9;for(const c of CITIES()){const d=Math.hypot(c.x-x,c.z-z);if(d<bd){bd=d;b=c}}return b};
+ /* orientación: d = 0..3; el frente (la entrada) mira hacia (fx,fz) */
+ const DIR=[[0,-1],[1,0],[0,1],[-1,0]];
+ const W=9,D=12;/* ancho y fondo del taller */
+ function footprintOk(x,z,d){const [fx,fz]=DIR[d];const ax=fz!==0?W/2+1:D/2+1,az=fz!==0?D/2+1:W/2+1;let lo=1e9,hi=-1e9;
+  for(let i=-2;i<=2;i++)for(let j=-2;j<=2;j++){const px=x+i*ax/2,pz=z+j*az/2;if(isBlk(px,pz)||road(px,pz)||!dry(px,pz))return false;const y=gh(px,pz);lo=Math.min(lo,y);hi=Math.max(hi,y)}
+  if(hi-lo>1.2)return false;/* enfrente tiene que haber calle (para entrar manejando) */
+  let ok=false;for(let s=D/2+1;s<=D/2+9;s+=1.5)if(road(x+fx*s,z+fz*s)){ok=true;break}if(!ok)return false;
+  for(let s=D/2;s<D/2+2;s+=.5)if(isBlk(x+fx*s,z+fz*s))return false;return true}
+ function find(c){const R=c.r||60;for(let ring=.25;ring<=1.0;ring+=.12)for(let k=0;k<36;k++){const a=k/36*6.283+ring*3;const x=Math.round(c.x+Math.cos(a)*R*ring),z=Math.round(c.z+Math.sin(a)*R*ring);
+   if(Math.hypot(x+56,z-18)<80)continue;const nc=nearestCity(x,z);if(!nc||nc.id!==c.id)continue;if(crowded(x,z,14))continue;for(let d=0;d<4;d++)if(footprintOk(x,z,d))return {x,z,d}}return null}
+ const LIST=[];let planned=false;
+ function plan(){if(planned)return;planned=true;for(const c of CITIES()){try{const s=find(c);if(s){LIST.push({id:c.id,name:c.name,x:s.x,z:s.z,d:s.d,g:null});M.placed++}else M.failed.push(c.id)}catch(e){err('lugar '+c.id,e)}}}
+ /* local (lx,lz) → mundo; lz negativo = hacia la entrada */
+ function toW(t,lx,lz){const [fx,fz]=DIR[t.d];/* eje z local hacia atrás = -frente; eje x local = perpendicular */const rx=-fz,rz=fx;return {x:t.x+rx*lx-fx*lz,z:t.z+rz*lx-fz*lz}}
+ function toL(t,x,z){const [fx,fz]=DIR[t.d];const rx=-fz,rz=fx;const dx=x-t.x,dz=z-t.z;return {lx:dx*rx+dz*rz,lz:-(dx*fx+dz*fz)}}
+ function build(t){if(t.g)return;try{const g=new THREE.Group();g.userData.o616=1;const y0=gh(t.x,t.z);
+   const body=0x5b7387,metal=0x2b3f4d,gold=0xe1b85f;const P=[];const B=(w,h,d,lx,y,lz,c)=>P.push({w,h,d,x:lx,y,z:-lz,c});
+   /* (en la malla: z positivo = hacia la entrada, porque la rotación del grupo pone el frente) */
+   B(W,.12,D,0,.06,0,0x9aa3a8);B(W,4.4,.4,0,2.2,D/2-.2,body);B(.4,4.6,D,-W/2+.2,2.3,0,body);B(.4,4.6,D,W/2-.2,2.3,0,body);B(W+.4,.4,D+.4,0,4.7,0,metal);
+   B(W+.4,.6,.5,0,4.3,-D/2,gold);B(3.4,.03,5,0,.13,.8,0xf1c851);for(let i=-2;i<=2;i++)B(.12,.02,10,i*1.6,.13,0,i%2?0xb6bec3:0xe6c352);
+   B(1.2,1,.6,-3.5,.5,4.8,0xc0392b);B(1.2,1,.6,3.5,.5,4.8,0x2c3e50);B(.5,1.8,.5,-3.8,.9,2,0x7f8c8d);/* cajas de herramienta y gato */
+   for(const lz of [-4,0,4])B(.3,.3,.3,-W/2+.6,4.2,lz,0xf0d36b),B(.3,.3,.3,W/2-.6,4.2,lz,0xf0d36b);
+   g.add(merge591(P));try{const l=label58('🔧 CROMO CUSTOMS · '+t.name);l.scale.set(4.4,.6,1);l.position.set(0,5.6,D/2+.1);g.add(l)}catch(_){}
+   g.position.set(t.x,y0,t.z);g.rotation.y=Math.atan2(DIR[t.d][0],DIR[t.d][1]);sc.add(g);t.g=g;M.built++;
+   /* paredes con choque (cajas alineadas a los ejes) */
+   const wall=(lx1,lz1,lx2,lz2)=>{const a=toW(t,lx1,lz1),b=toW(t,lx2,lz2);COL.push([Math.min(a.x,b.x),Math.min(a.z,b.z),Math.max(a.x,b.x),Math.max(a.z,b.z)])};
+   wall(-W/2,-D/2,-W/2+.45,D/2);wall(W/2-.45,-D/2,W/2,D/2);wall(-W/2,D/2-.45,W/2,D/2)}catch(e){err('taller '+t.id,e)}}
+ /* ¿el coche está dentro de alguna sucursal? */
+ function inside(){try{const k=garageCar5152();if(!k)return null;const p=k.g.position;for(const t of LIST){if(!t.g)continue;const q=toL(t,p.x,p.z);if(Math.abs(q.lx)<W/2-1&&q.lz>-D/2+1.2&&q.lz<D/2-1)return t}}catch(_){}return null}
+ let cur=null;
+ try{const _n=garageNear5152;garageNear5152=function(){const r=_n.apply(this,arguments);if(r){cur=null;return true}cur=inside();return !!cur}}catch(e){err('cerca',e)}
+ /* se abre en cuanto entras (antes había que estar casi parado) */
+ try{garageReady5152=function(){const k=garageCar5152();return !!(k&&garageNear5152()&&Math.abs(DRV.v||0)<4.5)}}catch(e){err('listo',e)}
+ try{const _r=garageRender5152;garageRender5152=function(){const r=_r.apply(this,arguments);try{const ui=GAR5152.ui;const h=ui&&ui.querySelector('h2');if(h)h.textContent='🔧 CROMO CUSTOMS · '+(cur?cur.name:'Pueblo viejo')}catch(_){}return r}}catch(e){err('menú',e)}
+ let wasOpen=false;
+ const _step=step;let acc=0;step=function(dt){const r=_step.apply(this,arguments);try{acc+=dt;if(acc>.5){acc=0;if(!planned)plan();const p=DRV&&DRV.k?DRV.k.g.position:P;for(const t of LIST)if(!t.g&&Math.hypot(p.x-t.x,p.z-t.z)<320)build(t)}
+   const open=!!GAR5152.inside;if(open&&!wasOpen){M.opened++;try{if(DRV){DRV.v=0}}catch(_){}}wasOpen=open}catch(e){err('cuadro',e)}return r};
+ try{NV600.G[1][1].push('🔧 Cromo Customs en cada ciudad: entras manejando y se abre el menú; modificas cualquier coche, sea tuyo o no')}catch(_){}
+ return {M,LIST,plan,build,inside,get cur(){return cur}};
+})();
+try{window.TW616=TW616}catch(_){}
+/*RB616-RB616_TALLERES-END*/
 setMk();upd();loop(0);window.__cascajoBootOk=true;
 </script>
 
