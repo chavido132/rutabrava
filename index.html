@@ -25114,7 +25114,7 @@ const VALLE624=(()=>{
   if(best)return {y:best.y+.05,road:best};
   /* banquetas: las de avenida y las de calle de colonia están 16–18 cm arriba (el coche ya no se «hunde» en ellas) */
   if(!hits.some(h=>h.d<=h.hw))for(const h of roadHits(u,v,6)){const w=SPEC(h.r).walk;if(!w||h.d<=h.hw||h.d>h.hw+w)continue;if(h.y-g>1.6&&(yRef==null||Math.abs(h.y-yRef)>1.8))continue;return {y:h.y+.18,road:null,walk:1}}
-  const ls=localStreetAt2(u,v);if(ls===1)return {y:g+.05,road:null,street:1};if(ls===2)return {y:g+.16,road:null,walk:1};
+  const ls=streetAt(u,v);if(ls===1)return {y:g+.05,road:null,street:1};if(ls===2)return {y:g+.16,road:null,walk:1};
   for(const f of FLOORS){const du=u-f.u,dv=v-f.v;let inside;if(f.r!=null)inside=du*du+dv*dv<f.r*f.r;else{const c=Math.cos(f.ang||0),s=Math.sin(f.ang||0);inside=Math.abs(du*c+dv*s)<f.rx&&Math.abs(-du*s+dv*c)<f.rz}
    if(inside&&(yRef==null||f.y-yRef<1.2)&&f.y>g)return {y:f.y,road:null,floor:f}}
   return {y:g,road:null}}
@@ -25172,7 +25172,12 @@ const VALLE624=(()=>{
   const glass=canvasTex(64,64,(x,w,h)=>{x.fillStyle='#fff';x.fillRect(0,0,w,h);x.fillStyle='#c9d6df';x.fillRect(0,0,w,h);x.fillStyle='#8ea3b3';for(let j=0;j<4;j++)x.fillRect(0,j*16+2,w,11);x.fillStyle='#e9eef1';for(let i=0;i<4;i++)x.fillRect(i*16,0,2,h)});
   MAT.glass=new THREE.MeshLambertMaterial({vertexColors:true,map:glass,side:DS});
   MAT.roof=new THREE.MeshLambertMaterial({vertexColors:true,side:DS});
+  /* fachada poblana: ladrillo rojo con tableros de azulejo de Talavera (azul y blanco) y ventanas con marco de cantera */
+  const tal=canvasTex(64,64,(x,w,h)=>{x.fillStyle='#b5523b';x.fillRect(0,0,w,h);for(let i=0;i<8;i++)for(let j=0;j<8;j++){if((i+j)%3===0)continue;x.fillStyle=(i*j)%2?'#f4f1e8':'#2f5ea8';x.fillRect(i*8+1,j*8+1,6,6);if((i*j)%2){x.fillStyle='#2f5ea8';x.fillRect(i*8+3,j*8+3,2,2)}}
+   x.fillStyle='#e8dcc4';x.fillRect(8,10,18,24);x.fillRect(38,10,18,24);x.fillStyle='#3b2a20';x.fillRect(11,13,12,19);x.fillRect(41,13,12,19);x.fillStyle='#e8dcc4';x.fillRect(0,56,w,8)});
+  MAT.tala=new THREE.MeshLambertMaterial({map:tal,side:DS});MAT.tala.color.setRGB(.85,.85,.85);
   MAT.tree=new THREE.MeshLambertMaterial({vertexColors:true});
+  /* pisos de plaza: cantera en cuadros (sin el «terreno» automático de los gráficos, que la hacía ver como tierra) */MAT.plaza=new THREE.MeshLambertMaterial({vertexColors:true,side:DS});MAT.plaza.userData.g557=1;MAT.plaza.color.setRGB(.82,.82,.84);
   /* las luces del juego suman ~2× al mediodía: se bajan suelo y concreto para que no se vean crema */
   MAT.ground.color.setRGB(.6,.6,.62);MAT.conc.color.setRGB(.68,.68,.7);MAT.roof.color.setRGB(.8,.8,.82);MAT.tree.color.setRGB(.75,.75,.75)}
  /* ---------- helpers de malla ---------- */
@@ -25215,11 +25220,16 @@ const VALLE624=(()=>{
      colRect(cx-w,cz-w,cx+w,cz+w,bot,top)}}
    /* postes de luz cada 42 m: en el camellón (dobles) o a la orilla */
    if(r.opt.lamps!=null&&r.opt.lamps!==0||THRU(r)){if(Math.floor(a.s/42)!==Math.floor(b.s/42)&&!xC&&!elev){if(K.med>=1.2&&(THRU(r)||r.opt.lamps===2||r.opt.lamps===1&&K.med>2)){if(!inOther(a,0))LMP.push([a,0,2])}else for(const sg of [-1,1])if(!xS[sg]&&!inOther(a,sg*(hw+.6)))LMP.push([a,sg*(hw+.6),sg])}}}
-  const g=new THREE.Group();g.add(Mesh(A,AC,null,MAT.asph));if(MK.length)g.add(Mesh(MK,MC,null,MAT.mark));if(CO.length)g.add(Mesh(CO,CC,null,MAT.conc));
+  const g=new THREE.Group();g.add(Mesh(A,AC,null,MAT.asph));
+  try{if(r.kind!=='ramp'&&!/^retorno/.test(r.id)&&r.name&&((i0/30)|0)%2===0){const a=P[Math.min(i1,n-1)%n];const side=1;const l=side*(hw+(K.walk?K.walk*.6:1.6));if(!(a.y-Ht(a.u,a.v)>2.2)&&!roadHits(a.u+a.nx*l,a.v+a.nz*l,1).some(h=>h.r!==r)){const [x,y,z]=at(a,l,0);const pole=new THREE.Mesh(geo('cyl6'),MAT.conc);pole.position.set(x,y+2.3,z);pole.scale.set(.14,4.6,.14);pole.updateMatrix();pole.matrixAutoUpdate=false;pole.userData.keepGeo=1;g.add(pole);
+    const sg=nameSign(r.name);sg.position.set(x,y+4.7,z);sg.rotation.y=Math.atan2(-a.tz,a.tx)+Math.PI/2;sg.updateMatrix();sg.matrixAutoUpdate=false;g.add(sg);colRect(a.u+a.nx*l-.2,a.v+a.nz*l-.2,a.u+a.nx*l+.2,a.v+a.nz*l+.2,null,null)}}}catch(e){err('letrero',e)}if(MK.length)g.add(Mesh(MK,MC,null,MAT.mark));if(CO.length)g.add(Mesh(CO,CC,null,MAT.conc));
   if(LMP.length){const mg=Merger();const pole=[.42,.43,.45],lamp=[1,.96,.82];for(const [p,l,sg] of LMP){const [x,y,z]=at(p,l,0);const yaw=Math.atan2(-p.tz,p.tx);mg.add(geo('cyl6'),x,y+4.5,z,0,.18,9,.18,pole);
     const arms=sg===2?[1,-1]:[-sg];for(const s of arms){const ox=p.nx*s*1.6,oz=p.nz*s*1.6;mg.add(geo('box'),x+ox/2,y+9,z+oz/2,yaw+Math.PI/2,.12,.12,3.2,pole);mg.add(geo('box'),x+ox,y+8.85,z+oz,yaw,1.1,.18,.45,lamp)}
     if(Math.abs(l)>0)colRect(p.u+p.nx*l-.25,p.v+p.nz*l-.25,p.u+p.nx*l+.25,p.v+p.nz*l+.25,null,null)}M.lamps+=LMP.length;g.add(mg.mesh(MAT.conc))}
   return g}
+ const NSC=new Map();
+ function nameSign(t){let m=NSC.get(t);if(!m){const tex=canvasTex(512,96,(x,w,h)=>{x.fillStyle='#1d6b3a';x.fillRect(0,0,w,h);x.strokeStyle='#fff';x.lineWidth=5;x.strokeRect(6,6,w-12,h-12);x.fillStyle='#fff';x.textAlign='center';x.textBaseline='middle';let fs=56;x.font='bold '+fs+'px Arial,Helvetica,sans-serif';while(x.measureText(t).width>w-40&&fs>20){fs-=3;x.font='bold '+fs+'px Arial,Helvetica,sans-serif'}x.fillText(t,w/2,h/2+2)});tex.wrapS=tex.wrapT=THREE.ClampToEdgeWrapping;
+  m=new THREE.MeshBasicMaterial({map:tex,side:THREE.DoubleSide});NSC.set(t,m)}const L=Math.min(7,2.2+t.length*.17);const me=new THREE.Mesh(new THREE.PlaneGeometry(L,L*96/512),m);return me}
  /* ---------- colisiones propias (rejilla) ---------- */
  const CG=new Map(),CGC=16;
  let COLS=null;/* mientras se arma un pedazo, sus choques se anotan aquí para quitarlos cuando el pedazo se borra */
@@ -25243,14 +25253,22 @@ const VALLE624=(()=>{
  const CH=192;const LIVE=new Map();
  const STEP=118;
  /* calles de colonia dentro de un pedazo: familias de líneas torcidas que se cortan; la orientación y lo torcido dependen del barrio */
- function localStreets(cu,cv){const out=[];const z=ZONE(cu+CH/2,cv+CH/2);const st=ZSTYLE[z];if(!st||!st.step)return out;
-  const ang=st.ang!=null?st.ang+.04*fbm(cu/900,cv/900):.35*fbm(cu/900+2,cv/900-3)+.12*Math.sign(vn(cu/700,cv/700));const ca=Math.cos(ang),sa=Math.sin(ang);const W=24*(st.warp==null?1:st.warp);
-  for(const fam of [0,1]){const sp=STEP*st.step*(fam?1.08:1);for(let k=-3;k<=Math.ceil(CH/sp)+3;k++){const pts=[];
-    for(let t=-60;t<=CH+60;t+=8){/* en coordenadas giradas alrededor del centro del pedazo, con la cuadrícula anclada al mundo */
-     const cx=cu+CH/2,cz=cv+CH/2;const ax=(cx*ca+cz*sa),az=(-cx*sa+cz*ca);const base=fam?az:ax;const a0=Math.floor(base/sp+k-Math.ceil(CH/sp/2)-1)*sp,b0=(fam?ax:az)-CH/2+t;
-     let x=fam?b0:a0,y=fam?a0:b0;x+=W*fbm(y/260+k*.1,x/260)*(fam?0:1);y+=W*fbm(x/260,y/260+k*.1)*(fam?1:0);
-     const ru=x*ca-y*sa,rv=x*sa+y*ca;if(ru<cu-4||ru>cu+CH+4||rv<cv-4||rv>cv+CH+4){if(pts.length>1)out.push(pts.slice());pts.length=0;continue}
-     const zz=ZONE(ru,rv);const big=roadHits(ru,rv,6).length>0;const cut=h2(Math.floor(ru/60)+k*7,Math.floor(rv/60)+fam*13)<.07;if(big||cut||!ZSTYLE[zz].step||keepHit(ru,rv,6)){if(pts.length>1)out.push(pts.slice());pts.length=0;continue}pts.push([ru,rv])}
+ /* calles de colonia: una retícula torcida que es la MISMA para toda la ciudad (no cambia de pedazo a pedazo: ya no se cortan ni
+    quedan edificios en medio de la calle). Cada ciudad tiene su orientación; la torcedura es suave y continua. */
+ function CITYF(u,v){if(u>7600&&v>2550)return {ang:.26,sp:100,W:10,id:1};if(u>8600&&v<2300)return {ang:-.1,sp:104,W:9,id:2};if(u>3800)return {ang:.05,sp:100,W:14,id:3};return {ang:.05,sp:112,W:22,id:0}}
+ const SHW=4.2,SWK=2.6;
+ const warpL=(along,a0,fam,F)=>F.W*fbm(along/260+fam*3.1,a0/260+fam*7.3+F.id*11);
+ function streetOK(ru,rv){const zz=ZONE(ru,rv);return ZSTYLE[zz]&&ZSTYLE[zz].step&&!roadHits(ru,rv,6).length&&!keepHit(ru,rv,6)}
+ /* ¿hay calle de colonia en (u,v)? 1 = asfalto, 2 = banqueta, 0 = no */
+ function streetAt(u,v,extra){const F=CITYF(u,v);const ca=Math.cos(F.ang),sa=Math.sin(F.ang);const ax=u*ca+v*sa,az=-u*sa+v*ca;let best=9;
+  for(const fam of [0,1]){const sp=F.sp*(fam?1.08:1);const a=fam?az:ax,b=fam?ax:az;const n0=Math.round(a/sp);for(let n=n0-1;n<=n0+1;n++){const a0=n*sp;const line=a0+warpL(b,a0,fam,F);const d=Math.abs(a-line);if(d<best)best=d}}
+  const lim=SHW+SWK+(extra||0);if(best>lim)return 0;if(!streetOK(u,v))return 0;return best<SHW?1:2}
+ function localStreets(cu,cv){const out=[];const F=CITYF(cu+CH/2,cv+CH/2);const ca=Math.cos(F.ang),sa=Math.sin(F.ang);
+  /* esquinas del pedazo en coordenadas giradas */const cs=[[cu,cv],[cu+CH,cv],[cu,cv+CH],[cu+CH,cv+CH]].map(([u,v])=>[u*ca+v*sa,-u*sa+v*ca]);const axs=cs.map(c=>c[0]),azs=cs.map(c=>c[1]);
+  for(const fam of [0,1]){const sp=F.sp*(fam?1.08:1);const A0=Math.min(...(fam?azs:axs))-30,A1=Math.max(...(fam?azs:axs))+30,B0=Math.floor((Math.min(...(fam?axs:azs))-10)/8)*8,B1=Math.max(...(fam?axs:azs))+10;
+   for(let n=Math.floor(A0/sp);n<=Math.ceil(A1/sp);n++){const a0=n*sp;const pts=[];
+    for(let b=B0;b<=B1;b+=8){const a=a0+warpL(b,a0,fam,F);const x=fam?b:a,y=fam?a:b;const ru=x*ca-y*sa,rv=x*sa+y*ca;
+     if(ru<cu-4||ru>cu+CH+4||rv<cv-4||rv>cv+CH+4||CITYF(ru,rv).id!==F.id||!streetOK(ru,rv)){if(pts.length>1)out.push(pts.slice());pts.length=0;continue}pts.push([ru,rv])}
     if(pts.length>1)out.push(pts)}}return out}
  function chunk(ci,cj){const cu=ci*CH,cv=cj*CH;mats();const g=new THREE.Group();g.userData.v624=1;
   /* terreno */const P=[],Cc=[];const n=CH/TS;for(let i=0;i<n;i++)for(let j=0;j<n;j++){const u0=cu+i*TS,v0=cv+j*TS,u1=u0+TS,v1=v0+TS;const p00=[u0+OX,node(u0/TS,v0/TS),v0+OZ],p10=[u1+OX,node(u1/TS,v0/TS),v0+OZ],p01=[u0+OX,node(u0/TS,v1/TS),v1+OZ],p11=[u1+OX,node(u1/TS,v1/TS),v1+OZ];
@@ -25262,29 +25280,29 @@ const VALLE624=(()=>{
     quad(SA,SC,p(a,-hw,.05),p(b,-hw,.05),p(b,hw,.05),p(a,hw,.05),asph);if((i%2)===0)quad(SM,SMC,p(a,-.07,.07),p(b,-.07,.07),p(b,.07,.07),p(a,.07,.07),white);
     quad(SW,SWC,p(a,hw,.16),p(b,hw,.16),p(b,hw+ww,.16),p(a,hw+ww,.16),walk);quad(SW,SWC,p(a,-hw-ww,.16),p(b,-hw-ww,.16),p(b,-hw,.16),p(a,-hw,.16),walk);
     STREETS.push({a:[a[0],a[1]],b:[b[0],b[1]],hw,ci,cj});
-    for(const sgn of [-1,1])LOT.push({u:(a[0]+b[0])/2+nx*sgn*(hw+ww+1),v:(a[1]+b[1])/2+nz*sgn*(hw+ww+1),nx:nx*sgn,nz:nz*sgn,tx:dx/l,tz:dz/l,len:l,st:1})}}
+    for(const sgn of [-1,1])for(const row of [0,1,2])LOT.push({u:(a[0]+b[0])/2+nx*sgn*(hw+ww+1+row*19),v:(a[1]+b[1])/2+nz*sgn*(hw+ww+1+row*19),nx:nx*sgn,nz:nz*sgn,tx:dx/l,tz:dz/l,len:l,st:1,row})}}
   if(SA.length){g.add(Mesh(SA,SC,null,MAT.asph));if(SM.length)g.add(Mesh(SM,SMC,null,MAT.mark));g.add(Mesh(SW,SWC,null,MAT.conc));M.streets+=S.length}
   /* lotes junto a avenidas */for(const r of ROADS){if(r.kind==='ramp'||THRU(r)||r.kind==='sp'||!SPEC(r).walk)continue;const P2=r.pts;for(let i=0;i<P2.length-1;i+=3){const a=P2[i];if(a.u<cu||a.u>=cu+CH||a.v<cv||a.v>=cv+CH)continue;if(a.y-Ht(a.u,a.v)>1.5)continue;const off=halfW(r)+SPEC(r).walk+1;for(const sgn of [-1,1])LOT.push({u:a.u+a.nx*sgn*off,v:a.v+a.nz*sgn*off,nx:a.nx*sgn,nz:a.nz*sgn,tx:a.tx,tz:a.tz,len:18,av:1})}}
   /* casas sueltas en el campo (ranchos) */if(ZONE(cu+CH/2,cv+CH/2)==='campo'){for(let k=0;k<3;k++){const u=cu+h2(ci*7+k,cj*3)*CH,v=cv+h2(ci*5,cj*11+k)*CH;if(h2(ci+k*13,cj-k)<.18)LOT.push({u,v,nx:0,nz:1,tx:1,tz:0,len:12})}}
-  /* edificios */const BP=[],BC=[],BU=[],GP=[],GC=[],GU=[],RP=[],RC=[];const used=[];
-  for(const L of LOT){const z=ZONE(L.u,L.v);const st=ZSTYLE[z];if(!st||!st.fill)continue;const seed=h2(Math.floor(L.u*3),Math.floor(L.v*3));if(seed>st.fill)continue;
+  /* edificios */const BP=[],BC=[],BU=[],GP=[],GC=[],GU=[],RP=[],RC=[],TP=[],TC=[],TU=[];const used=[];
+  for(const L of LOT){const z=ZONE(L.u,L.v);const st=ZSTYLE[z];if(!st||!st.fill)continue;if(L.row&&(st.fill<.7||L.row>(st.fill>.9?2:1)))continue;const seed=h2(Math.floor(L.u*3),Math.floor(L.v*3));if(seed>st.fill)continue;
    const wdt=lerp(st.lot[0],st.lot[1],h2(Math.floor(L.u),7)),dep=lerp(st.lot[0],st.lot[1]*1.1,h2(9,Math.floor(L.v)));const cx=L.u+L.nx*dep/2,cz=L.v+L.nz*dep/2;const R=Math.max(wdt,dep)/2;
    if(roadHits(cx,cz,R*1.42+(L.av?1:6.5)).filter(h=>!(L.av&&h.d>h.hw+SPEC(h.r).walk+R*1.1)).length||keepHit(cx,cz,R))continue;let bad=false;for(const q of used)if(Math.hypot(q[0]-cx,q[1]-cz)<(q[2]+Math.max(wdt,dep))/2*.9){bad=true;break}if(bad)continue;
-   if(streetNear(cx,cz,R+.5))continue;
+   if(streetNear(cx,cz,R+.5))continue;{let onSt=false;for(const [a,b] of [[0,0],[-.5,-.5],[.5,-.5],[.5,.5],[-.5,.5],[0,-.5],[0,.5],[-.5,0],[.5,0]]){const pu=cx+L.tx*a*wdt+L.nx*b*dep,pv=cz+L.tz*a*wdt+L.nz*b*dep;if(streetAt(pu,pv,.4)){onSt=true;break}}if(onSt)continue}
    used.push([cx,cz,Math.max(wdt,dep)]);const tower=st.tower&&h2(Math.floor(cx*.7),Math.floor(cz*.7))<st.tower;let hgt=tower?Math.round(lerp(st.h[0],st.h[1],Math.pow(h2(Math.floor(cx),Math.floor(cz)),1.6))):Math.round(lerp(st.h[0],Math.min(st.h[1],st.tower?28:st.h[1]),h2(Math.floor(cx),Math.floor(cz))));if(z==='campo')hgt=4;
    const base=Math.min(Ht(cx-wdt/2*L.tx,cz-wdt/2*L.tz),Ht(cx+wdt/2*L.tx,cz+wdt/2*L.tz),Ht(cx,cz))-.5,top=base+.5+hgt;const col=rgb(st.cols[Math.floor(h2(Math.floor(cz),Math.floor(cx))*st.cols.length)]);
    const corners=[[-wdt/2,-dep/2],[wdt/2,-dep/2],[wdt/2,dep/2],[-wdt/2,dep/2]].map(([a,b])=>[cx+L.tx*a+L.nx*b,cz+L.tz*a+L.nz*b]);const glassy=tower&&hgt>35;
-   for(let k=0;k<4;k++){const p=corners[k],q=corners[(k+1)%4];const len=Math.hypot(q[0]-p[0],q[1]-p[1]);quadUV(glassy?GP:BP,glassy?GC:BC,glassy?GU:BU,[p[0]+OX,base,p[1]+OZ],[q[0]+OX,base,q[1]+OZ],[q[0]+OX,top,q[1]+OZ],[p[0]+OX,top,p[1]+OZ],col,Math.max(1,Math.round(len/(glassy?4:6))),Math.max(1,Math.round(hgt/(glassy?4:3.2))))}
+   const tala=(z==='pcentro'||z==='cholula'&&h2(Math.floor(cx),3)<.3)&&h2(Math.floor(cx*1.3),Math.floor(cz*1.3))<.42&&!glassy;for(let k=0;k<4;k++){const p=corners[k],q=corners[(k+1)%4];const len=Math.hypot(q[0]-p[0],q[1]-p[1]);quadUV(tala?TP:glassy?GP:BP,tala?TC:glassy?GC:BC,tala?TU:glassy?GU:BU,[p[0]+OX,base,p[1]+OZ],[q[0]+OX,base,q[1]+OZ],[q[0]+OX,top,q[1]+OZ],[p[0]+OX,top,p[1]+OZ],col,Math.max(1,Math.round(len/(glassy?4:6))),Math.max(1,Math.round(hgt/(glassy?4:3.2))))}
    const rc=[col[0]*.7,col[1]*.7,col[2]*.7];quad(RP,RC,[corners[0][0]+OX,top,corners[0][1]+OZ],[corners[3][0]+OX,top,corners[3][1]+OZ],[corners[2][0]+OX,top,corners[2][1]+OZ],[corners[1][0]+OX,top,corners[1][1]+OZ],rc);
    /* tinacos negros en las azoteas (y pretil) — muy de aquí */if(st.tin&&hgt<16&&h2(Math.floor(cx*2),Math.floor(cz*2))<st.tin){const tx=cx+L.tx*wdt*.25,tz=cz+L.tz*wdt*.25;const R2=.6,H=1.3;for(let k=0;k<6;k++){const a1=k/6*Math.PI*2,a2=(k+1)/6*Math.PI*2;const p1=[tx+Math.cos(a1)*R2+OX,tz+Math.sin(a1)*R2+OZ],p2=[tx+Math.cos(a2)*R2+OX,tz+Math.sin(a2)*R2+OZ];quad(RP,RC,[p1[0],top,p1[1]],[p2[0],top,p2[1]],[p2[0],top+H,p2[1]],[p1[0],top+H,p1[1]],[.08,.08,.09])}
     const c0=[tx+OX,top+H,tz+OZ];for(let k=0;k<6;k++){const a1=k/6*Math.PI*2,a2=(k+1)/6*Math.PI*2;RP.push(...c0,tx+Math.cos(a2)*R2+OX,top+H,tz+Math.sin(a2)*R2+OZ,tx+Math.cos(a1)*R2+OX,top+H,tz+Math.sin(a1)*R2+OZ);for(let q=0;q<3;q++)RC.push(.1,.1,.11)}}
    colOBB(cx,cz,L.tx,L.tz,wdt/2,dep/2,base,top);M.bldg++}
-  if(BP.length)g.add(Mesh(BP,BC,BU,MAT.bldg));if(GP.length)g.add(Mesh(GP,GC,GU,MAT.glass));if(RP.length)g.add(Mesh(RP,RC,null,MAT.roof));
+  if(BP.length)g.add(Mesh(BP,BC,BU,MAT.bldg));if(TP.length)g.add(Mesh(TP,TC,TU,MAT.tala));if(GP.length)g.add(Mesh(GP,GC,GU,MAT.glass));if(RP.length)g.add(Mesh(RP,RC,null,MAT.roof));
   /* árboles: parques y bosque muchos; colonias pocos; pinos en la sierra; en camellones arbolados (Reforma, Atlixcáyotl…) */
   const TL=[];const z0=ZONE(cu+CH/2,cv+CH/2);const dens=(ZSTYLE[z0]||{}).trees||0;const tries=Math.round(20*dens)+(z0==='campo'?40:0);
   for(let k=0;k<tries;k++){const u=cu+h2(ci*131+k,cj*17)*CH,v=cv+h2(ci*29,cj*71+k*3)*CH;const z=ZONE(u,v);const y=Ht(u,v);let kind='broad';
    if(z==='campo'){const forest=y>70;if(!forest&&h2(Math.floor(u/40),Math.floor(v/40))>.18)continue;kind=y>70?'pine':'broad';if(y>340)continue}
-   else if(z==='aicm')continue;if(roadHits(u,v,3).length||keepHit(u,v,2)||streetNear(u,v,1.5))continue;let bad=false;for(const q of used)if(Math.hypot(q[0]-u,q[1]-v)<q[2]*.75){bad=true;break}if(bad)continue;
+   else if(z==='aicm')continue;if(roadHits(u,v,3).length||keepHit(u,v,2)||streetNear(u,v,1.5)||streetAt(u,v,1))continue;let bad=false;for(const q of used)if(Math.hypot(q[0]-u,q[1]-v)<q[2]*.75){bad=true;break}if(bad)continue;
    if(z==='angelopolis'&&h2(k,ci)<.3)kind='palm';TL.push({u,v,y,k:kind,r:h2(k,cj)*6.28,s:.75+.5*h2(cj,k),h:h2(k+1,ci),c:h2(ci,k+2)})}
   for(const r of ROADS){if(!r.opt.trees)continue;const K=SPEC(r);if(K.med<3)continue;const P2=r.pts;for(let i=0;i<P2.length;i+=2){const a=P2[i];if(a.u<cu||a.u>=cu+CH||a.v<cv||a.v>=cv+CH)continue;if(a.y-Ht(a.u,a.v)>1.5)continue;if(roadHits(a.u,a.v,3).some(h=>h.r!==r))continue;
    TL.push({u:a.u,v:a.v,y:a.y+.2,k:'broad',r:i,s:.65+.3*h2(i,3),h:h2(i,5),c:h2(i,7)});if(K.walk>=5)for(const sg of [-1,1]){const o=halfW(r)+K.walk*.6;const u=a.u+a.nx*o*sg,v=a.v+a.nz*o*sg;if(!roadHits(u,v,3).some(h=>h.r!==r))TL.push({u,v,y:a.y+.2,k:'broad',r:i,s:.7,h:h2(i,9),c:h2(i,11)})}}}
@@ -25312,7 +25330,7 @@ const VALLE624=(()=>{
   const ci0=Math.floor((u-R)/CH),ci1=Math.floor((u+R)/CH),cj0=Math.floor((v-R)/CH),cj1=Math.floor((v+R)/CH);let made=0;
   for(let i=ci0;i<=ci1;i++)for(let j=cj0;j<=cj1;j++){const k=i+','+j;if(LIVE.has(k))continue;if((i+1)*CH<AREA.u0||i*CH>AREA.u1||(j+1)*CH<AREA.v0||j*CH>AREA.v1)continue;const du=Math.max(0,Math.abs(u-(i+.5)*CH)-CH/2),dv=Math.max(0,Math.abs(v-(j+.5)*CH)-CH/2);if(Math.hypot(du,dv)>R)continue;if(!force&&made>=2)continue;try{LIVE.set(k,withCols(()=>chunk(i,j)));made++}catch(e){err('pedazo',e);LIVE.set(k,null)}}
   for(const [k,g] of LIVE){const [i,j]=k.split(',').map(Number);if(Math.hypot((i+.5)*CH-u,(j+.5)*CH-v)>R+380){if(g){sc.remove(g);uncol(g.userData.cols);g.traverse(o=>{if(o.geometry&&!o.isInstancedMesh)o.geometry.dispose()})}LIVE.delete(k)}}
-  let mp=0;for(const pc of PIECES){const d=Math.hypot(pc.u-u,pc.v-v);if(d<R+120&&!pc.g){if(!force&&mp>=4)continue;try{pc.g=withCols(()=>ribbon(pc.r,pc.i0,pc.i1));pc.g.userData.v624=1;sc.add(pc.g);mp++;M.decks++}catch(e){err('cinta',e);pc.g=new THREE.Group()}}else if(d>R+500&&pc.g){sc.remove(pc.g);uncol(pc.g.userData.cols);pc.g.traverse(o=>{if(o.geometry)o.geometry.dispose()});pc.g=null}}
+  let mp=0;for(const pc of PIECES){const d=Math.hypot(pc.u-u,pc.v-v);if(d<R+120&&!pc.g){if(!force&&mp>=4)continue;try{pc.g=withCols(()=>ribbon(pc.r,pc.i0,pc.i1));pc.g.userData.v624=1;sc.add(pc.g);mp++;M.decks++}catch(e){err('cinta',e);pc.g=new THREE.Group()}}else if(d>R+500&&pc.g){sc.remove(pc.g);uncol(pc.g.userData.cols);pc.g.traverse(o=>{if(o.geometry&&!o.userData.keepGeo)o.geometry.dispose()});pc.g=null}}
   let ml=0;for(const L of LMS){const d=Math.hypot(L.u-u,L.v-v)-(L.r||60);if(d<R+(L.far||0)&&!L.g){if(!force&&ml>=1)continue;try{mats();L.g=withCols(()=>L.build(API)||new THREE.Group());L.g.userData.v624=1;sc.add(L.g);ml++;M.lms++}catch(e){err('lugar '+L.id,e);L.g=new THREE.Group()}}else if(d>R+(L.far||0)+500&&L.g){sc.remove(L.g);uncol(L.g.userData.cols);L.g.traverse(o=>{if(o.geometry&&!o.userData.keepGeo&&!o.isInstancedMesh)o.geometry.dispose()});L.g=null}}
   for(let i=STREETS.length-1;i>=0;i--){const s=STREETS[i];if(!LIVE.has(s.ci+','+s.cj)){STREETS.splice(i,1);stDirty=true}}if(made)stDirty=true;}
  const lo=()=>{try{return GRAF557.level==='bajo'}catch(_){return false}};
@@ -25322,7 +25340,7 @@ const VALLE624=(()=>{
  const yRefOf=()=>{try{if(DRV&&DRV.k)return DRV.k.g.position.y}catch(_){}return P.y};
  try{const _h=G512.h;G512.h=function(x,z){if(ready&&inW(x,z)){/* a pie: si es junto a ti, la altura de referencia es la tuya (así no te caes del Segundo Piso ni de un puente) */const near=!DRV&&Math.abs(x-P.x)<4&&Math.abs(z-P.z)<4&&isFinite(P.y);const s=surface(x-OX,z-OZ,near?P.y:null);return s.y}return _h.apply(this,arguments)};
   const _on=G512.on;G512.on=function(x,z){if(inW(x,z))return true;return _on.apply(this,arguments)}}catch(e){err('altura',e)}
- try{const _s=surfKind59;surfKind59=function(x,z){if(ready&&inW(x,z)){const u=x-OX,v=z-OZ;const hs=roadHits(u,v,0);if(hs.some(h=>h.d<=h.hw))return 'asfalto';if(localStreetAt(u,v))return 'asfalto';const zn=ZONE(u,v);return zn==='campo'||zn==='parque'?'terraceria':'asfalto'}return _s.apply(this,arguments)};window.surfKind59=surfKind59}catch(e){err('superficie',e)}
+ try{const _s=surfKind59;surfKind59=function(x,z){if(ready&&inW(x,z)){const u=x-OX,v=z-OZ;const hs=roadHits(u,v,0);if(hs.some(h=>h.d<=h.hw))return 'asfalto';if(streetAt(u,v)===1)return 'asfalto';const zn=ZONE(u,v);return zn==='campo'||zn==='parque'?'terraceria':'asfalto'}return _s.apply(this,arguments)};window.surfKind59=surfKind59}catch(e){err('superficie',e)}
  try{for(const k of ['inBounds']){const _f=NET511[k];NET511[k]=function(x,z){if(inW(x,z))return true;return _f.apply(this,arguments)}}
   for(const k of ['inSea']){const _f=NET511[k];NET511[k]=function(x,z){if(inW(x,z))return null;return _f.apply(this,arguments)}}
   const _ld=NET511.landDist;NET511.landDist=function(x,z){if(inW(x,z))return 500;return _ld.apply(this,arguments)};
@@ -25355,6 +25373,7 @@ const VALLE624=(()=>{
    return {title:'🗺️ Ir a…',text:'Ciudad de México, la autopista, Puebla, Cholula y Tlaxcala. Escoge a dónde aparecer'+(DRV?' (vas con tu coche).':'.'),rows,buttons:btn}}})}catch(e){err('teléfono',e)}
  /* ---------- MINIMAPA y MAPA: suelo por zona, calles cercanas, avenidas, nombres ---------- */
  const ZCOL={campo:'#55653d',parque:'#4f6e3c',aicm:'#6b7060',campus:'#5b6e4a',santafe:'#5d6157',polanco:'#5d6157',reforma:'#5d6157',angelopolis:'#5d6157',lomasch:'#59654a',lomasang:'#59654a',industrial:'#5f5a52',xochimilco:'#4f6b55'};
+ const DRAWH=[];/* otros módulos dibujan encima (ruta del GPS) */
  const LABELS=[];/* [texto, u, v, tamaño] */API.SPOTS=SPOTS;API.LABELS=LABELS;
  function drawValle(ctx,v){const X=x=>v.w/2+(x-v.cx)*v.s,Y=z=>v.h/2+(z-v.cz)*v.s;ctx.setLineDash([]);
   ctx.fillStyle='#39432f';ctx.fillRect(0,0,v.w,v.h);
@@ -25366,6 +25385,7 @@ const VALLE624=(()=>{
   const order=['calle','ramp','ci','art','sp','hw','peri'];const rs=ROADS.slice().sort((a,b)=>order.indexOf(a.kind)-order.indexOf(b.kind));
   for(const r of rs){if(r.kind==='ramp'&&v.s<.4)continue;const w=2*halfW(r);const pts=r.pts;const stp=v.s<.2?6:2;ctx.beginPath();for(let i=0;i<pts.length;i+=stp){const q=pts[i];i?ctx.lineTo(X(q.u+OX),Y(q.v+OZ)):ctx.moveTo(X(q.u+OX),Y(q.v+OZ))}if(r.closed)ctx.closePath();else{const q=pts[pts.length-1];ctx.lineTo(X(q.u+OX),Y(q.v+OZ))}
    ctx.strokeStyle='#22262a';ctx.lineWidth=Math.max(2.2,(w+3)*v.s);ctx.stroke();ctx.strokeStyle=THRU(r)||r.kind==='sp'?'#e0a540':r.kind==='art'?'#d8cf9a':r.kind==='ci'?'#c9c4b4':'#a8a59c';ctx.lineWidth=Math.max(1.4,w*v.s);ctx.stroke()}
+  for(const f of DRAWH)try{f(ctx,v,X,Y)}catch(e){err('dibujo',e)}
   if(!v.mini){ctx.textAlign='center';for(const [t,u,w,sz] of LABELS){const x=X(u+OX),y=Y(w+OZ);if(x<-80||x>v.w+80||y<-20||y>v.h+20)continue;if((sz||1)<1&&v.s<.25)continue;ctx.font='bold '+Math.round(11*(sz||1))+'px system-ui';ctx.lineWidth=3;ctx.strokeStyle='#0009';ctx.strokeText(t,x,y);ctx.fillStyle='#fff3c5';ctx.fillText(t,x,y)}ctx.textAlign='left'}}
  try{const _dw=drawWorld59;drawWorld59=function(ctx,v){try{if(ready&&inW(v.cx,v.cz)){M.mini=(M.mini||0)+1;return drawValle(ctx,v)}}catch(e){err('minimapa',e)}return _dw.apply(this,arguments)}}catch(e){err('minimapa',e)}
  /* el suelo plano del mundo de siempre se asomaba en el mapa nuevo como un piso crema: dentro se apaga, al salir se regresa */
@@ -25383,7 +25403,7 @@ const VALLE624=(()=>{
  function withBounds(fn){const B=WB511,inside=inW(P.x,P.z);if(!inside)return fn();const o={x0:B.x0,x1:B.x1,z0:B.z0,z1:B.z1};Object.assign(B,WBV);try{return fn()}finally{Object.assign(B,o)}}
  let acc=0;const _st=step;step=function(dt){const a=arguments,self=this;const r=withBounds(()=>_st.apply(self,a));try{hideOld(Math.min(.1,dt||0));if(inW(P.x,P.z)){if(!ready)init();acc+=Math.min(.1,dt||0);if(acc>.15){acc=0;stream(false)}}}catch(e){err('cuadro',e)}return r};
  try{NV600.G[1][1].push('🗺️ Mapa nuevo: Ciudad de México, la autopista por Río Frío, Puebla, Cholula y Tlaxcala')}catch(_){}
- return {M,OX,OZ,AREA,inW,Hn,Ht,surface,roadHits,ROADS,init,stream,goNew,goBack,sampleAt,LIVE,PIECES,colHit,ZONE,halfW,KIND,SPEC,SPOTS,LABELS,LMS,PADS,KEEP,FLOORS,BRIDGES,STREETS,api:API,C,PB,TX,get ready(){return ready}};
+ return {M,OX,OZ,AREA,inW,Hn,Ht,surface,roadHits,ROADS,init,stream,goNew,goBack,sampleAt,LIVE,PIECES,colHit,ZONE,halfW,KIND,SPEC,SPOTS,LABELS,LMS,PADS,KEEP,FLOORS,BRIDGES,STREETS,DRAWH,api:API,C,PB,TX,get ready(){return ready}};
 })();
 try{window.VALLE624=VALLE624}catch(_){}
 /*RB624-RB624_VALLE-END*/
@@ -25402,7 +25422,9 @@ try{window.VALLE624=VALLE624}catch(_){}
    tiene choques y se arma solo cuando te acercas. */
 const LUGARES625=(()=>{
  const V=VALLE624,A=V.api;const M={errors:[],n:0};const err=(w,e)=>{if(M.errors.length<8)M.errors.push(w+': '+(e&&e.message||e))};
- const {OX,OZ,C,PB,TX,Merger,geo,rgb,colRect}=A;
+ const {OX,OZ,C,PB,TX,geo,rgb,colRect}=A;
+ /* fundidor con piso aparte (los pisos de plaza usan su propio material de cantera) */
+ const Merger=()=>{const m=A.Merger();m.fl=A.Merger();const m0=m.mesh;m.mesh=mat=>{const g=new THREE.Group();const a=m0(mat);if(a)g.add(a);const b=m.fl.mesh(A.MAT.plaza);if(b)g.add(b);return g};return m};
  const G=(u,v)=>A.Ht(u,v);
  /* ---------- ayudantes ---------- */
  const Fr=(u0,v0,ang)=>{const c=Math.cos(ang||0),s=Math.sin(ang||0);return (a,b)=>[u0+a*c-b*s,v0+a*s+b*c]};
@@ -25419,7 +25441,7 @@ const LUGARES625=(()=>{
     const rc=[col[0]*.75,col[1]*.75,col[2]*.75];A.quad(RP,RC,[cs[0][0]+OX,y+h,cs[0][1]+OZ],[cs[3][0]+OX,y+h,cs[3][1]+OZ],[cs[2][0]+OX,y+h,cs[2][1]+OZ],[cs[1][0]+OX,y+h,cs[1][1]+OZ],rc);if(!noCol)colBox(u,v,w,d,ang,y-1,y+h)},
    add(g){if(P.length)g.add(A.Mesh(P,Cc,U,A.MAT.bldg));if(GP.length)g.add(A.Mesh(GP,GC,GU,A.MAT.glass));if(RP.length)g.add(A.Mesh(RP,RC,null,A.MAT.roof))}}}
  /* piso plano (plaza, explanada, pista) como malla, opcional con cuadros */
- function floorRect(mg,u,v,y,rx,rz,ang,col,tiles,col2){const f=Fr(u,v,ang);const n=tiles||1;for(let i=0;i<n;i++)for(let j=0;j<n;j++){const a0=-rx+2*rx*i/n,a1=-rx+2*rx*(i+1)/n,b0=-rz+2*rz*j/n,b1=-rz+2*rz*(j+1)/n;const c=((i+j)%2&&col2)?col2:col;const p=[f(a0,b0),f(a1,b0),f(a1,b1),f(a0,b1)].map(q=>[q[0]+OX,y,q[1]+OZ]);A.quad(mg.P,mg.C,p[0],p[3],p[2],p[1],Array.isArray(c)?c:rgb(c))}}
+ function floorRect(mg,u,v,y,rx,rz,ang,col,tiles,col2){if(mg.fl)mg=mg.fl;const f=Fr(u,v,ang);const n=tiles||1;for(let i=0;i<n;i++)for(let j=0;j<n;j++){const a0=-rx+2*rx*i/n,a1=-rx+2*rx*(i+1)/n,b0=-rz+2*rz*j/n,b1=-rz+2*rz*(j+1)/n;const c=((i+j)%2&&col2)?col2:col;const p=[f(a0,b0),f(a1,b0),f(a1,b1),f(a0,b1)].map(q=>[q[0]+OX,y,q[1]+OZ]);A.quad(mg.P,mg.C,p[0],p[3],p[2],p[1],Array.isArray(c)?c:rgb(c))}}
  function floorEll(mg,u,v,y,rx,rz,col,seg){seg=seg||36;const c=Array.isArray(col)?col:rgb(col);for(let k=0;k<seg;k++){const a1=k/seg*Math.PI*2,a2=(k+1)/seg*Math.PI*2;mg.P.push(u+OX,y,v+OZ,u+Math.cos(a2)*rx+OX,y,v+Math.sin(a2)*rz+OZ,u+Math.cos(a1)*rx+OX,y,v+Math.sin(a1)*rz+OZ);for(let q=0;q<3;q++)mg.C.push(c[0],c[1],c[2])}}
  /* letrero con texto (no le afecta la luz) */
  const TEXC=new Map();
@@ -25533,7 +25555,7 @@ const LUGARES625=(()=>{
  const CAN=[[560,3440,700,3600,.12],[520,3500,780,3460,.1],[640,3360,600,3660,.09],[700,3380,820,3560,.1]];
  for(const [a,b,c,d,w] of CAN){const u=(a+c)/2,v=(b+d)/2,L2=Math.hypot(c-a,d-b)/2,an=Math.atan2(d-b,c-a);pad(u,v,L2,7,{rect:1,ang:an,dy:-1.6,bl:6});keep(u,v,L2+2,9,an)}
  L('xochimilco','Xochimilco (embarcadero Nativitas)',660,3500,200,g=>{const mg=Merger();const names=['LUPITA','XÓCHITL','ROSITA','MARIBEL','LA GÜERA','CHAYITO'];let n=0;
-   for(const [a,b,c,d] of CAN){const u=(a+c)/2,v=(b+d)/2,L2=Math.hypot(c-a,d-b)/2,an=Math.atan2(d-b,c-a);const p=V.PADS.find(p=>p.u===u&&p.v===v);const y=(p&&p.y!=null?p.y:G(u,v))+1.05;const w=Merger();floorRect(w,u,v,y,L2,6.5,an,[.28,.45,.38]);g.add(w.mesh(wmat()));
+   for(const [a,b,c,d] of CAN){const u=(a+c)/2,v=(b+d)/2,L2=Math.hypot(c-a,d-b)/2,an=Math.atan2(d-b,c-a);const p=V.PADS.find(p=>p.u===u&&p.v===v);const y=(p&&p.y!=null?p.y:G(u,v))+1.05;const w=A.Merger();floorRect(w,u,v,y,L2,6.5,an,[.28,.45,.38]);g.add(w.mesh(wmat()));
     for(let k=0;k<4;k++){const f=Fr(u,v,an);const q=f(-L2*.7+k*L2*.45,(k%2?2.5:-2.5));const cs=[0xd94f3a,0x3a7fd9,0xf2c14e,0x6fbf5a,0xd977b5,0xe8873a][n%6];box(mg,q[0],q[1],y-.3,12,.9,3.2,0x6b4a2a,an);box(mg,q[0],q[1],y+.6,11,.25,3,0xeee6d6,an);
      for(const sg of [-1,1]){const r=Fr(q[0],q[1],an)(sg*5.2,0);box(mg,r[0],r[1],y+.6,.3,2.8,3.2,cs,an)}const r2=Fr(q[0],q[1],an)(5.4,0);const s=sign(names[n%names.length],3.4,1.1,'#'+cs.toString(16).padStart(6,'0'),'#ffffff');place(s,r2[0],y+3.5,r2[1],-an+Math.PI/2);g.add(s);n++}}
    g.add(mg.mesh(A.MAT.conc))},{size:.9});
@@ -25581,8 +25603,8 @@ const LUGARES625=(()=>{
    cyl(mg,PZ[0],PZ[1],y,4.5,.9,0x8f8a80);cyl(mg,PZ[0],PZ[1],y,.9,6,0x8f8a80);sph(mg,PZ[0],PZ[1],y+7,1,0x6b5a3a);g.add(mg.mesh(A.MAT.conc));colRect(PZ[0]-4.5,PZ[1]-4.5,PZ[0]+4.5,PZ[1]+4.5,null,null);
    const t=[];for(let k=0;k<40;k++){const a=-44+A.h2(k,4)*88,b=-36+A.h2(6,k)*72;if(Math.abs(a)<10&&Math.abs(b)<10)continue;const q=pf(a,b);t.push({u:q[0],v:q[1],y:G(q[0],q[1]),k:'broad',r:k,s:.85,h:A.h2(k,3),c:A.h2(1,k)})}A.plantTrees(g,t);
    /* Catedral de Puebla: torres altísimas de cantera gris, cúpula de azulejo */
-   {const c=pf(0,82);const m2=Merger();const cy=G(c[0],c[1])-.3;const st=0xb0a89e;box(m2,c[0],c[1],cy,70,24,40,st,PA);
-    for(const sg of [-1,1]){const p=pf(sg*29,64);box(m2,p[0],p[1],cy,12,40,12,st,PA);box(m2,p[0],p[1],cy+40,9,14,9,0xb8b0a6,PA);dome(m2,p[0],p[1],cy+54,4.4,5,0x9a928a);cyl(m2,p[0],p[1],cy+59,.25,4,0x333333)}
+   {const c=pf(0,82);const m2=Merger();const cy=G(c[0],c[1])-.3;const st=0xcfc6ba;box(m2,c[0],c[1],cy,70,24,40,st,PA);
+    for(const sg of [-1,1]){const p=pf(sg*29,64);box(m2,p[0],p[1],cy,12,40,12,st,PA);box(m2,p[0],p[1],cy+40,9,14,9,0xd6cdc1,PA);dome(m2,p[0],p[1],cy+54,4.4,5,0x9a928a);cyl(m2,p[0],p[1],cy+59,.25,4,0x333333)}
     const d=pf(8,84);cyl(m2,d[0],d[1],cy+24,9,6,st);dome(m2,d[0],d[1],cy+30,9.6,10,0xc9a646);cyl(m2,d[0],d[1],cy+39.5,1.6,4,0xe2dccd);g.add(m2.mesh(A.MAT.conc));colBox(c[0],c[1],72,44,PA,cy-1,cy+60)}
    /* portales y Palacio Municipal (lados norte, oriente y poniente) */const F=Fac();for(const [a,b,w,d,col] of [[0,-64,96,18,0xd9c7a0],[-68,0,18,96,0xe58a5c],[68,0,18,96,0xd9a441]]){const q=pf(a,b);F.box(q[0],q[1],G(q[0],q[1])-.3,w,14,d,PA,col)}F.add(g)},{far:600});
  spot('pzocalo','Zócalo de Puebla',...pf(0,30));A.LABELS.push(['Catedral de Puebla',...pf(0,100),.8]);
@@ -25631,6 +25653,30 @@ const LUGARES625=(()=>{
  A.LABELS.push(['CIUDAD DE MÉXICO',-150,-400,1.6],['Polanco',-1140,-60,.8],['Lomas de Chapultepec',-1750,330,.75],['Condesa',-660,450,.75],['Iztapalapa',760,1500,.9],['Nezahualcóyotl',1650,450,.85],['Azcapotzalco',-570,-950,.8],['Gustavo A. Madero',380,-900,.8],['Ajusco',-1140,4600,.9],
   ['PUEBLA',9800,3300,1.6],['Cholula',8304,3560,1],['Angelópolis',9018,4300,.85],['TLAXCALA',9300,1180,1.3],['San Martín Texmelucan',6720,1420,.85],['Popocatépetl',5600,3550,1.05]);
  /* al armar la red: corregir pórticos, buscar dónde va el Ángel para «aparecer» */
+ /* ================================================================ MÁS PUEBLA (para reconocerla) ================================================================ */
+ /* Paseo Bravo: parque con quiosco junto a la 11 Sur */
+ {const c=PB(-.6,.5);keep(c[0],c[1],22,34);pad(c[0],c[1],24,36,{rect:1,bl:14});L('paseobravo','Paseo Bravo',c[0],c[1],50,g=>{const mg=Merger();const y=G(c[0],c[1]);floorRect(mg,c[0],c[1],y+.05,20,32,0,0x6f8f4e);floorRect(mg,c[0],c[1],y+.07,3,32,0,0x958a7c);floorRect(mg,c[0],c[1],y+.07,20,3,0,0x958a7c);
+   cyl(mg,c[0],c[1],y,5,.6,0xe8dcc4);for(let k=0;k<8;k++){const a=k/8*6.28;cyl(mg,c[0]+Math.cos(a)*4.3,c[1]+Math.sin(a)*4.3,y+.6,.18,3.6,0xf2efe6)}cone(mg,c[0],c[1],y+4.2,5.4,2.6,0x3f6b5a);g.add(mg.mesh(A.MAT.conc));
+   const t=[];for(let k=0;k<34;k++){const u=c[0]-18+A.h2(k,5)*36,v=c[1]-30+A.h2(6,k)*60;if(Math.hypot(u-c[0],v-c[1])<8||Math.abs(u-c[0])<4||Math.abs(v-c[1])<4)continue;t.push({u,v,y:G(u,v),k:'broad',r:k,s:1,h:A.h2(k,2),c:A.h2(3,k)})}A.plantTrees(g,t)},{size:.75})}
+ /* Casa de los Muñecos (fachada de Talavera) en la esquina del Zócalo; Biblioteca Palafoxiana; templos con cúpulas de azulejo */
+ {const q=pf(70,-66);keep(q[0],q[1],10,10,PA);L('munecos','Casa de los Muñecos',q[0],q[1],20,g=>{const y=G(q[0],q[1])-.3;const m=new THREE.Mesh(new THREE.BoxGeometry(18,13,18),A.MAT.tala);place(m,q[0],y+6.5,q[1],-PA);g.add(m);colBox(q[0],q[1],18,18,PA,y-1,y+13)},{size:.65})}
+ {const q=pf(0,124);keep(q[0],q[1],24,10,PA);L('palafoxiana','Biblioteca Palafoxiana',q[0],q[1],30,g=>{const F=Fac();F.box(q[0],q[1],G(q[0],q[1])-.3,46,13,18,PA,0xd9c7a0);F.add(g)},{size:.65})}
+ for(const [id,nm,x,y,ang,dc] of [['sanfco','Templo de San Francisco',1.05,.25,0,0xc9a646],['compania','Templo de la Compañía',.32,-.45,PA,0x3f6bb0],['carmen','Templo del Carmen',.15,-1.05,PA,0xd9a441]]){const c=PB(x,y);keep(c[0],c[1],12,24,ang);L(id,nm,c[0],c[1],30,g=>church(g,c[0],c[1],ang+Math.PI,{w:14,l:40,h:15,col:0xc8a98a,fac:0xb5523b,th:24,dome:dc,dcol:0xe8dcc4}),{size:.6})}
+ /* letreros verdes elevados en las vías rápidas (con nombres reales) */
+ const OVH=[['peri',.03,'PERIFÉRICO','Satélite · Santa Fe'],['peri',.52,'PERIFÉRICO SUR','Perisur · Xochimilco'],['reforma',.2,'PASEO DE LA REFORMA','Centro · Chapultepec'],['insurgentes',.55,'INSURGENTES SUR','CU · San Ángel'],['viaducto',.4,'VIADUCTO','Aeropuerto'],['zaragoza',.7,'CALZ. I. ZARAGOZA','Puebla 150D'],
+  ['atlixcayotl',.12,'VÍA ATLIXCÁYOTL','Angelópolis · Cholula'],['atlixcayotl',.62,'VÍA ATLIXCÁYOTL','Lomas · Atlixco'],['11sur',.3,'AV. 11 SUR','Centro · Periférico'],['pecol',.15,'PERIFÉRICO ECOLÓGICO','Cholula · Atlixco'],['pecol',.6,'PERIFÉRICO ECOLÓGICO','Valsequillo · Autopista'],['forjadores',.4,'RECTA A CHOLULA','UDLAP · San Pedro'],['serdan',.5,'BLVD. HERMANOS SERDÁN','Centro Histórico'],['tlaxcala',.3,'TLAXCALA','Centro']];
+ function overhead(id,f,t1,t2){L('ovh:'+id+':'+f,null,0,0,30,g=>{const r=A.road(id);const q=V.sampleAt(r,r.len*f);const hw=V.halfW(r);const mg=Merger();const yaw=-Math.atan2(q.tz,q.tx);const fp=(a,l)=>[q.u+q.tx*a+q.nx*l,q.v+q.tz*a+q.nz*l];
+   for(const l of [-(hw+1),hw+1]){const p=fp(0,l);cyl(mg,p[0],p[1],q.y,.35,7.8,0x9ba3a8);colRect(p[0]-.5,p[1]-.5,p[0]+.5,p[1]+.5,null,null)}const c=fp(0,0);box(mg,c[0],c[1],q.y+7.4,.5,.5,2*hw+2,0x9ba3a8,yaw);g.add(mg.mesh(A.MAT.conc));
+   for(const sd of [1,-1]){const s2=sign(t1,Math.min(hw*.9,13),3.2,'#1d6b3a','#ffffff',t2);const p=fp(sd*.4,sd*hw*.45);place(s2,p[0],q.y+9.3,p[1],yaw+(sd>0?Math.PI/2:-Math.PI/2));g.add(s2)}},{label:false,far:300})}
+ for(const o of OVH)overhead(...o);
+ const fixOvh=()=>{for(const Lm of A.LMS){const m=/^ovh:([^:]+):([\d.]+)$/.exec(Lm.id);if(!m)continue;const r=A.road(m[1]);if(!r)continue;const q=V.sampleAt(r,r.len*+m[2]);Lm.u=q.u;Lm.v=q.v}};
+ /* Angelópolis: torres y el Museo Internacional del Barroco (fachada blanca ondulada), junto a la Atlixcáyotl */
+ function besideRoad(id,f,off){const r=A.road(id);const q=V.sampleAt(r,r.len*f);return [q.u+q.nx*off,q.v+q.nz*off,Math.atan2(q.tz,q.tx)]}
+ const ANG=[];function angelopolis(){if(ANG.length)return;const items=[['torrejv','Torre JV',.36,52,(g,u,v,a)=>{const y=G(u,v)-.3;const F=Fac();F.box(u,v,y,30,150,30,a,0x6f8fa8,true);F.box(u,v,y+150,22,14,22,a,0x6a8aa2,true);F.add(g)}],
+   ['adamant','Torre Adamant',.39,-58,(g,u,v,a)=>{const y=G(u,v)-.3;const F=Fac();F.box(u,v,y,26,118,34,a,0x9fb7c6,true);F.add(g)}],
+   ['barroco','Museo Internacional del Barroco',.5,-90,(g,u,v,a)=>{const y=G(u,v)-.3;const mg=Merger();const f=Fr(u,v,a);for(let k=-10;k<=10;k++){const p=f(k*4.2,Math.sin(k*.6)*3);box(mg,p[0],p[1],y,3.6,22+6*Math.sin(k*.45),1.4,0xf4f4f0,a+Math.sin(k*.6)*.4)}const b=f(0,-22);box(mg,b[0],b[1],y,88,14,34,0xe9e9e4,a);g.add(mg.mesh(A.MAT.conc));colBox(u,v-0,90,46,a,y-1,y+28)}]];
+  for(const [id,nm,f,off,b] of items){const [u,v,a]=besideRoad('atlixcayotl',f,off);ANG.push([u,v]);A.addKeep({u,v,r:34});A.LMS.push({id,name:nm,u,v,r:50,far:1200,build:()=>{const g=new THREE.Group();try{b(g,u,v,a)}catch(e){err(id,e)}return g}});A.LABELS.push([nm,u,v,.7])}}
+ A.READY.unshift(()=>{try{fixOvh();angelopolis()}catch(e){err('puebla',e)}});
  let did=false;function after(){if(did||!V.ready)return;did=true;try{fixGantries();const r=A.road('reforma');const q=onReforma(-3.6,-.6);A.SPOTS.angel={name:'El Ángel (Reforma)',road:'reforma',s:Math.max(0,q.s-70)}}catch(e){err('después',e)}}
  /* ================================================================ RETENES (donde termina un camino y en la orilla del mapa) ================================================================
     Donde una avenida o carretera termina, después de su retorno hay un retén de policía: vallas, conos, dos patrullas con torreta
@@ -25781,7 +25827,7 @@ const SUBIR625=(()=>{
  const V=VALLE624;const BV={x0:V.AREA.u0+V.OX,x1:V.AREA.u1+V.OX,z0:V.AREA.v0+V.OZ,z1:V.AREA.v1+V.OZ};
  function inNew(){try{return V.inW(P.x,P.z)}catch(_){return false}}
  function withB(fn,args,self){if(!inNew())return fn.apply(self,args);const B=WB511,o={x0:B.x0,x1:B.x1,z0:B.z0,z1:B.z1};Object.assign(B,BV);try{return fn.apply(self,args)}finally{Object.assign(B,o)}}
- try{const _o=openMap59;openMap59=function(){const r=withB(_o,arguments,this);try{if(inNew()){if(!V.ready)V.init();MAP59.cx=P.x;MAP59.cz=P.z;M.map++;renderMap59()}}catch(e){err('mapa',e)}return r};window.openMap59=openMap59;try{window.__rb59.openMap59=openMap59}catch(_){}}catch(e){err('mapa',e)}
+ try{const _o=openMap59;openMap59=function(){const r=withB(_o,arguments,this);try{try{const lg=MAP59.el&&MAP59.el.querySelector('.leg');if(lg){if(!lg.dataset.old)lg.dataset.old=lg.innerHTML;lg.innerHTML=inNew()?'<span style="color:#38e1f5">━</span> ruta del GPS · toca cualquier punto y escoge «🎯 Ir aquí con GPS» · <span style="color:#e0a540">━</span> Periférico y autopistas':lg.dataset.old}}catch(_){}if(inNew()){if(!V.ready)V.init();MAP59.cx=P.x;MAP59.cz=P.z;M.map++;renderMap59()}}catch(e){err('mapa',e)}return r};window.openMap59=openMap59;try{window.__rb59.openMap59=openMap59}catch(_){}}catch(e){err('mapa',e)}
  try{const _r=renderMap59;renderMap59=function(){/* si el centro del mapa quedó en el mapa de siempre, se regresa al nuevo */if(inNew()&&!V.inW(MAP59.cx,MAP59.cz)){MAP59.cx=P.x;MAP59.cz=P.z}return withB(_r,arguments,this)};window.renderMap59=renderMap59;try{window.__rb59.renderMap59=renderMap59}catch(_){}}catch(e){err('mapa',e)}
  try{const _t=tapMap59;tapMap59=function(){return withB(_t,arguments,this)};window.tapMap59=tapMap59}catch(e){err('mapa',e)}
  try{NV600.G[1][1].push('🚗 Subirte al coche es fácil: cerca de cualquier parte del coche, el botón USAR dice «Subirte»; el mapa grande ya abre el mapa nuevo')}catch(_){}
@@ -25837,6 +25883,57 @@ const PRUEBA625=(()=>{
 })();
 try{window.PRUEBA625=PRUEBA625}catch(_){}
 /*RB625-RB625_PRUEBA-END*/
+
+/*RB625-RB625_GPS-BEGIN*/
+/* RUTA BRAVA V5.125 · GPS DEL MAPA NUEVO (reporte del productor: «no jala el GPS»).
+   · Toca cualquier punto en el mapa grande → «🎯 Ir aquí con GPS». También desde el teléfono (Mapa → 🎯 GPS a…) a cualquier lugar.
+   · La ruta va por las calles y avenidas de verdad (Periférico, Segundo Piso, rampas, autopista…), se dibuja en azul en el minimapa
+     y en el mapa grande, se recalcula si te sales, y arriba dice a dónde vas y cuánto falta. Al llegar, avisa y se apaga. */
+const GPS625=(()=>{
+ const V=VALLE624;const M={errors:[],routes:0,nodes:0,recalc:0,arrive:0};const err=(w,e)=>{if(M.errors.length<6)M.errors.push(w+': '+(e&&e.message||e))};
+ const STEP=24;let N=null;/* nodos: {u,v,y,r,s,adj:[[j,costo]]} */
+ function build(){if(N||!V.ready)return N;N=[];const byRoad=new Map();
+  for(const r of V.ROADS){const ids=[];const n=Math.max(2,Math.ceil(r.len/STEP));for(let i=0;i<=n;i++){const s=Math.min(r.len,i*r.len/n);if(r.closed&&i===n)break;const q=V.sampleAt(r,s);ids.push(N.length);N.push({u:q.u,v:q.v,y:q.y,r,s,adj:[]})}
+   for(let i=1;i<ids.length;i++)link(ids[i-1],ids[i]);if(r.closed&&ids.length>2)link(ids[ids.length-1],ids[0]);byRoad.set(r,ids)}
+  /* cruces y entronques: puntos de caminos distintos que se tocan a la misma altura */
+  const G=new Map(),C=40;N.forEach((p,i)=>{const k=Math.floor(p.u/C)+','+Math.floor(p.v/C);let L=G.get(k);if(!L)G.set(k,L=[]);L.push(i)});
+  N.forEach((p,i)=>{const ci=Math.floor(p.u/C),cj=Math.floor(p.v/C);for(let x=ci-1;x<=ci+1;x++)for(let z=cj-1;z<=cj+1;z++){const L=G.get(x+','+z);if(!L)continue;for(const j of L){if(j<=i)continue;const q=N[j];if(q.r===p.r)continue;const d=Math.hypot(p.u-q.u,p.v-q.v);const lim=Math.max(V.halfW(p.r),V.halfW(q.r))+STEP*.6;if(d<lim&&Math.abs(p.y-q.y)<1.6)link(i,j,d+2)}}});
+  M.nodes=N.length;return N}
+ function link(a,b,c){const p=N[a],q=N[b];const d=c!=null?c:Math.hypot(p.u-q.u,p.v-q.v);/* las vías rápidas «cuestan» menos (como un GPS de verdad) */const f=k=>k==='hw'?.55:k==='peri'||k==='sp'?.65:k==='art'?.85:1;const w=d*Math.min(f(p.r.kind),f(q.r.kind));p.adj.push([b,w]);q.adj.push([a,w])}
+ function nearest(u,v,y){let b=-1,bd=1e18;for(let i=0;i<N.length;i++){const p=N[i];const d=(p.u-u)**2+(p.v-v)**2+(y!=null?((p.y-y)*4)**2:0);if(d<bd){bd=d;b=i}}return b}
+ function dijkstra(a,b){const n=N.length;const dist=new Float64Array(n).fill(Infinity),prev=new Int32Array(n).fill(-1);dist[a]=0;const H=[[0,a]];
+  const push=(x)=>{H.push(x);let i=H.length-1;while(i>0){const p=(i-1)>>1;if(H[p][0]<=H[i][0])break;[H[p],H[i]]=[H[i],H[p]];i=p}};
+  const pop=()=>{const t=H[0],l=H.pop();if(H.length){H[0]=l;let i=0;for(;;){const a2=2*i+1,b2=a2+1;let m=i;if(a2<H.length&&H[a2][0]<H[m][0])m=a2;if(b2<H.length&&H[b2][0]<H[m][0])m=b2;if(m===i)break;[H[m],H[i]]=[H[i],H[m]];i=m}}return t};
+  while(H.length){const [d,i]=pop();if(d>dist[i])continue;if(i===b)break;for(const [j,w] of N[i].adj){const nd=d+w;if(nd<dist[j]){dist[j]=nd;prev[j]=i;push([nd,j])}}}
+  if(!isFinite(dist[b]))return null;const path=[];for(let i=b;i>=0;i=prev[i])path.push(i);return path.reverse()}
+ let DEST=null,ROUTE=null,lastCalc=0;
+ function route(){try{build();if(!DEST||!N)return;const pu=P.x-V.OX,pv=P.z-V.OZ;const py=(DRV&&DRV.k)?DRV.k.g.position.y:P.y;const a=nearest(pu,pv,py),b=nearest(DEST.u,DEST.v,null);const path=dijkstra(a,b);
+   ROUTE=path?[[pu,pv]].concat(path.map(i=>[N[i].u,N[i].v])).concat([[DEST.u,DEST.v]]):[[pu,pv],[DEST.u,DEST.v]];M.routes++;lastCalc=performance.now()}catch(e){err('ruta',e)}}
+ function setDest(u,v,name){DEST={u,v,name:name||'Destino'};route();hud();try{toast('🎯 GPS: '+DEST.name)}catch(_){}}
+ function clear(){DEST=null;ROUTE=null;hud()}
+ function left(){if(!ROUTE)return 0;let L=0;for(let i=1;i<ROUTE.length;i++)L+=Math.hypot(ROUTE[i][0]-ROUTE[i-1][0],ROUTE[i][1]-ROUTE[i-1][1]);return L}
+ /* letrero de arriba */
+ let el=null;function hud(){if(!el){el=document.createElement('div');el.id='gps625';el.style.cssText='position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);background:#0b2f3acc;color:#e9fbff;font:600 13px system-ui;padding:5px 12px;border-radius:12px;z-index:55;display:none;pointer-events:none;border:1px solid #38e1f5aa';document.body.appendChild(el)}
+  if(!DEST||!V.inW(P.x,P.z)){el.style.display='none';return}const L=left();el.textContent='🎯 '+DEST.name+' · '+(L>950?(L/1000*5.3).toFixed(1)+' km':Math.round(L*5.3/10)*10+' m');el.style.display='block'}
+ /* dibujar la ruta en minimapa y mapa grande */
+ V.DRAWH.push((ctx,v,X,Y)=>{if(!ROUTE)return;ctx.save();ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();ROUTE.forEach((p,i)=>i?ctx.lineTo(X(p[0]+V.OX),Y(p[1]+V.OZ)):ctx.moveTo(X(p[0]+V.OX),Y(p[1]+V.OZ)));ctx.strokeStyle='#0b2f3a';ctx.lineWidth=Math.max(5,9*v.s);ctx.stroke();ctx.strokeStyle='#38e1f5';ctx.lineWidth=Math.max(3,6*v.s);ctx.stroke();
+  const d=ROUTE[ROUTE.length-1];ctx.fillStyle='#ff4d6d';ctx.beginPath();ctx.arc(X(d[0]+V.OX),Y(d[1]+V.OZ),v.mini?5:8,0,7);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();ctx.restore()});
+ /* seguir la ruta: recortar lo andado, recalcular si te sales, avisar al llegar */
+ let acc=0;try{const _st=step;step=function(dt){const r=_st.apply(this,arguments);try{acc+=Math.min(.1,Math.max(0,dt||0));if(acc>.5&&DEST&&V.ready&&V.inW(P.x,P.z)){acc=0;const pu=P.x-V.OX,pv=P.z-V.OZ;
+    if(Math.hypot(pu-DEST.u,pv-DEST.v)<28){M.arrive++;try{toast('🏁 Llegaste: '+DEST.name)}catch(_){}clear();return r}
+    if(ROUTE&&ROUTE.length>2){let bi=0,bd=1e18;for(let i=1;i<Math.min(ROUTE.length,40);i++){const d=Math.hypot(ROUTE[i][0]-pu,ROUTE[i][1]-pv);if(d<bd){bd=d;bi=i}}
+     if(bd>45&&performance.now()-lastCalc>2500){M.recalc++;route()}else{ROUTE=[[pu,pv]].concat(ROUTE.slice(bi))}}else route();hud()}else if(acc>.5){acc=0;hud()}}catch(e){err('paso',e)}return r}}catch(e){err('paso',e)}
+ /* tocar en el mapa grande */
+ try{const _t=tapMap59;tapMap59=function(sx,sy){try{if(V.ready&&V.inW(P.x,P.z)){const wx=MAP59.cx+(sx-MAP59.w/2)/MAP59.s,wz=MAP59.cz+(sy-MAP59.h/2)/MAP59.s;if(V.inW(wx,wz)){
+     let name='Punto en el mapa',bd=1e9;for(const [t,u,w] of V.LABELS){const d=Math.hypot(u-(wx-V.OX),w-(wz-V.OZ));if(d<bd&&d<160){bd=d;name=t}}
+     popup59('📍 '+name,['A '+Math.round(Math.hypot(wx-P.x,wz-P.z)*5.3/100)/10+' km en línea recta'],[['🎯 Ir aquí con GPS',()=>{setDest(wx-V.OX,wz-V.OZ,name);renderMap59();hidePop59()}],DEST?['Quitar GPS',()=>{clear();renderMap59();hidePop59()}]:['Cerrar',hidePop59],['Cerrar',hidePop59]]);return}}}catch(e){err('tocar',e)}return _t.apply(this,arguments)};window.tapMap59=tapMap59}catch(e){err('mapa',e)}
+ /* teléfono: GPS a un lugar */
+ try{Phone58.register({id:'gps625',name:'GPS',icon:'🎯',render(api){const btn=[];for(const id in V.SPOTS){const S=V.SPOTS[id];btn.push(['🎯 '+S.name,()=>{try{api.close()}catch(_){}if(!V.ready)V.init();let u=S.u,v=S.v;if(S.road){const r=V.ROADS.find(x=>x.id===S.road);const q=V.sampleAt(r,S.f!=null?r.len*S.f:S.s||0);u=q.u;v=q.v}setDest(u,v,S.name)}])}
+   if(DEST)btn.unshift(['❌ Quitar GPS ('+DEST.name+')',()=>{clear();try{api.close()}catch(_){}}]);btn.push(['Volver',()=>api.home()]);return {title:'🎯 GPS',text:V.inW(P.x,P.z)?'Escoge a dónde vas (o toca un punto en el mapa grande).':'El GPS de lugares funciona en el mapa nuevo.',rows:[],buttons:btn}}})}catch(e){err('teléfono',e)}
+ return {M,setDest,clear,route,get ROUTE(){return ROUTE},get DEST(){return DEST},build,left};
+})();
+try{window.GPS625=GPS625}catch(_){}
+/*RB625-RB625_GPS-END*/
 
 /*RB625-RB625_JUGAR-BEGIN*/
 /* RUTA BRAVA V5.125 · UN SOLO JUEGO (pedido del productor: «no tienes que poder escoger entre online e historia, tiene que aparecer
