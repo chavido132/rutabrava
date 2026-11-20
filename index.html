@@ -19,7 +19,7 @@
   var s=Math.round((Date.now()-t0)/1000);if(!failed){var b=document.querySelector('#ini b');if(b&&(/jugar|Cargando/.test(b.textContent)))b.textContent='⏳ Cargando el mundo… '+s+' s'}if(s>=60&&!failed){failed=true;retry('tardó mucho')}},250);
 })();</script>
 </head><body>
-<title>RUTA BRAVA · La Deuda V5.123 (pública)</title>
+<title>RUTA BRAVA · La Deuda V5.124 (pública)</title>
 <style>
 :root{--tinta:#1d1420;--cobalto:#1f4e9c;--mostaza:#e8b83a;--hueso:#f5ead6}
 html,body{margin:0;height:100%;overflow:hidden;background:var(--tinta);font-family:Rockwell,"Roboto Slab",Georgia,serif;color:var(--hueso)}
@@ -141,7 +141,7 @@ html,body{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-to
 #rb531-next{width:max-content!important;max-width:min(42vw,300px);box-sizing:border-box;font-size:11px!important}
 </style>
 <div id="v"></div><div id="hud"></div><div id="mis"></div><div id="cx"></div><div id="pr"></div><div id="ts"></div><div id="vel"></div><div id="dlg"></div>
-<button id="rbmenu" type="button" aria-label="Rutas y comercio">☷ RUTAS</button><div id="rbgps" aria-live="polite">🛣 Villa Cascajo · Carretera principal</div><div id="ini"><div><h1>RUTA BRAVA · La Deuda V5.123 (pública)</h1>
+<button id="rbmenu" type="button" aria-label="Rutas y comercio">☷ RUTAS</button><div id="rbgps" aria-live="polite">🛣 Villa Cascajo · Carretera principal</div><div id="ini"><div><h1>RUTA BRAVA · La Deuda V5.124 (pública)</h1>
 <p>Empiezas en Nueva Brava. Tu papá te pide un garrafón. Lo que pasa después lo cambia todo.</p><p>Vida criminal: roba coches por encargo, mueve contrabando, asalta camiones de valores y arma golpes con tu banda. Gástate la lana en armas, mansiones, autos de lujo y negocios. Sandbox mexicano sin historia obligatoria.</p>
 <p>WASD: mover/conducir · Ratón: mirar · E: interactuar · V: cámara · Q: arma · R: recargar · I: inventario.</p>
 <p><b>Toca o haz clic para jugar</b></p><p>En iPhone: gira el móvil, utiliza los controles discretos de los bordes. Toca RUTAS para ver tus trabajos (contactos), el GPS, la armería y el desarmadero más cercanos.</p>
@@ -198,12 +198,13 @@ body.add(mk(new THREE.CylinderGeometry(.3,.3,1.1,12),0x1f4e9c,.75),mk(new THREE.
 const NPC=[{n:'Doña Chela',x:8,z:-8,c:0xd6336c,id:'chela'},{n:'Don Rigo',x:17,z:13.5,c:0x2b2b33,id:'rigo'},{n:'Lic. Paty',x:-4,z:10,c:0x2f9e8f,id:'paty'}];
 
 var WALKMUL510=1,STEERMUL510=1;/* V5.10: multiplicadores de la vida (1 = idéntico a V5.9) */
-const RBON553=(()=>{try{return localStorage.getItem('rb553_modo')==='enlinea'}catch(_){return false}})();const RB_KEY59=RBON553?'cascajo3d_v623o_enlinea':'cascajo3d_v623o',RB_KEYV511='cascajo3d_v511',RB_KEYV510='cascajo3d_v510',RB_KEYV59='cascajo3d_v59',RB_KEYMAIN59='cascajo3d',RB_KEYBAK59=(RBON553?'cascajo3d_v623o_enlinea_bak':'cascajo3d_v623o_bak'),RB_KEYBOOT59=(RBON553?'cascajo3d_v623o_enlinea_boot':'cascajo3d_v623o_boot'),RB_KEYBAD59=(RBON553?'cascajo3d_v623o_enlinea_corrupto':'cascajo3d_v623o_corrupto');
+const RBON553=(()=>{try{return localStorage.getItem('rb553_modo')==='enlinea'}catch(_){return false}})();const RB_KEY59=RBON553?'cascajo3d_v624o_enlinea':'cascajo3d_v624o',RB_KEYV511='cascajo3d_v511',RB_KEYV510='cascajo3d_v510',RB_KEYV59='cascajo3d_v59',RB_KEYMAIN59='cascajo3d',RB_KEYBAK59=(RBON553?'cascajo3d_v624o_enlinea_bak':'cascajo3d_v624o_bak'),RB_KEYBOOT59=(RBON553?'cascajo3d_v624o_enlinea_boot':'cascajo3d_v624o_boot'),RB_KEYBAD59=(RBON553?'cascajo3d_v624o_enlinea_corrupto':'cascajo3d_v624o_corrupto');
 /* V5.12: guardado INDEPENDIENTE (cascajo3d_v512). Si no existe, se abre una COPIA en memoria de la V5.10 y, si tampoco, de la V5.9 (status 'migrada'); esas claves NUNCA se escriben ni se borran. */
-const LOAD59=(function(){let raw=null,prev622=null,prev621=null,prev620=null,prev619=null,prev618=null,prev617=null,prev616=null,prev615=null,prev614=null,prev613=null,prev612=null,prev611=null,prev610=null,prev609=null,prev608=null,prev607=null,prev606=null,prev605=null,prev604=null,prev603=null,prev602=null,prev601=null,prev600=null,prev599=null,prev598=null,prev597=null,prev596=null,prev595=null,prev594=null,prev593=null,prev592=null,prev591=null,prev590=null,prev589=null,prev588=null,prev587=null,prev586=null,prev585=null,prev584=null,prev583=null,prev582=null,prev581=null,prev580=null,prev579=null,prev578=null,prev577=null,prev576=null,prev575=null,prev574=null,prev573=null,prev572=null,prev571=null,prev570=null,prev569=null,prev568=null,prev567=null,prev566=null,prev565=null,prev564=null,prev563=null,prev562=null,prev561=null,prev560=null,prev559=null,prev558=null,prev557=null,prev556=null,prev555=null,prev554=null,prev553=null,prev552=null,prev551=null,prev550=null,prev549=null,prev548=null,prev547=null,prev546=null,prev545=null,prev544=null,prev543=null,prev542=null,prev541=null,prev540=null,prev539=null,prev538=null,prev537=null,prev536c=null,prev536o=null,prev535o=null,prev534o=null,prev533o=null,prev532o=null,prev531o=null,prev524o=null,prev523o=null,prev522o=null,prev521o=null,prev520o=null,prev531x=null,prev528c=null,prev527c=null,prev5261c=null,prev524c=null,prev523c=null,prev522c=null,prev521c=null,prev520c=null,prev519o=null,prev517=null,prev519c=null,prev518c=null,prev516=null,prev5152=null,prev515=null,prev513=null,prev5121=null,prev512=null,main=null,old=null,v10=null,v11=null,status='nueva',src=null;try{raw=localStorage.getItem(RB_KEY59)}catch(e){}try{prev622=localStorage.getItem(RBON553?'cascajo3d_v622o_enlinea':'cascajo3d_v622o')}catch(e){}try{prev621=localStorage.getItem(RBON553?'cascajo3d_v621o_enlinea':'cascajo3d_v621o')}catch(e){}try{prev620=localStorage.getItem(RBON553?'cascajo3d_v620o_enlinea':'cascajo3d_v620o')}catch(e){}try{prev619=localStorage.getItem(RBON553?'cascajo3d_v619o_enlinea':'cascajo3d_v619o')}catch(e){}try{prev618=localStorage.getItem(RBON553?'cascajo3d_v618o_enlinea':'cascajo3d_v618o')}catch(e){}try{prev617=localStorage.getItem(RBON553?'cascajo3d_v617o_enlinea':'cascajo3d_v617o')}catch(e){}try{prev616=localStorage.getItem(RBON553?'cascajo3d_v616o_enlinea':'cascajo3d_v616o')}catch(e){}try{prev615=localStorage.getItem(RBON553?'cascajo3d_v615o_enlinea':'cascajo3d_v615o')}catch(e){}try{prev614=localStorage.getItem(RBON553?'cascajo3d_v614o_enlinea':'cascajo3d_v614o')}catch(e){}try{prev613=localStorage.getItem(RBON553?'cascajo3d_v613o_enlinea':'cascajo3d_v613o')}catch(e){}try{prev612=localStorage.getItem(RBON553?'cascajo3d_v612o_enlinea':'cascajo3d_v612o')}catch(e){}try{prev611=localStorage.getItem(RBON553?'cascajo3d_v611o_enlinea':'cascajo3d_v611o')}catch(e){}try{prev610=localStorage.getItem(RBON553?'cascajo3d_v610o_enlinea':'cascajo3d_v610o')}catch(e){}try{prev609=localStorage.getItem(RBON553?'cascajo3d_v609o_enlinea':'cascajo3d_v609o')}catch(e){}try{prev608=localStorage.getItem(RBON553?'cascajo3d_v608o_enlinea':'cascajo3d_v608o')}catch(e){}try{prev607=localStorage.getItem(RBON553?'cascajo3d_v607o_enlinea':'cascajo3d_v607o')}catch(e){}try{prev606=localStorage.getItem(RBON553?'cascajo3d_v606o_enlinea':'cascajo3d_v606o')}catch(e){}try{prev605=localStorage.getItem(RBON553?'cascajo3d_v605o_enlinea':'cascajo3d_v605o')}catch(e){}try{prev604=localStorage.getItem(RBON553?'cascajo3d_v604o_enlinea':'cascajo3d_v604o')}catch(e){}try{prev603=localStorage.getItem(RBON553?'cascajo3d_v603o_enlinea':'cascajo3d_v603o')}catch(e){}try{prev602=localStorage.getItem(RBON553?'cascajo3d_v602o_enlinea':'cascajo3d_v602o')}catch(e){}try{prev601=localStorage.getItem(RBON553?'cascajo3d_v601o_enlinea':'cascajo3d_v601o')}catch(e){}try{prev600=localStorage.getItem(RBON553?'cascajo3d_v600o_enlinea':'cascajo3d_v600o')}catch(e){}try{prev599=localStorage.getItem(RBON553?'cascajo3d_v599o_enlinea':'cascajo3d_v599o')}catch(e){}try{prev598=localStorage.getItem(RBON553?'cascajo3d_v598o_enlinea':'cascajo3d_v598o')}catch(e){}try{prev597=localStorage.getItem(RBON553?'cascajo3d_v597o_enlinea':'cascajo3d_v597o')}catch(e){}try{prev596=localStorage.getItem(RBON553?'cascajo3d_v596o_enlinea':'cascajo3d_v596o')}catch(e){}try{prev595=localStorage.getItem(RBON553?'cascajo3d_v595o_enlinea':'cascajo3d_v595o')}catch(e){}try{prev594=localStorage.getItem(RBON553?'cascajo3d_v594o_enlinea':'cascajo3d_v594o')}catch(e){}try{prev593=localStorage.getItem(RBON553?'cascajo3d_v593o_enlinea':'cascajo3d_v593o')}catch(e){}try{prev592=localStorage.getItem(RBON553?'cascajo3d_v592o_enlinea':'cascajo3d_v592o')}catch(e){}try{prev591=localStorage.getItem(RBON553?'cascajo3d_v591o_enlinea':'cascajo3d_v591o')}catch(e){}try{prev590=localStorage.getItem(RBON553?'cascajo3d_v590o_enlinea':'cascajo3d_v590o')}catch(e){}try{prev589=localStorage.getItem(RBON553?'cascajo3d_v589o_enlinea':'cascajo3d_v589o')}catch(e){}try{prev588=localStorage.getItem(RBON553?'cascajo3d_v588o_enlinea':'cascajo3d_v588o')}catch(e){}try{prev587=localStorage.getItem(RBON553?'cascajo3d_v587o_enlinea':'cascajo3d_v587o')}catch(e){}try{prev586=localStorage.getItem(RBON553?'cascajo3d_v586o_enlinea':'cascajo3d_v586o')}catch(e){}try{prev585=localStorage.getItem(RBON553?'cascajo3d_v585o_enlinea':'cascajo3d_v585o')}catch(e){}try{prev584=localStorage.getItem(RBON553?'cascajo3d_v584o_enlinea':'cascajo3d_v584o')}catch(e){}try{prev583=localStorage.getItem(RBON553?'cascajo3d_v583o_enlinea':'cascajo3d_v583o')}catch(e){}try{prev582=localStorage.getItem(RBON553?'cascajo3d_v582o_enlinea':'cascajo3d_v582o')}catch(e){}try{prev581=localStorage.getItem(RBON553?'cascajo3d_v581o_enlinea':'cascajo3d_v581o')}catch(e){}try{prev580=localStorage.getItem(RBON553?'cascajo3d_v580o_enlinea':'cascajo3d_v580o')}catch(e){}try{prev579=localStorage.getItem(RBON553?'cascajo3d_v579o_enlinea':'cascajo3d_v579o')}catch(e){}try{prev578=localStorage.getItem(RBON553?'cascajo3d_v578o_enlinea':'cascajo3d_v578o')}catch(e){}try{prev577=localStorage.getItem(RBON553?'cascajo3d_v577o_enlinea':'cascajo3d_v577o')}catch(e){}try{prev576=localStorage.getItem(RBON553?'cascajo3d_v576o_enlinea':'cascajo3d_v576o')}catch(e){}try{prev575=localStorage.getItem(RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o')}catch(e){}try{prev574=localStorage.getItem(RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o')}catch(e){}try{prev573=localStorage.getItem(RBON553?'cascajo3d_v573o_enlinea':'cascajo3d_v573o')}catch(e){}try{prev572=localStorage.getItem(RBON553?'cascajo3d_v572o_enlinea':'cascajo3d_v572o')}catch(e){}try{prev571=localStorage.getItem(RBON553?'cascajo3d_v571o_enlinea':'cascajo3d_v571o')}catch(e){}try{prev570=localStorage.getItem(RBON553?'cascajo3d_v570o_enlinea':'cascajo3d_v570o')}catch(e){}try{prev569=localStorage.getItem(RBON553?'cascajo3d_v569o_enlinea':'cascajo3d_v569o')}catch(e){}try{prev568=localStorage.getItem(RBON553?'cascajo3d_v568o_enlinea':'cascajo3d_v568o')}catch(e){}try{prev567=localStorage.getItem(RBON553?'cascajo3d_v567o_enlinea':'cascajo3d_v567o')}catch(e){}try{prev566=localStorage.getItem(RBON553?'cascajo3d_v566o_enlinea':'cascajo3d_v566o')}catch(e){}try{prev565=localStorage.getItem(RBON553?'cascajo3d_v565o_enlinea':'cascajo3d_v565o')}catch(e){}try{prev564=localStorage.getItem(RBON553?'cascajo3d_v564o_enlinea':'cascajo3d_v564o')}catch(e){}try{prev563=localStorage.getItem(RBON553?'cascajo3d_v563o_enlinea':'cascajo3d_v563o')}catch(e){}try{prev562=localStorage.getItem(RBON553?'cascajo3d_v562o_enlinea':'cascajo3d_v562o')}catch(e){}try{prev561=localStorage.getItem(RBON553?'cascajo3d_v561o_enlinea':'cascajo3d_v561o')}catch(e){}try{prev560=localStorage.getItem(RBON553?'cascajo3d_v560o_enlinea':'cascajo3d_v560o')}catch(e){}try{prev559=localStorage.getItem(RBON553?'cascajo3d_v559o_enlinea':'cascajo3d_v559o')}catch(e){}try{prev558=localStorage.getItem(RBON553?'cascajo3d_v558o_enlinea':'cascajo3d_v558o')}catch(e){}try{prev557=localStorage.getItem(RBON553?'cascajo3d_v557o_enlinea':'cascajo3d_v557o')}catch(e){}try{prev556=localStorage.getItem(RBON553?'cascajo3d_v556o_enlinea':'cascajo3d_v556o')}catch(e){}try{prev555=localStorage.getItem(RBON553?'cascajo3d_v555o_enlinea':'cascajo3d_v555o')}catch(e){}try{prev554=localStorage.getItem(RBON553?'cascajo3d_v554o_enlinea':'cascajo3d_v554o')}catch(e){}try{prev553=localStorage.getItem(RBON553?'cascajo3d_v553o_enlinea':'cascajo3d_v553o')}catch(e){}try{prev552=localStorage.getItem('cascajo3d_v552o')}catch(e){}try{prev551=localStorage.getItem('cascajo3d_v551o')}catch(e){}try{prev550=localStorage.getItem('cascajo3d_v550o')}catch(e){}try{prev549=localStorage.getItem('cascajo3d_v549o')}catch(e){}try{prev548=localStorage.getItem('cascajo3d_v548o')}catch(e){}try{prev547=localStorage.getItem('cascajo3d_v547o')}catch(e){}try{prev546=localStorage.getItem('cascajo3d_v546o')}catch(e){}try{prev545=localStorage.getItem('cascajo3d_v545o')}catch(e){}try{prev544=localStorage.getItem('cascajo3d_v544o')}catch(e){}try{prev543=localStorage.getItem('cascajo3d_v543o')}catch(e){}try{prev542=localStorage.getItem('cascajo3d_v542o')}catch(e){}try{prev541=localStorage.getItem('cascajo3d_v541o')}catch(e){}try{prev540=localStorage.getItem('cascajo3d_v540o')}catch(e){}try{prev539=localStorage.getItem('cascajo3d_v539o')}catch(e){}try{prev538=localStorage.getItem('cascajo3d_v538o')}catch(e){}try{prev537=localStorage.getItem('cascajo3d_v537o')}catch(e){}try{prev536c=localStorage.getItem('cascajo3d_v536criminal')}catch(e){}try{prev536o=localStorage.getItem('cascajo3d_v536o')}catch(e){}try{prev535o=localStorage.getItem('cascajo3d_v535o')}catch(e){}try{prev534o=localStorage.getItem('cascajo3d_v534o')}catch(e){}try{prev533o=localStorage.getItem('cascajo3d_v533o')}catch(e){}try{prev532o=localStorage.getItem('cascajo3d_v532o')}catch(e){}try{prev531o=localStorage.getItem('cascajo3d_v531o')}catch(e){}try{prev524o=localStorage.getItem('cascajo3d_v524o')}catch(e){}try{prev523o=localStorage.getItem('cascajo3d_v523o')}catch(e){}try{prev522o=localStorage.getItem('cascajo3d_v522o')}catch(e){}try{prev521o=localStorage.getItem('cascajo3d_v521o')}catch(e){}try{prev520o=localStorage.getItem('cascajo3d_v520o')}catch(e){}try{prev519o=localStorage.getItem('cascajo3d_v519o')}catch(e){}try{prev517=localStorage.getItem('cascajo3d_v517')}catch(e){}try{prev531x=localStorage.getItem('cascajo3d_v531x')}catch(e){}try{prev528c=localStorage.getItem('cascajo3d_v528')}catch(e){}try{prev527c=localStorage.getItem('cascajo3d_v527')}catch(e){}try{prev5261c=localStorage.getItem('cascajo3d_v5261')}catch(e){}try{prev524c=localStorage.getItem('cascajo3d_v524')}catch(e){}try{prev523c=localStorage.getItem('cascajo3d_v523')}catch(e){}try{prev522c=localStorage.getItem('cascajo3d_v522')}catch(e){}try{prev521c=localStorage.getItem('cascajo3d_v521')}catch(e){}try{prev520c=localStorage.getItem('cascajo3d_v520')}catch(e){}try{prev519c=localStorage.getItem('cascajo3d_v519')}catch(e){}try{prev518c=localStorage.getItem('cascajo3d_v518')}catch(e){}try{prev516=localStorage.getItem('cascajo3d_v516')}catch(e){}try{prev5152=localStorage.getItem('cascajo3d_v5152')}catch(e){}try{prev515=localStorage.getItem('cascajo3d_v515')}catch(e){}try{prev513=localStorage.getItem('cascajo3d_v513')}catch(e){}try{prev5121=localStorage.getItem('cascajo3d_v5121')}catch(e){}try{prev512=localStorage.getItem('cascajo3d_v512')}catch(e){}try{main=localStorage.getItem(RB_KEYMAIN59)}catch(e){}try{old=localStorage.getItem(RB_KEYV59)}catch(e){}try{v10=localStorage.getItem(RB_KEYV510)}catch(e){}try{v11=localStorage.getItem(RB_KEYV511)}catch(e){}
+const LOAD59=(function(){let raw=null,prev623=null,prev622=null,prev621=null,prev620=null,prev619=null,prev618=null,prev617=null,prev616=null,prev615=null,prev614=null,prev613=null,prev612=null,prev611=null,prev610=null,prev609=null,prev608=null,prev607=null,prev606=null,prev605=null,prev604=null,prev603=null,prev602=null,prev601=null,prev600=null,prev599=null,prev598=null,prev597=null,prev596=null,prev595=null,prev594=null,prev593=null,prev592=null,prev591=null,prev590=null,prev589=null,prev588=null,prev587=null,prev586=null,prev585=null,prev584=null,prev583=null,prev582=null,prev581=null,prev580=null,prev579=null,prev578=null,prev577=null,prev576=null,prev575=null,prev574=null,prev573=null,prev572=null,prev571=null,prev570=null,prev569=null,prev568=null,prev567=null,prev566=null,prev565=null,prev564=null,prev563=null,prev562=null,prev561=null,prev560=null,prev559=null,prev558=null,prev557=null,prev556=null,prev555=null,prev554=null,prev553=null,prev552=null,prev551=null,prev550=null,prev549=null,prev548=null,prev547=null,prev546=null,prev545=null,prev544=null,prev543=null,prev542=null,prev541=null,prev540=null,prev539=null,prev538=null,prev537=null,prev536c=null,prev536o=null,prev535o=null,prev534o=null,prev533o=null,prev532o=null,prev531o=null,prev524o=null,prev523o=null,prev522o=null,prev521o=null,prev520o=null,prev531x=null,prev528c=null,prev527c=null,prev5261c=null,prev524c=null,prev523c=null,prev522c=null,prev521c=null,prev520c=null,prev519o=null,prev517=null,prev519c=null,prev518c=null,prev516=null,prev5152=null,prev515=null,prev513=null,prev5121=null,prev512=null,main=null,old=null,v10=null,v11=null,status='nueva',src=null;try{raw=localStorage.getItem(RB_KEY59)}catch(e){}try{prev623=localStorage.getItem(RBON553?'cascajo3d_v623o_enlinea':'cascajo3d_v623o')}catch(e){}try{prev622=localStorage.getItem(RBON553?'cascajo3d_v622o_enlinea':'cascajo3d_v622o')}catch(e){}try{prev621=localStorage.getItem(RBON553?'cascajo3d_v621o_enlinea':'cascajo3d_v621o')}catch(e){}try{prev620=localStorage.getItem(RBON553?'cascajo3d_v620o_enlinea':'cascajo3d_v620o')}catch(e){}try{prev619=localStorage.getItem(RBON553?'cascajo3d_v619o_enlinea':'cascajo3d_v619o')}catch(e){}try{prev618=localStorage.getItem(RBON553?'cascajo3d_v618o_enlinea':'cascajo3d_v618o')}catch(e){}try{prev617=localStorage.getItem(RBON553?'cascajo3d_v617o_enlinea':'cascajo3d_v617o')}catch(e){}try{prev616=localStorage.getItem(RBON553?'cascajo3d_v616o_enlinea':'cascajo3d_v616o')}catch(e){}try{prev615=localStorage.getItem(RBON553?'cascajo3d_v615o_enlinea':'cascajo3d_v615o')}catch(e){}try{prev614=localStorage.getItem(RBON553?'cascajo3d_v614o_enlinea':'cascajo3d_v614o')}catch(e){}try{prev613=localStorage.getItem(RBON553?'cascajo3d_v613o_enlinea':'cascajo3d_v613o')}catch(e){}try{prev612=localStorage.getItem(RBON553?'cascajo3d_v612o_enlinea':'cascajo3d_v612o')}catch(e){}try{prev611=localStorage.getItem(RBON553?'cascajo3d_v611o_enlinea':'cascajo3d_v611o')}catch(e){}try{prev610=localStorage.getItem(RBON553?'cascajo3d_v610o_enlinea':'cascajo3d_v610o')}catch(e){}try{prev609=localStorage.getItem(RBON553?'cascajo3d_v609o_enlinea':'cascajo3d_v609o')}catch(e){}try{prev608=localStorage.getItem(RBON553?'cascajo3d_v608o_enlinea':'cascajo3d_v608o')}catch(e){}try{prev607=localStorage.getItem(RBON553?'cascajo3d_v607o_enlinea':'cascajo3d_v607o')}catch(e){}try{prev606=localStorage.getItem(RBON553?'cascajo3d_v606o_enlinea':'cascajo3d_v606o')}catch(e){}try{prev605=localStorage.getItem(RBON553?'cascajo3d_v605o_enlinea':'cascajo3d_v605o')}catch(e){}try{prev604=localStorage.getItem(RBON553?'cascajo3d_v604o_enlinea':'cascajo3d_v604o')}catch(e){}try{prev603=localStorage.getItem(RBON553?'cascajo3d_v603o_enlinea':'cascajo3d_v603o')}catch(e){}try{prev602=localStorage.getItem(RBON553?'cascajo3d_v602o_enlinea':'cascajo3d_v602o')}catch(e){}try{prev601=localStorage.getItem(RBON553?'cascajo3d_v601o_enlinea':'cascajo3d_v601o')}catch(e){}try{prev600=localStorage.getItem(RBON553?'cascajo3d_v600o_enlinea':'cascajo3d_v600o')}catch(e){}try{prev599=localStorage.getItem(RBON553?'cascajo3d_v599o_enlinea':'cascajo3d_v599o')}catch(e){}try{prev598=localStorage.getItem(RBON553?'cascajo3d_v598o_enlinea':'cascajo3d_v598o')}catch(e){}try{prev597=localStorage.getItem(RBON553?'cascajo3d_v597o_enlinea':'cascajo3d_v597o')}catch(e){}try{prev596=localStorage.getItem(RBON553?'cascajo3d_v596o_enlinea':'cascajo3d_v596o')}catch(e){}try{prev595=localStorage.getItem(RBON553?'cascajo3d_v595o_enlinea':'cascajo3d_v595o')}catch(e){}try{prev594=localStorage.getItem(RBON553?'cascajo3d_v594o_enlinea':'cascajo3d_v594o')}catch(e){}try{prev593=localStorage.getItem(RBON553?'cascajo3d_v593o_enlinea':'cascajo3d_v593o')}catch(e){}try{prev592=localStorage.getItem(RBON553?'cascajo3d_v592o_enlinea':'cascajo3d_v592o')}catch(e){}try{prev591=localStorage.getItem(RBON553?'cascajo3d_v591o_enlinea':'cascajo3d_v591o')}catch(e){}try{prev590=localStorage.getItem(RBON553?'cascajo3d_v590o_enlinea':'cascajo3d_v590o')}catch(e){}try{prev589=localStorage.getItem(RBON553?'cascajo3d_v589o_enlinea':'cascajo3d_v589o')}catch(e){}try{prev588=localStorage.getItem(RBON553?'cascajo3d_v588o_enlinea':'cascajo3d_v588o')}catch(e){}try{prev587=localStorage.getItem(RBON553?'cascajo3d_v587o_enlinea':'cascajo3d_v587o')}catch(e){}try{prev586=localStorage.getItem(RBON553?'cascajo3d_v586o_enlinea':'cascajo3d_v586o')}catch(e){}try{prev585=localStorage.getItem(RBON553?'cascajo3d_v585o_enlinea':'cascajo3d_v585o')}catch(e){}try{prev584=localStorage.getItem(RBON553?'cascajo3d_v584o_enlinea':'cascajo3d_v584o')}catch(e){}try{prev583=localStorage.getItem(RBON553?'cascajo3d_v583o_enlinea':'cascajo3d_v583o')}catch(e){}try{prev582=localStorage.getItem(RBON553?'cascajo3d_v582o_enlinea':'cascajo3d_v582o')}catch(e){}try{prev581=localStorage.getItem(RBON553?'cascajo3d_v581o_enlinea':'cascajo3d_v581o')}catch(e){}try{prev580=localStorage.getItem(RBON553?'cascajo3d_v580o_enlinea':'cascajo3d_v580o')}catch(e){}try{prev579=localStorage.getItem(RBON553?'cascajo3d_v579o_enlinea':'cascajo3d_v579o')}catch(e){}try{prev578=localStorage.getItem(RBON553?'cascajo3d_v578o_enlinea':'cascajo3d_v578o')}catch(e){}try{prev577=localStorage.getItem(RBON553?'cascajo3d_v577o_enlinea':'cascajo3d_v577o')}catch(e){}try{prev576=localStorage.getItem(RBON553?'cascajo3d_v576o_enlinea':'cascajo3d_v576o')}catch(e){}try{prev575=localStorage.getItem(RBON553?'cascajo3d_v575o_enlinea':'cascajo3d_v575o')}catch(e){}try{prev574=localStorage.getItem(RBON553?'cascajo3d_v574o_enlinea':'cascajo3d_v574o')}catch(e){}try{prev573=localStorage.getItem(RBON553?'cascajo3d_v573o_enlinea':'cascajo3d_v573o')}catch(e){}try{prev572=localStorage.getItem(RBON553?'cascajo3d_v572o_enlinea':'cascajo3d_v572o')}catch(e){}try{prev571=localStorage.getItem(RBON553?'cascajo3d_v571o_enlinea':'cascajo3d_v571o')}catch(e){}try{prev570=localStorage.getItem(RBON553?'cascajo3d_v570o_enlinea':'cascajo3d_v570o')}catch(e){}try{prev569=localStorage.getItem(RBON553?'cascajo3d_v569o_enlinea':'cascajo3d_v569o')}catch(e){}try{prev568=localStorage.getItem(RBON553?'cascajo3d_v568o_enlinea':'cascajo3d_v568o')}catch(e){}try{prev567=localStorage.getItem(RBON553?'cascajo3d_v567o_enlinea':'cascajo3d_v567o')}catch(e){}try{prev566=localStorage.getItem(RBON553?'cascajo3d_v566o_enlinea':'cascajo3d_v566o')}catch(e){}try{prev565=localStorage.getItem(RBON553?'cascajo3d_v565o_enlinea':'cascajo3d_v565o')}catch(e){}try{prev564=localStorage.getItem(RBON553?'cascajo3d_v564o_enlinea':'cascajo3d_v564o')}catch(e){}try{prev563=localStorage.getItem(RBON553?'cascajo3d_v563o_enlinea':'cascajo3d_v563o')}catch(e){}try{prev562=localStorage.getItem(RBON553?'cascajo3d_v562o_enlinea':'cascajo3d_v562o')}catch(e){}try{prev561=localStorage.getItem(RBON553?'cascajo3d_v561o_enlinea':'cascajo3d_v561o')}catch(e){}try{prev560=localStorage.getItem(RBON553?'cascajo3d_v560o_enlinea':'cascajo3d_v560o')}catch(e){}try{prev559=localStorage.getItem(RBON553?'cascajo3d_v559o_enlinea':'cascajo3d_v559o')}catch(e){}try{prev558=localStorage.getItem(RBON553?'cascajo3d_v558o_enlinea':'cascajo3d_v558o')}catch(e){}try{prev557=localStorage.getItem(RBON553?'cascajo3d_v557o_enlinea':'cascajo3d_v557o')}catch(e){}try{prev556=localStorage.getItem(RBON553?'cascajo3d_v556o_enlinea':'cascajo3d_v556o')}catch(e){}try{prev555=localStorage.getItem(RBON553?'cascajo3d_v555o_enlinea':'cascajo3d_v555o')}catch(e){}try{prev554=localStorage.getItem(RBON553?'cascajo3d_v554o_enlinea':'cascajo3d_v554o')}catch(e){}try{prev553=localStorage.getItem(RBON553?'cascajo3d_v553o_enlinea':'cascajo3d_v553o')}catch(e){}try{prev552=localStorage.getItem('cascajo3d_v552o')}catch(e){}try{prev551=localStorage.getItem('cascajo3d_v551o')}catch(e){}try{prev550=localStorage.getItem('cascajo3d_v550o')}catch(e){}try{prev549=localStorage.getItem('cascajo3d_v549o')}catch(e){}try{prev548=localStorage.getItem('cascajo3d_v548o')}catch(e){}try{prev547=localStorage.getItem('cascajo3d_v547o')}catch(e){}try{prev546=localStorage.getItem('cascajo3d_v546o')}catch(e){}try{prev545=localStorage.getItem('cascajo3d_v545o')}catch(e){}try{prev544=localStorage.getItem('cascajo3d_v544o')}catch(e){}try{prev543=localStorage.getItem('cascajo3d_v543o')}catch(e){}try{prev542=localStorage.getItem('cascajo3d_v542o')}catch(e){}try{prev541=localStorage.getItem('cascajo3d_v541o')}catch(e){}try{prev540=localStorage.getItem('cascajo3d_v540o')}catch(e){}try{prev539=localStorage.getItem('cascajo3d_v539o')}catch(e){}try{prev538=localStorage.getItem('cascajo3d_v538o')}catch(e){}try{prev537=localStorage.getItem('cascajo3d_v537o')}catch(e){}try{prev536c=localStorage.getItem('cascajo3d_v536criminal')}catch(e){}try{prev536o=localStorage.getItem('cascajo3d_v536o')}catch(e){}try{prev535o=localStorage.getItem('cascajo3d_v535o')}catch(e){}try{prev534o=localStorage.getItem('cascajo3d_v534o')}catch(e){}try{prev533o=localStorage.getItem('cascajo3d_v533o')}catch(e){}try{prev532o=localStorage.getItem('cascajo3d_v532o')}catch(e){}try{prev531o=localStorage.getItem('cascajo3d_v531o')}catch(e){}try{prev524o=localStorage.getItem('cascajo3d_v524o')}catch(e){}try{prev523o=localStorage.getItem('cascajo3d_v523o')}catch(e){}try{prev522o=localStorage.getItem('cascajo3d_v522o')}catch(e){}try{prev521o=localStorage.getItem('cascajo3d_v521o')}catch(e){}try{prev520o=localStorage.getItem('cascajo3d_v520o')}catch(e){}try{prev519o=localStorage.getItem('cascajo3d_v519o')}catch(e){}try{prev517=localStorage.getItem('cascajo3d_v517')}catch(e){}try{prev531x=localStorage.getItem('cascajo3d_v531x')}catch(e){}try{prev528c=localStorage.getItem('cascajo3d_v528')}catch(e){}try{prev527c=localStorage.getItem('cascajo3d_v527')}catch(e){}try{prev5261c=localStorage.getItem('cascajo3d_v5261')}catch(e){}try{prev524c=localStorage.getItem('cascajo3d_v524')}catch(e){}try{prev523c=localStorage.getItem('cascajo3d_v523')}catch(e){}try{prev522c=localStorage.getItem('cascajo3d_v522')}catch(e){}try{prev521c=localStorage.getItem('cascajo3d_v521')}catch(e){}try{prev520c=localStorage.getItem('cascajo3d_v520')}catch(e){}try{prev519c=localStorage.getItem('cascajo3d_v519')}catch(e){}try{prev518c=localStorage.getItem('cascajo3d_v518')}catch(e){}try{prev516=localStorage.getItem('cascajo3d_v516')}catch(e){}try{prev5152=localStorage.getItem('cascajo3d_v5152')}catch(e){}try{prev515=localStorage.getItem('cascajo3d_v515')}catch(e){}try{prev513=localStorage.getItem('cascajo3d_v513')}catch(e){}try{prev5121=localStorage.getItem('cascajo3d_v5121')}catch(e){}try{prev512=localStorage.getItem('cascajo3d_v512')}catch(e){}try{main=localStorage.getItem(RB_KEYMAIN59)}catch(e){}try{old=localStorage.getItem(RB_KEYV59)}catch(e){}try{v10=localStorage.getItem(RB_KEYV510)}catch(e){}try{v11=localStorage.getItem(RB_KEYV511)}catch(e){}
  const okSave=t=>{try{const j=JSON.parse(t);return !!(j&&typeof j==='object'&&!Array.isArray(j)&&Number.isFinite(j.pesos)&&!(Number.isFinite(j.v)&&j.v>12))}catch(e){return false}};
  if(raw)status='ok';
- else if((()=>{try{return !!localStorage.getItem('cascajo3d_v623o_fresh')}catch(e){return false}})()){}
+ else if((()=>{try{return !!localStorage.getItem('cascajo3d_v624o_fresh')}catch(e){return false}})()){}
+ else if(prev623&&okSave(prev623)){raw=prev623;status='migrada';src=RBON553?'cascajo3d_v623o_enlinea':'cascajo3d_v623o'}
  else if(prev622&&okSave(prev622)){raw=prev622;status='migrada';src=RBON553?'cascajo3d_v622o_enlinea':'cascajo3d_v622o'}
  else if(prev621&&okSave(prev621)){raw=prev621;status='migrada';src=RBON553?'cascajo3d_v621o_enlinea':'cascajo3d_v621o'}
  else if(prev620&&okSave(prev620)){raw=prev620;status='migrada';src=RBON553?'cascajo3d_v620o_enlinea':'cascajo3d_v620o'}
@@ -2947,7 +2948,7 @@ function roads510(){const a=AIRF510,out=[];
 function airActive510(){try{return !!(window.__air510&&window.__air510.AIR.active)}catch(e){return false}}
 
 /*RB510-WORLD-END*/
-/*RB59-BEGIN*/const BUILD59={ver:"5.123",ch:"publica",dev:false};
+/*RB59-BEGIN*/const BUILD59={ver:"5.124",ch:"publica",dev:false};
 /* =====================================================================================================
    RUTA BRAVA V5.9 (experimental) · INTEGRACIÓN: partidas seguras, minimapa, mapa completo, volante, agarre y paisaje
    Se inserta DESPUÉS del bloque V5.8 (prólogo) y ANTES del guardado en segundo plano de V5.6.
@@ -5124,7 +5125,7 @@ window.__rb513={CH513,chPhase513,chState513,chStart513,chPoint513,chUse513,chFin
    · Diagnóstico: versión, guardado, errores y FPS medidos EN EL DISPOSITIVO (informe copiable)
    ===================================================================================================== */
 const MENU513={view:'home',fps:0,ft:[],introT:0,introDone:false,started:false,winErr:0,msg:''};
-const FRESH_KEY513='cascajo3d_v623o_fresh';
+const FRESH_KEY513='cascajo3d_v624o_fresh';
 try{addEventListener('error',()=>{MENU513.winErr++})}catch(_){}
 /* «Reiniciar» (Partidas) y «Nueva partida» no deben resucitar la partida anterior copiándola otra vez al arrancar */
 try{const _rs=Save59.reset;Save59.reset=function(){const r=_rs.apply(this,arguments);if(r&&r.ok){try{localStorage.setItem(FRESH_KEY513,'1')}catch(_){}}return r}}catch(_){}
@@ -5161,14 +5162,14 @@ function menuReport513(){let sz=0;try{sz=(localStorage.getItem(RB_KEY59)||'').le
   'Errores del juego: '+e.length+(e.length?'\n · '+e.slice(0,8).join('\n · '):'')+' · errores de ventana: '+MENU513.winErr].join('\n')}
 function menuRender513(view,msg){
  const ini=$('ini');if(!ini)return;MENU513.view=view||'home';MENU513.msg=msg||'';
- const prog=menuProgress513(),v=MENU513.view;let h='<div class="m513"><h1>RUTA BRAVA</h1><div class="sub">La Deuda · V5.123 Fluidez (candidata)</div>';
+ const prog=menuProgress513(),v=MENU513.view;let h='<div class="m513"><h1>RUTA BRAVA</h1><div class="sub">La Deuda · V5.124 Valle de México (candidata)</div>';
  if(v==='home'){
   h+='<div class="sum">'+esc58(menuSummary513())+'</div>'+(menuStatusNote513()?'<div class="note">'+esc58(menuStatusNote513())+'</div>':'')+
    '<div class="grid"><button class="pri" id="m513go" '+(prog||MENU513.started?'':'disabled')+'>▶ '+(MENU513.started?'SEGUIR JUGANDO':'CONTINUAR')+'</button>'+
    '<button id="m513new">✚ NUEVA PARTIDA</button><button id="m513set">⚙ AJUSTES</button><button id="m513how">🎮 CÓMO JUGAR</button><button id="m513sv">💾 PARTIDAS</button><button id="m513cr">★ CRÉDITOS</button></div>'+
    (prog?'':'<div class="note">Toca «NUEVA PARTIDA» para empezar. Empiezas en Nueva Brava. Sigue la marca dorada: tu papá te espera en la sala.</div>');
  }else if(v==='how'){h+='<div class="box"><b>Cómo se juega</b>\n'+esc58(menuControls513())+'</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
- else if(v==='credits'){h+='<div class="box"><b>Créditos</b>\nRUTA BRAVA · La Deuda (candidata V5.123)\nProducción y dirección: el productor del proyecto.\nProgramación y guion asistidos por Claude (Anthropic) y ChatGPT (OpenAI); auditoría externa pendiente (Gemini, DeepSeek).\nMotor 3D: Three.js r128 (licencia MIT), cargado desde CDN.\nTodos los personajes, lugares y sucesos son ficticios; cualquier parecido con la realidad es coincidencia.</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
+ else if(v==='credits'){h+='<div class="box"><b>Créditos</b>\nRUTA BRAVA · La Deuda (candidata V5.124)\nProducción y dirección: el productor del proyecto.\nProgramación y guion asistidos por Claude (Anthropic) y ChatGPT (OpenAI); auditoría externa pendiente (Gemini, DeepSeek).\nMotor 3D: Three.js r128 (licencia MIT), cargado desde CDN.\nTodos los personajes, lugares y sucesos son ficticios; cualquier parecido con la realidad es coincidencia.</div><div class="row"><button id="m513bk">‹ Volver</button></div>'}
  else if(v==='settings'){h+='<div class="box"><b>Ajustes</b>\nMinimapa: '+(SET59.mini?'visible':'oculto')+'\nDirección al conducir (táctil): '+(SET59.steer==='joystick'?'joystick':SET59.steer==='wheel'?'volante circular':'barra clásica')+'</div>'+
    '<div class="row"><button id="m513mm">'+(SET59.mini?'Ocultar minimapa':'Mostrar minimapa')+'</button><button id="m513st">'+(SET59.steer==='joystick'?'Usar volante circular':SET59.steer==='wheel'?'Usar barra clásica':'Usar joystick')+'</button></div>'+
    '<div class="row"><button id="m513dg">🩺 Diagnóstico</button><button id="m513sv2">💾 Partidas</button><button id="m513bk">‹ Volver</button></div>'}
@@ -11308,7 +11309,7 @@ try{window.VIS536=VIS536}catch(_){}
 function rb536LateForce(){try{const R5=window.__reg511&&__reg511.REG511;if(R5&&R5.lateForce536){R5.lateForce536=0;R5.force()}}catch(err){try{ERR59.push('regiones: '+String(err&&err.message||err))}catch(_){}}}
 rb536LateForce();
 /*RB534-VISUAL536-END*/
-try{BUILD59.ver="5.123"}catch(_){}
+try{BUILD59.ver="5.124"}catch(_){}
 /* V5.6: guardar al pasar a segundo plano / cerrar (iOS dispara pagehide y visibilitychange, no beforeunload) */
 function flushSave(){try{snapshotVehicles();rbSyncCars();if(sv.p){clearTimeout(sv.t);return svNow()}return save()}catch(e){try{return save()}catch(_){return false}}}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushSave()});addEventListener('pagehide',flushSave);
@@ -17840,7 +17841,7 @@ try{window.MULTI553=MULTI553}catch(_){}
 /*RB553-RB553_ENLINEA-BEGIN*/
 /* RUTA BRAVA V5.53 · MODO EN LÍNEA APARTE (pedido del productor: «que sea diferente el modo historia y el modo multijugador, que todos empiecen
    con 50,000 pesos en el multijugador y tengan misiones y así, separadas»).
-   · En el menú de inicio eliges 📖 HISTORIA o 🌐 EN LÍNEA. Cada modo tiene su propia partida guardada (en línea: cascajo3d_v623o_enlinea);
+   · En el menú de inicio eliges 📖 HISTORIA o 🌐 EN LÍNEA. Cada modo tiene su propia partida guardada (en línea: cascajo3d_v624o_enlinea);
      lo que hagas en uno no toca al otro. Cambiar de modo recarga el juego.
    · En línea: empiezas con $50,000 en Nueva Brava, sin prólogo ni deuda de la historia; el 👥 (multijugador) solo está aquí.
    · Trabajos en línea (📱 Trabajos o 👥 → Trabajos): entrega exprés, cobranza, encargo de coche y la camioneta de valores. Si estás en una
@@ -24928,6 +24929,299 @@ const FLU623=(()=>{
 })();
 try{window.FLU623=FLU623}catch(_){}
 /*RB623-RB623_FLUIDEZ-END*/
+/*RB624-RB624_VALLE-BEGIN*/
+/* RUTA BRAVA V5.124 · VALLE DE MÉXICO (mapa nuevo, primera etapa · PRUEBA)
+   Pedido del productor: «un mapa como el de GTA V / VI basado en México: la Ciudad de México grande y bien hecha, Puebla y Tlaxcala
+   al lado; el Periférico que rodee la ciudad como vía rápida, que se sienta como el real: 6 carriles, entradas, salidas, subidas,
+   bajadas y puentes; relieve de verdad (calles que suben y bajan); nada de cuadrícula».
+   Esta etapa construye, aparte del mapa actual (se entra desde el teléfono → «Mapa nuevo»):
+   · EL VALLE: terreno con relieve real a escala de juego: el valle plano al centro, Santa Fe en lomas y barrancas, el Ajusco al sur,
+     la Sierra de Guadalupe al norte, la Sierra de las Cruces al poniente, el Cerro de la Estrella, Chapultepec, y al oriente el
+     paso de Río Frío con el Iztaccíhuatl y el Popocatépetl.
+   · EL PERIFÉRICO: anillo de 6 carriles (3 por sentido) con muro central, acotamientos, carriles marcados y peralte en las curvas.
+     En cada cruce con una avenida grande (Reforma, Insurgentes, Viaducto, Tlalpan, Zaragoza, Vallejo) la avenida pasa por ARRIBA
+     en un puente y hay 4 rampas (entrar y salir en cada sentido).
+   · EL SEGUNDO PISO: viaducto elevado de 4 carriles sobre el Periférico poniente y sur, con pilares, barreras y rampas para subir
+     y bajar.
+   · Avenidas: Circuito Interior (anillo de adentro), Reforma, Insurgentes, Viaducto, Tlalpan, Zaragoza (sale hacia Puebla).
+   · Calles de colonia que NO son cuadrícula: siguen un trazo torcido, con manzanas de distintos tamaños, y suben y bajan con el
+     terreno. Edificios según la zona: Centro colonial, Polanco/Reforma con torres, Santa Fe de vidrio, Iztapalapa de casas de
+     colores, zona industrial con naves.
+   · Física: el coche pisa exactamente lo que se ve (terreno, avenidas, puentes y segundo piso a distinta altura, con barreras).
+   Lo demás (tráfico, gente, misiones, Puebla, Tlaxcala, autopista completa) llega en las siguientes etapas. */
+const VALLE624=(()=>{
+ const M={errors:[],chunks:0,built:0,roads:0,decks:0,bldg:0,streets:0,tp:0,onDeck:0,barrier:0};
+ const err=(w,e)=>{if(M.errors.length<8)M.errors.push(w+': '+(e&&e.stack&&e.stack.split('\n').slice(0,2).join(' | ')||e))};
+ const OX=30000,OZ=0;/* el mundo nuevo vive lejos del actual para no estorbarse */
+ const AREA={u0:-3000,u1:4600,v0:-3200,v1:3600};
+ const inW=(x,z)=>{const u=x-OX,v=z-OZ;return u>AREA.u0&&u<AREA.u1&&v>AREA.v0&&v<AREA.v1};
+ const clamp=(x,a,b)=>x<a?a:x>b?b:x,sm=t=>{t=clamp(t,0,1);return t*t*(3-2*t)},lerp=(a,b,t)=>a+(b-a)*t;
+ /* ---------- ruido suave ---------- */
+ function h2(i,j){let n=i*374761393+j*668265263;n=(n^(n>>>13))*1274126177;n=n^(n>>>16);return ((n>>>0)%100000)/100000}
+ function vn(x,z){const i=Math.floor(x),j=Math.floor(z),fx=x-i,fz=z-j,u=fx*fx*(3-2*fx),w=fz*fz*(3-2*fz);return lerp(lerp(h2(i,j),h2(i+1,j),u),lerp(h2(i,j+1),h2(i+1,j+1),u),w)*2-1}
+ function fbm(x,z){return vn(x,z)*.6+vn(x*2.1+5.3,z*2.1-1.7)*.28+vn(x*4.3-2.2,z*4.3+7.1)*.12}
+ /* ---------- terreno natural (u = oriente, v = sur; norte es v negativa) ---------- */
+ function segD(u,v,a,b){const vx=b[0]-a[0],vz=b[1]-a[1],L=vx*vx+vz*vz||1;const t=clamp(((u-a[0])*vx+(v-a[1])*vz)/L,0,1);return Math.hypot(u-a[0]-vx*t,v-a[1]-vz*t)}
+ const bump=(d,r)=>{const t=1-d/r;return t<=0?0:t*t*(3-2*t)};
+ function Hn(u,v){let h=0;
+  h+=170*bump(segD(u,v,[-2300,-2200],[-2150,2000]),900);/* Sierra de las Cruces */
+  h+=250*bump(Math.hypot(u+700,v-2700),1300);/* Ajusco */
+  h+=130*bump(segD(u,v,[-1200,-2500],[700,-2350]),800);/* Sierra de Guadalupe */
+  h+=60*bump(Math.hypot(u-1650,v-1100),600);/* Sierra de Santa Catarina */
+  h+=26*bump(Math.hypot(u-980,v-700),260);/* Cerro de la Estrella */
+  h+=14*bump(Math.hypot(u+760,v+90),180);/* cerro de Chapultepec */
+  /* Santa Fe: lomas que suben al poniente con barrancas */const sf=sm((-u-1150)/650);if(sf>0){h+=sf*(42+10*Math.sin(v/95))-sf*16*Math.pow(Math.abs(Math.sin((v+u*.35)/120)),3)}
+  /* sierra del oriente con el paso de Río Frío (silla en v≈-150) */const pass=1-.42*Math.exp(-Math.pow((v+150)/420,2));h+=170*pass*bump(segD(u,v,[2900,-2900],[3150,3200]),760);
+  h+=360*Math.pow(bump(segD(u,v,[3300,600],[3550,1700]),620),1.3);/* Iztaccíhuatl */
+  h+=420*Math.pow(bump(Math.hypot(u-3900,v-2900),1000),1.6);/* Popocatépetl */
+  const rural=clamp((Math.hypot(u*.85,v)-1500)/900,0,1);h+=2.2*fbm(u/190,v/190)+rural*9*fbm(u/420+3,v/420-2);
+  return h}
+ /* nieve en las cumbres y color por altura/zona */
+ /* ---------- caminos ---------- */
+ const ROADS=[];const KIND={peri:{lanes:3,lw:3.6,med:1.4,sh:2.4,walk:0,col:0x45494f},art:{lanes:3,lw:3.4,med:1.2,sh:.6,walk:4,col:0x4b4f55},ci:{lanes:2,lw:3.4,med:1,sh:.6,walk:3.5,col:0x4b4f55},
+  sp:{lanes:2,lw:3.5,med:.8,sh:1,walk:0,col:0x50545a},ramp:{lanes:1,lw:4.4,med:0,sh:1,walk:0,col:0x4a4e54},calle:{lanes:1,lw:3.6,med:0,sh:.2,walk:2.6,col:0x55585c}};
+ const halfW=r=>{const K=KIND[r.kind];return K.lanes*K.lw+K.med/2+K.sh};
+ function catmull(P,closed,step){const out=[];const n=P.length;const get=i=>closed?P[(i+n)%n]:P[clamp(i,0,n-1)];const segs=closed?n:n-1;
+  for(let i=0;i<segs;i++){const p0=get(i-1),p1=get(i),p2=get(i+1),p3=get(i+2);const L=Math.hypot(p2[0]-p1[0],p2[1]-p1[1]);const k=Math.max(2,Math.ceil(L/step));
+   for(let j=0;j<k;j++){const t=j/k,t2=t*t,t3=t2*t;const f=(a,b,c,d)=>.5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t2+(-a+3*b-3*c+d)*t3);out.push([f(p0[0],p1[0],p2[0],p3[0]),f(p0[1],p1[1],p2[1],p3[1])])}}
+  if(!closed)out.push(P[n-1].slice());return out}
+ function addRoad(id,name,kind,ctrl,opt){opt=opt||{};const pts=catmull(ctrl,!!opt.closed,6);const r={id,name,kind,closed:!!opt.closed,pts:pts.map(p=>({u:p[0],v:p[1]})),opt};ROADS.push(r);return r}
+ /* longitudes, rumbos y altura base suavizada (el camino corta y rellena el terreno: pendiente máx. ~6 %) */
+ function prep(r){const P=r.pts,n=P.length;let s=0;for(let i=0;i<n;i++){if(i){s+=Math.hypot(P[i].u-P[i-1].u,P[i].v-P[i-1].v)}P[i].s=s}r.len=s+(r.closed?Math.hypot(P[0].u-P[n-1].u,P[0].v-P[n-1].v):0);
+  for(let i=0;i<n;i++){const a=P[r.closed?(i-1+n)%n:Math.max(0,i-1)],b=P[r.closed?(i+1)%n:Math.min(n-1,i+1)];const dx=b.u-a.u,dz=b.v-a.v,L=Math.hypot(dx,dz)||1;P[i].tx=dx/L;P[i].tz=dz/L;P[i].nx=-dz/L;P[i].nz=dx/L}
+  const raw=P.map(p=>Hn(p.u,p.v));const W=r.kind==='calle'?3:10;const y=raw.map((_,i)=>{let a=0,c=0;for(let k=-W;k<=W;k++){let j=i+k;if(r.closed)j=(j+n)%n;else if(j<0||j>=n)continue;a+=raw[j];c++}return a/c});
+  const g=r.kind==='calle'?.14:.06;for(let pass=0;pass<3;pass++){for(let i=1;i<n;i++){const d=P[i].s-P[i-1].s;y[i]=clamp(y[i],y[i-1]-g*d,y[i-1]+g*d)}for(let i=n-2;i>=0;i--){const d=P[i+1].s-P[i].s;y[i]=clamp(y[i],y[i+1]-g*d,y[i+1]+g*d)}}
+  for(let i=0;i<n;i++)P[i].y=y[i];
+  /* peralte en curva (Periférico y avenidas), máx. 4 % */for(let i=0;i<n;i++){const a=P[r.closed?(i-6+n)%n:Math.max(0,i-6)],b=P[r.closed?(i+6)%n:Math.min(n-1,i+6)];const cr=a.tx*b.tz-a.tz*b.tx;P[i].bank=(r.kind==='peri'||r.kind==='sp'||r.kind==='art')?clamp(-cr*.25,-.04,.04):0}}
+ function sampleAt(r,s){const P=r.pts;if(r.closed){s=((s%r.len)+r.len)%r.len}else s=clamp(s,0,r.len);let lo=0,hi=P.length-1;while(hi-lo>1){const m=(lo+hi)>>1;if(P[m].s<=s)lo=m;else hi=m}const a=P[lo],b=r.closed&&lo===P.length-1?P[0]:P[hi];const L=(b.s>a.s?b.s:r.len)-a.s||1;const t=clamp((s-a.s)/L,0,1);
+  return {u:lerp(a.u,b.u,t),v:lerp(a.v,b.v,t),y:lerp(a.y,b.y,t),tx:lerp(a.tx,b.tx,t),tz:lerp(a.tz,b.tz,t),nx:lerp(a.nx,b.nx,t),nz:lerp(a.nz,b.nz,t),i:lo}}
+ /* ---------- la red ---------- */
+ function network(){
+  /* Periférico: anillo irregular como el real (norte, poniente, sur y oriente) */
+  addRoad('peri','Anillo Periférico','peri',[[-200,-1450],[450,-1500],[1050,-1330],[1400,-900],[1480,-250],[1420,420],[1250,1050],[800,1420],[150,1560],[-450,1520],[-1000,1300],[-1380,860],[-1520,250],[-1470,-380],[-1200,-950],[-750,-1330]],{closed:true});
+  addRoad('ci','Circuito Interior','ci',[[-250,-820],[350,-860],[780,-600],[880,-120],[820,380],[520,780],[0,900],[-480,820],[-780,480],[-860,0],[-760,-480]],{closed:true});
+  addRoad('reforma','Paseo de la Reforma','art',[[-1900,-520],[-1500,-330],[-1050,-200],[-700,-180],[-380,-260],[-120,-330],[80,-380]]);
+  addRoad('insurgentes','Av. Insurgentes','art',[[-120,-1900],[-150,-1300],[-200,-700],[-230,-200],[-260,350],[-300,900],[-360,1450],[-420,2000]]);
+  addRoad('tlalpan','Calzada de Tlalpan','art',[[150,-200],[180,300],[230,800],[320,1300],[420,1900]]);
+  addRoad('viaducto','Viaducto Miguel Alemán','art',[[-1800,280],[-1300,220],[-700,160],[-100,120],[500,150],[1100,230],[1800,300]]);
+  addRoad('zaragoza','Calz. Ignacio Zaragoza','art',[[300,-100],[800,-60],[1300,0],[1800,60],[2300,40],[2700,-60],[3200,-150],[3700,-120],[4300,-40]]);
+  addRoad('vallejo','Calz. Vallejo','art',[[-80,-420],[-30,-1000],[60,-1500],[160,-2100]]);
+  for(const r of ROADS)prep(r);
+  /* centro: el Zócalo */
+ }
+ /* ---------- cruces: la avenida pasa arriba del Periférico; rampas en las 4 esquinas ---------- */
+ function nearestOn(r,u,v){let best=null,bd=1e18;const P=r.pts;for(let i=0;i<P.length;i++){const d=(P[i].u-u)**2+(P[i].v-v)**2;if(d<bd){bd=d;best=i}}return {i:best,s:P[best].s,d:Math.sqrt(bd)}}
+ function crossings(a,b){const out=[];const A=a.pts,B=b.pts;for(let i=1;i<A.length;i++){const p=A[i-1],q=A[i];if(Math.abs(p.u-B[0].u)>99999)continue;for(let j=1;j<B.length;j++){const r=B[j-1],t=B[j];const d=(q.u-p.u)*(t.v-r.v)-(q.v-p.v)*(t.u-r.u);if(Math.abs(d)<1e-9)continue;const ua=((r.u-p.u)*(t.v-r.v)-(r.v-p.v)*(t.u-r.u))/d,ub=((r.u-p.u)*(q.v-p.v)-(r.v-p.v)*(q.u-p.u))/d;if(ua>=0&&ua<=1&&ub>=0&&ub<=1)out.push({sa:lerp(p.s,q.s,ua),sb:lerp(r.s,t.s,ub),u:lerp(p.u,q.u,ua),v:lerp(p.v,q.v,ua)})}}
+  if(a.closed){const p=A[A.length-1],q=A[0];/* cierre */}return out}
+ const BRIDGES=[];
+ function liftAt(r,sc,H,L){/* sube la rasante de r a H sobre su altura en sc, con rampas de largo L */for(const p of r.pts){let d=Math.abs(p.s-sc);if(r.closed)d=Math.min(d,r.len-d);if(d>L+40)continue;const t=d<40?1:sm(1-(d-40)/L);p.y=Math.max(p.y,lerp(p.y,H,t))}}
+ function interchanges(){const peri=ROADS.find(r=>r.id==='peri');const arts=ROADS.filter(r=>r.kind==='art'||r.kind==='ci');
+  for(const a of arts){for(const c of crossings(a,peri)){const pq=sampleAt(peri,c.sb);const H=pq.y+7.6;liftAt(a,c.sa,H,150);BRIDGES.push({road:a.id,s:c.sa,over:'peri'});
+    /* 4 rampas: del Periférico (borde exterior de cada sentido) a la avenida (a nivel, lejos del puente) */
+    if(a.kind==='art')for(const dirP of [1,-1])for(const sideA of [1,-1]){try{const s0=c.sb-dirP*250,s1=c.sb-dirP*70;const hp=halfW(peri)+3;const p0=sampleAt(peri,s0),p1=sampleAt(peri,s1);
+      /* lado: el exterior del sentido dirP es la normal * -dirP (manejo por la derecha) */const side=-dirP;const ap=sampleAt(a,c.sa+sideA*240),ap2=sampleAt(a,c.sa+sideA*120);const ha=halfW(a)+3;
+      /* la rampa queda en el cuadrante del lado de la avenida que toca */const sA=-sideA*dirP;
+      const pts=[[p0.u+p0.nx*hp*side*.6,p0.v+p0.nz*hp*side*.6],[p1.u+p1.nx*(hp+6)*side,p1.v+p1.nz*(hp+6)*side],[ap2.u+ap2.nx*(ha+10)*sA,ap2.v+ap2.nz*(ha+10)*sA],[ap.u+ap.nx*ha*sA*.7,ap.v+ap.nz*ha*sA*.7]];
+      const rr=addRoad('ramp:'+a.id+':'+dirP+':'+sideA,'Rampa '+a.name,'ramp',pts);prep(rr);
+      /* altura: de la del Periférico a la de la avenida, suave */const y0=p0.y,y1=ap.y;for(const p of rr.pts){const t=sm(p.s/rr.len);p.y=lerp(y0,y1,t)}}catch(e){err('rampa',e)}}}}}
+ /* segundo piso: elevado sobre el Periférico poniente y sur */
+ function segundoPiso(){const peri=ROADS.find(r=>r.id==='peri');const s0=peri.len*.47,s1=peri.len*.78;const pts=[];
+  for(let s=s0-260;s<=s1+260;s+=24){const q=sampleAt(peri,s);const e0=sm((s-(s0-260))/260),e1=sm(((s1+260)-s)/260);const k=Math.min(e0,e1);const off=(halfW(peri)+12)*(1-k);pts.push([q.u-q.nx*off,q.v-q.nz*off])}
+  const r=addRoad('segundo','Segundo Piso del Periférico','sp',pts);prep(r);for(const p of r.pts){const q=sampleAt(peri,s0-260+p.s*((s1+520-s0)/r.len));const e0=sm(p.s/300),e1=sm((r.len-p.s)/300);const k=Math.min(e0,e1);p.y=Math.max(p.y,q.y+10.5*k)}r.elev=true}
+ /* ---------- calles de colonia: trazo torcido (no cuadrícula), por pedazos ---------- */
+ const STEP=118;/* separación promedio entre calles */
+ function warp(u,v){return [u+38*fbm(u/420+11,v/420-4),v+38*fbm(u/420-7,v/420+9)]}
+ const CITY=(u,v)=>{const e=Math.hypot(u/1700,v/1750);return e<1};/* dentro de la ciudad (un poco más allá del Periférico) */
+ /* ---------- índice espacial de caminos ---------- */
+ const CELL=40;const GRID=new Map();
+ function indexRoad(r){const P=r.pts;const hw=halfW(r)+2;const n=P.length;for(let i=0;i<(r.closed?n:n-1);i++){const a=P[i],b=P[(i+1)%n];const u0=Math.min(a.u,b.u)-hw,u1=Math.max(a.u,b.u)+hw,v0=Math.min(a.v,b.v)-hw,v1=Math.max(a.v,b.v)+hw;
+   for(let x=Math.floor(u0/CELL);x<=Math.floor(u1/CELL);x++)for(let z=Math.floor(v0/CELL);z<=Math.floor(v1/CELL);z++){const k=x+','+z;let L=GRID.get(k);if(!L)GRID.set(k,L=[]);L.push([r,i])}}}
+ function roadHits(u,v,pad){pad=pad||0;const L=GRID.get(Math.floor(u/CELL)+','+Math.floor(v/CELL));if(!L)return [];const out=[];const seen=new Set();
+  for(const [r,i] of L){const P=r.pts,n=P.length,a=P[i],b=P[(i+1)%n];const vx=b.u-a.u,vz=b.v-a.v,dd=vx*vx+vz*vz||1;const t=clamp(((u-a.u)*vx+(v-a.v)*vz)/dd,0,1);const qu=a.u+vx*t,qv=a.v+vz*t;const d=Math.hypot(u-qu,v-qv);const hw=halfW(r);
+   if(d>hw+pad)continue;const lat=(u-qu)*lerp(a.nx,b.nx,t)+(v-qv)*lerp(a.nz,b.nz,t);const y=lerp(a.y,b.y,t)+lerp(a.bank,b.bank,t)*lat;const key=r.id;const prev=out.find(o=>o.r===r);if(prev&&prev.d<=d)continue;if(prev)out.splice(out.indexOf(prev),1);out.push({r,i,t,d,lat,y,hw,s:lerp(a.s,b.s,t)})}return out}
+ /* ---------- terreno «tallado» por los caminos a nivel (cortes y terraplenes) ---------- */
+ const TCACHE=new Map();
+ function Hc(u,v){const k=Math.round(u*2)+','+Math.round(v*2);let h=TCACHE.get(k);if(h!==undefined)return h;h=Hn(u,v);let best=0,by=0;
+  const L=GRID.get(Math.floor(u/CELL)+','+Math.floor(v/CELL));const near=[];if(L){for(const [r,i] of L){if(r.elev)continue;const P=r.pts,n=P.length,a=P[i],b=P[(i+1)%n];const vx=b.u-a.u,vz=b.v-a.v,dd=vx*vx+vz*vz||1;const t=clamp(((u-a.u)*vx+(v-a.v)*vz)/dd,0,1);const d=Math.hypot(u-a.u-vx*t,v-a.v-vz*t);const hw=halfW(r)+(KIND[r.kind].walk||0);const ry=lerp(a.y,b.y,t);
+    /* puentes: bajo el tablero no se rellena */if(ry-h>3.5&&d<hw)continue;const w=d<hw+5?1:1-sm((d-hw-5)/22);if(w>best){best=w;by=ry-.32}}}
+  /* también lo que está fuera de la celda (orillas largas): celdas vecinas */
+  if(best<1){for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]]){const L2=GRID.get((Math.floor(u/CELL)+dx)+','+(Math.floor(v/CELL)+dz));if(!L2)continue;for(const [r,i] of L2){if(r.elev)continue;const P=r.pts,n=P.length,a=P[i],b=P[(i+1)%n];const vx=b.u-a.u,vz=b.v-a.v,dd=vx*vx+vz*vz||1;const t=clamp(((u-a.u)*vx+(v-a.v)*vz)/dd,0,1);const d=Math.hypot(u-a.u-vx*t,v-a.v-vz*t);const hw=halfW(r)+(KIND[r.kind].walk||0);const ry=lerp(a.y,b.y,t);if(ry-h>3.5&&d<hw)continue;const w=d<hw+5?1:1-sm((d-hw-5)/22);if(w>best){best=w;by=ry-.32}}}}
+  if(best>0)h=lerp(h,by,best);if(TCACHE.size>400000)TCACHE.clear();TCACHE.set(k,h);return h}
+ /* malla del terreno: nodos cada 6 u, diagonal fija; Ht = lo que se ve y lo que se pisa */
+ const TS=6;const NC=new Map();
+ function node(i,j){const k=i+','+j;let h=NC.get(k);if(h===undefined){h=Hc(i*TS,j*TS);if(NC.size>600000)NC.clear();NC.set(k,h)}return h}
+ function Ht(u,v){const fx=u/TS,fz=v/TS,i=Math.floor(fx),j=Math.floor(fz),a=fx-i,b=fz-j;const h00=node(i,j),h10=node(i+1,j),h01=node(i,j+1),h11=node(i+1,j+1);return a+b<=1?h00+(h10-h00)*a+(h01-h00)*b:h11+(h01-h11)*(1-a)+(h10-h11)*(1-b)}
+ /* superficie a nivel: el asfalto de las calles y avenidas (no los puentes) */
+ function surface(u,v,yRef){const hits=roadHits(u,v,0);const g=Ht(u,v);let best=null;
+  for(const h of hits){if(h.d>h.hw)continue;const elevated=h.y-g>1.6;if(elevated&&(yRef==null||Math.abs(h.y-yRef)>1.8))continue;if(!best||(yRef!=null?Math.abs(h.y-yRef)<Math.abs(best.y-yRef):h.y<best.y))best=h}
+  return best?{y:best.y+.05,road:best}:{y:g,road:null}}
+ /* ---------- texturas y materiales ---------- */
+ function canvasTex(w,h,draw,rep){const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');draw(x,w,h);const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;if(rep)t.repeat.set(rep[0],rep[1]);t.anisotropy=2;return t}
+ const MAT={};
+ function mats(){if(MAT.ok)return;MAT.ok=1;
+  MAT.ground=new THREE.MeshLambertMaterial({vertexColors:true});const DS=THREE.DoubleSide;
+  MAT.asph=new THREE.MeshLambertMaterial({vertexColors:true,side:DS,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2});
+  MAT.mark=new THREE.MeshBasicMaterial({vertexColors:true,side:DS,polygonOffset:true,polygonOffsetFactor:-4,polygonOffsetUnits:-4});
+  MAT.conc=new THREE.MeshLambertMaterial({vertexColors:true,side:DS});
+  const win=canvasTex(64,64,(x,w,h)=>{x.fillStyle='#fff';x.fillRect(0,0,w,h);x.fillStyle='#9aa4ad';for(let i=0;i<2;i++)for(let j=0;j<2;j++)x.fillRect(6+i*32,8+j*32,20,18);x.fillStyle='#e7e2d8';x.fillRect(0,28,w,4);x.fillRect(0,60,w,4)});
+  MAT.bldg=new THREE.MeshLambertMaterial({vertexColors:true,map:win,side:DS});
+  MAT.roof=new THREE.MeshLambertMaterial({vertexColors:true,side:DS});
+  /* las luces del juego suman ~2× al mediodía (cielo cálido + sol + ambiente): el suelo y el concreto se ven crema/amarillos.
+     Se bajan aquí para que el suelo se vea tierra/pasto y las banquetas concreto gris. */
+  MAT.ground.color.setRGB(.6,.6,.62);MAT.conc.color.setRGB(.68,.68,.7);MAT.roof.color.setRGB(.8,.8,.82)}
+ /* ---------- helpers de malla ---------- */
+ function Mesh(pos,col,uv,mat){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('color',new THREE.Float32BufferAttribute(col,3));if(uv)g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));g.computeVertexNormals();const m=new THREE.Mesh(g,mat);m.matrixAutoUpdate=false;m.updateMatrix();return m}
+ const rgb=c=>[((c>>16)&255)/255,((c>>8)&255)/255,(c&255)/255];
+ function quad(P,C,a,b,c,d,col){P.push(...a,...b,...c,...a,...c,...d);for(let i=0;i<6;i++)C.push(col[0],col[1],col[2])}
+ function quadUV(P,C,U,a,b,c,d,col,uw,vh){quad(P,C,a,b,c,d,col);U.push(0,0,uw,0,uw,vh,0,0,uw,vh,0,vh)}
+ /* ---------- cintas de camino ---------- */
+ function ribbon(r,i0,i1){const K=KIND[r.kind];const P=r.pts,n=P.length;const A=[],AC=[],MK=[],MC=[],CO=[],CC=[];const hw=halfW(r);const asph=rgb(K.col),white=[.93,.93,.9],yel=[.95,.78,.2],walk=rgb(0x9a958b),curb=rgb(0x85807a),jer=rgb(0xc9c6bf),pil=rgb(0x9c988f);
+  const at=(p,l,dy)=>[p.u+p.nx*l+OX,p.y+p.bank*l+(dy||0),p.v+p.nz*l+OZ];
+  for(let i=i0;i<i1;i++){const a=P[i%n],b=P[(i+1)%n];if(!b)break;
+   /* asfalto (en 4 tiras para que se doble con el peralte) */for(const [l0,l1] of [[-hw,-hw/2],[-hw/2,0],[0,hw/2],[hw/2,hw]])quad(A,AC,at(a,l0,.04),at(b,l0,.04),at(b,l1,.04),at(a,l1,.04),asph);
+   /* rayas: orillas blancas continuas, carriles punteados, centro amarillo doble */
+   const dash=(Math.floor(a.s/6)%2)===0;const edge=hw-K.sh-.1;
+   for(const sgn of [-1,1]){const e=sgn*edge;quad(MK,MC,at(a,e-.08,.06),at(b,e-.08,.06),at(b,e+.08,.06),at(a,e+.08,.06),white);
+    for(let k=1;k<K.lanes;k++){const l=sgn*(K.med/2+k*K.lw);if(dash)quad(MK,MC,at(a,l-.07,.06),at(b,l-.07,.06),at(b,l+.07,.06),at(a,l+.07,.06),white)}
+    if(K.med>0&&r.kind!=='peri'&&r.kind!=='sp'){const l=sgn*(K.med/2);quad(MK,MC,at(a,l-.08,.06),at(b,l-.08,.06),at(b,l+.08,.06),at(a,l+.08,.06),yel)}}
+   if(K.lanes===1&&r.kind==='calle'&&dash)quad(MK,MC,at(a,-.07,.06),at(b,-.07,.06),at(b,.07,.06),at(a,.07,.06),white);
+   /* muro central (Periférico, segundo piso) o camellón (avenidas) */
+   if(r.kind==='peri'||r.kind==='sp'){const m=.35,h=.9;quad(CO,CC,at(a,-m,0),at(b,-m,0),at(b,-m*.4,h),at(a,-m*.4,h),jer);quad(CO,CC,at(a,m*.4,h),at(b,m*.4,h),at(b,m,0),at(a,m,0),jer);quad(CO,CC,at(a,-m*.4,h),at(b,-m*.4,h),at(b,m*.4,h),at(a,m*.4,h),jer)}
+   else if(K.med>0){const m=K.med/2,h=.2;const gr=rgb(0x6f8f4e);quad(CO,CC,at(a,-m,h),at(b,-m,h),at(b,m,h),at(a,m,h),gr);quad(CO,CC,at(a,-m,0),at(b,-m,0),at(b,-m,h),at(a,-m,h),curb);quad(CO,CC,at(a,m,h),at(b,m,h),at(b,m,0),at(a,m,0),curb)}
+   /* banquetas */if(K.walk){for(const sgn of [-1,1]){const e0=sgn*hw,e1=sgn*(hw+K.walk);const h=.18;const o=sgn>0?[at(a,e0,h),at(b,e0,h),at(b,e1,h),at(a,e1,h)]:[at(a,e1,h),at(b,e1,h),at(b,e0,h),at(a,e0,h)];quad(CO,CC,...o,walk);
+     const c=sgn>0?[at(a,e0,0),at(b,e0,0),at(b,e0,h),at(a,e0,h)]:[at(a,e0,h),at(b,e0,h),at(b,e0,0),at(a,e0,0)];quad(CO,CC,...c,curb)}}
+   /* elevado: barreras laterales, losa por debajo y pilares */
+   const ga=Ht(a.u,a.v),gb=Ht(b.u,b.v);const elev=a.y-ga>2.2||b.y-gb>2.2;
+   if(elev||r.kind==='peri'){const bh=r.kind==='peri'&&!elev?.8:1.05;for(const sgn of [-1,1]){const e=sgn*hw;const o=sgn>0?[at(a,e,0),at(b,e,0),at(b,e,bh),at(a,e,bh)]:[at(a,e,bh),at(b,e,bh),at(b,e,0),at(a,e,0)];quad(CO,CC,...o,jer);const o2=sgn>0?[at(a,e+.3*sgn,bh),at(b,e+.3*sgn,bh),at(b,e+.3*sgn,0),at(a,e+.3*sgn,0)]:[at(a,e+.3*sgn,0),at(b,e+.3*sgn,0),at(b,e+.3*sgn,bh),at(a,e+.3*sgn,bh)];quad(CO,CC,...o2,jer);quad(CO,CC,at(a,e,bh),at(b,e,bh),at(b,e+.3*sgn,bh),at(a,e+.3*sgn,bh),jer)}}
+   if(elev){const th=.9;quad(CO,CC,at(a,hw,-th),at(b,hw,-th),at(b,-hw,-th),at(a,-hw,-th),pil);for(const sgn of [-1,1])quad(CO,CC,...(sgn>0?[at(a,hw,-th),at(a,hw,0),at(b,hw,0),at(b,hw,-th)]:[at(a,-hw,0),at(a,-hw,-th),at(b,-hw,-th),at(b,-hw,0)]),pil);
+    if(Math.floor(a.s/30)!==Math.floor(b.s/30)&&a.y-ga>3){/* pilar */const cx=a.u,cz=a.v,top=a.y-th,bot=ga-.5,w=1.3;const X=cx+OX,Z=cz+OZ;const box=[[X-w,Z-w],[X+w,Z-w],[X+w,Z+w],[X-w,Z+w]];for(let k=0;k<4;k++){const p=box[k],q=box[(k+1)%4];quad(CO,CC,[p[0],bot,p[1]],[q[0],bot,q[1]],[q[0],top,q[1]],[p[0],top,p[1]],pil)}
+     colRect(cx-w,cz-w,cx+w,cz+w,bot,top)}}}
+  const g=new THREE.Group();g.add(Mesh(A,AC,null,MAT.asph));if(MK.length)g.add(Mesh(MK,MC,null,MAT.mark));if(CO.length)g.add(Mesh(CO,CC,null,MAT.conc));return g}
+ /* ---------- colisiones propias (rejilla) ---------- */
+ const CG=new Map(),CGC=16;
+ function colRect(u0,v0,u1,v1,y0,y1){const r=[u0,v0,u1,v1,y0==null?-1e9:y0,y1==null?1e9:y1];for(let x=Math.floor(u0/CGC);x<=Math.floor(u1/CGC);x++)for(let z=Math.floor(v0/CGC);z<=Math.floor(v1/CGC);z++){const k=x+','+z;let L=CG.get(k);if(!L)CG.set(k,L=[]);L.push(r)}return r}
+ function colHit(u,v,y,pad){pad=pad||0;const L=CG.get(Math.floor(u/CGC)+','+Math.floor(v/CGC));if(!L)return null;for(const r of L)if(u+pad>r[0]&&u-pad<r[2]&&v+pad>r[1]&&v-pad<r[3]&&(y==null||(y>r[4]-.5&&y<r[5])))return r;return null}
+ /* ---------- pedazos (streaming): terreno, calles de colonia y edificios ---------- */
+ const CH=192;const LIVE=new Map();
+ const ZONE=(u,v)=>{if(!CITY(u,v))return 'campo';if(Math.hypot(u-60,v+300)<380)return 'centro';if(u<-1150)return 'santafe';if(u<-450&&v<200)return 'polanco';if(u>650&&v>250)return 'iztapalapa';if(v<-700&&u>-300)return 'industrial';if(v>650&&u<300)return 'coyoacan';return 'colonia'};
+ const ZSTYLE={centro:{h:[7,16],cols:[0xc96f4a,0xd9a441,0xb94a3b,0xe2cfa8,0x8d4f3a,0xd98c5f],fill:.85,lot:[14,22]},polanco:{h:[12,60],cols:[0xe9e4da,0xd2d0cb,0xbfc6cc,0xf0ece2],fill:.6,lot:[18,30]},santafe:{h:[40,130],cols:[0x8fb3c9,0x6e8fa8,0xa9c2d1,0xc3ccd3],fill:.45,lot:[26,40]},
+  iztapalapa:{h:[3,9],cols:[0xe86f5a,0x5aa0d8,0xf2c14e,0x7bc47f,0xd77fb5,0xf0e6d2,0xa06cd5],fill:.95,lot:[8,13]},industrial:{h:[6,12],cols:[0xa7aaa6,0x8f948f,0xc4c1b8,0x9aa3a8],fill:.7,lot:[30,50]},coyoacan:{h:[4,10],cols:[0x3f6bb0,0xd9a441,0xc0563f,0xe5d6b8,0x6d9e5b],fill:.75,lot:[12,20]},colonia:{h:[5,14],cols:[0xd9c7a0,0xc98f6b,0xa9b8a2,0xe3d9c3,0xb7a08a,0xd6b48c],fill:.8,lot:[11,18]},campo:{h:[3,6],cols:[0xd9c7a0,0xb7a08a],fill:.08,lot:[10,14]}};
+ function groundCol(u,v,h){const z=ZONE(u,v);const urb=z!=='campo';const park=vn(u/260+9,v/260-4)>.42||(Math.hypot(u+760,v+90)<190);
+  let c=urb?(park?[.33,.45,.24]:[.47,.46,.43]):[.42,.47,.27];if(z==='santafe'||z==='polanco')c=park?[.3,.43,.22]:[.44,.47,.36];
+  if(!urb){if(h>60)c=[.34,.42,.25];if(h>140)c=[.29,.36,.24];if(h>230)c=[.45,.41,.36];if(h>320)c=[.9,.91,.93]}
+  const n=.05*vn(u/24,v/24)+.03*vn(u/7,v/7);return [c[0]+n,c[1]+n,c[2]+n*.7]}
+ /* calles de colonia dentro de un pedazo: líneas torcidas «casi paralelas» que se cortan, no cuadrícula */
+ function localStreets(cu,cv){const out=[];if(!CITY(cu+CH/2,cv+CH/2))return out;const z=ZONE(cu+CH/2,cv+CH/2);if(z==='santafe')return out;
+  /* familia A (norte-sur torcida) y familia B (oriente-poniente torcida); la orientación gira por zona */
+  const ang=.35*fbm((cu)/900+2,(cv)/900-3)+(z==='centro'?0:.12*Math.sign(vn(cu/700,cv/700)));const ca=Math.cos(ang),sa=Math.sin(ang);
+  for(const fam of [0,1]){const sp=STEP*(z==='iztapalapa'?.7:z==='polanco'?1.15:1);for(let k=-2;k<=Math.ceil(CH/sp)+2;k++){const pts=[];
+    for(let t=-10;t<=CH+10;t+=8){/* coordenadas rotadas */const a0=(fam?cv:cu)+k*sp-((fam?cv:cu)%sp),b0=(fam?cu:cv)+t;let u=fam?b0:a0,v=fam?a0:b0;u+=24*fbm(v/260+k,u/260-k*.3)*(fam?0:1);v+=24*fbm(u/260-k,v/260+k*.7)*(fam?1:0);
+     const ru=(u-cu-CH/2)*ca-(v-cv-CH/2)*sa+cu+CH/2,rv=(u-cu-CH/2)*sa+(v-cv-CH/2)*ca+cv+CH/2;if(ru<cu-4||ru>cu+CH+4||rv<cv-4||rv>cv+CH+4){if(pts.length>1){out.push(pts.slice());pts.length=0}else pts.length=0;continue}
+     /* se corta donde pasa un camino grande o donde «se acaba la calle» al azar */const big=roadHits(ru,rv,6).length>0;const cut=h2(Math.floor(ru/60)+k*7,Math.floor(rv/60)+fam*13)<.08;if(big||cut||!CITY(ru,rv)){if(pts.length>1)out.push(pts.slice());pts.length=0;continue}pts.push([ru,rv])}
+    if(pts.length>1)out.push(pts)}}return out}
+ function chunk(ci,cj){const cu=ci*CH,cv=cj*CH;mats();const g=new THREE.Group();g.userData.v624=1;
+  /* terreno */const P=[],C=[];const n=CH/TS;for(let i=0;i<n;i++)for(let j=0;j<n;j++){const u0=cu+i*TS,v0=cv+j*TS,u1=u0+TS,v1=v0+TS;const p00=[u0+OX,node(u0/TS,v0/TS),v0+OZ],p10=[u1+OX,node(u1/TS,v0/TS),v0+OZ],p01=[u0+OX,node(u0/TS,v1/TS),v1+OZ],p11=[u1+OX,node(u1/TS,v1/TS),v1+OZ];
+    const c=groundCol(u0+3,v0+3,p00[1]);P.push(...p00,...p01,...p10,...p11,...p10,...p01);for(let k=0;k<6;k++)C.push(c[0],c[1],c[2])}
+  g.add(Mesh(P,C,null,MAT.ground));
+  /* calles de colonia (pegadas al terreno) */const S=localStreets(cu,cv);g.userData.st624=S;const SA=[],SC=[],SM=[],SMC=[],SW=[],SWC=[];const asph=rgb(0x55585c),walk=rgb(0x9a958b),white=[.9,.9,.86];const LOT=[];
+  for(const L of S){for(let i=1;i<L.length;i++){const a=L[i-1],b=L[i];const dx=b[0]-a[0],dz=b[1]-a[1],l=Math.hypot(dx,dz)||1,nx=-dz/l,nz=dx/l;const hw=4.2,ww=2.6;
+    const p=(q,o,dy)=>{const u=q[0]+nx*o,v=q[1]+nz*o;return [u+OX,Ht(u,v)+dy,v+OZ]};
+    quad(SA,SC,p(a,-hw,.05),p(b,-hw,.05),p(b,hw,.05),p(a,hw,.05),asph);if((i%2)===0)quad(SM,SMC,p(a,-.07,.07),p(b,-.07,.07),p(b,.07,.07),p(a,.07,.07),white);
+    quad(SW,SWC,p(a,hw,.16),p(b,hw,.16),p(b,hw+ww,.16),p(a,hw+ww,.16),walk);quad(SW,SWC,p(a,-hw-ww,.16),p(b,-hw-ww,.16),p(b,-hw,.16),p(a,-hw,.16),walk);
+    STREETS.push({a:[a[0],a[1]],b:[b[0],b[1]],hw,ci,cj});
+    /* lotes a los lados */for(const sgn of [-1,1])LOT.push({u:(a[0]+b[0])/2+nx*sgn*(hw+ww+1),v:(a[1]+b[1])/2+nz*sgn*(hw+ww+1),nx:nx*sgn,nz:nz*sgn,tx:dx/l,tz:dz/l,len:l})}}
+  if(SA.length){g.add(Mesh(SA,SC,null,MAT.asph));if(SM.length)g.add(Mesh(SM,SMC,null,MAT.mark));g.add(Mesh(SW,SWC,null,MAT.conc));M.streets+=S.length}
+  /* lotes junto a avenidas: también */for(const r of ROADS){if(r.kind==='ramp'||r.kind==='peri'||r.kind==='sp'||!KIND[r.kind].walk)continue;const P2=r.pts;for(let i=0;i<P2.length-1;i+=3){const a=P2[i];if(a.u<cu||a.u>=cu+CH||a.v<cv||a.v>=cv+CH)continue;if(a.y-Ht(a.u,a.v)>1.5)continue;const off=halfW(r)+KIND[r.kind].walk+1;for(const sgn of [-1,1])LOT.push({u:a.u+a.nx*sgn*off,v:a.v+a.nz*sgn*off,nx:a.nx*sgn,nz:a.nz*sgn,tx:a.tx,tz:a.tz,len:18})}}
+  /* edificios */const BP=[],BC=[],BU=[],RP=[],RC=[];const used=[];
+  for(const L of LOT){const z=ZONE(L.u,L.v);const st=ZSTYLE[z];const seed=h2(Math.floor(L.u*3),Math.floor(L.v*3));if(seed>st.fill)continue;
+   const wdt=lerp(st.lot[0],st.lot[1],h2(Math.floor(L.u),7)),dep=lerp(st.lot[0],st.lot[1]*1.1,h2(9,Math.floor(L.v)));const cx=L.u+L.nx*dep/2,cz=L.v+L.nz*dep/2;
+   /* que no se encime con caminos ni con otro edificio */if(roadHits(cx,cz,Math.max(wdt,dep)/2+1).length)continue;let bad=false;for(const q of used)if(Math.hypot(q[0]-cx,q[1]-cz)<(q[2]+Math.max(wdt,dep))/2*.9){bad=true;break}if(bad)continue;
+   if(streetNear(cx,cz,Math.max(wdt,dep)/2+.5))continue;
+   used.push([cx,cz,Math.max(wdt,dep)]);const hgt=Math.round(lerp(st.h[0],st.h[1],Math.pow(h2(Math.floor(cx),Math.floor(cz)),z==='polanco'||z==='santafe'?2:1)));
+   const base=Math.min(Ht(cx-wdt/2*L.tx,cz-wdt/2*L.tz),Ht(cx+wdt/2*L.tx,cz+wdt/2*L.tz),Ht(cx,cz))-.5,top=base+.5+hgt;const col=rgb(st.cols[Math.floor(h2(Math.floor(cz),Math.floor(cx))*st.cols.length)]);
+   const corners=[[-wdt/2,-dep/2],[wdt/2,-dep/2],[wdt/2,dep/2],[-wdt/2,dep/2]].map(([a,b])=>[cx+L.tx*a+L.nx*b,cz+L.tz*a+L.nz*b]);
+   for(let k=0;k<4;k++){const p=corners[k],q=corners[(k+1)%4];const len=Math.hypot(q[0]-p[0],q[1]-p[1]);quadUV(BP,BC,BU,[p[0]+OX,base,p[1]+OZ],[q[0]+OX,base,q[1]+OZ],[q[0]+OX,top,q[1]+OZ],[p[0]+OX,top,p[1]+OZ],col,Math.max(1,Math.round(len/6)),Math.max(1,Math.round(hgt/3.2)))}
+   const rc=[col[0]*.7,col[1]*.7,col[2]*.7];quad(RP,RC,[corners[0][0]+OX,top,corners[0][1]+OZ],[corners[3][0]+OX,top,corners[3][1]+OZ],[corners[2][0]+OX,top,corners[2][1]+OZ],[corners[1][0]+OX,top,corners[1][1]+OZ],rc);
+   const us=corners.map(c=>c[0]),vs=corners.map(c=>c[1]);colRect(Math.min(...us),Math.min(...vs),Math.max(...us),Math.max(...vs),base,top);M.bldg++}
+  if(BP.length){g.add(Mesh(BP,BC,BU,MAT.bldg));g.add(Mesh(RP,RC,null,MAT.roof))}
+  sc.add(g);M.chunks++;return g}
+ const STREETS=[];
+ function streetNear(u,v,r){for(const s of STREETS){const vx=s.b[0]-s.a[0],vz=s.b[1]-s.a[1],dd=vx*vx+vz*vz||1;const t=clamp(((u-s.a[0])*vx+(v-s.a[1])*vz)/dd,0,1);if(Math.hypot(u-s.a[0]-vx*t,v-s.a[1]-vz*t)<s.hw+2.6+r*.7)return true}return false}
+ function localStreetAt(u,v){for(const s of STREETS){if(Math.abs(u-s.a[0])>60&&Math.abs(u-s.b[0])>60)continue;const vx=s.b[0]-s.a[0],vz=s.b[1]-s.a[1],dd=vx*vx+vz*vz||1;const t=clamp(((u-s.a[0])*vx+(v-s.a[1])*vz)/dd,0,1);if(Math.hypot(u-s.a[0]-vx*t,v-s.a[1]-vz*t)<s.hw+.3)return true}return false}
+ /* caminos grandes: en tramos de ~180 m, se arman cerca */
+ const PIECES=[];
+ function piecesInit(){for(const r of ROADS){const n=r.pts.length,step=30;for(let i=0;i<(r.closed?n:n-1);i+=step){const a=r.pts[i],b=r.pts[Math.min(i+step,r.closed?n:n-1)%n];PIECES.push({r,i0:i,i1:Math.min(i+step,r.closed?n:n-1),u:(a.u+b.u)/2,v:(a.v+b.v)/2,g:null})}}}
+ /* ---------- arranque ---------- */
+ let ready=false;function init(){if(ready)return;ready=true;try{network();for(const r of ROADS)indexRoad(r);interchanges();segundoPiso();for(const r of ROADS){if(r.kind==='ramp'||r.id==='segundo')indexRoad(r)}
+   /* los puentes modificaron la rasante: rehacer índice y caché */GRID.clear();for(const r of ROADS)indexRoad(r);TCACHE.clear();NC.clear();piecesInit();M.roads=ROADS.length;M.built=1}catch(e){err('red',e)}}
+ let lastU=1e9,lastV=1e9;
+ function stream(force){if(!ready)return;const u=P.x-OX,v=P.z-OZ;if(!force&&Math.hypot(u-lastU,v-lastV)<24)return;lastU=u;lastV=v;const R=lo()?560:760;
+  const ci0=Math.floor((u-R)/CH),ci1=Math.floor((u+R)/CH),cj0=Math.floor((v-R)/CH),cj1=Math.floor((v+R)/CH);let made=0;
+  for(let i=ci0;i<=ci1;i++)for(let j=cj0;j<=cj1;j++){const k=i+','+j;if(LIVE.has(k))continue;const du=Math.max(0,Math.abs(u-(i+.5)*CH)-CH/2),dv=Math.max(0,Math.abs(v-(j+.5)*CH)-CH/2);if(Math.hypot(du,dv)>R)continue;if(!force&&made>=2)continue;try{LIVE.set(k,chunk(i,j));made++}catch(e){err('pedazo',e);LIVE.set(k,null)}}
+  for(const [k,g] of LIVE){const [i,j]=k.split(',').map(Number);if(Math.hypot((i+.5)*CH-u,(j+.5)*CH-v)>R+380){if(g){sc.remove(g);g.traverse(o=>{if(o.geometry)o.geometry.dispose()})}LIVE.delete(k)}}
+  let mp=0;for(const pc of PIECES){const d=Math.hypot(pc.u-u,pc.v-v);if(d<R+120&&!pc.g){if(!force&&mp>=4)continue;try{pc.g=ribbon(pc.r,pc.i0,pc.i1);pc.g.userData.v624=1;sc.add(pc.g);mp++;M.decks++}catch(e){err('cinta',e);pc.g=new THREE.Group()}}else if(d>R+500&&pc.g){sc.remove(pc.g);pc.g.traverse(o=>{if(o.geometry)o.geometry.dispose()});pc.g=null}}
+  /* calles viejas de pedazos borrados */for(let i=STREETS.length-1;i>=0;i--){const s=STREETS[i];if(!LIVE.has(s.ci+','+s.cj))STREETS.splice(i,1)}}
+ const lo=()=>{try{return GRAF557.level==='bajo'}catch(_){return false}};
+ /* ---------- integración con el juego ---------- */
+ const yRefOf=()=>{try{if(DRV&&DRV.k)return DRV.k.g.position.y}catch(_){}return P.y};
+ try{const _h=G512.h;G512.h=function(x,z){if(ready&&inW(x,z)){const s=surface(x-OX,z-OZ,null);return s.y}return _h.apply(this,arguments)};
+  const _on=G512.on;G512.on=function(x,z){if(inW(x,z))return true;return _on.apply(this,arguments)}}catch(e){err('altura',e)}
+ try{const _s=surfKind59;surfKind59=function(x,z){if(ready&&inW(x,z)){const u=x-OX,v=z-OZ;const hs=roadHits(u,v,0);if(hs.some(h=>h.d<=h.hw))return 'asfalto';if(localStreetAt(u,v))return 'asfalto';return ZONE(u,v)==='campo'?'terraceria':'asfalto'}return _s.apply(this,arguments)};window.surfKind59=surfKind59}catch(e){err('superficie',e)}
+ try{for(const k of ['inBounds']){const _f=NET511[k];NET511[k]=function(x,z){if(inW(x,z))return true;return _f.apply(this,arguments)}}
+  for(const k of ['inSea']){const _f=NET511[k];NET511[k]=function(x,z){if(inW(x,z))return null;return _f.apply(this,arguments)}}
+  const _ld=NET511.landDist;NET511.landDist=function(x,z){if(inW(x,z))return 500;return _ld.apply(this,arguments)};
+  const _rel=NET511.inRelief;NET511.inRelief=function(x,z){if(inW(x,z))return true;return _rel.apply(this,arguments)};
+  const _B=NET511.BOUNDS;/* el mundo nuevo cuenta como jugable */}catch(e){err('límites',e)}
+ /* choques: edificios, pilares, barreras de lo elevado */
+ try{const _b=blk;blk=function(x,z){if(ready&&inW(x,z)){const r=colHit(x-OX,z-OZ,P.y+.5,.3);if(r)return 1;try{for(const k of CARS){const p=k.g.position;if(Math.hypot(x-p.x,z-p.z)<1.8)return 1}}catch(_){}return 0}return _b.apply(this,arguments)};window.blk=blk}catch(e){err('choque',e)}
+ try{const _c=cblk;cblk=function(x,z){if(ready&&inW(x,z)){const y=yRefOf();const r=colHit(x-OX,z-OZ,y+.6,0);if(r)return 1;try{for(const k of CARS){if(DRV&&DRV.k===k)continue;const p=k.g.position;if(Math.abs(p.y-y)<2.5&&Math.hypot(x-p.x,z-p.z)<1.6)return 1}}catch(_){}return 0}return _c.apply(this,arguments)};window.cblk=cblk}catch(e){err('choque coche',e)}
+ /* el coche sobre puentes y segundo piso: se queda en el tablero si viene a esa altura; barreras a los lados */
+ try{const _d=drive;drive=function(dt){const d=DRV;if(!d||!ready||!inW(P.x,P.z))return _d.apply(this,arguments);const car=d.k,px=P.x,pz=P.z,y0=car.g.position.y;
+   _d.apply(this,arguments);const u=P.x-OX,v=P.z-OZ;const g=Ht(u,v);
+   const hits=roadHits(u,v,0).filter(h=>h.d<=h.hw+.2);let best=null;for(const h of hits){if(Math.abs(h.y+.05-y0)<1.4&&(!best||Math.abs(h.y-y0)<Math.abs(best.y-y0)))best=h}
+   if(best&&best.y-g>1.6){/* en un tablero elevado */car.g.position.y=best.y+.05;car.deck624=best.r.id;M.onDeck++;const ah=sampleAt(best.r,best.s+3),bh=sampleAt(best.r,best.s-3);const dir=Math.cos(car.g.rotation.y)*best.r.pts[best.i].tx-Math.sin(car.g.rotation.y)*best.r.pts[best.i].tz;car.g.rotation.order='YZX';car.g.rotation.z=Math.atan((ah.y-bh.y)/6*dir)}
+   else if(car.deck624&&y0-g>1.6){/* se iba a salir del tablero por un lado: barrera */const prev=roadHits(px-OX,pz-OZ,0).find(h=>h.r.id===car.deck624);if(prev){P.x=px;P.z=pz;d.v=-Math.sign(d.v)*Math.min(3,Math.abs(d.v)*.2);car.g.position.set(px,y0,pz);M.barrier++;try{carImpact(car,Math.abs(d.v)*3)}catch(_){}}else car.deck624=null}
+   else{car.deck624=null;const s=surface(u,v,y0);car.g.position.y=s.y}}}catch(e){err('manejo',e)}
+ try{const _sn=snap57;snap57=function(){const r=_sn.apply(this,arguments);try{for(const k of CARS){if(!k||!k.g||(DRV&&DRV.k===k))continue;const p=k.g.position;if(inW(p.x,p.z)&&k.deck624){const s=surface(p.x-OX,p.z-OZ,p.y);p.y=s.y}}}catch(_){}return r}}catch(e){err('estacionados',e)}
+ /* ---------- entrar / salir del mapa nuevo ---------- */
+ let back=null;
+ function goNew(spot,now){init();const peri=ROADS.find(r=>r.id==='peri');const sp=spot||'peri';let q;if(sp==='zocalo')q={u:60,v:-300,y:0,tx:1,tz:0};else{q=sampleAt(peri,peri.len*.12);}
+  const lane=sp==='peri'?(KIND.peri.med/2+KIND.peri.lw*1.5):0;const u=q.u+(q.nx||0)*lane,v=q.v+(q.nz||0)*lane;back=back||{x:P.x,z:P.z};
+  const run=()=>{try{P.x=u+OX;P.z=v+OZ;stream(true);const y=surface(u,v,null).y;P.y=y;if(DRV){const k=DRV.k;k.g.position.set(P.x,y,P.z);k.g.rotation.y=Math.atan2(-(q.tz||0),q.tx||1)+(sp==='peri'?Math.PI:0);DRV.v=0}M.tp++;try{toast('🗺️ Mapa nuevo (prueba) · '+(sp==='peri'?'Anillo Periférico':'Centro'))}catch(_){}}catch(e){err('entrar',e)}};if(now)return run();try{fade58(run)}catch(_){run()}}
+ function goBack(now){const b=back||{x:110,z:650};const run=()=>{P.x=b.x;P.z=b.z;P.y=G512.h(P.x,P.z);if(DRV){DRV.k.g.position.set(P.x,P.y,P.z);DRV.v=0;DRV.k.deck624=null}back=null;try{toast('↩️ De regreso al mapa de siempre')}catch(_){}};if(now)return run();try{fade58(run)}catch(_){run()}}
+ try{Phone58.register({id:'valle624',name:'Mapa nuevo',icon:'🗺️',render(api){return {title:'🗺️ Mapa nuevo (prueba)',text:'Primera etapa del mapa nuevo: el valle de México con el Periférico (6 carriles, rampas, puentes y Segundo Piso), avenidas y colonias. Todavía sin tráfico ni gente.',rows:[],buttons:[['🛣️ Ir al Periférico'+(DRV?' (con tu coche)':''),()=>{try{api.close()}catch(_){}goNew('peri')}],['🏛️ Ir al Centro',()=>{try{api.close()}catch(_){}goNew('zocalo')}],['↩️ Regresar al mapa de siempre',()=>{try{api.close()}catch(_){}goBack()}],['Volver',()=>api.home()]]}}})}catch(e){err('teléfono',e)}
+ /* si se guardó la partida dentro del mapa nuevo, se arma al cargar */
+
+ /* MINIMAPA y MAPA del valle: suelo por zona, calles de colonia cercanas, avenidas y el Periférico */
+ function drawValle(ctx,v){const X=x=>v.w/2+(x-v.cx)*v.s,Y=z=>v.h/2+(z-v.cz)*v.s;ctx.setLineDash([]);
+  ctx.fillStyle='#39432f';ctx.fillRect(0,0,v.w,v.h);
+  /* manchas de zona (cada 64 m de mundo, solo lo que se ve) */const st=Math.max(24,Math.ceil(6/v.s)*8);const x0=v.cx-v.w/2/v.s,z0=v.cz-v.h/2/v.s,x1=v.cx+v.w/2/v.s,z1=v.cz+v.h/2/v.s;
+  if((x1-x0)/st<140)for(let x=Math.floor(x0/st)*st;x<x1;x+=st)for(let z=Math.floor(z0/st)*st;z<z1;z+=st){const u=x-OX+st/2,w=z-OZ+st/2;if(u<AREA.u0||u>AREA.u1||w<AREA.v0||w>AREA.v1)continue;const zn=ZONE(u,w),h=Hn(u,w);
+    ctx.fillStyle=zn==='campo'?(h>320?'#d9dade':h>140?'#4a5a3a':'#55653d'):zn==='santafe'||zn==='polanco'?'#5d6157':zn==='industrial'?'#5f5a52':'#57554f';ctx.fillRect(X(x),Y(z),st*v.s+1,st*v.s+1)}
+  ctx.lineCap='round';ctx.lineJoin='round';
+  for(const g of LIVE.values()){if(!g||!g.userData.st624)continue;ctx.strokeStyle='#8b8780';ctx.lineWidth=Math.max(1,7*v.s);for(const pts of g.userData.st624){ctx.beginPath();pts.forEach((q,i)=>i?ctx.lineTo(X(q[0]+OX),Y(q[1]+OZ)):ctx.moveTo(X(q[0]+OX),Y(q[1]+OZ)));ctx.stroke()}}
+  const order=['calle','ramp','ci','art','sp','peri'];const rs=ROADS.slice().sort((a,b)=>order.indexOf(a.kind)-order.indexOf(b.kind));
+  for(const r of rs){const K=KIND[r.kind]||KIND.calle;const w=2*halfW(r);const pts=r.pts;ctx.beginPath();for(let i=0;i<pts.length;i+=2){const q=pts[i];i?ctx.lineTo(X(q.u+OX),Y(q.v+OZ)):ctx.moveTo(X(q.u+OX),Y(q.v+OZ))}if(r.closed)ctx.closePath();
+   ctx.strokeStyle='#22262a';ctx.lineWidth=Math.max(2.2,(w+3)*v.s);ctx.stroke();ctx.strokeStyle=r.kind==='peri'||r.kind==='sp'?'#e0a540':r.kind==='art'?'#d8cf9a':r.kind==='ci'?'#c9c4b4':'#a8a59c';ctx.lineWidth=Math.max(1.4,w*v.s);ctx.stroke()}
+  if(!v.mini){ctx.fillStyle='#fff3c5';ctx.font='bold 13px system-ui';ctx.fillText('Mapa nuevo (prueba) · Valle de México',10,20)}}
+ try{const _dw=drawWorld59;drawWorld59=function(ctx,v){try{if(ready&&inW(v.cx,v.cz)){M.mini=(M.mini||0)+1;return drawValle(ctx,v)}}catch(e){err('minimapa',e)}return _dw.apply(this,arguments)}}catch(e){err('minimapa',e)}
+
+ /* el suelo plano del mundo de siempre (una loseta a altura 0 que sigue al jugador) se asomaba en el valle como un piso crema:
+    dentro del mapa nuevo se apaga todo lo plano y grande que no sea del valle; al salir se regresa */
+ const HID=new Set();const bx=new THREE.Box3();let hidT=0;
+ function hideOld(dt){hidT-=dt;if(hidT>0)return;hidT=.5;const inside=inW(P.x,P.z);
+  if(!inside){for(const o of HID)o.visible=true;HID.clear();return}
+  for(const o of sc.children){if(o.userData.v624||HID.has(o)||!o.visible||o.isLight||o===cam)continue;try{bx.setFromObject(o)}catch(_){continue}if(bx.isEmpty())continue;
+   const flat=bx.max.y-bx.min.y<.6,big=Math.max(bx.max.x-bx.min.x,bx.max.z-bx.min.z)>=250;if(flat&&big){o.visible=false;HID.add(o);M.hid=HID.size}}}
+ /* el mundo de siempre tiene un límite (WB511) que regresa al jugador; dentro del mapa nuevo se usa el límite del valle */
+ const WBV={x0:AREA.u0+OX,x1:AREA.u1+OX,z0:AREA.v0+OZ,z1:AREA.v1+OZ};
+ function withBounds(fn){const B=WB511,inside=inW(P.x,P.z);if(!inside)return fn();const o={x0:B.x0,x1:B.x1,z0:B.z0,z1:B.z1};Object.assign(B,WBV);try{return fn()}finally{Object.assign(B,o)}}
+ let acc=0;const _st=step;step=function(dt){const a=arguments,self=this;const r=withBounds(()=>_st.apply(self,a));try{hideOld(Math.min(.1,dt||0));if(inW(P.x,P.z)){if(!ready)init();acc+=Math.min(.1,dt||0);if(acc>.15){acc=0;stream(false)}}}catch(e){err('cuadro',e)}return r};
+ try{NV600.G[1][1].push('🗺️ Mapa nuevo (prueba): el valle de México con el Periférico de 6 carriles, rampas, puentes y Segundo Piso. Entra desde el teléfono → «Mapa nuevo»')}catch(_){}
+ return {M,OX,OZ,inW,Hn,Ht,surface,roadHits,ROADS,init,stream,goNew,goBack,sampleAt,LIVE,PIECES,colHit,ZONE,halfW,KIND};
+})();
+try{window.VALLE624=VALLE624}catch(_){}
+/*RB624-RB624_VALLE-END*/
 setMk();upd();loop(0);window.__cascajoBootOk=true;
 </script>
 
