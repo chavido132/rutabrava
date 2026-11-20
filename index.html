@@ -25935,6 +25935,59 @@ const GPS625=(()=>{
 try{window.GPS625=GPS625}catch(_){}
 /*RB625-RB625_GPS-END*/
 
+/*RB625-RB625_CONTROL-BEGIN*/
+/* RUTA BRAVA V5.125 · CONTROL DE PS5 / XBOX (pedido del productor: «cuando se conecte el control, que se quiten los botones de la
+   pantalla para ver mejor, y una pantalla para conectar el control fácil»).
+   · Con un control conectado se esconden los botones táctiles (joystick, USAR, saltar, armas, pedales, volante…): queda solo lo que
+     informa (minimapa, velocímetro, dinero, vida). Si el control se desconecta, los botones regresan solos.
+   · Pantalla «🎮 Conectar control» (en el menú de inicio y en el teléfono): pasos para emparejar el DualSense con el iPhone, aviso
+     en vivo cuando el juego lo detecta, prueba de botones (se iluminan al presionarlos) y el mapa de botones con los símbolos de
+     PlayStation (✕ ○ □ △, L2/R2…). Interruptor para dejar los botones en pantalla si alguien los quiere.
+   · Los avisos de la pantalla usan los símbolos del control (✕ para usar/subirte, etc.). */
+const CTRL625=(()=>{
+ const M={errors:[],shown:0,hidden:0,pad:''};const err=(w,e)=>{if(M.errors.length<6)M.errors.push(w+': '+(e&&e.message||e))};
+ const TOUCH_IDS=['js','jk','ba','bi','bj','bz','bw','br','bv','bcam542','sigilo550','gesto551','gl','gp','gb','gv','gx','rb532joy','rb532knob','drv621','sir616','radio619','air510minus','air510plus','ap510pad','ap510knob','fly625'];
+ let hideOn=true;try{hideOn=localStorage.getItem('rb625_hidepad')!=='0'}catch(_){}
+ const css=document.createElement('style');css.textContent='body.pad625 '+TOUCH_IDS.map(i=>'#'+i).join(',body.pad625 ')+'{display:none!important}';(document.head||document.body).appendChild(css);
+ function pad(){try{const L=navigator.getGamepads&&navigator.getGamepads();if(!L)return null;for(const g of L)if(g&&g.connected!==false&&g.buttons)return g}catch(_){}return null}
+ const isPS=g=>/054c|dualsense|dualshock|playstation|wireless controller/i.test((g&&g.id)||'');
+ let was=false;
+ function apply(){const g=pad();const on=!!g;if(on!==was){was=on;if(on){M.pad=g.id;M.hidden++;try{toast('🎮 Control conectado'+(isPS(g)?' (PlayStation)':'')+(hideOn?' · botones de la pantalla ocultos':''))}catch(_){}}else{M.shown++;try{toast('🎮 Control desconectado · regresan los botones')}catch(_){}}}
+  document.body.classList.toggle('pad625',on&&hideOn);
+  /* aviso de abajo con el símbolo del control */if(on){try{const pr=document.getElementById('pr');if(pr&&pr.style.display!=='none'){const t=pr.textContent;const n=t.replace(/^(USAR|E|Botón Hablar|Hablar):\s*/,'');if(n!==t||!/^✕/.test(t))pr.textContent=(isPS(g)?'✕ ':'Ⓐ ')+n}}catch(_){}}
+  if(OV&&OV.style.display!=='none')paint(g)}
+ /* ---------- pantalla para conectar ---------- */
+ const PSB=[['✕','Usar · hablar · subirte',0],['○','Freno de mano · atrás',1],['□','Saltar',2],['△','Subir / bajar del coche',3],['L1','Arma anterior · bajar cambio',4],['R1','Arma siguiente · subir cambio',5],['L2','Apuntar · frenar / reversa',6],['R2','Disparar · acelerar',7],['Create','Mapa',8],['Options','Teléfono',9],['L3','—',10],['R3','Cámara',11],['↑','Recargar',12],['↓','Mochila',13]];
+ let OV=null,cells=[];
+ function build(){if(OV)return OV;OV=document.createElement('div');OV.id='ctrl625';OV.style.cssText='position:fixed;inset:0;z-index:9000;background:#0b1118f2;color:#eef3f8;font:14px system-ui;overflow:auto;display:none;padding:max(14px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 18px max(16px,env(safe-area-inset-left))';
+  OV.innerHTML='<div style="max-width:760px;margin:0 auto"><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><b style="font-size:20px">🎮 Conectar control</b><span style="flex:1"></span><button id="c625x" style="font:600 15px system-ui;padding:8px 14px;border-radius:10px;border:0;background:#2a3542;color:#fff">Listo</button></div>'+
+   '<div id="c625st" style="padding:10px 12px;border-radius:12px;background:#3a2a12;border:1px solid #c98a2a;font-weight:600;margin-bottom:10px">⏳ Buscando control… <span style="font-weight:400">si ya está emparejado, presiona cualquier botón</span></div>'+
+   '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">'+
+   '<div style="background:#16202b;border-radius:12px;padding:10px 12px"><b>PlayStation 5 (DualSense) en el iPhone</b><ol style="margin:6px 0 0 18px;padding:0;line-height:1.5"><li>En el control: mantén <b>PS</b> + <b>Create</b> (el botoncito arriba a la izquierda del panel táctil) unos 3 segundos, hasta que la luz <b>parpadee</b>.</li><li>En el iPhone: <b>Ajustes → Bluetooth</b> y toca <b>«DualSense Wireless Controller»</b>.</li><li>Regresa al juego y <b>presiona cualquier botón</b> del control.</li></ol></div>'+
+   '<div style="background:#16202b;border-radius:12px;padding:10px 12px"><b>Xbox u otro control</b><ol style="margin:6px 0 0 18px;padding:0;line-height:1.5"><li>Xbox: mantén el botón de <b>emparejar</b> (arriba) hasta que el logo parpadee rápido.</li><li>Empareja por Bluetooth en Ajustes.</li><li>Presiona cualquier botón en el juego.</li></ol><div style="margin-top:8px;opacity:.8">En la compu también sirve por cable USB.</div></div></div>'+
+   '<b style="display:block;margin:12px 0 6px">Botones (presiónalos para probarlos)</b><div id="c625b" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px"></div>'+
+   '<div style="margin-top:8px;opacity:.85">Sticks: izquierdo caminar / volante · derecho mirar.</div>'+
+   '<label style="display:flex;gap:8px;align-items:center;margin-top:12px;font-weight:600"><input id="c625h" type="checkbox"> Esconder los botones de la pantalla cuando hay control</label></div>';
+  document.body.appendChild(OV);const B=OV.querySelector('#c625b');cells=PSB.map(([k,t,i])=>{const d=document.createElement('div');d.style.cssText='background:#16202b;border-radius:10px;padding:7px 9px;display:flex;gap:8px;align-items:center;transition:background .1s';d.innerHTML='<b style="min-width:44px;text-align:center;font-size:16px">'+k+'</b><span style="opacity:.9">'+t+'</span>';B.appendChild(d);return [d,i]});
+  OV.querySelector('#c625x').addEventListener('click',e=>{e.stopPropagation();close()});const h=OV.querySelector('#c625h');h.checked=hideOn;h.addEventListener('change',()=>{hideOn=h.checked;try{localStorage.setItem('rb625_hidepad',hideOn?'1':'0')}catch(_){}apply()});
+  OV.addEventListener('pointerdown',e=>e.stopPropagation());return OV}
+ function paint(g){const st=OV.querySelector('#c625st');if(g){st.style.background='#123a22';st.style.borderColor='#3fbf6a';st.innerHTML='✅ Control conectado: <span style="font-weight:400">'+(isPS(g)?'PlayStation (DualSense)':String(g.id).slice(0,48))+'</span>'}else{st.style.background='#3a2a12';st.style.borderColor='#c98a2a';st.innerHTML='⏳ Buscando control… <span style="font-weight:400">si ya está emparejado, presiona cualquier botón</span>'}
+  for(const [d,i] of cells){const b=g&&g.buttons[i];const p=b&&(b.pressed||b.value>.5);d.style.background=p?'#2f6fd0':'#16202b'}}
+ let raf=0;function loop(){if(!OV||OV.style.display==='none'){raf=0;return}try{paint(pad())}catch(_){}raf=requestAnimationFrame(loop)}
+ function open(){build().style.display='block';paint(pad());if(!raf)raf=requestAnimationFrame(loop)}
+ function close(){if(OV)OV.style.display='none'}
+ addEventListener('gamepadconnected',()=>{try{apply()}catch(_){}});addEventListener('gamepaddisconnected',()=>{try{apply()}catch(_){}});
+ /* botón en el menú de inicio */
+ try{const _mr=menuRender513;menuRender513=function(){const r=_mr.apply(this,arguments);try{const box=document.querySelector('#ini .m513');if(box&&!box.querySelector('#c625open')){const b=document.createElement('button');b.id='c625open';b.textContent='🎮 CONTROL';b.className=(document.getElementById('m513set')||{}).className||'';b.addEventListener('click',e=>{e.stopPropagation();open()});const go=document.getElementById('m513go');(go&&go.parentNode||box).appendChild(b)}}catch(e){err('menú',e)}return r}}catch(e){err('menú',e)}
+ try{Phone58.register({id:'control625',name:'Control',icon:'🎮',render(api){setTimeout(()=>{try{api.close()}catch(_){}open()},0);return {title:'🎮 Control',text:'Abriendo…',rows:[],buttons:[]}}})}catch(e){err('teléfono',e)}
+ let acc=0;try{const _st=step;step=function(dt){const r=_st.apply(this,arguments);try{acc+=Math.min(.1,Math.max(0,dt||0));if(acc>.25){acc=0;apply()}}catch(e){err('paso',e)}return r}}catch(e){err('paso',e)}
+ setInterval(()=>{try{if(!document.hidden)apply()}catch(_){}},1000);
+ try{NV600.G[1][1].push('🎮 Control de PS5/Xbox: se esconden los botones de la pantalla y hay una pantalla para conectarlo fácil')}catch(_){}
+ return {M,open,close,apply,get hide(){return hideOn}};
+})();
+try{window.CTRL625=CTRL625}catch(_){}
+/*RB625-RB625_CONTROL-END*/
+
 /*RB625-RB625_JUGAR-BEGIN*/
 /* RUTA BRAVA V5.125 · UN SOLO JUEGO (pedido del productor: «no tienes que poder escoger entre online e historia, tiene que aparecer
    JUGAR, y tienes que entrar directamente en el nuevo mapa»).
@@ -25951,7 +26004,7 @@ const JUGAR625=(()=>{
     const m=document.getElementById('m553modo');if(m){const n=m.nextSibling;if(n&&n.className==='note')n.remove();m.remove()}
     const go=document.getElementById('m513go');if(go){go.disabled=false;go.textContent='▶ JUGAR';const g2=go.cloneNode(true);go.replaceWith(g2);g2.addEventListener('click',e=>{e.stopPropagation();want=true;menuStart513()})}
     const box=document.querySelector('#ini .m513');if(box)for(const el of box.querySelectorAll('.note')){if(/NUEVA PARTIDA» para empezar|Modo en línea|Historia: La Deuda/.test(el.textContent))el.remove()}
-    const sub=document.querySelector('#ini .m513 .sub');if(sub)sub.textContent='Ciudad de México · juega solo o con tus amigos';}}catch(e){err('menú',e)}return r}}catch(e){err('menú',e)}
+    try{for(const el of document.querySelectorAll('#ini .m513 *'))if(el.children.length===0&&/empiezas en Nueva Brava/.test(el.textContent))el.textContent=el.textContent.replace(/empiezas en Nueva Brava/,'empiezas en el Zócalo de la CDMX')}catch(_){}const sub=document.querySelector('#ini .m513 .sub');if(sub)sub.textContent='Ciudad de México · juega solo o con tus amigos';}}catch(e){err('menú',e)}return r}}catch(e){err('menú',e)}
  /* ---------- entrar directo al mapa nuevo ---------- */
  /* solo cuando la persona toca JUGAR (o la pantalla de inicio); así el resto del juego sigue igual por dentro */
  let done=false,want=false;try{document.getElementById('ini').addEventListener('click',()=>{want=true},true)}catch(_){}
