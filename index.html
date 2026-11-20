@@ -25015,7 +25015,7 @@ const VALLE624=(()=>{
   for(let i=0;i<segs;i++){const p0=get(i-1),p1=get(i),p2=get(i+1),p3=get(i+2);const L=Math.hypot(p2[0]-p1[0],p2[1]-p1[1]);const k=Math.max(2,Math.ceil(L/step));
    for(let j=0;j<k;j++){const t=j/k,t2=t*t,t3=t2*t;const f=(a,b,c,d)=>.5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t2+(-a+3*b-3*c+d)*t3);out.push([f(p0[0],p1[0],p2[0],p3[0]),f(p0[1],p1[1],p2[1],p3[1])])}}
   if(!closed)out.push(P[n-1].slice());return out}
- function addRoad(id,name,kind,ctrl,opt){opt=opt||{};const pts=catmull(ctrl,!!opt.closed,6);const r={id,name,kind,closed:!!opt.closed,pts:pts.map(p=>({u:p[0],v:p[1]})),opt};ROADS.push(r);return r}
+ function addRoad(id,name,kind,ctrl,opt){opt=opt||{};const pts=catmull(ctrl,!!opt.closed,6);const r={id,name,kind,closed:!!opt.closed,pts:pts.map(p=>({u:p[0],v:p[1]})),opt,ctrl};ROADS.push(r);return r}
  /* longitudes, rumbos y altura base suavizada (el camino corta y rellena el terreno: pendiente máx. ~6 %, autopista 7 %) */
  function prep(r){const P=r.pts,n=P.length;let s=0;for(let i=0;i<n;i++){if(i){s+=Math.hypot(P[i].u-P[i-1].u,P[i].v-P[i-1].v)}P[i].s=s}r.len=s+(r.closed?Math.hypot(P[0].u-P[n-1].u,P[0].v-P[n-1].v):0);
   for(let i=0;i<n;i++){const a=P[r.closed?(i-1+n)%n:Math.max(0,i-1)],b=P[r.closed?(i+1)%n:Math.min(n-1,i+1)];const dx=b.u-a.u,dz=b.v-a.v,L=Math.hypot(dx,dz)||1;P[i].tx=dx/L;P[i].tz=dz/L;P[i].nx=-dz/L;P[i].nz=dx/L}
@@ -25031,31 +25031,37 @@ const VALLE624=(()=>{
   /* ===== CIUDAD DE MÉXICO ===== */
   addRoad('peri','Anillo Periférico','peri',cc([[-6.6,5.2],[-7.2,3],[-7.6,0],[-7.5,-3],[-7.8,-6],[-7.5,-9],[-6.5,-12],[-4,-13.5],[-1,-13.6],[2,-13],[4.6,-11],[5.4,-8],[5.4,-5],[5.1,-2],[4.6,1],[4.4,4],[3,6.5],[1,7.4],[-2,7.3],[-4.6,6.5]]),{closed:true});
   addRoad('ci','Circuito Interior','ci',cc([[-5,1.5],[-4.6,-2],[-3.5,-4.5],[-1,-5.5],[2,-5],[3.0,-3],[3.3,0],[2.9,2.6],[1.6,4.6],[-1.4,5],[-3.8,3.8]]),{closed:true});
-  addRoad('reforma','Paseo de la Reforma','art',cc([[-10.5,-2.4],[-8.6,-1.4],[-6.6,-1.05],[-5.2,-.9],[-4.2,-.75],[-3.6,-.6],[-2.9,-.25],[-2.3,.12],[-1.4,.38],[-1.0,1.3],[-.3,2.9],[.6,4.4],[1.35,5.3]]),{k:{med:7,walk:6},trees:1,lamps:2});
-  addRoad('juarez','Av. Juárez / Madero','ci',[[-262,-66],[-205,-52],[-152,-46],[-120,-31],[-86,-24]],{lamps:1});
-  addRoad('insurgentes','Av. Insurgentes','art',cc([[1.2,8.4],[.6,6.2],[-.3,4],[-1.5,2],[-2.6,.4],[-3.0,-.8],[-3.3,-2.4],[-3.6,-4.5],[-4.2,-7],[-5.0,-9.5],[-5.6,-11.6],[-5.9,-14.6],[-6.4,-17.5]]),{k:{med:7.5},metrobus:1,lamps:1});
-  addRoad('tlalpan','Calzada de Tlalpan','art',cc([[0,-.64],[-.2,-3],[-.6,-6],[-1.1,-9],[-1.6,-12.5],[-2.0,-15.5],[-2.6,-18]]),{lamps:1});
-  addRoad('viaducto','Viaducto Miguel Alemán','art',cc([[-8.4,-3.3],[-4.5,-3.6],[-1,-3.7],[2,-3.4],[4.6,-2.6],[5.8,-1.5]]),{lamps:1});
-  addRoad('zaragoza','Calz. Ignacio Zaragoza','art',cc([[1.0,-.62],[2.4,-1.0],[4.0,-1.7],[5.6,-2.5],[7.6,-3.4],[9.8,-4.2],[12.5,-5.0]]),{lamps:1});
-  addRoad('ejecentral','Eje Central Lázaro Cárdenas','ci',cc([[-.6,6.4],[-.75,3],[-.8,.6],[-.85,-3],[-.95,-6.2]]),{lamps:1});
-  addRoad('constituyentes','Av. Constituyentes','art',cc([[-5.6,-1.75],[-7,-2.6],[-8.8,-3.8],[-10.8,-5.6],[-12.4,-7.2],[-13.3,-8.1]]),{lamps:1});
-  addRoad('quevedo','Miguel Ángel de Quevedo','ci',cc([[-6.2,-10.0],[-4,-9.8],[-2,-9.7],[.2,-9.3]]),{trees:1});
-  addRoad('divnorte','División del Norte','ci',cc([[-2.6,-2],[-2.5,-6],[-1.9,-9.2],[.4,-12.5],[1.8,-14.8],[2.6,-16.6]]),{lamps:1});
-  addRoad('aeropuerto','Av. Puerto Aéreo','ci',cc([[3.3,.1],[4.4,.3],[5.6,.8],[6.6,1.25]]),{lamps:1});
+  addRoad('reforma','Paseo de la Reforma','art',cc([[-12.85,-7.45],[-12.5,-5.6],[-11.6,-3.7],[-10.5,-2.4],[-8.6,-1.4],[-6.6,-1.05],[-5.2,-.9],[-4.2,-.75],[-3.6,-.6],[-2.9,-.25],[-2.3,.12],[-1.4,.38],[-1.0,1.3],[-.3,2.9],[.6,4.4],[1.35,5.3],[1.6,5.55]]),{k:{med:7,walk:6},trees:1,lamps:2,snap0:'constituyentes'});
+  addRoad('juarez','Av. Juárez / Madero','ci',[[-262,-66],[-205,-52],[-152,-46],[-120,-31],[-76,-22]],{lamps:1});
+  addRoad('insurgentes','Av. Insurgentes','art',cc([[1.2,8.4],[.6,6.2],[-.3,4],[-1.5,2],[-2.6,.4],[-3.0,-.8],[-3.3,-2.4],[-3.6,-4.5],[-4.2,-7],[-5.0,-9.5],[-5.6,-11.6],[-5.9,-14.6],[-6.4,-17.5]]),{k:{med:7.5},metrobus:1,lamps:1,cap0:1,cap1:1});
+  addRoad('tlalpan','Calzada de Tlalpan','art',[[0,78],[0,120],...cc([[-.2,-3],[-.6,-6],[-1.1,-9],[-1.6,-12.5],[-2.0,-15.5],[-2.6,-18]])],{lamps:1,cap1:1});
+  addRoad('viaducto','Viaducto Miguel Alemán','art',cc([[-8.8,-3.8],[-8.4,-3.4],[-4.5,-3.6],[-1,-3.7],[2,-3.4],[4.6,-2.6],[6.3,-2.8]]),{lamps:1,snap0:'constituyentes',snap1:'zaragoza'});
+  addRoad('zaragoza','Calz. Ignacio Zaragoza','art',[[86,84],[150,104],...cc([[1.0,-.62],[2.4,-1.0],[4.0,-1.7],[5.6,-2.5],[7.6,-3.4],[9.8,-4.2],[12.5,-5.0]])],{lamps:1});
+  addRoad('ejecentral','Eje Central Lázaro Cárdenas','ci',cc([[-.6,7.2],[-.6,6.4],[-.75,3],[-.8,.6],[-.85,-3],[-.95,-5.6]]),{lamps:1,snap0:'peri',snap1:'ci'});
+  addRoad('constituyentes','Av. Constituyentes','art',cc([[-5.45,-1.0],[-5.6,-1.75],[-7,-2.6],[-8.8,-3.8],[-10.8,-5.6],[-12.4,-7.2],[-13.3,-8.1]]),{lamps:1,snap0:'reforma',cap1:1});
+  addRoad('quevedo','Miguel Ángel de Quevedo','ci',cc([[-7.1,-10.05],[-6.2,-10.0],[-4,-9.8],[-2,-9.7],[-1.16,-9.45]]),{trees:1,snap0:'peri',snap1:'tlalpan'});
+  addRoad('divnorte','División del Norte','ci',cc([[-3.2,-1.9],[-2.6,-2],[-2.5,-6],[-1.9,-9.2],[.4,-12.5],[1.8,-14.8],[2.6,-16.6]]),{lamps:1,snap0:'insurgentes'});
+  addRoad('aeropuerto','Av. Puerto Aéreo','ci',cc([[3.3,.1],[4.4,.3],[5.6,.8],[6.6,1.25]]),{lamps:1,cap1:1});
   /* ===== AUTOPISTA MÉXICO–PUEBLA (150D) ===== */
-  addRoad('autopista','Autopista México–Puebla','hw',[[2375,950],[2950,1000],[3500,930],[4150,820],[4800,760],[5400,900],[6000,1150],[6600,1420],[7300,1850],[8000,2350],[8700,2780],[9400,2880],[10200,2880],[11000,2930],[12100,3050]],{lamps:0});
+  addRoad('autopista','Autopista México–Puebla','hw',[[2375,950],[2950,1000],[3500,930],[4150,820],[4800,760],[5400,900],[6000,1150],[6600,1420],[7300,1850],[8000,2350],[8700,2780],[9400,2880],[10200,2880],[11000,2930],[12000,3040]],{lamps:0,cap1:1});
   /* ===== PUEBLA ===== */
-  addRoad('pecol','Periférico Ecológico','peri',pp([[-6.2,3.55],[-6.9,1.2],[-6.7,-2.4],[-7.0,-5.2],[-6.3,-7.6],[-4.2,-10.4],[-.6,-11.8],[3,-10.6],[5.4,-7.6],[6.5,-3.2],[6.2,1.2],[5.2,3.5]]));
-  addRoad('atlixcayotl','Vía Atlixcáyotl','art',pp([[-1.5,-1.2],[-2.7,-2.5],[-4.1,-4.1],[-5.3,-5.5],[-6.5,-6.9],[-7.9,-8.5],[-9.6,-10.4],[-11.2,-12.1]]),{k:{med:6},trees:1,lamps:2});
-  addRoad('11sur','Av. 11 Sur','art',pp([[-.55,.9],[-.6,-1.2],[-.75,-4],[-.9,-7],[-1.0,-10],[-1.1,-12.8]]),{lamps:1});
-  addRoad('forjadores','Recta a Cholula (Blvd. Forjadores)','art',pp([[-2.5,-.3],[-4.3,-.55],[-6.0,-.85],[-7.4,-1.2],[-8.2,-.45],[-8.9,-.55]]),{lamps:1});
-  addRoad('juarezpue','Av. Juárez (Puebla)','ci',pp([[-.55,-.05],[-1.5,-.15],[-2.5,-.3]]),{k:{med:4},trees:1});
-  addRoad('serdan','Blvd. Hermanos Serdán','art',pp([[-3.4,3.55],[-2.6,2.5],[-1.6,1.3],[-.85,.55]]),{lamps:1});
-  addRoad('cincomayo','Blvd. 5 de Mayo','ci',pp([[-.4,2.3],[.9,2.0],[1.7,.4],[1.4,-1.6],[.2,-2.8],[-1.4,-3.0]]),{lamps:1});
-  addRoad('valsequillo','Blvd. Valsequillo','ci',pp([[.3,-1.0],[.6,-4],[1.1,-7],[2.0,-10.8]]));
+  addRoad('pecol','Periférico Ecológico','peri',pp([[-6.2,3.55],[-6.9,1.2],[-6.7,-2.4],[-7.0,-5.2],[-6.3,-7.6],[-4.2,-10.4],[-.6,-11.8],[3,-10.6],[5.4,-7.6],[6.5,-3.2],[6.2,1.2],[5.2,3.5]]),{snap0:'autopista',snap1:'autopista'});
+  addRoad('atlixcayotl','Vía Atlixcáyotl','art',pp([[-1.5,-1.2],[-2.7,-2.5],[-4.1,-4.1],[-5.3,-5.5],[-6.5,-6.9],[-7.9,-8.5],[-9.6,-10.4],[-11.2,-12.1]]),{k:{med:6},trees:1,lamps:2,snap0:'11sur',cap1:1});
+  addRoad('11sur','Av. 11 Sur','art',pp([[-.95,.9],[-.95,-1.2],[-.75,-4],[-.9,-7],[-1.0,-10],[-1.1,-12.8]]),{lamps:1,snap0:'cincomayo',cap1:1});
+  addRoad('forjadores','Recta a Cholula (Blvd. Forjadores)','art',pp([[-2.5,-.3],[-4.3,-.55],[-6.0,-.85],[-7.4,-1.2],[-8.2,-.45],[-9.05,-.55]]),{lamps:1});
+  addRoad('juarezpue','Av. Juárez (Puebla)','ci',pp([[-.55,-.05],[-1.5,-.15],[-2.5,-.3]]),{k:{med:4},trees:1,snap0:'11sur'});
+  addRoad('serdan','Blvd. Hermanos Serdán','art',pp([[-3.4,3.55],[-2.6,2.5],[-1.6,1.3],[-.85,.55]]),{lamps:1,snap0:'autopista',snap1:'11sur'});
+  addRoad('cincomayo','Blvd. 5 de Mayo','ci',pp([[-.4,2.3],[.9,2.0],[1.7,.4],[1.4,-1.6],[.2,-2.8],[-1.4,-3.0]]),{lamps:1,snap0:'serdan',snap1:'11sur'});
+  addRoad('valsequillo','Blvd. Valsequillo','ci',pp([[.3,-1.0],[.6,-4],[1.1,-7],[2.0,-10.8]]),{snap0:'11sur',cap1:1});
   /* ===== A TLAXCALA ===== */
-  addRoad('tlaxcala','Carretera Puebla–Tlaxcala','art',[[9900,2868],[9720,2300],[9480,1700],[9310,1362]],{k:{walk:0,sh:2}});
-  addRoad('texmelucan','Carretera Texmelucan–Tlaxcala','ci',[[6760,1490],[7600,1230],[8500,1150],[9235,1305]],{k:{walk:0,sh:1.5}});
+  addRoad('tlaxcala','Carretera Puebla–Tlaxcala','art',[[9900,2868],[9720,2300],[9480,1700],[9305,1338]],{k:{walk:0,sh:2},snap0:'autopista'});
+  addRoad('texmelucan','Carretera Texmelucan–Tlaxcala','ci',[[6760,1490],[7600,1230],[8500,1150],[9262,1302]],{k:{walk:0,sh:1.5},snap0:'autopista'});
+  /* puntas que se enganchan a otro camino (para que ninguna avenida se corte en la nada) */
+  for(let pass=0;pass<2;pass++)for(const r of ROADS){for(const [w,key] of [[0,'snap0'],[1,'snap1']]){const tid=r.opt[key];if(!tid)continue;const T=ROADS.find(x=>x.id===tid);if(!T)continue;const c=r.ctrl;const e=w?c[c.length-1]:c[0];let b=null,bd=1e18;for(const q of T.pts){const d=(q.u-e[0])**2+(q.v-e[1])**2;if(d<bd){bd=d;b=q}}
+    const dx=e[0]-b.u,dz=e[1]-b.v,L=Math.hypot(dx,dz)||1;const k=Math.min(L,Math.max(0,halfW(T)-2.5));const np=[b.u+dx/L*k,b.v+dz/L*k];if(w)c[c.length-1]=np;else c[0]=np;r.pts=catmull(c,false,6).map(p=>({u:p[0],v:p[1]}))}}
+  /* retornos: donde un camino termina en el campo o en la orilla del mapa, una vuelta redonda para regresarte */
+  for(const r of ROADS.slice()){for(const [w,key] of [[0,'cap0'],[1,'cap1']]){if(!r.opt[key])continue;const P=r.pts,n=P.length;const a=w?P[n-1]:P[0],b=w?P[n-4]:P[3];const dx=a.u-b.u,dz=a.v-b.v,L=Math.hypot(dx,dz)||1;const R2=halfW(r)+9;const cx=a.u+dx/L*(R2-3),cz=a.v+dz/L*(R2-3);const ring=[];for(let k=0;k<10;k++){const t=k/10*Math.PI*2;ring.push([cx+Math.cos(t)*R2,cz+Math.sin(t)*R2])}
+    addRoad('retorno:'+r.id+':'+w,'Retorno','ci',ring,{closed:true,k:{lanes:1,lw:4.2,med:0,walk:0,sh:.6}})}}
   for(const r of ROADS)prep(r)}
  /* ---------- cruces: la avenida pasa arriba del Periférico/autopista; rampas en las 4 esquinas ---------- */
  function crossings(a,b){const out=[];const A=a.pts,B=b.pts;const nA=A.length,nB=B.length;
@@ -25077,9 +25083,9 @@ const VALLE624=(()=>{
    for(const [r,sc] of [[a,c.sa],[b,c.sb]])for(const p of r.pts){let d=Math.abs(p.s-sc);if(r.closed)d=Math.min(d,r.len-d);if(d>70)continue;const t=sm(1-d/70);p.y=lerp(p.y,H,t);p.bank*=1-t}}}}
  /* segundo piso: elevado sobre el Periférico poniente y sur (de Reforma a Perisur, como el real) */
  function nearestS(r,u,v){let b=0,bd=1e18;for(const p of r.pts){const d=(p.u-u)**2+(p.v-v)**2;if(d<bd){bd=d;b=p.s}}return b}
- function segundoPiso(){const peri=ROADS.find(r=>r.id==='peri');const a=C(-7.6,-1.6),b=C(-1.2,-13.6);const s0=nearestS(peri,a[0],a[1]),s1=nearestS(peri,b[0],b[1]);const pts=[];
-  for(let s=s0-260;s<=s1+260;s+=24){const q=sampleAt(peri,s);const e0=sm((s-(s0-260))/260),e1=sm(((s1+260)-s)/260);const k=Math.min(e0,e1);const off=(halfW(peri)+12)*(1-k);pts.push([q.u-q.nx*off,q.v-q.nz*off])}
-  const r=addRoad('segundo','Segundo Piso del Periférico','sp',pts);prep(r);for(const p of r.pts){const q=sampleAt(peri,s0-260+p.s*((s1+520-s0)/r.len));const e0=sm(p.s/300),e1=sm((r.len-p.s)/300);const k=Math.min(e0,e1);p.y=Math.max(p.y,q.y+10.5*k)}r.elev=true}
+ function segundoPiso(){const peri=ROADS.find(r=>r.id==='peri');const a=C(-7.8,-5.8),b=C(-4.37,-13.5);/* entre los entronques (Viaducto–Insurgentes): sus subidas no se enciman con rampas */const D=180;const s0=nearestS(peri,a[0],a[1]),s1=nearestS(peri,b[0],b[1]);const pts=[];
+  for(let s=s0-D;s<=s1+D;s+=24){const q=sampleAt(peri,s);const e0=sm((s-(s0-D))/D),e1=sm(((s1+D)-s)/D);const k=Math.min(e0,e1);const off=(halfW(peri)+halfW({kind:'sp',opt:{}})-1)*(1-k);pts.push([q.u-q.nx*off,q.v-q.nz*off])}
+  const r=addRoad('segundo','Segundo Piso del Periférico','sp',pts);prep(r);for(const p of r.pts){const q=sampleAt(peri,s0-D+p.s*((s1+2*D-s0)/r.len));const e0=sm(p.s/D),e1=sm((r.len-p.s)/D);const k=Math.min(e0,e1);p.y=Math.max(p.y,q.y+10.5*k)}r.elev=true}
  /* ---------- índice espacial de caminos ---------- */
  const CELL=40;const GRID=new Map();
  function indexRoad(r){const P=r.pts;const hw=halfW(r)+2;const n=P.length;for(let i=0;i<(r.closed?n:n-1);i++){const a=P[i],b=P[(i+1)%n];const u0=Math.min(a.u,b.u)-hw,u1=Math.max(a.u,b.u)+hw,v0=Math.min(a.v,b.v)-hw,v1=Math.max(a.v,b.v)+hw;
@@ -25091,19 +25097,24 @@ const VALLE624=(()=>{
  /* ---------- terreno «tallado» por los caminos a nivel (cortes y terraplenes) ---------- */
  const TCACHE=new Map();
  function carve(u,v,L,h,acc){for(const [r,i] of L){if(r.elev)continue;const P=r.pts,n=P.length,a=P[i],b=P[(i+1)%n];const vx=b.u-a.u,vz=b.v-a.v,dd=vx*vx+vz*vz||1;const t=clamp(((u-a.u)*vx+(v-a.v)*vz)/dd,0,1);const d=Math.hypot(u-a.u-vx*t,v-a.v-vz*t);const hw=halfW(r)+(SPEC(r).walk||0);const ry=lerp(a.y,b.y,t);
-   if(ry-h>3.5&&d<hw)continue;const w=d<hw+5?1:1-sm((d-hw-5)/(r.kind==='hw'?34:22));if(w>acc.best){acc.best=w;acc.by=ry-.32}}}
- function Hc(u,v){const k=Math.round(u*2)+','+Math.round(v*2);let h=TCACHE.get(k);if(h!==undefined)return h;h=Hn(u,v);const acc={best:0,by:0};const ci=Math.floor(u/CELL),cj=Math.floor(v/CELL);
-  const L=GRID.get(ci+','+cj);if(L)carve(u,v,L,h,acc);if(acc.best<1){for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]]){const L2=GRID.get((ci+dx)+','+(cj+dz));if(L2)carve(u,v,L2,h,acc)}}
-  if(acc.best>0)h=lerp(h,acc.by,acc.best);if(TCACHE.size>400000)TCACHE.clear();TCACHE.set(k,h);return h}
+   if(ry-h>3.5&&d<hw)continue;const w=d<hw+5?1:1-sm((d-hw-5)/(r.kind==='hw'?34:22));/* sobre el camino (o su orilla) gana el más bajo: así un terraplén vecino nunca tapa una rampa o un carril */if(w>=1){if(acc.on==null||ry-.32<acc.on)acc.on=ry-.32}else if(w>acc.best){acc.best=w;acc.by=ry-.32}}}
+ function Hc(u,v){const k=Math.round(u*2)+','+Math.round(v*2);let h=TCACHE.get(k);if(h!==undefined)return h;h=Hn(u,v);const acc={best:0,by:0,on:null};const ci=Math.floor(u/CELL),cj=Math.floor(v/CELL);
+  const L=GRID.get(ci+','+cj);if(L)carve(u,v,L,h,acc);if(acc.on==null){for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]]){const L2=GRID.get((ci+dx)+','+(cj+dz));if(L2)carve(u,v,L2,h,acc)}}
+  if(acc.on!=null)h=acc.on;else if(acc.best>0)h=lerp(h,acc.by,acc.best);if(TCACHE.size>400000)TCACHE.clear();TCACHE.set(k,h);return h}
  /* malla del terreno: nodos cada 6 u, diagonal fija; Ht = lo que se ve y lo que se pisa */
  const TS=6;const NC=new Map();
  function node(i,j){const k=i+','+j;let h=NC.get(k);if(h===undefined){h=Hc(i*TS,j*TS);if(NC.size>600000)NC.clear();NC.set(k,h)}return h}
  function Ht(u,v){const fx=u/TS,fz=v/TS,i=Math.floor(fx),j=Math.floor(fz),a=fx-i,b=fz-j;const h00=node(i,j),h10=node(i+1,j),h01=node(i,j+1),h11=node(i+1,j+1);return a+b<=1?h00+(h10-h00)*a+(h01-h00)*b:h11+(h01-h11)*(1-a)+(h10-h11)*(1-b)}
  /* superficie: el asfalto de calles y avenidas, plataformas de lugares (FLOORS) o el terreno */
  const FLOORS=[];/* {u,v,r|rx,rz,ang,y} pisos planos de los lugares (plazas elevadas, explanadas) */
- function surface(u,v,yRef){const hits=roadHits(u,v,0);const g=Ht(u,v);let best=null;
+ function surface(u,v,yRef,pref){const hits=roadHits(u,v,0);const g=Ht(u,v);let best=null;
+  /* si vienes por un camino y sigues dentro de él (a tu altura), te quedas en ese (rampas y segundo piso que salen de otro camino) */
+  if(pref&&yRef!=null){const h=hits.find(h=>h.r.id===pref&&h.d<=h.hw&&Math.abs(h.y-yRef)<1.5);if(h)return {y:h.y+.05,road:h}}
   for(const h of hits){if(h.d>h.hw)continue;const elevated=h.y-g>1.6;if(elevated&&(yRef==null||Math.abs(h.y-yRef)>1.8))continue;if(!best||(yRef!=null?Math.abs(h.y-yRef)<Math.abs(best.y-yRef):h.y<best.y))best=h}
   if(best)return {y:best.y+.05,road:best};
+  /* banquetas: las de avenida y las de calle de colonia están 16–18 cm arriba (el coche ya no se «hunde» en ellas) */
+  if(!hits.some(h=>h.d<=h.hw))for(const h of roadHits(u,v,6)){const w=SPEC(h.r).walk;if(!w||h.d<=h.hw||h.d>h.hw+w)continue;if(h.y-g>1.6&&(yRef==null||Math.abs(h.y-yRef)>1.8))continue;return {y:h.y+.18,road:null,walk:1}}
+  const ls=localStreetAt2(u,v);if(ls===1)return {y:g+.05,road:null,street:1};if(ls===2)return {y:g+.16,road:null,walk:1};
   for(const f of FLOORS){const du=u-f.u,dv=v-f.v;let inside;if(f.r!=null)inside=du*du+dv*dv<f.r*f.r;else{const c=Math.cos(f.ang||0),s=Math.sin(f.ang||0);inside=Math.abs(du*c+dv*s)<f.rx&&Math.abs(-du*s+dv*c)<f.rz}
    if(inside&&(yRef==null||f.y-yRef<1.2)&&f.y>g)return {y:f.y,road:null,floor:f}}
   return {y:g,road:null}}
@@ -25180,7 +25191,7 @@ const VALLE624=(()=>{
   const at=(p,l,dy)=>[p.u+p.nx*l+OX,p.y+p.bank*l+(dy||0),p.v+p.nz*l+OZ];
   /* ¿hay otro camino al mismo nivel aquí? (cruce o rampa que se incorpora): ahí no van rayas, barreras ni banquetas */
   const other=(p,l)=>{const u=p.u+p.nx*l,v=p.v+p.nz*l;return roadHits(u,v,1).some(h=>h.r!==r&&Math.abs(h.y-(p.y+p.bank*l))<1.3)};
-  const LMP=[];
+  const LMP=[];const inOther=(p,l)=>roadHits(p.u+p.nx*l,p.v+p.nz*l,1.2).some(h=>h.r!==r);
   for(let i=i0;i<i1;i++){const a=P[i%n],b=P[(i+1)%n];if(!b)break;
    const xC=other(a,0)||other(b,0),xS={'1':other(a,hw*.85)||other(b,hw*.85),'-1':other(a,-hw*.85)||other(b,-hw*.85)};
    /* asfalto (en 4 tiras para que se doble con el peralte) */for(const [l0,l1] of [[-hw,-hw/2],[-hw/2,0],[0,hw/2],[hw/2,hw]])quad(A,AC,at(a,l0,.04),at(b,l0,.04),at(b,l1,.04),at(a,l1,.04),asph);
@@ -25203,7 +25214,7 @@ const VALLE624=(()=>{
     if(Math.floor(a.s/30)!==Math.floor(b.s/30)&&a.y-ga>3&&!roadHits(a.u,a.v,2.5).some(h=>h.r!==r&&Math.abs(h.y-ga)<3)){const cx=a.u,cz=a.v,top=a.y-th,bot=ga-.5,w=1.3;const X=cx+OX,Z=cz+OZ;const box=[[X-w,Z-w],[X+w,Z-w],[X+w,Z+w],[X-w,Z+w]];for(let k=0;k<4;k++){const p=box[k],q=box[(k+1)%4];quad(CO,CC,[p[0],bot,p[1]],[q[0],bot,q[1]],[q[0],top,q[1]],[p[0],top,p[1]],pil)}
      colRect(cx-w,cz-w,cx+w,cz+w,bot,top)}}
    /* postes de luz cada 42 m: en el camellón (dobles) o a la orilla */
-   if(r.opt.lamps!=null&&r.opt.lamps!==0||THRU(r)){if(Math.floor(a.s/42)!==Math.floor(b.s/42)&&!xC&&!elev){if(K.med>=1.2&&(THRU(r)||r.opt.lamps===2||r.opt.lamps===1&&K.med>2))LMP.push([a,0,2]);else for(const sg of [-1,1])if(!xS[sg])LMP.push([a,sg*(hw+.6),sg])}}}
+   if(r.opt.lamps!=null&&r.opt.lamps!==0||THRU(r)){if(Math.floor(a.s/42)!==Math.floor(b.s/42)&&!xC&&!elev){if(K.med>=1.2&&(THRU(r)||r.opt.lamps===2||r.opt.lamps===1&&K.med>2)){if(!inOther(a,0))LMP.push([a,0,2])}else for(const sg of [-1,1])if(!xS[sg]&&!inOther(a,sg*(hw+.6)))LMP.push([a,sg*(hw+.6),sg])}}}
   const g=new THREE.Group();g.add(Mesh(A,AC,null,MAT.asph));if(MK.length)g.add(Mesh(MK,MC,null,MAT.mark));if(CO.length)g.add(Mesh(CO,CC,null,MAT.conc));
   if(LMP.length){const mg=Merger();const pole=[.42,.43,.45],lamp=[1,.96,.82];for(const [p,l,sg] of LMP){const [x,y,z]=at(p,l,0);const yaw=Math.atan2(-p.tz,p.tx);mg.add(geo('cyl6'),x,y+4.5,z,0,.18,9,.18,pole);
     const arms=sg===2?[1,-1]:[-sg];for(const s of arms){const ox=p.nx*s*1.6,oz=p.nz*s*1.6;mg.add(geo('box'),x+ox/2,y+9,z+oz/2,yaw+Math.PI/2,.12,.12,3.2,pole);mg.add(geo('box'),x+ox,y+8.85,z+oz,yaw,1.1,.18,.45,lamp)}
@@ -25275,13 +25286,19 @@ const VALLE624=(()=>{
    if(z==='campo'){const forest=y>70;if(!forest&&h2(Math.floor(u/40),Math.floor(v/40))>.18)continue;kind=y>70?'pine':'broad';if(y>340)continue}
    else if(z==='aicm')continue;if(roadHits(u,v,3).length||keepHit(u,v,2)||streetNear(u,v,1.5))continue;let bad=false;for(const q of used)if(Math.hypot(q[0]-u,q[1]-v)<q[2]*.75){bad=true;break}if(bad)continue;
    if(z==='angelopolis'&&h2(k,ci)<.3)kind='palm';TL.push({u,v,y,k:kind,r:h2(k,cj)*6.28,s:.75+.5*h2(cj,k),h:h2(k+1,ci),c:h2(ci,k+2)})}
-  for(const r of ROADS){if(!r.opt.trees)continue;const K=SPEC(r);if(K.med<3)continue;const P2=r.pts;for(let i=0;i<P2.length;i+=2){const a=P2[i];if(a.u<cu||a.u>=cu+CH||a.v<cv||a.v>=cv+CH)continue;if(a.y-Ht(a.u,a.v)>1.5)continue;if(roadHits(a.u,a.v,0).some(h=>h.r!==r))continue;
-   TL.push({u:a.u,v:a.v,y:a.y+.2,k:'broad',r:i,s:.65+.3*h2(i,3),h:h2(i,5),c:h2(i,7)});if(K.walk>=5)for(const sg of [-1,1]){const o=halfW(r)+K.walk*.6;const u=a.u+a.nx*o*sg,v=a.v+a.nz*o*sg;if(!roadHits(u,v,1).some(h=>h.r!==r))TL.push({u,v,y:a.y+.2,k:'broad',r:i,s:.7,h:h2(i,9),c:h2(i,11)})}}}
+  for(const r of ROADS){if(!r.opt.trees)continue;const K=SPEC(r);if(K.med<3)continue;const P2=r.pts;for(let i=0;i<P2.length;i+=2){const a=P2[i];if(a.u<cu||a.u>=cu+CH||a.v<cv||a.v>=cv+CH)continue;if(a.y-Ht(a.u,a.v)>1.5)continue;if(roadHits(a.u,a.v,3).some(h=>h.r!==r))continue;
+   TL.push({u:a.u,v:a.v,y:a.y+.2,k:'broad',r:i,s:.65+.3*h2(i,3),h:h2(i,5),c:h2(i,7)});if(K.walk>=5)for(const sg of [-1,1]){const o=halfW(r)+K.walk*.6;const u=a.u+a.nx*o*sg,v=a.v+a.nz*o*sg;if(!roadHits(u,v,3).some(h=>h.r!==r))TL.push({u,v,y:a.y+.2,k:'broad',r:i,s:.7,h:h2(i,9),c:h2(i,11)})}}}
   for(const t of TL)colRect(t.u-.4,t.v-.4,t.u+.4,t.v+.4,t.y-1,t.y+6);if(TL.length)plantTrees(g,TL);
   sc.add(g);M.chunks++;return g}
  const STREETS=[];
  function streetNear(u,v,r){for(const s of STREETS){if(Math.abs(u-s.a[0])>70&&Math.abs(u-s.b[0])>70)continue;const vx=s.b[0]-s.a[0],vz=s.b[1]-s.a[1],dd=vx*vx+vz*vz||1;const t=clamp(((u-s.a[0])*vx+(v-s.a[1])*vz)/dd,0,1);if(Math.hypot(u-s.a[0]-vx*t,v-s.a[1]-vz*t)<s.hw+2.6+r*.7)return true}return false}
- function localStreetAt(u,v){for(const s of STREETS){if(Math.abs(u-s.a[0])>60&&Math.abs(u-s.b[0])>60)continue;const vx=s.b[0]-s.a[0],vz=s.b[1]-s.a[1],dd=vx*vx+vz*vz||1;const t=clamp(((u-s.a[0])*vx+(v-s.a[1])*vz)/dd,0,1);if(Math.hypot(u-s.a[0]-vx*t,v-s.a[1]-vz*t)<s.hw+.3)return true}return false}
+ /* índice de calles de colonia (se rehace cuando se agregan o quitan pedazos) */
+ let STG=null,STN=-1;const STC=32;
+ function stIndex(){if(STG&&STN===STREETS.length&&!stDirty)return STG;STG=new Map();for(const s of STREETS){const u0=Math.min(s.a[0],s.b[0])-8,u1=Math.max(s.a[0],s.b[0])+8,v0=Math.min(s.a[1],s.b[1])-8,v1=Math.max(s.a[1],s.b[1])+8;for(let x=Math.floor(u0/STC);x<=Math.floor(u1/STC);x++)for(let z=Math.floor(v0/STC);z<=Math.floor(v1/STC);z++){const k=x+','+z;let L=STG.get(k);if(!L)STG.set(k,L=[]);L.push(s)}}STN=STREETS.length;stDirty=false;return STG}
+ let stDirty=true;
+ function stNear(u,v){return stIndex().get(Math.floor(u/STC)+','+Math.floor(v/STC))||[]}
+ function localStreetAt2(u,v){let r=0;for(const s of stNear(u,v)){const vx=s.b[0]-s.a[0],vz=s.b[1]-s.a[1],dd=vx*vx+vz*vz||1;const t=clamp(((u-s.a[0])*vx+(v-s.a[1])*vz)/dd,0,1);const d=Math.hypot(u-s.a[0]-vx*t,v-s.a[1]-vz*t);if(d<s.hw+.2)return 1;if(d<s.hw+2.6)r=2}return r}
+ function localStreetAt(u,v){for(const s of stNear(u,v)){if(Math.abs(u-s.a[0])>60&&Math.abs(u-s.b[0])>60)continue;const vx=s.b[0]-s.a[0],vz=s.b[1]-s.a[1],dd=vx*vx+vz*vz||1;const t=clamp(((u-s.a[0])*vx+(v-s.a[1])*vz)/dd,0,1);if(Math.hypot(u-s.a[0]-vx*t,v-s.a[1]-vz*t)<s.hw+.3)return true}return false}
  /* caminos grandes: en tramos de ~180 m, se arman cerca */
  const PIECES=[];
  function piecesInit(){for(const r of ROADS){const n=r.pts.length,step=30;for(let i=0;i<(r.closed?n:n-1);i+=step){const a=r.pts[i],b=r.pts[Math.min(i+step,r.closed?n:n-1)%n];PIECES.push({r,i0:i,i1:Math.min(i+step,r.closed?n:n-1),u:(a.u+b.u)/2,v:(a.v+b.v)/2,g:null})}}}
@@ -25297,7 +25314,7 @@ const VALLE624=(()=>{
   for(const [k,g] of LIVE){const [i,j]=k.split(',').map(Number);if(Math.hypot((i+.5)*CH-u,(j+.5)*CH-v)>R+380){if(g){sc.remove(g);uncol(g.userData.cols);g.traverse(o=>{if(o.geometry&&!o.isInstancedMesh)o.geometry.dispose()})}LIVE.delete(k)}}
   let mp=0;for(const pc of PIECES){const d=Math.hypot(pc.u-u,pc.v-v);if(d<R+120&&!pc.g){if(!force&&mp>=4)continue;try{pc.g=withCols(()=>ribbon(pc.r,pc.i0,pc.i1));pc.g.userData.v624=1;sc.add(pc.g);mp++;M.decks++}catch(e){err('cinta',e);pc.g=new THREE.Group()}}else if(d>R+500&&pc.g){sc.remove(pc.g);uncol(pc.g.userData.cols);pc.g.traverse(o=>{if(o.geometry)o.geometry.dispose()});pc.g=null}}
   let ml=0;for(const L of LMS){const d=Math.hypot(L.u-u,L.v-v)-(L.r||60);if(d<R+(L.far||0)&&!L.g){if(!force&&ml>=1)continue;try{mats();L.g=withCols(()=>L.build(API)||new THREE.Group());L.g.userData.v624=1;sc.add(L.g);ml++;M.lms++}catch(e){err('lugar '+L.id,e);L.g=new THREE.Group()}}else if(d>R+(L.far||0)+500&&L.g){sc.remove(L.g);uncol(L.g.userData.cols);L.g.traverse(o=>{if(o.geometry&&!o.userData.keepGeo&&!o.isInstancedMesh)o.geometry.dispose()});L.g=null}}
-  for(let i=STREETS.length-1;i>=0;i--){const s=STREETS[i];if(!LIVE.has(s.ci+','+s.cj))STREETS.splice(i,1)}}
+  for(let i=STREETS.length-1;i>=0;i--){const s=STREETS[i];if(!LIVE.has(s.ci+','+s.cj)){STREETS.splice(i,1);stDirty=true}}if(made)stDirty=true;}
  const lo=()=>{try{return GRAF557.level==='bajo'}catch(_){return false}};
  /* API para rb625_lugares.js */
  const API={OX,OZ,C,PB,TX,Hn,Hraw,Ht,surface,addPad,addKeep,FLOORS,MOUNDS,colOBB,addMound:m=>{MOUNDS.push(m);return m},SPOTS:null,LABELS:null,READY:[],LMS,colRect,colHit,Mesh,Merger,geo,rgb,quad,MAT,mats,canvasTex,plantTrees,roadHits,sampleAt,road:id=>ROADS.find(r=>r.id===id),h2,vn,fbm,lerp,clamp,sm,ZONE,M,err};
@@ -25317,9 +25334,10 @@ const VALLE624=(()=>{
  try{const _d=drive;drive=function(dt){const d=DRV;if(!d||!ready||!inW(P.x,P.z))return _d.apply(this,arguments);const car=d.k,px=P.x,pz=P.z,y0=car.g.position.y;
    _d.apply(this,arguments);const u=P.x-OX,v=P.z-OZ;const g=Ht(u,v);
    const hits=roadHits(u,v,0).filter(h=>h.d<=h.hw+.2);let best=null;for(const h of hits){if(Math.abs(h.y+.05-y0)<1.4&&(!best||Math.abs(h.y-y0)<Math.abs(best.y-y0)))best=h}
-   if(best&&best.y-g>1.6){car.g.position.y=best.y+.05;car.deck624=best.r.id;M.onDeck++;const ah=sampleAt(best.r,best.s+3),bh=sampleAt(best.r,best.s-3);const dir=Math.cos(car.g.rotation.y)*best.r.pts[best.i].tx-Math.sin(car.g.rotation.y)*best.r.pts[best.i].tz;car.g.rotation.order='YZX';car.g.rotation.z=Math.atan((ah.y-bh.y)/6*dir)}
+   const pr=car.road624&&hits.find(h=>h.r.id===car.road624&&Math.abs(h.y+.05-y0)<1.5);if(pr)best=pr;
+   if(best&&best.y-g>1.6){car.g.position.y=best.y+.05;car.deck624=best.r.id;car.road624=best.r.id;M.onDeck++;const ah=sampleAt(best.r,best.s+3),bh=sampleAt(best.r,best.s-3);const dir=Math.cos(car.g.rotation.y)*best.r.pts[best.i].tx-Math.sin(car.g.rotation.y)*best.r.pts[best.i].tz;car.g.rotation.order='YZX';car.g.rotation.z=Math.atan((ah.y-bh.y)/6*dir)}
    else if(car.deck624&&!best&&y0-g>1.6){const prev=roadHits(px-OX,pz-OZ,0).find(h=>h.r.id===car.deck624);if(prev){P.x=px;P.z=pz;d.v=-Math.sign(d.v)*Math.min(3,Math.abs(d.v)*.2);car.g.position.set(px,y0,pz);M.barrier++;try{carImpact(car,Math.abs(d.v)*3)}catch(_){}}else car.deck624=null}
-   else{car.deck624=null;const s=surface(u,v,y0);car.g.position.y=s.y}}}catch(e){err('manejo',e)}
+   else{car.deck624=null;const s=surface(u,v,y0,car.road624);car.g.position.y=s.y;car.road624=s.road?s.road.r.id:null}}}catch(e){err('manejo',e)}
  try{const _sn=snap57;snap57=function(){const r=_sn.apply(this,arguments);try{for(const k of CARS){if(!k||!k.g||(DRV&&DRV.k===k))continue;const p=k.g.position;if(inW(p.x,p.z)&&k.deck624){const s=surface(p.x-OX,p.z-OZ,p.y);p.y=s.y}}}catch(_){}return r}}catch(e){err('estacionados',e)}
  /* ---------- lugares para aparecer (teléfono → Mapa) ---------- */
  const SPOTS={};/* id → {name, u, v, road?, s?, f?} ; rb625_lugares.js agrega más */
@@ -25355,9 +25373,11 @@ const VALLE624=(()=>{
  function hideOld(dt){hidT-=dt;if(hidT>0)return;hidT=.5;const inside=inW(P.x,P.z);
   if(!inside){for(const o of HID)o.visible=true;HID.clear();return}
   for(const o of sc.children){if(o.userData.v624||HID.has(o)||!o.visible||o.isLight||o===cam)continue;try{bx.setFromObject(o)}catch(_){continue}if(bx.isEmpty())continue;
-   const flat=bx.max.y-bx.min.y<.6,big=Math.max(bx.max.x-bx.min.x,bx.max.z-bx.min.z)>=250;if(flat&&big){o.visible=false;HID.add(o);M.hid=HID.size}}}
+   if(oldGround(bx)){o.visible=false;HID.add(o);M.hid=HID.size}}}
+ /* suelo del mundo de siempre: losetas anchas y bajas (arena, playa, mar) — no el cielo ni las nubes */
+ function oldGround(b){return Math.max(b.max.x-b.min.x,b.max.z-b.min.z)>=150&&b.max.y-b.min.y<40&&b.min.y<(isFinite(P.y)?P.y:0)+30}
  /* y las losetas nuevas que el mundo de siempre agrega mientras andas aquí se apagan en cuanto aparecen */
- try{const _add=sc.add.bind(sc);sc.add=function(...objs){const r=_add(...objs);try{if(inW(P.x,P.z))for(const o of objs){if(!o||o.userData.v624||o.isLight)continue;bx.setFromObject(o);if(bx.isEmpty())continue;if(bx.max.y-bx.min.y<.6&&Math.max(bx.max.x-bx.min.x,bx.max.z-bx.min.z)>=250){o.visible=false;HID.add(o)}}}catch(_){}return r}}catch(e){err('losetas',e)}
+ try{const _add=sc.add.bind(sc);sc.add=function(...objs){const r=_add(...objs);try{if(inW(P.x,P.z))for(const o of objs){if(!o||o.userData.v624||o.isLight)continue;bx.setFromObject(o);if(bx.isEmpty())continue;if(oldGround(bx)){o.visible=false;HID.add(o)}}}catch(_){}return r}}catch(e){err('losetas',e)}
  /* el mundo de siempre tiene un límite (WB511); dentro del mapa nuevo se usa el del mapa nuevo */
  const WBV={x0:AREA.u0+OX,x1:AREA.u1+OX,z0:AREA.v0+OZ,z1:AREA.v1+OZ};
  function withBounds(fn){const B=WB511,inside=inW(P.x,P.z);if(!inside)return fn();const o={x0:B.x0,x1:B.x1,z0:B.z0,z1:B.z1};Object.assign(B,WBV);try{return fn()}finally{Object.assign(B,o)}}
@@ -25435,7 +25455,7 @@ const LUGARES625=(()=>{
   const n=f(18,0);sph(mg,n[0],n[1],y+4,2.3,c);colBox(u,v,38,34,ang,y,y+9)}
  /* ================================================================ CIUDAD DE MÉXICO ================================================================ */
  /* --- Zócalo: plancha, bandera monumental, Catedral, Palacio Nacional, Templo Mayor, edificios de gobierno y portales --- */
- pad(0,-20,110,135,{rect:1,bl:30});keep(0,0,84,84);keep(-5,-124,30,42);keep(108,0,22,74);keep(50,-118,20,20);keep(-50,106,30,16);keep(50,106,30,16);keep(-98,-64,10,22);keep(-98,40,10,46);
+ pad(0,-20,110,135,{rect:1,bl:30});keep(0,0,84,84);keep(-5,-124,30,42);keep(108,0,22,62);keep(50,-118,20,20);keep(-50,106,30,16);keep(50,106,30,16);keep(-98,-64,10,22);keep(-98,40,10,46);
  L('zocalo','Zócalo',0,0,170,g=>{const mg=Merger();const y=G(0,0)+.07;floorRect(mg,0,0,y,70,70,0,0x9c8f88,10,0x958881);floorRect(mg,0,0,y-.02,84,84,0,0x55585c);
    cyl(mg,0,0,y,.55,50,0xd8d8d8);cyl(mg,0,0,y,3.5,1.2,0x9c948c);g.add(mg.mesh(A.MAT.conc));const fl=flag(24,13.7);place(fl,12.3,y+42.5,0,0);g.add(fl);colRect(-3.5,-3.5,3.5,3.5,null,null);
    /* Catedral Metropolitana: fachada al sur (a la plaza), dos torres con remate de campana, cúpula */
@@ -25443,7 +25463,7 @@ const LUGARES625=(()=>{
     for(const sg of [-1,1]){const tx=cu+sg*17;box(m2,tx,cv+31,cy,13,34,13,st);box(m2,tx,cv+31,cy+34,10,13,10,0xa89c8c);sph(m2,tx,cv+31,cy+50,5.2,0x8f8a7d,1.3);cyl(m2,tx,cv+31,cy+55,.25,4,0x333333)}
     cyl(m2,cu,cv-6,cy+26,8,6,st);dome(m2,cu,cv-6,cy+32,8.6,9,0x8f8a7d);cyl(m2,cu,cv-6,cy+40,1.6,5,0xe2dccd);box(m2,cu+33,cv+10,cy,22,17,30,0xa0644f);g.add(m2.mesh(A.MAT.conc));colBox(cu,cv,46,80,0,cy-1,cy+55);colBox(cu+33,cv+10,22,30,0,cy-1,cy+17)}
    /* Palacio Nacional (tezontle) con balcón y campana */
-   const F=Fac();F.box(108,0,G(108,0)-.3,36,18,140,0,0x9c4a3b);{const m3=Merger();const py=G(108,0)-.3;box(m3,90,0,py+18,4,5,10,0xd8cbb5);sph(m3,90,0,py+23.5,1.2,0x7d6a3a);g.add(m3.mesh(A.MAT.conc))}
+   const F=Fac();F.box(108,0,G(108,0)-.3,36,18,120,0,0x9c4a3b);{const m3=Merger();const py=G(108,0)-.3;box(m3,90,0,py+18,4,5,10,0xd8cbb5);sph(m3,90,0,py+23.5,1.2,0x7d6a3a);g.add(m3.mesh(A.MAT.conc))}
    /* edificios de gobierno (sur), portales (poniente) */
    F.box(-50,106,G(-50,106)-.3,58,22,28,0,0xb5826b);F.box(50,106,G(50,106)-.3,58,22,28,0,0xb5826b);F.box(-98,-64,G(-98,-64)-.3,18,16,40,0,0xc79a7c);F.box(-98,40,G(-98,40)-.3,18,16,88,0,0xc2876a);
    /* Templo Mayor: plataforma escalonada de piedra */{const m4=Merger();const ty=G(50,-118)-.2;for(let k=0;k<4;k++)box(m4,50,-118,ty+k*2.2,30-k*5,2.2,30-k*5,k%2?0x6e655c:0x7b7268);box(m4,46,-118,ty+8.8,4,3,5,0x8f4a3a);box(m4,54,-118,ty+8.8,4,3,5,0x4a6a8f);g.add(m4.mesh(A.MAT.conc));colBox(50,-118,30,30,0,ty-1,ty+9)}
@@ -25612,8 +25632,32 @@ const LUGARES625=(()=>{
   ['PUEBLA',9800,3300,1.6],['Cholula',8304,3560,1],['Angelópolis',9018,4300,.85],['TLAXCALA',9300,1180,1.3],['San Martín Texmelucan',6720,1420,.85],['Popocatépetl',5600,3550,1.05]);
  /* al armar la red: corregir pórticos, buscar dónde va el Ángel para «aparecer» */
  let did=false;function after(){if(did||!V.ready)return;did=true;try{fixGantries();const r=A.road('reforma');const q=onReforma(-3.6,-.6);A.SPOTS.angel={name:'El Ángel (Reforma)',road:'reforma',s:Math.max(0,q.s-70)}}catch(e){err('después',e)}}
+ /* ================================================================ RETENES (donde termina un camino y en la orilla del mapa) ================================================================
+    Donde una avenida o carretera termina, después de su retorno hay un retén de policía: vallas, conos, dos patrullas con torreta
+    y un letrero. Si te lo brincas (o te sales del mapa por el campo), te ponen 5 ★. */
+ const RETEN=[];
+ let POLM=null;const polMats=()=>POLM||(POLM={red:new THREE.MeshBasicMaterial({color:0xff2a2a}),blue:new THREE.MeshBasicMaterial({color:0x2a5bff})});
+ function retenes(){for(const r of V.ROADS){if(!/^retorno:/.test(r.id)||/^retorno:aeropuerto/.test(r.id))continue;const [_,rid,w]=r.id.split(':');const R0=A.road(rid);if(!R0)continue;const P=R0.pts,n=P.length;const a=w==='1'?P[n-1]:P[0],b=w==='1'?P[n-4]:P[3];const dx=a.u-b.u,dz=a.v-b.v,L=Math.hypot(dx,dz)||1;const tx=dx/L,tz=dz/L;
+   let cu=0,cv=0;for(const q of r.pts){cu+=q.u;cv+=q.v}cu/=r.pts.length;cv/=r.pts.length;let Rr=0;for(const q of r.pts)Rr=Math.max(Rr,Math.hypot(q.u-cu,q.v-cv));const hwR=V.halfW(r);
+   const lu=cu+tx*(Rr+hwR+3),lv=cv+tz*(Rr+hwR+3);const half=Rr+hwR+10;const urb=V.ZONE(lu,lv)!=='campo';RETEN.push({id:rid+':'+w,u:lu,v:lv,tx,tz,half,name:R0.name,far:urb?45:240,wide:urb?12:130});
+   const id='reten:'+rid+':'+w;A.LMS.push({id,name:'Retén',u:lu,v:lv,r:half,far:0,build:()=>{const g=new THREE.Group();try{const mg=Merger();const nx=-tz,nz=tx;const y=G(lu,lv);
+     for(let k=-half;k<=half;k+=2.2){const u=lu+nx*k,v=lv+nz*k;const yy=G(u,v);box(mg,u,v,yy,2,.95,.25,(Math.round(k/2.2)%2)?0xe8e8e8:0xd23b2b,Math.atan2(nz,nx));cyl(mg,u-nx*.9,v-nz*.9,yy,.06,1.1,0x555555);colRect(u-1.1,v-1.1,u+1.1,v+1.1,yy-1,yy+3)}
+     for(let k=-hwR*2;k<=hwR*2;k+=3){const u=lu-tx*7+nx*k,v=lv-tz*7+nz*k;cone(mg,u,v,G(u,v),.3,.75,0xff7a1a)}
+     for(const sg of [-1,1]){const u=lu-tx*4+nx*sg*(hwR+3),v=lv-tz*4+nz*sg*(hwR+3);const yy=G(u,v);const an=Math.atan2(tz,tx)+sg*.5;box(mg,u,v,yy+.35,4.6,1.05,1.9,0xf2f2f2,an);box(mg,u,v,yy+1.4,2.4,.75,1.75,0x1d2733,an);box(mg,u,v,yy+.75,4.62,.32,1.92,0x1d2733,an);
+      for(const [ox,col] of [[-.4,'red'],[.4,'blue']]){const lm=new THREE.Mesh(geo('box'),polMats()[col]);lm.userData.keepGeo=1;const f2=Fr(u,v,an);const q=f2(0,ox);lm.position.set(q[0]+OX,yy+1.9,q[1]+OZ);lm.scale.set(.5,.22,.32);lm.rotation.y=-an;lm.updateMatrix();lm.matrixAutoUpdate=false;g.add(lm)}colBox(u,v,4.6,1.9,an,yy-1,yy+2)}
+     g.add(mg.mesh(A.MAT.conc));const sg2=sign('RETÉN · ALTO',8,1.8,'#1d2733','#ffffff','Zona restringida — regrésate');place(sg2,lu-tx*2,y+3.2,lv-tz*2,-Math.atan2(tz,tx)+Math.PI/2);g.add(sg2);const pl=sg2;cyl(mg,lu-tx*2,lv-tz*2,y,.1,3,0x555555)}catch(e){err('retén',e)}return g}})}M.retenes=RETEN.length}
+ /* torretas que parpadean */let blinkT=0;
+ /* brincarse un retén o salirse del mapa: 5 estrellas */
+ let warned=0,lastOut=0;
+ function guard(dt){if(!V.ready||!V.inW(P.x,P.z))return;const u=P.x-OX,v=P.z-OZ;const now=performance.now();let out=false,why='';
+  for(const R of RETEN){const du=u-R.u,dv=v-R.v;const along=du*R.tx+dv*R.tz,side=Math.abs(-du*R.tz+dv*R.tx);if(along>4&&along<R.far&&side<R.half+R.wide){out=true;why='Te brincaste el retén';break}}
+  const AR=V.AREA,m=Math.min(u-AR.u0,AR.u1-u,v-AR.v0,AR.v1-v);if(m<170){if(m<90){out=true;why='Te saliste del mapa'}else if(now-warned>8000){warned=now;try{toast('⚠️ Zona restringida adelante: regrésate o te persigue la policía')}catch(_){}}}
+  if(out){M.out=(M.out||0)+1;if(S.wanted<5){S.wanted=5;try{toast('🚨 '+why+': ★★★★★')}catch(_){}try{snd('siren')}catch(_){}}lastOut=now}
+  blinkT+=dt;if(POLM&&blinkT>.4){blinkT=0;const r=POLM.red.color,b=POLM.blue.color;const on=r.r>.5;r.setRGB(on?.3:1,on?.05:.16,on?.05:.16);b.setRGB(on?.16:.3,on?.36:.05,on?1:.3)}}
+ try{const _st=step;step=function(dt){const r=_st.apply(this,arguments);try{guard(Math.min(.1,Math.max(0,dt||0)))}catch(e){err('retén',e)}return r}}catch(e){err('paso',e)}
+ A.READY.push(retenes);if(V.ready)retenes();
  A.READY.push(after);if(V.ready)after();
- return {M,HOUSES,after};
+ return {M,HOUSES,after,RETEN};
 })();
 try{window.LUGARES625=LUGARES625}catch(_){}
 /*RB625-RB625_LUGARES-END*/
@@ -25639,14 +25683,14 @@ const VIDA625=(()=>{
  function rmCar(t){try{sc.remove(t.k.g)}catch(_){}const i=CARS.indexOf(t.k);if(i>=0)CARS.splice(i,1);const j=TR.indexOf(t);if(j>=0)TR.splice(j,1)}
  function release(t){t.k.tr625=null;const j=TR.indexOf(t);if(j>=0)TR.splice(j,1);M.released++}
  function nearPieces(d0,d1,f){const pu=P.x-V.OX,pv=P.z-V.OZ;return V.PIECES.filter(pc=>{const d=Math.hypot(pc.u-pu,pc.v-pv);return d>d0-120&&d<d1+120&&f(pc.r)})}
- function spawnCar(){const pu=P.x-V.OX,pv=P.z-V.OZ;const pcs=nearPieces(110,340,r=>!!SPD[r.kind]);if(!pcs.length)return;
-  for(let tries=0;tries<12;tries++){const pc=pcs[(rnd()*pcs.length)|0];const r=pc.r;const pi=Math.min(r.pts.length-1,pc.i0+((rnd()*(pc.i1-pc.i0))|0));const s=r.pts[pi].s;const q=V.sampleAt(r,s);const d=Math.hypot(q.u-pu,q.v-pv);if(d<110||d>340)continue;
+ function spawnCar(){const pu=P.x-V.OX,pv=P.z-V.OZ;const pcs=nearPieces(90,320,r=>!!SPD[r.kind]);if(!pcs.length)return;
+  for(let tries=0;tries<12;tries++){const pc=pcs[(rnd()*pcs.length)|0];const r=pc.r;const pi=Math.min(r.pts.length-1,pc.i0+((rnd()*(pc.i1-pc.i0))|0));const s=r.pts[pi].s;const q=V.sampleAt(r,s);const d=Math.hypot(q.u-pu,q.v-pv);if(d<90||d>320)continue;
    const K=V.SPEC(r);const dir=rnd()<.5?1:-1,lane=(rnd()*K.lanes)|0;const lat=laneLat(r,dir,lane);
    if(TR.some(t=>t.r===r&&t.dir===dir&&t.lane===lane&&Math.abs(t.s-s)<30))continue;if(r.elev==null&&q.y-V.Ht(q.u,q.v)>1.6&&r.kind!=='sp'){/* puente: también sirve */}
    const ty=types(r);const vt=ty[(rnd()*ty.length)|0];let k;try{k=rbVehicle(vt,q.u+V.OX,q.v+V.OZ,null,true)}catch(e){err('coche',e);return}
-   try{k.transmission531='automatic'}catch(_){}const want=SPD[r.kind]*(.82+rnd()*.3);const t={k,r,s,dir,lane,lat,sp:want*.8,want,wait:0,u:q.u,v:q.v};k.tr625=t;TR.push(t);place(t);M.spawnC++;return}}
- function carStep(dt){const pu=P.x-V.OX,pv=P.z-V.OZ;const max=lo()?8:14;
-  if(TR.length<max&&(M._sc=(M._sc||0)-dt)<=0){M._sc=.35;spawnCar()}
+   try{k.transmission531='automatic'}catch(_){}const want=SPD[r.kind]*(.82+rnd()*.3);const t={id:++M.spawnC,k,r,s,dir,lane,lat,sp:want*.8,want,wait:0,u:q.u,v:q.v};k.tr625=t;TR.push(t);place(t);return}}
+ function carStep(dt){const pu=P.x-V.OX,pv=P.z-V.OZ;const max=lo()?14:24;
+  if(TR.length<max&&(M._sc=(M._sc||0)-dt)<=0){M._sc=.2;spawnCar()}
   const me=DRV&&DRV.k?DRV.k:null;
   for(let i=TR.length-1;i>=0;i--){const t=TR[i];const k=t.k;
    if(!k||!k.g||!CARS.includes(k)){TR.splice(i,1);continue}
@@ -25654,12 +25698,19 @@ const VIDA625=(()=>{
    const d=Math.hypot(t.u-pu,t.v-pv);if(d>460){rmCar(t);continue}
    /* ¿lo chocaron? (se movió de su lugar) → ya no se maneja solo */const gp=k.g.position;if(Math.hypot(gp.x-(t.u+V.OX),gp.z-(t.v+V.OZ))>1.2){release(t);continue}
    /* el de adelante en su carril (o tú) */let gap=1e9;for(const o of TR){if(o===t||o.r!==t.r||o.dir!==t.dir||Math.abs(o.lat-t.lat)>1.5)continue;let ds=(o.s-t.s)*t.dir;if(t.r.closed){if(ds<-t.r.len/2)ds+=t.r.len;if(ds>t.r.len/2)ds-=t.r.len}if(ds>0&&ds<gap)gap=ds}
-   const fx=Math.cos(k.g.rotation.y),fz=-Math.sin(k.g.rotation.y);const pp=me?me.g.position:{x:P.x,z:P.z};const rx=pp.x-gp.x,rz=pp.z-gp.z;const along=rx*fx+rz*fz,side=Math.abs(-rx*fz+rz*fx);if(along>0&&along<28&&side<2.4)gap=Math.min(gap,along);
+   const fx=Math.cos(k.g.rotation.y),fz=-Math.sin(k.g.rotation.y);
+   /* cualquier coche enfrente (tú, uno estacionado, uno chocado o uno que cruza): frena; si es un estorbo quieto, se cambia de carril */
+   let block=null;const ALL=me&&!CARS.includes(me)?CARS.concat([me]):CARS;for(const o of ALL){if(o===k||!o.g)continue;const op=o.g.position;const rx=op.x-gp.x,rz=op.z-gp.z;if(Math.abs(rx)>52||Math.abs(rz)>52||Math.abs(op.y-gp.y)>2.5)continue;const along=rx*fx+rz*fz;if(along<=0||along>50)continue;const side=Math.abs(-rx*fz+rz*fx);if(side>2.5)continue;
+    if(o.tr625){const ofx=Math.cos(o.g.rotation.y),ofz=-Math.sin(o.g.rotation.y);const dot=fx*ofx+fz*ofz;if(dot<.7&&t.id>o.tr625.id)continue;/* en un cruce, pasa primero el más viejo */if(dot<-.3)continue}
+    if(along<gap){gap=along;block=o}}
+   if(!me){const rx=P.x-gp.x,rz=P.z-gp.z;const along=rx*fx+rz*fz,side=Math.abs(-rx*fz+rz*fx);if(along>0&&along<20&&side<2&&along<gap)gap=along}
+   if(block&&!block.tr625&&gap<16&&t.sp<1){t.stuck=(t.stuck||0)+dt;if(t.stuck>2.5){const K=V.SPEC(t.r);for(const nl of [t.lane+1,t.lane-1]){if(nl<0||nl>=K.lanes)continue;const lat=laneLat(t.r,t.dir,nl);const q0=V.sampleAt(t.r,t.s);const lu=q0.u+q0.nx*lat+V.OX,lv=q0.v+q0.nz*lat+V.OZ;if(!TR.some(o=>o!==t&&o.r===t.r&&Math.abs(o.lat-lat)<1.5&&Math.abs(o.s-t.s)<14)&&!CARS.some(o=>o!==k&&o.g&&Math.hypot(o.g.position.x-lu,o.g.position.z-lv)<9)){t.lane=nl;t.latT=lat;t.stuck=0;break}}}}else t.stuck=0;
+   if(t.latT!=null){const dl=t.latT-t.lat;if(Math.abs(dl)<.05){t.lat=t.latT;t.latT=null}else t.lat+=Math.sign(dl)*Math.min(Math.abs(dl),1.6*dt)}
    /* gente cruzando enfrente */for(const p of PD){if(p.down)continue;const ex=p.g.position.x-gp.x,ez=p.g.position.z-gp.z;const al=ex*fx+ez*fz;if(al>0&&al<14&&Math.abs(-ex*fz+ez*fx)<2)gap=Math.min(gap,al)}
-   let target=t.want;if(gap<40)target=Math.min(target,Math.max(0,(gap-7)*.8));if(t.wait>0){t.wait-=dt;target=0}
-   t.sp+=clamp625(target-t.sp,-9*dt,3.2*dt);t.s+=t.dir*t.sp*dt;
+   let target=t.want;if(gap<60)target=Math.min(target,Math.sqrt(2*7*Math.max(0,gap-7.5)));if(t.wait>0){t.wait-=dt;target=0}
+   t.sp+=clamp625(target-t.sp,-12*dt,3.2*dt);t.s+=t.dir*t.sp*dt;
    if(t.r.closed)t.s=((t.s%t.r.len)+t.r.len)%t.r.len;else if(t.s<2||t.s>t.r.len-2){rmCar(t);continue}
-   place(t);try{for(const w of k.g.userData.wh||[])w.rotation.z-=t.sp*dt/.34}catch(_){}}
+   place(t)}
   M.cars=TR.length}
  const clamp625=(x,a,b)=>x<a?a:x>b?b:x;
  /* ---------- gente ---------- */
@@ -25679,9 +25730,9 @@ const VIDA625=(()=>{
   else{u=p.a[0]+(p.b[0]-p.a[0])*p.t;v=p.a[1]+(p.b[1]-p.a[1])*p.t;y=V.Ht(u,v)+.16;dx=(p.b[0]-p.a[0])*p.dir;dz=(p.b[1]-p.a[1])*p.dir}
   p.u=u;p.v=v;p.g.position.set(u+V.OX,y,v+V.OZ);if(!p.down&&(dx||dz))p.g.rotation.y=Math.atan2(-dx,-dz)}
  function rmPed(i){const p=PD[i];try{sc.remove(p.g)}catch(_){}PD.splice(i,1)}
- function pedStep(dt){const pu=P.x-V.OX,pv=P.z-V.OZ;const max=lo()?9:18;if(PD.length<max&&(M._sp=(M._sp||0)-dt)<=0){M._sp=.25;spawnPed()}
+ function pedStep(dt){const pu=P.x-V.OX,pv=P.z-V.OZ;const max=lo()?14:30;if(PD.length<max&&(M._sp=(M._sp||0)-dt)<=0){M._sp=.25;spawnPed()}
   const me=DRV&&DRV.k?DRV.k:null;
-  for(let i=PD.length-1;i>=0;i--){const p=PD[i];const d=Math.hypot(p.u-pu,p.v-pv);if(d>300){rmPed(i);continue}
+  for(let i=PD.length-1;i>=0;i--){const p=PD[i];const d=Math.hypot(p.u-pu,p.v-pv);if(d>(p.keep?600:300)){rmPed(i);continue}
    if(p.down){p.down-=dt;if(p.down<=0){rmPed(i)}continue}
    /* atropellado */if(me&&DRV&&Math.abs(DRV.v)>4){const c=me.g.position;if(Math.hypot(c.x-p.g.position.x,c.z-p.g.position.z)<1.7&&Math.abs(c.y-p.g.position.y)<2){p.down=6;p.g.rotation.x=-Math.PI/2;p.g.position.y+=.25;M.hitP++;try{snd('crash')}catch(_){}continue}}
    let mv=true;
@@ -25691,12 +25742,101 @@ const VIDA625=(()=>{
    posPed(p);try{anim(p.g,mv,dt)}catch(_){}}
   M.peds=PD.length}
  function clearAll(){for(let i=TR.length-1;i>=0;i--)rmCar(TR[i]);for(let i=PD.length-1;i>=0;i--)rmPed(i)}
- const API={M,TR,PD,clearAll,off:false};
+ /* para el modo prueba: gente alrededor de un punto (camina en una «plaza» invisible de radio r) */
+ function spawnAround(u,v,n,r){let k=0;for(let i=0;i<n;i++){const g=newPerson();if(!g)break;const a=rnd()*6.28,d=2+rnd()*r*.8;const p={g,mode:'plaza',c:[u,v,r],u:u+Math.cos(a)*d,v:v+Math.sin(a)*d,tu:0,tv:0,w:0,sp:1.1+rnd()*.5,keep:1};pickPlaza(p);PD.push(p);posPed(p);k++}return k}
+ const API={M,TR,PD,clearAll,spawnAround,off:false};
  const _st=step;step=function(dt){const r=_st.apply(this,arguments);try{const inside=V.ready&&V.inW(P.x,P.z)&&!API.off;if(inside){const d=Math.min(.1,Math.max(0,dt||0));carStep(d);pedStep(d)}else if(TR.length||PD.length)clearAll()}catch(e){err('paso',e)}return r};
  return API;
 })();
 try{window.VIDA625=VIDA625}catch(_){}
 /*RB625-RB625_VIDA-END*/
+
+/*RB625-RB625_SUBIR-BEGIN*/
+/* RUTA BRAVA V5.125 · SUBIRSE AL COCHE FÁCIL + MAPA GRANDE DEL MAPA NUEVO (reporte del productor: «te acercas al carro y te da la
+   opción de robar estéreos pero no la de subirte, o tienes que estar en el punto exacto»; «al abrir el mapa te abre el mapa anterior»).
+   · Cerca de un coche (a ~1.8 m de cualquier parte de la carrocería, no del centro) el botón USAR dice «🚗 Subirte al coche».
+     Si además se le puede robar algo, USAR abre: Subirte / Robar el estéreo o las llantas / Nada.
+   · El botón Hablar también sube al coche con la misma distancia.
+   · El mapa grande (al tocar el minimapa) se abre en el mapa nuevo cuando estás en él, se puede mover por todo el mapa nuevo
+     (CDMX, autopista, Puebla, Tlaxcala) y muestra los nombres de los lugares. */
+const SUBIR625=(()=>{
+ const M={errors:[],offers:0,menus:0,map:0};const err=(w,e)=>{if(M.errors.length<6)M.errors.push(w+': '+(e&&e.message||e))};
+ /* distancia a la carrocería (caja del coche), no a su centro */
+ function carDist(k){const p=k.g.position;const dx=P.x-p.x,dz=P.z-p.z;const th=k.g.rotation.y,c=Math.cos(th),s=Math.sin(th);const lx=dx*c-dz*s,lz=dx*s+dz*c;
+  const big=k.vt==='truck'||k.vt==='bus';const hx=big?3.6:2.3,hz=big?1.3:1.05;return Math.hypot(Math.max(Math.abs(lx)-hx,0),Math.max(Math.abs(lz)-hz,0))}
+ try{const _nc=nearCar;nearCar=function(){if(DRV)return null;let b=null,bd=1.8;try{for(const k of CARS){if(!k||!k.g||!k.g.visible)continue;if(Math.abs(k.g.position.y-P.y)>2.6)continue;const d=carDist(k);if(d<bd){bd=d;b=k}}}catch(e){err('cerca',e);return _nc.apply(this,arguments)}return b||_nc.apply(this,arguments)};window.nearCar=nearCar}catch(e){err('nearCar',e)}
+ try{const _c=cand58;cand58=function(){const r=_c.apply(this,arguments);try{if(DRV||dl)return r;const c=nearCar();if(!c||c.lock552)return r;
+    const steal=r&&/estéreo|llantas/.test(r.label||'');if(r&&!steal)return r;/* otra cosa más importante (hablar con alguien, una tienda…) gana */
+    M.offers++;if(!steal)return {label:'🚗 Subirte al coche',fn:()=>enterCar(c)};
+    return {label:'🚗 Subirte  ·  🔧 Robarle algo',fn:()=>{M.menus++;try{say('Coche estacionado','¿Qué haces?',[['🚗 Subirte',()=>enterCar(c)],['🔧 Robarle el estéreo o las llantas',()=>{try{r.fn()}catch(_){}}],['Nada']])}catch(_){enterCar(c)}}}}catch(e){err('usar',e)}return r};window.cand58=cand58}catch(e){err('cand58',e)}
+ /* ---------- coches encimados: si tu coche quedó metido en otro (se te atravesó, o te subiste a uno que estaba encimado), se separan ---------- */
+ const OV=new Map();
+ function unstick(dt){if(!DRV||!DRV.k)return;const me=DRV.k,mp=me.g.position;const th=me.g.rotation.y,c=Math.cos(th),s=Math.sin(th);const big=me.vt==='truck'||me.vt==='bus';const hx=big?3.6:2.3,hz=big?1.3:1.05;
+  for(const o of CARS){if(o===me||!o.g)continue;const op=o.g.position;const dx=op.x-mp.x,dz=op.z-mp.z;if(Math.abs(dx)>7||Math.abs(dz)>7||Math.abs(op.y-mp.y)>2)continue;const lx=dx*c-dz*s,lz=dx*s+dz*c;
+   if(Math.abs(lx)<hx+1.6&&Math.abs(lz)<hz+.9){const t=(OV.get(o)||0)+dt;OV.set(o,t);if(t>.3&&Math.abs(DRV.v||0)<6){/* el otro se hace a un lado (de lado, hacia donde ya estaba) */try{if(o.tr625){const j=VIDA625.TR.indexOf(o.tr625);if(j>=0)VIDA625.TR.splice(j,1);o.tr625=null}}catch(_){}
+     const sg=lz>=0?1:-1;const need=hz+1.25+.2-Math.abs(lz);const nx=-s*sg,nz=c*sg;/* eje lateral de mi coche en el mundo */let mx=op.x+(Math.sin(th)*0)+nx*0,mz=op.z;
+     const ax=Math.sin(th)*sg,az=Math.cos(th)*sg;mx=op.x+ax*need;mz=op.z+az*need;o.g.position.x=mx;o.g.position.z=mz;try{o.g.position.y=G512.h(mx,mz)}catch(_){}M.unstuck=(M.unstuck||0)+1;OV.delete(o)}}else OV.delete(o)}}
+ try{const _st=step;step=function(dt){const r=_st.apply(this,arguments);try{unstick(Math.min(.1,Math.max(0,dt||0)))}catch(e){err('encimados',e)}return r}}catch(e){err('paso',e)}
+ /* ---------- mapa grande en el mapa nuevo ---------- */
+ const V=VALLE624;const BV={x0:V.AREA.u0+V.OX,x1:V.AREA.u1+V.OX,z0:V.AREA.v0+V.OZ,z1:V.AREA.v1+V.OZ};
+ function inNew(){try{return V.inW(P.x,P.z)}catch(_){return false}}
+ function withB(fn,args,self){if(!inNew())return fn.apply(self,args);const B=WB511,o={x0:B.x0,x1:B.x1,z0:B.z0,z1:B.z1};Object.assign(B,BV);try{return fn.apply(self,args)}finally{Object.assign(B,o)}}
+ try{const _o=openMap59;openMap59=function(){const r=withB(_o,arguments,this);try{if(inNew()){if(!V.ready)V.init();MAP59.cx=P.x;MAP59.cz=P.z;M.map++;renderMap59()}}catch(e){err('mapa',e)}return r};window.openMap59=openMap59;try{window.__rb59.openMap59=openMap59}catch(_){}}catch(e){err('mapa',e)}
+ try{const _r=renderMap59;renderMap59=function(){/* si el centro del mapa quedó en el mapa de siempre, se regresa al nuevo */if(inNew()&&!V.inW(MAP59.cx,MAP59.cz)){MAP59.cx=P.x;MAP59.cz=P.z}return withB(_r,arguments,this)};window.renderMap59=renderMap59;try{window.__rb59.renderMap59=renderMap59}catch(_){}}catch(e){err('mapa',e)}
+ try{const _t=tapMap59;tapMap59=function(){return withB(_t,arguments,this)};window.tapMap59=tapMap59}catch(e){err('mapa',e)}
+ try{NV600.G[1][1].push('🚗 Subirte al coche es fácil: cerca de cualquier parte del coche, el botón USAR dice «Subirte»; el mapa grande ya abre el mapa nuevo')}catch(_){}
+ return {M,carDist};
+})();
+try{window.SUBIR625=SUBIR625}catch(_){}
+/*RB625-RB625_SUBIR-END*/
+
+/*RB625-RB625_PRUEBA-BEGIN*/
+/* RUTA BRAVA V5.125 · MODO PRUEBA (pedido del productor: «ponle el modo para que pueda volar y ver el mapa bien, aparecer carros y
+   así; después lo quitamos, pero lo quiero para probar funciones»).
+   Teléfono → 🛠️ Modo prueba:
+   · ✈️ Volar: caminas por el aire a toda velocidad, sin chocar con nada; botones ▲ ▼ para subir y bajar (en compu: Espacio / Shift).
+     Al apagarlo bajas suave al piso.
+   · 🚗 Aparecer coche (sedán, vocho, pickup, camión, moto) enfrente de ti.
+   · 🧍 Aparecer gente (solo visual) alrededor de ti.
+   · ⭐ Quitar estrellas · 💵 +$100,000 · 🌞 Día / 🌙 Noche · 🚦 Tráfico y gente on/off. */
+const PRUEBA625=(()=>{
+ const M={errors:[],fly:0,cars:0,peds:0};const err=(w,e)=>{if(M.errors.length<6)M.errors.push(w+': '+(e&&e.message||e))};
+ let FLY=false,flyY=0,vy=0,land=false;const KEY={up:false,dn:false};
+ /* botones ▲ ▼ */
+ let ui=null;function makeUI(){if(ui)return ui;ui=document.createElement('div');ui.id='fly625';ui.style.cssText='position:fixed;right:calc(14px + env(safe-area-inset-right,0px));top:42%;display:none;flex-direction:column;gap:10px;z-index:60';
+  for(const [k,t] of [['up','▲'],['dn','▼']]){const b=document.createElement('button');b.textContent=t;b.style.cssText='width:58px;height:58px;border-radius:50%;border:2px solid #fff8;background:#0008;color:#fff;font-size:24px;touch-action:none';
+   const on=e=>{e.preventDefault();e.stopPropagation();KEY[k]=true},off=e=>{e.preventDefault();e.stopPropagation();KEY[k]=false};b.addEventListener('pointerdown',on);b.addEventListener('pointerup',off);b.addEventListener('pointercancel',off);b.addEventListener('pointerleave',off);ui.appendChild(b)}
+  const x=document.createElement('button');x.textContent='✈️ ✕';x.style.cssText='width:58px;height:40px;border-radius:12px;border:2px solid #fff8;background:#7a1f2b;color:#fff;font-size:14px';x.addEventListener('click',e=>{e.stopPropagation();setFly(false)});ui.appendChild(x);
+  document.body.appendChild(ui);return ui}
+ addEventListener('keydown',e=>{if(!FLY)return;if(e.code==='Space'){KEY.up=true;e.preventDefault()}if(e.key==='Shift')KEY.dn=true});
+ addEventListener('keyup',e=>{if(e.code==='Space')KEY.up=false;if(e.key==='Shift')KEY.dn=false});
+ function setFly(on){try{if(on&&DRV)exitCar()}catch(_){}FLY=!!on;land=!on;if(FLY){flyY=P.y+12;vy=0;M.fly++}makeUI().style.display=FLY?'flex':'none';try{toast(FLY?'✈️ Volando: muévete con el control; ▲ ▼ para subir y bajar':'🛬 Bajando al piso')}catch(_){}}
+ /* sin choques mientras vuelas */
+ try{const _b=blk;blk=function(){if(FLY&&!DRV)return 0;return _b.apply(this,arguments)};window.blk=blk}catch(e){err('choques',e)}
+ try{const _s=step;step=function(dt){const x0=P.x,z0=P.z;const r=_s.apply(this,arguments);try{const d=Math.min(.1,Math.max(0,dt||0));
+   if(FLY&&!DRV){/* el paso normal ya movió a la persona: se multiplica (más rápido entre más alto) y se ignora el piso */const k=6+Math.min(14,Math.max(0,flyY-(G512.h(P.x,P.z)||0))/12);P.x=x0+(P.x-x0)*k;P.z=z0+(P.z-z0)*k;
+    const t=(KEY.up?1:0)-(KEY.dn?1:0);vy+=(t*30-vy)*Math.min(1,d*5);flyY+=vy*d;const g=G512.h(P.x,P.z)||0;flyY=Math.max(g+.2,Math.min(g+900,flyY));P.y=flyY;try{P.vy=0}catch(_){}}
+   else if(land){/* bajar suave */const g=G512.h(P.x,P.z)||0;if(P.y-g>.5){flyY=Math.max(g,flyY-25*d);P.y=flyY}else land=false}}catch(e){err('volar',e)}return r}}catch(e){err('paso',e)}
+ /* aparecer cosas */
+ function front(dist){const yaw=P.yaw||0;return [P.x-Math.sin(yaw)*dist,P.z-Math.cos(yaw)*dist]}
+ function spawnCar(vt){try{const [x,z]=FLY?[P.x,P.z]:front(6);if(FLY)setFly(false);const k=rbVehicle(vt,x,z,null,true);try{k.transmission531='automatic';k.g.position.y=G512.h(x,z)}catch(_){}M.cars++;toast('🚗 Apareció '+({sedan:'un sedán',vocho:'un vocho',pickup:'una pickup',truck:'un camión',moto:'una moto'}[vt]||vt))}catch(e){err('coche',e);try{toast('No se pudo aparecer ese coche')}catch(_){}}}
+ function spawnPeople(){try{let n=0;if(VALLE624.inW(P.x,P.z))n=VIDA625.spawnAround(P.x-VALLE624.OX,P.z-VALLE624.OZ,8,14);M.peds+=n;toast(n?'🧍 Aparecieron '+n+' personas':'🧍 La gente de prueba solo aparece en el mapa nuevo')}catch(e){err('gente',e)}}
+ function setHour(h){try{const c=W537.clock();const d=(h-c.h+24)%24;W537.skip(d*W537.HOUR+60)}catch(e){err('hora',e)}}
+ try{Phone58.register({id:'prueba625',name:'Modo prueba',icon:'🛠️',render(api){const close=f=>()=>{try{api.close()}catch(_){}f()};
+   const types=['sedan','vocho','pickup','truck','moto'].filter(t=>{try{return !!VP[t]}catch(_){return false}});
+   return {title:'🛠️ Modo prueba',text:'Solo para probar el juego (luego se quita).',rows:[],buttons:[
+    [FLY?'🛬 Dejar de volar':'✈️ Volar',close(()=>setFly(!FLY))],
+    ...types.map(t=>['🚗 Aparecer '+({sedan:'sedán',vocho:'vocho',pickup:'pickup',truck:'camión',moto:'moto'}[t]||t),close(()=>spawnCar(t))]),
+    ['🧍 Aparecer gente',close(spawnPeople)],
+    ['⭐ Quitar estrellas',close(()=>{try{S.wanted=0;toast('⭐ Sin estrellas')}catch(_){}})],
+    ['💵 +$100,000',close(()=>{try{S.pesos=(S.pesos||0)+100000;toast('💵 +$100,000')}catch(_){}})],
+    ['🌞 Mediodía',close(()=>setHour(12))],['🌙 Noche',close(()=>setHour(22))],
+    [(VIDA625.off?'🚦 Prender':'🚦 Apagar')+' tráfico y gente',close(()=>{VIDA625.off=!VIDA625.off;if(VIDA625.off)VIDA625.clearAll();toast(VIDA625.off?'Tráfico apagado':'Tráfico prendido')})],
+    ['Volver',()=>api.home()]]}}})}catch(e){err('teléfono',e)}
+ return {M,setFly,spawnCar,spawnPeople,get fly(){return FLY}};
+})();
+try{window.PRUEBA625=PRUEBA625}catch(_){}
+/*RB625-RB625_PRUEBA-END*/
 
 /*RB625-RB625_JUGAR-BEGIN*/
 /* RUTA BRAVA V5.125 · UN SOLO JUEGO (pedido del productor: «no tienes que poder escoger entre online e historia, tiene que aparecer
