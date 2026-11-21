@@ -26647,7 +26647,7 @@ const CIUDAD626=(()=>{
  function tienditaMenu(p){const s=st();const lleva=s.merca||0;try{say('🕶️ '+p.name,'¿Qué onda, qué ocupas? '+(lleva?'(traes '+lleva+' paquete'+(lleva>1?'s':'')+' de mercancía)':''),[[`📦 Comprar un paquete de mercancía (${fmt(p.buy)})`,()=>{if(lleva>=10){toast('Ya no te cabe más');return}if(!pay(p.buy))return;s.merca=(s.merca||0)+1;s.from=p.id;M.uses++;toast('📦 Llevas '+s.merca+' · véndelo en otra tiendita, más caro');riesgo();try{save()}catch(_){}}],
    [`💰 Venderle tu mercancía (${fmt(p.sell)} c/u)`,()=>{if(!lleva){toast('No traes mercancía');return}if(s.from===p.id){toast('Aquí no te la compran: es de aquí mismo');return}const t=lleva*p.sell;S.pesos=(S.pesos||0)+t;s.merca=0;M.uses++;toast('💰 Vendiste '+lleva+' por '+fmt(t));riesgo();try{save();upd()}catch(_){}}],['Nada']])}catch(e){err('tiendita',e)}}
  const LAB={tienda629:p=>SHOPICON[p.shop]+' '+p.name,taller:p=>DRV?'🔧 '+p.name:'🔧 '+p.name+' (agencia · trae tu coche para arreglarlo)',mercado:p=>'🧺 '+p.name,tacos:p=>'🌮 '+p.name,tiendita:p=>'🕶️ Tiendita ('+p.name+')'};
- const RUN={tienda629:p=>{try{PJ629.open(p.shop,null,p.name)}catch(e){err('tienda',e)}},taller:tallerMenu,mercado:mercadoMenu,tacos:tacosMenu,tiendita:tienditaMenu};
+ const RUN={tienda629:p=>{try{if(window.EST630)EST630.tienda(p.shop,p.name);else PJ629.open(p.shop,null,p.name)}catch(e){err('tienda',e)}},taller:p=>{try{if(window.EST630){EST630.taller(p);return}}catch(e){err('estudio',e)}tallerMenu(p)},mercado:mercadoMenu,tacos:tacosMenu,tiendita:tienditaMenu};
  try{const _c=cand58;cand58=function(){try{const p=near();if(p&&(p.kind==='taller'||!DRV))return {label:LAB[p.kind](p),fn:()=>RUN[p.kind](p)}}catch(e){err('usar',e)}return _c.apply(this,arguments)};window.cand58=cand58}catch(e){err('cand58',e)}
  /* en coche, el botón USAR no siempre llama a cand58: al frenar en el taller se muestra el aviso y Hablar/USAR lo abre */
  /* en la ciudad nueva las distancias de la guía van en metros / km (1 u ≈ 5.3 m), no en «u» */
@@ -27688,7 +27688,7 @@ const COCHES628=(()=>{
  function agencia(p){const cls=[['🚗 Compactos y sedanes','sedan'],['🛻 Camionetas','camioneta'],['🚙 SUV y vans','suv'],['💪 Muscle y clásicos','muscle'],['🏎️ Deportivos','deportivo'],['🐞 Vocho','vocho']];
   try{say('🚘 Agencia','Escoge el tipo de coche. Te lo dejan afuera del taller.',cls.map(([n,c])=>[n,()=>lista(p,c)]).concat([['Nada']]))}catch(e){err('agencia',e)}}
  function lista(p,cls){const L=G.MODELS.filter(m=>m.cls===cls);const opts=L.map(m=>[m.name+' · '+fmt(priceOf(m)),()=>buy(p,m)]);opts.push(['Volver',()=>agencia(p)]);try{say('🚘 Agencia',L.length+' modelos',opts)}catch(e){err('lista',e)}}
- function buy(p,m){const pr=priceOf(m);if(!pay(pr))return;try{const V=VALLE624;const u=(p&&p.use?p.use[0]:P.x-V.OX)+3,v=(p&&p.use?p.use[1]:P.z-V.OZ)+3;const x=u+V.OX,z=v+V.OZ;const id=RB.nextId++;const col=m.pal[0];
+ function buy(p,m,o){o=o||{};const pr=priceOf(m);if(!pay(pr))return;try{const V=VALLE624;const u=o.u!=null?o.u:(p&&p.use?p.use[0]:P.x-V.OX)+3,v=o.v!=null?o.v:(p&&p.use?p.use[1]:P.z-V.OZ)+3;const x=u+V.OX,z=v+V.OZ;const id=RB.nextId++;const col=o.col!=null?o.col:m.pal[0];
    const rec={id,vt:m.vt==='vocho'?'vocho':m.vt,plate:'CDX-'+String(id).padStart(4,'0'),x,z,fuel:60,condition:100,cargo:{},parts:{},upgrades:{engine:0,cargo:0},transmission531:'automatic',m628:m.id,c628:col};RB.owned.push(rec);
    const k=rbSpawnOwned(rec);if(k){k.transmission531='automatic';k.m541=m.id;k.c541=col;k.g.position.y=V.surface(u,v,null).y;try{G.scan()}catch(_){}}M.bought++;try{save()}catch(_){}try{toast('🚘 '+m.name+' · te lo dejaron afuera')}catch(_){}return k}catch(e){err('compra',e);return null}}
  /* ---------- claxon musical ---------- */
@@ -27696,7 +27696,8 @@ const COCHES628=(()=>{
  function cucaracha(){try{if(!AC||AC.state!=='running')return;const t0=AC.currentTime;let t=t0;const out=AC.createGain();out.gain.value=.12;out.connect(AC.destination);for(const [n,d] of CUCA){const f=440*Math.pow(2,(n-69)/12);for(const m2 of [1,1.5]){const o=AC.createOscillator();o.type='square';o.frequency.value=f*m2;const g=AC.createGain();g.gain.setValueAtTime(m2===1?.5:.18,t);g.gain.setValueAtTime(m2===1?.5:.18,t+d*.85);g.gain.linearRampToValueAtTime(0,t+d);o.connect(g);g.connect(out);o.start(t);o.stop(t+d+.02)}t+=d+.03}M.cuca=(M.cuca||0)+1}catch(e){err('claxon',e)}}
  let hornCD=0;try{const _snd=snd;snd=function(k2){try{if(k2==='honk'&&DRV&&DRV.k&&DRV.k.cust628&&DRV.k.cust628.horn){const now=performance.now();if(now-hornCD>2600){hornCD=now;cucaracha()}return}}catch(_){}return _snd.apply(this,arguments)};window.snd=snd}catch(e){err('snd',e)}
  try{NV600.G[1][1].push('🚘 50 coches nuevos (72 modelos) que salen en el tráfico; tuning en los talleres (pintura, rines, suspensión, polarizado, neón, franjas, alerón y claxon musical) y agencia para comprarlos')}catch(_){}
- return {M,NEW,menu,agencia,lista,buy,apply,cust,priceOf,cucaracha,PAINT,RIMS};
+ function paint(k,col){try{const b0=k.g.children[0];if(b0&&b0.material&&b0.material.color)b0.material.color.setHex(col)}catch(_){}try{G.recolor(host(k),col)}catch(_){}k.c541=col;try{const rr=recOf(k);if(rr)rr.c628=col}catch(_){}}
+ return {M,NEW,menu,agencia,lista,buy,apply,cust,priceOf,cucaracha,PAINT,RIMS,NEON,STRIPE,paint,store,recOf,host};
 })();
 try{window.COCHES628=COCHES628}catch(_){}
 /*RB625-RB628_COCHES-END*/
@@ -27718,7 +27719,7 @@ const PJ629=(()=>{
  const fmt=n=>'$'+Math.round(n).toLocaleString('es-MX');
  /* ---------- opciones ---------- */
  const SKIN=[[0xf3d9c4,'Muy claro'],[0xebc6a8,'Claro'],[0xe0b48f,'Claro dorado'],[0xd4a27c,'Trigueño claro'],[0xc8916a,'Trigueño'],[0xba8259,'Moreno claro'],[0xa97248,'Moreno'],[0x966240,'Moreno canela'],[0x80522f,'Moreno oscuro'],[0x6a4327,'Oscuro'],[0x55351f,'Muy oscuro'],[0x412818,'Profundo']];
- const B559={flaco:[5,5,45],normal:[10,20,30],atletico:[35,10,55],mamado:[70,15,35],robusto:[25,80,15]};/* músculo, grasa, aguante del gimnasio (VIDA559) al empezar */
+ const B559={flaco:[5,5,45],normal:[10,20,30],atletico:[35,10,55],mamado:[55,15,35],robusto:[25,80,15]};/* músculo, grasa, aguante del gimnasio (VIDA559) al empezar */
  const BODY={
   flaco:{n:'Flaco',w:.86,mus:.85,belly:0,vida:-15,fuerza:-20,vel:15,aguante:12,pro:'Corres más rápido y te cansas menos',con:'Aguantas menos golpes y pegas más suave'},
   normal:{n:'Normal',w:1,mus:1,belly:0,vida:0,fuerza:0,vel:0,aguante:0,pro:'Parejo en todo',con:'No destacas en nada'},
@@ -27876,17 +27877,175 @@ const PJ629=(()=>{
   if(m==='ropa'){try{const R=ROPA544.state();for(const [slot] of ROPA_SLOTS){const y=work.ropa[slot];if(y)R.own[slot+':'+y[0]+':'+y[1]]=1}}catch(_){}}
   const C=cur();if(C){if(m==='barberia'){C.pelo=work.pelo;C.hc=work.hc;C.barba=work.barba}if(m==='tatuajes')C.tats=work.tats.slice();if(m==='ropa')C.ropa=clone(work.ropa)}close();if(C)toPlayer(C);try{save()}catch(_){}try{toast(n?'✅ Pagaste '+fmt(n):'✅ Listo')}catch(_){}}
  /* ---------- la primera vez, antes de empezar ---------- */
- try{const _s=CASA626.start;CASA626.start=function(){const r=_s.apply(this,arguments);try{if(!has()&&!(typeof RBPRUEBA!=='undefined'&&RBPRUEBA.on))open('crear')}catch(e){err('abrir',e)}return r}}catch(e){err('casa',e)}
+ try{const _s=CASA626.start;CASA626.start=function(){const r=_s.apply(this,arguments);try{if(!has()&&!(typeof RBPRUEBA!=='undefined'&&RBPRUEBA.on))(window.EST630?EST630.crear():open('crear'))}catch(e){err('abrir',e)}return r}}catch(e){err('casa',e)}
  /* al cargar una partida con personaje */let boot=false;
  try{const _st=step;step=function(dt){const r=_st.apply(this,arguments);try{const d=Math.min(.1,Math.max(0,dt||0));if(has()){if(!boot){boot=true;toPlayer(cur())}keep(d);tire();if(!DRV)shapeP(cur())}else boot=false}catch(e){err('paso',e)}return r}}catch(e){err('paso',e)}
  /* teléfono: mi personaje */
- try{Phone58.register({id:'pj629',name:'Mi personaje',icon:'🧍',render(api){const C=cur();if(!C||!C.ok)return {title:'🧍 Mi personaje',text:'Todavía no creas tu personaje.',rows:[],buttons:[['Crear',()=>{api.close&&api.close();open('crear')}],['Volver',()=>api.home()]]};const s=stats(C,true);
+ try{Phone58.register({id:'pj629',name:'Mi personaje',icon:'🧍',render(api){const C=cur();if(!C||!C.ok)return {title:'🧍 Mi personaje',text:'Todavía no creas tu personaje.',rows:[],buttons:[['Crear',()=>{api.close&&api.close();(window.EST630?EST630.crear():open('crear'))}],['Volver',()=>api.home()]]};const s=stats(C,true);
    return {title:'🧍 '+C.nombre+' «'+C.apodo+'»',text:(C.fem?'Mujer':'Hombre')+' · '+BODY[C.body].n+' · estatura '+ALT[C.alt].n.toLowerCase()+'. Vida '+s.vida+' · Fuerza '+s.fuerza+' · Velocidad '+s.vel+' · Aguante '+s.aguante+'. '+BODY[C.body].pro+'; '+BODY[C.body].con.toLowerCase()+'. El gimnasio y la comida te van cambiando el cuerpo y las barras. Pelo, ropa y tatuajes se cambian en barberías, tiendas de ropa y estudios de tatuajes de la ciudad.',rows:[],buttons:[['Volver',()=>api.home()]]}}})}catch(e){err('teléfono',e)}
  try{NV600.G[1][1].push('🧍 Crea tu personaje antes de empezar: nombre, apodo, hombre o mujer, complexión (cambia tu vida, fuerza, velocidad y aguante), estatura, piel, pelo, barba, ropa y tatuajes; después lo cambias en barberías, tiendas de ropa y tatuajes')}catch(_){}
- return {M,BODY,ALT,SKIN,HAIR,stats,open,close,finish,toPlayer,has,cur,random,K,get work(){return work},set work(v){work=v},get ui(){return ui},cost,refreshK};
+ return {HCOL,BARBA,TATS,ROPA_SLOTS,B559,DEF,catOf,itemOf,clone,M,BODY,ALT,SKIN,HAIR,stats,open,close,finish,toPlayer,has,cur,random,K,get work(){return work},set work(v){work=v},get ui(){return ui},cost,refreshK};
 })();
 try{window.PJ629=PJ629}catch(_){}
 /*RB625-RB629_PERSONAJE-END*/
+
+/*RB625-RB630_ESTUDIO-BEGIN*/
+/* RUTA BRAVA V5.130 · TIENDAS Y TALLER COMO EN GTA V (pedido del productor: «ya que estás en el mundo le picas algo y
+   visualmente se tiene que ver qué es lo que vas a modificar antes de comprarlo… en el Taller se abre la pantalla y tapa toda la
+   pantalla, eso no está bien»).
+   · Ya no hay pantallas que tapen todo: un panel angosto a un lado y la cámara gira alrededor de TU personaje o de TU coche, en
+     el mismo lugar del mundo (la casa, la barbería, el taller).
+   · Picas una opción y se ve puesta al instante (corte, ropa, tatuaje, pintura, rines, neón, suspensión…). Si te gusta, «Comprar».
+     Si te sales sin comprar, todo regresa como estaba. Lo que ya es tuyo dice «Puesto» o «Tuyo».
+   · La cámara se acerca sola a lo que estás viendo (cara para el pelo, pies para los zapatos, llantas para los rines) y la giras
+     arrastrando el dedo. Botones Todo / Cerca / Abajo.
+   · También el creador de personaje del inicio, el taller (reparar, placas, motor con barras de rendimiento) y la agencia (el coche
+     aparece en el taller y lo ves de todos lados antes de comprarlo). */
+const EST630=(()=>{
+ const M={errors:[],opens:0,buys:0,spent:0,previews:0,reverts:0};const err=(w,e)=>{if(M.errors.length<8)M.errors.push(w+': '+(e&&e.message||e))};
+ const fmt=n=>'$'+Math.round(n).toLocaleString('es-MX');const clone=o=>JSON.parse(JSON.stringify(o));
+ const PJ=()=>PJ629,CO=()=>COCHES628,GA=()=>GAR541;
+ /* ---------- estado ---------- */
+ const T={on:false,kind:null,k:null,title:'',sub:'',stack:[],sel:null,ang:0,drag:0,zoom:'all',yaw0:0,tp0:0,px:0,pz:0,base:null,work:null,mode:null,tmp:null,shop:null};
+ let ui=null;
+ function css(){if(document.getElementById('e630css'))return;const s=document.createElement('style');s.id='e630css';s.textContent=
+  ['#dv','#wk','#vel','#stw','#js','#rb532joy','#vida543','#gear541','#rb537Graphics','#mis','#hud','#ph58b','#ph58c','#hp','#mini','[id^="rb59"]','#bcam542','#rb531-next','#acts','#act','#use','.tb','#rbgps','#c5626','#a2tail','#pr','.ges551','#gesto551','#m556voz','#sigilo550','#toast','.toast'].map(x=>'body.e630 '+x).join(',')+'{display:none!important}'+`
+ #e630{position:fixed;z-index:99980;left:max(8px,env(safe-area-inset-left));top:max(8px,env(safe-area-inset-top));bottom:max(8px,env(safe-area-inset-bottom));width:min(36vw,330px);min-width:230px;display:flex;flex-direction:column;
+  background:linear-gradient(180deg,#121218ee,#0c0c10e6);color:#f3efe6;border-radius:14px;box-shadow:0 8px 30px #0008;font:13px system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden;border:1px solid #ffffff14}
+ #e630 .eh{padding:10px 12px 8px;background:linear-gradient(135deg,#e7b13c,#c47a1a);color:#1b1406}
+ #e630 .eh b{display:block;font-size:16px;line-height:1.15}#e630 .eh span{font-size:11px;opacity:.85}
+ #e630 .ep{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;font-size:12px;border-bottom:1px solid #ffffff12}#e630 .ep i{font-style:normal;color:#7fd88b;font-weight:700}
+ #e630 .ez{display:flex;gap:4px}#e630 .ez u{text-decoration:none;padding:3px 7px;border-radius:9px;background:#ffffff14;cursor:pointer;font-size:11px}#e630 .ez u.on{background:#e7b13c;color:#1b1406}
+ #e630 .el{flex:1;overflow:auto;padding:4px 6px}
+ #e630 .er{display:flex;align-items:center;gap:6px;padding:8px 8px;border-radius:9px;cursor:pointer;margin:2px 0}
+ #e630 .er:hover{background:#ffffff0c}#e630 .er.sel{background:#e7b13c26;outline:1px solid #e7b13c88}
+ #e630 .er .n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#e630 .er .p{font-weight:700;font-size:12px;opacity:.9}#e630 .er .p.own{color:#7fd88b}
+ #e630 .er .sw{width:15px;height:15px;border-radius:50%;border:1px solid #fff6;flex:0 0 auto}
+ #e630 .er input{flex:1;min-width:0;background:#00000050;border:1px solid #ffffff30;border-radius:7px;color:inherit;font:inherit;padding:5px 7px}
+ #e630 .es{padding:4px 12px 2px;display:grid;grid-template-columns:auto 1fr auto;gap:2px 6px;font-size:10.5px;align-items:center}
+ #e630 .es .b{height:6px;background:#ffffff1c;border-radius:4px;overflow:hidden;position:relative}#e630 .es .b i{position:absolute;left:0;top:0;bottom:0;background:#e7b13c;border-radius:4px}#e630 .es .b i.nx{background:#58c26b}#e630 .es .b i.dn{background:#e0573f}
+ #e630 .en{font-size:11px;opacity:.8;padding:4px 12px;line-height:1.3}
+ #e630 .ef{display:flex;gap:6px;padding:8px}#e630 .ef button{flex:1;border:0;border-radius:9px;padding:10px 6px;font:inherit;font-weight:800;color:inherit;background:#ffffff1c;cursor:pointer}
+ #e630 .ef button.go{background:#e7b13c;color:#1b1406}#e630 .ef button:disabled{opacity:.4}
+ @media (max-height:330px){#e630 .eh{padding:6px 10px}#e630 .er{padding:6px 8px}}`;document.head.appendChild(s)}
+ const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ const hexs=c=>'#'+((c>>>0)&0xffffff).toString(16).padStart(6,'0');
+ /* ---------- abrir / cerrar ---------- */
+ function begin(kind,title,sub,root,o){if(T.on)end(false);o=o||{};Object.assign(T,{on:true,agency:0,zs:[],kind,title,sub,stack:[root],sel:null,ang:o.ang||0,drag:0,zoom:'all',yaw0:P.yaw,tp0:P.tp,px:P.x,pz:P.z,mode:o.mode||null,onEnd:o.onEnd||null,foot:o.foot||null});
+  M.opens++;css();try{NV600.close()}catch(_){}try{BUSY58=1}catch(_){}try{resetCtl()}catch(_){}try{dl=null;$('dlg').style.display='none';document.body.classList.remove('dlg')}catch(_){}
+  if(kind==='pj'){P.tp=1}document.body.classList.add('e630');if(!ui){ui=el('div');ui.id='e630';for(const ev of ['pointerdown','touchstart','mousedown','wheel','keydown'])ui.addEventListener(ev,e=>e.stopPropagation());document.body.appendChild(ui)}ui.style.display='flex';if(kind==='pj'){T.yaw0=bestYaw();T.ang=0}render()}
+ function end(ok){if(!T.on)return;const cb=T.onEnd;T.on=false;try{if(!ok)revert()}catch(e){err('regresar',e)}try{BUSY58=0}catch(_){}document.body.classList.remove('e630');if(ui)ui.style.display='none';P.tp=T.tp0;P.yaw=T.yaw0;try{body.visible=true}catch(_){}
+  if(T.tmp){try{sc.remove(T.tmp.g);const i=CARS.indexOf(T.tmp);if(i>=0)CARS.splice(i,1)}catch(_){}T.tmp=null}T.sel=null;if(cb)try{cb(ok)}catch(e){err('al salir',e)}}
+ /* ---------- menú ---------- */
+ const top=()=>T.stack[T.stack.length-1];
+ function go(menu,zoom){revert();T.sel=null;T.zs.push(T.zoom);T.stack.push(menu);if(zoom)T.zoom=zoom;render()}
+ function back(){if(T.stack.length>1){revert();T.sel=null;T.stack.pop();T.zoom=T.zs.pop()||'all';render()}else end(false)}
+ function render(){if(!ui||!T.on)return;ui.innerHTML='';const m=typeof top()==='function'?top()():top();const menu=m.items?m:{items:[]};const real=typeof top()==='function'?menu:top();
+  const h=el('div','eh','<b>'+esc(T.title)+'</b><span>'+esc(real.title||T.sub||'')+'</span>');ui.appendChild(h);
+  const pr=el('div','ep');pr.appendChild(el('span','',T.mode==='crear'?'Todo es gratis':'<i>'+fmt(S.pesos||0)+'</i>'));const z=el('div','ez');for(const [k,n] of [['all','Todo'],['near','Cerca'],['low','Abajo']]){const u=el('u',T.zoom===k?'on':'',n);u.onclick=()=>{T.zoom=k;render()};z.appendChild(u)}pr.appendChild(z);ui.appendChild(pr);
+  const L=el('div','el');for(const it of real.items||[]){if(it.note){L.appendChild(el('div','en',it.note));continue}const r=el('div','er'+(T.sel===it.id&&it.id!=null?' sel':''));
+   if(it.sw!=null)r.appendChild(el('span','sw')).style.background=hexs(it.sw);
+   if(it.input){r.appendChild(el('span','n',esc(it.label)));const i=el('input');i.value=it.value||'';i.placeholder=it.ph||'';i.maxLength=18;i.oninput=()=>it.input(i.value.replace(/[<>]/g,''));i.onkeydown=e=>e.stopPropagation();r.appendChild(i);L.appendChild(r);continue}
+   r.appendChild(el('span','n',esc(it.label)));if(it.price!=null||it.tag)r.appendChild(el('span','p'+(it.tag?' own':''),it.tag?esc(it.tag):it.price?fmt(it.price):'Gratis'));if(it.go)r.appendChild(el('span','p','›'));
+   r.onclick=()=>{try{if(it.go){go(it.go,it.zoom);return}if(it.act){it.act();render();return}if(it.pre){T.sel=it.id;it.pre();M.previews++;if(it.zoom)T.zoom=it.zoom;render()}}catch(e){err('tocar',e)}};L.appendChild(r)}ui.appendChild(L);
+  const st=statsOf();if(st){const S2=el('div','es');for(const [n,a,b] of st){S2.appendChild(el('span','',n));const bb=el('div','b');if(b!=null&&b>a){const i2=el('i','nx');i2.style.width=Math.min(100,b)+'%';bb.appendChild(i2)}const i1=el('i',b!=null&&b<a?'dn':'');i1.style.width=Math.min(100,b!=null&&b<a?b:a)+'%';bb.appendChild(i1);S2.appendChild(bb);S2.appendChild(el('span','',String(Math.round((b!=null?b:a)*1.6))))}ui.appendChild(S2)}
+  const sel=(real.items||[]).find(i=>i.id!=null&&i.id===T.sel);const f=el('div','ef');const bk=el('button','',T.stack.length>1?'◀ Atrás':(T.mode==='crear'?'🎲 Al azar':'Salir'));bk.onclick=()=>{if(T.stack.length<=1&&T.mode==='crear'){crearRandom();return}back()};f.appendChild(bk);
+  if(T.mode==='crear'){const g=el('button','go','✅ ¡Listo, a jugar!');g.onclick=()=>crearDone();f.appendChild(g)}
+  else if(sel&&sel.buy){const g=el('button','go',sel.price?'Comprar '+fmt(sel.price):'Ponértelo');g.disabled=sel.price>(S.pesos||0);g.onclick=()=>{try{if(sel.price&&!T.agency&&!pay(sel.price))return;sel.buy();commit();M.buys++;T.sel=null;render()}catch(e){err('comprar',e)}};f.appendChild(g)}
+  else if(real.done){const g=el('button','go',real.done.label);g.onclick=()=>{real.done.fn();render()};f.appendChild(g)}
+  ui.appendChild(f)}
+ function pay(n){if((S.pesos||0)<n){try{toast('No te alcanza: '+fmt(n))}catch(_){}return false}S.pesos-=n;M.spent+=n;try{upd()}catch(_){}return true}
+ /* ---------- vista previa y "regresar como estaba" ---------- */
+ let revertFn=null,commitFn=null,statsFn=null;
+ function revert(){if(revertFn){try{revertFn()}catch(e){err('regresar',e)}M.reverts++}}
+ function commit(){if(commitFn)try{commitFn()}catch(e){err('guardar',e)}try{save()}catch(_){}}
+ function statsOf(){try{return statsFn?statsFn():null}catch(_){return null}}
+ /* ================= PERSONAJE ================= */
+ function pjSetup(mode,title){const X=PJ();const C0=X.cur();const base=X.clone(C0&&C0.ok?C0:Object.assign(X.clone(X.DEF),C0||{}));if(!base.ropa){try{base.ropa=X.clone(ROPA544.state().eq)}catch(_){base.ropa=X.clone(X.DEF.ropa)}}
+  T.base=base;T.work=X.clone(base);revertFn=()=>{if(T.mode==='crear')return;T.work=X.clone(T.base);X.toPlayer(T.base)};
+  commitFn=()=>{if(T.mode==='crear')return;T.base=X.clone(T.work);const C=X.cur();if(C&&C.ok){Object.assign(C,X.clone(T.work));C.ok=1}X.toPlayer(T.base)};
+  statsFn=T.mode==='crear'?()=>{const s=X.stats(T.work);return [['Vida',s.vida/1.6],['Fuerza',s.fuerza/1.6],['Velocidad',s.vel/1.6],['Aguante',s.aguante/1.6]]}:null}
+ /* aplica la prueba al jugador (en vivo) */
+ function tryOn(ch){const X=PJ();const W=X.clone(T.work);ch(W);if(T.mode==='crear'){T.work=W;crearApply();return}X.toPlayer(W);T.try=W}
+ function crearApply(){const X=PJ();try{const z=X.B559[T.work.body]||X.B559.normal;const s=RB.vida559||(RB.vida559={musc:10,grasa:20,aguante:30,gymDay:-1,gymN:0,day:null,tacos:0,cal:[],taxis:0,fotos:0});s.musc=z[0];s.grasa=z[1];s.aguante=z[2]}catch(_){}X.toPlayer(T.work)}
+ const own=(slot,id,c)=>{try{return !!ROPA544.state().own[slot+':'+id+':'+c]}catch(_){return false}};
+ function menuPelo(){const X=PJ();const W=()=>T.work,shop=T.mode!=='crear';const items=[];
+  items.push({label:'Peinado',go:()=>({title:'Peinado',zoom:'near',items:Object.keys(X.HAIR).filter(k=>W().fem||!['suelto','chongo','cola'].includes(k)).map(k=>({id:'pelo:'+k,label:X.HAIR[k],price:shop?150:null,tag:T.base.pelo===k&&shop?'Puesto':null,zoom:'near',pre:()=>tryOn(C=>{C.pelo=k}),buy:shop&&T.base.pelo!==k?()=>{T.work.pelo=k}:null}))}),zoom:'near'});
+  items.push({label:'Color de pelo',go:()=>({title:'Color de pelo',zoom:'near',items:X.HCOL.map(([c,n])=>({id:'hc:'+c,label:n,sw:c,price:shop?300:null,tag:T.base.hc===c&&shop?'Puesto':null,pre:()=>tryOn(C=>{C.hc=c}),buy:shop&&T.base.hc!==c?()=>{T.work.hc=c}:null}))}),zoom:'near'});
+  if(!W().fem)items.push({label:'Barba',go:()=>({title:'Barba',zoom:'near',items:Object.keys(X.BARBA).map(k=>({id:'bar:'+k,label:X.BARBA[k],price:shop?100:null,tag:T.base.barba===k&&shop?'Puesta':null,pre:()=>tryOn(C=>{C.barba=k}),buy:shop&&T.base.barba!==k?()=>{T.work.barba=k}:null}))}),zoom:'near'});
+  return items}
+ function menuRopa(){const X=PJ();const shop=T.mode!=='crear';const Z={top:'all',chaq:'all',pierna:'low',zap:'low',cab:'near'};
+  return X.ROPA_SLOTS.map(([slot,lab])=>({label:lab,zoom:Z[slot],go:()=>{const c=X.catOf(slot);const its=(c?c.items:[]).filter(i=>shop||!i.lux);const list=its.map(it=>({label:it.n,price:it.id==='none'?null:it.p,go:it.id==='none'?null:()=>({title:it.n,zoom:Z[slot],items:(it.cs||[0x888888]).map(col=>{const mine=own(slot,it.id,col)||!shop;const on=T.base.ropa[slot]&&T.base.ropa[slot][0]===it.id&&T.base.ropa[slot][1]===col;
+      return {id:slot+':'+it.id+':'+col,label:it.n,sw:col,price:mine?0:it.p,tag:on?'Puesto':mine&&shop?'Tuyo':null,zoom:Z[slot],pre:()=>tryOn(C=>{C.ropa[slot]=[it.id,col]}),buy:on?null:()=>{T.work.ropa[slot]=[it.id,col];try{const R=ROPA544.state();R.own[slot+':'+it.id+':'+col]=1}catch(_){}}}})}),
+     id:it.id==='none'?slot+':none':null,pre:it.id==='none'?()=>tryOn(C=>{delete C.ropa[slot]}):null,buy:it.id==='none'&&T.base.ropa[slot]?()=>{delete T.work.ropa[slot]}:null}));return {title:lab,zoom:Z[slot],items:list}}}))}
+ function menuTats(){const X=PJ();const shop=T.mode!=='crear';return Object.keys(X.TATS).map(k=>{const has=T.base.tats.includes(k);return {id:'tat:'+k,label:(has?'Quitar: ':'')+X.TATS[k],price:shop?(has?300:600):null,pre:()=>tryOn(C=>{if(has)C.tats=C.tats.filter(x=>x!==k);else if(!C.tats.includes(k))C.tats.push(k)}),buy:shop?()=>{if(has)T.work.tats=T.work.tats.filter(x=>x!==k);else T.work.tats.push(k)}:null,zoom:k==='lagrima'||k==='cuello'?'near':'all'}}).concat([{note:'Los de los brazos se ven con manga corta o sin mangas.'}])}
+ function tienda(shop,name){if(DRV)return false;const n={barberia:'Barbería',ropa:'Tienda de ropa',tatuajes:'Estudio de tatuajes'}[shop];T.mode=shop;pjSetup(shop);
+  const root=()=>({title:'¿Qué quieres?',items:shop==='barberia'?menuPelo():shop==='ropa'?menuRopa():menuTats()});begin('pj',name||n,n,root,{mode:shop,ang:0});return true}
+ /* creador del inicio, en tu casa */
+ function crear(){if(DRV)try{exitCar()}catch(_){}/* tu cuarto es muy chico para verte: lo armas afuera, en el patio de la privada, y luego regresas a tu casa */try{if(CASA626.inside){T.wantCrear=1;T.backIn=1;CASA626.leave();if(CASA626.inside)return}}catch(_){}T.wantCrear=0;T.mode='crear';pjSetup('crear');const X=PJ();const W=()=>T.work;crearApply();
+  const root=()=>({title:'Crea tu personaje',items:[
+   {label:'Nombre',input:v=>{W().nombre=v},value:W().nombre,ph:'Tu nombre'},{label:'Apodo',input:v=>{W().apodo=v},value:W().apodo,ph:'Cómo te dicen'},
+   {id:'sexo',label:'Soy: '+(W().fem?'Mujer':'Hombre')+' (cambiar)',act:()=>{const C=W();C.fem=!C.fem;if(C.fem&&C.pelo==='casquete')C.pelo='suelto';if(!C.fem&&['suelto','chongo','cola'].includes(C.pelo))C.pelo='casquete';crearApply()}},
+   {label:'Cuerpo: '+X.BODY[W().body].n,go:()=>({title:'Complexión',items:Object.keys(X.BODY).map(k=>({id:'b:'+k,label:X.BODY[k].n,tag:W().body===k?'✔':null,pre:()=>{W().body=k;crearApply()}})).concat([{note:'<span style="color:#7fd88b">＋ '+esc(X.BODY[W().body].pro)+'</span><br><span style="color:#f08a72">－ '+esc(X.BODY[W().body].con)+'</span><br>Después el gimnasio y la comida te lo van cambiando.'}])})},
+   {label:'Estatura: '+X.ALT[W().alt].n,go:()=>({title:'Estatura',items:Object.keys(X.ALT).map(k=>({id:'a:'+k,label:X.ALT[k].n,tag:W().alt===k?'✔':null,pre:()=>{W().alt=k;crearApply()}}))})},
+   {label:'Piel',go:()=>({title:'Tono de piel',zoom:'near',items:X.SKIN.map(([c,n])=>({id:'s:'+c,label:n,sw:c,tag:W().skin===c?'✔':null,pre:()=>{W().skin=c;crearApply()}}))}),zoom:'near'},
+   {label:'Cara y pelo',go:()=>({title:'Cara y pelo',zoom:'near',items:menuPelo()}),zoom:'near'},{label:'Ropa',go:()=>({title:'Ropa',items:menuRopa()})},{label:'Tatuajes',go:()=>({title:'Tatuajes',items:menuTats()})}]});
+  begin('pj','Crea tu personaje','En tu casa',root,{mode:'crear',ang:0})}
+ function crearRandom(){const X=PJ();T.work=X.random(T.work);crearApply();render()}
+ function crearDone(){const X=PJ();const w=T.work;w.ok=1;if(!w.nombre)w.nombre=w.fem?'Lupita':'Toño';if(!w.apodo)w.apodo=w.fem?'La Brava':'El Bravo';S.pj629=w;crearApply();X.refreshK();try{save()}catch(_){}T.mode=null;end(true);if(T.backIn){T.backIn=0;try{CASA626.enter()}catch(_){}}try{toast('🧍 ¡Listo, '+w.apodo+'!')}catch(_){}}
+ /* ================= COCHE ================= */
+ function carSnap(k){return {c:k.c541,cust:clone(k.cust628||{}),eng:(k.upgrades&&k.upgrades.engine)||0}}
+ function carRestore(k,s){if(s.c!=null&&k.c541!==s.c)CO().paint(k,s.c);k.cust628=clone(s.cust);try{CO().apply(k)}catch(_){}}
+ function carSetup(k){const s=carSnap(k);T.base=s;T.k=k;revertFn=()=>{carRestore(k,T.base);T.eng=null};commitFn=()=>{T.base=carSnap(k);try{CO().store(k)}catch(_){}};
+  statsFn=()=>{const m=GA().BY[(CO().host(k).userData||{}).m541]||{perf:[1,1,1,1]};const e=T.base.eng,e2=T.eng!=null?T.eng:null;const f=(v,l)=>Math.min(100,v*50*(1+.1*l));return [['Velocidad',f(m.perf[1],e),e2!=null?f(m.perf[1],e2):null],['Aceleración',f(m.perf[0],e),e2!=null?f(m.perf[0],e2):null],['Manejo',Math.min(100,m.perf[2]*50),null],['Frenos',Math.min(100,m.perf[3]*50),null]]}}
+ function cpre(fn){const k=T.k;carRestore(k,T.base);fn(k);try{CO().apply(k)}catch(_){}}
+ function taller(p){const k=(DRV&&DRV.k)||null;if(!k){return agencia(p)}if(Math.abs(DRV.v||0)>2){try{toast('Frena dentro del taller')}catch(_){}return}try{initVehicle(k)}catch(_){}DRV.v=0;carSetup(k);const C=CO();
+  const cu=()=>C.cust(k);const mk=(list,price,key,label)=>()=>({title:label,zoom:key==='rim'?'low':key==='neon'?'low':'all',items:list.map(([n,c])=>({id:key+':'+c,label:n,sw:c,price,tag:T.base.cust[key]===c?'Puesto':null,zoom:key==='rim'||key==='neon'?'low':null,pre:()=>cpre(k=>{C.cust(k)[key]=c}),buy:T.base.cust[key]===c?null:()=>{C.cust(k)[key]=c}})).concat(T.base.cust[key]!=null?[{id:key+':off',label:'Quitar',price:0,pre:()=>cpre(k=>{delete C.cust(k)[key]}),buy:()=>{delete C.cust(k)[key]}}]:[])});
+  const root=()=>{const cond=Math.round(k.condition==null?100:k.condition);const fix=Math.round(150+(100-cond)*28);const w=S.wanted||0;let seen=false;try{seen=POLI626.W.seen}catch(_){}
+   return {title:'Estado: '+cond+'%',items:[
+    {label:'🔧 Dejarlo como nuevo',price:cond>=100?null:fix,tag:cond>=100?'Está bien':null,act:()=>{if(cond>=100||!pay(fix))return;try{k.condition=100;RB527.repair(RB527.state(k),'all')}catch(_){}try{LAM622.repair(k.g)}catch(_){}try{snapshotVehicles();save()}catch(_){}M.buys++;toast('🔧 Quedó como nuevo')}},
+    {label:'🎨 Pintura',go:()=>({title:'Pintura',items:C.PAINT.map(([n,c])=>({id:'p:'+c,label:n,sw:c,price:1200,tag:T.base.c===c?'Puesta':null,pre:()=>cpre(k=>{C.paint(k,c)}),buy:T.base.c===c?null:()=>{C.paint(k,c)}}))})},
+    {label:'🔢 Placas nuevas'+(w>0?' (te pierden la pista)':''),price:800,act:()=>{if(w>0&&seen){toast('🚨 No se puede: la policía te está viendo');return}if(!pay(800))return;try{const rec=RB.owned&&RB.owned.find(r=>r.id===k.ownedId);if(rec)rec.plate=['NRV','CDX','MEX','PUE'][(Math.random()*4)|0]+'-'+String((Math.random()*9000+1000)|0)}catch(_){}if(w>0){try{POLI626.setLevel(0)}catch(_){S.wanted=0}}toast(w>0?'🔢 Placas nuevas: te perdieron la pista':'🔢 Placas nuevas');try{save()}catch(_){}}},
+    {label:'⚙️ Motor',go:()=>({title:'Motor (nivel '+T.base.eng+')',items:[1,2,3].map(l=>({id:'eng:'+l,label:'Nivel '+l,price:l<=T.base.eng?null:2500*(l-T.base.eng),tag:l<=T.base.eng?'Tuyo':null,pre:()=>{T.eng=l},buy:l<=T.base.eng?null:()=>{k.upgrades=k.upgrades||{};k.upgrades.engine=l;try{const rec=RB.owned&&RB.owned.find(r=>r.id===k.ownedId);if(rec){rec.upgrades=rec.upgrades||{};rec.upgrades.engine=l}}catch(_){}T.eng=null}})).concat([{note:'Las barras verdes de abajo muestran cuánto gana.'}])})},
+    {label:'🛞 Rines',go:mk(C.RIMS,1800,'rim','Rines'),zoom:'low'},
+    {label:'⬇️ Suspensión',go:()=>({title:'Suspensión',items:[['baja','Bajita',2200],['alta','Levantada',2600],[null,'De fábrica',0]].map(([v,n,pr])=>({id:'s:'+v,label:n,price:pr,tag:(T.base.cust.susp||null)===v?'Puesta':null,pre:()=>cpre(k=>{if(v)C.cust(k).susp=v;else delete C.cust(k).susp}),buy:(T.base.cust.susp||null)===v?null:()=>{if(v)C.cust(k).susp=v;else delete C.cust(k).susp}}))})},
+    {label:'🕶️ Polarizado',go:()=>({title:'Vidrios',items:[[1,'Polarizados',900],[0,'Normales',0]].map(([v,n,pr])=>({id:'t:'+v,label:n,price:pr,tag:(!!T.base.cust.tint)===!!v?'Puestos':null,pre:()=>cpre(k=>{if(v)C.cust(k).tint=1;else delete C.cust(k).tint}),buy:(!!T.base.cust.tint)===!!v?null:()=>{if(v)C.cust(k).tint=1;else delete C.cust(k).tint}}))})},
+    {label:'💡 Neón',go:mk(C.NEON,2500,'neon','Neón'),zoom:'low'},{label:'🏁 Franjas',go:mk(C.STRIPE,700,'stripe','Franjas')},
+    {label:'🪽 Alerón',go:()=>({title:'Alerón',items:[[1,'Con alerón',1500],[0,'Sin alerón',0]].map(([v,n,pr])=>({id:'w:'+v,label:n,price:pr,tag:(!!T.base.cust.wing)===!!v?'Puesto':null,pre:()=>cpre(k=>{if(v)C.cust(k).wing=1;else delete C.cust(k).wing}),buy:(!!T.base.cust.wing)===!!v?null:()=>{if(v)C.cust(k).wing=1;else delete C.cust(k).wing}}))})},
+    {label:'📯 Claxon',go:()=>({title:'Claxon',items:[['cucaracha','«La Cucaracha»',800],[null,'Normal',0]].map(([v,n,pr])=>({id:'h:'+v,label:n,price:pr,tag:(T.base.cust.horn||null)===v?'Puesto':null,pre:()=>{try{if(v)C.cucaracha();else snd('honk')}catch(_){}},buy:(T.base.cust.horn||null)===v?null:()=>{if(v)C.cust(k).horn=v;else delete C.cust(k).horn}}))})}]}};
+  begin('car',p&&p.name||'Taller','Tu coche',root,{ang:2.4})}
+ /* agencia: el coche aparece en el taller y lo ves antes de comprarlo */
+ function agencia(p){const C=CO(),G=GA();const V=VALLE624;let u,v;if(p&&p.u!=null){u=p.u+p.tx*2.5;v=p.v+p.tz*2.5}else{u=P.x-V.OX+4;v=P.z-V.OZ}
+  let k=null;try{const m0=G.MODELS.find(m=>m.cls==='sedan');k=rbVehicle(m0.vt==='vocho'?'vocho':m0.vt,u+V.OX,v+V.OZ,null,true);k.m541=m0.id;k.c541=m0.pal[0];k.lock552=1;k.g.position.y=V.surface(u,v,null).y;k.g.rotation.y=p&&p.ang!=null?-p.ang:0;G.scan()}catch(e){err('agencia',e);return}
+  T.tmp=k;T.k=k;T.agM=G.BY[k.m541];T.agC=k.c541;const show=(m,c)=>{try{if(k.m541!==m.id||k.c541!==c){if(m.vt!==T.agM.vt){/* otro tipo de carrocería */}k.m541=m.id;k.c541=c;G.scan()}T.agM=m;T.agC=c}catch(e){err('mostrar',e)}};
+  revertFn=null;commitFn=null;statsFn=()=>{const m=T.agM;return [['Velocidad',Math.min(100,m.perf[1]*50)],['Aceleración',Math.min(100,m.perf[0]*50)],['Manejo',Math.min(100,m.perf[2]*50)],['Frenos',Math.min(100,m.perf[3]*50)]]};
+  try{body.visible=false}catch(_){}
+  const cls=[['Compactos y sedanes','sedan'],['Camionetas','camioneta'],['SUV y vans','suv'],['Muscle y clásicos','muscle'],['Deportivos','deportivo'],['Vocho','vocho']];
+  const root=()=>({title:'Escoge un coche',items:cls.map(([n,c])=>({label:n,go:()=>({title:n,items:G.MODELS.filter(m=>m.cls===c).map(m=>({label:m.name,price:C.priceOf(m),go:()=>({title:m.name,items:(m.pal||[0x888888]).map(col=>({id:'c:'+m.id+':'+col,label:m.name,sw:col,price:C.priceOf(m),pre:()=>show(m,col),buy:()=>{const pos=k.g.position;const nk=C.buy(p,m,{u:pos.x-V.OX+3.5,v:pos.z-V.OZ,col});if(nk){/* ya no se necesita el de muestra */end(true)}else throw new Error('no se pudo')}}))})}))})}))});
+  const pr=C.buy;begin('car',p&&p.name?'Agencia · '+p.name:'Agencia','Lo ves antes de comprarlo',root,{ang:2.4});
+  /* el precio se cobra en buy() de la agencia: aquí no se cobra dos veces */T.agency=1}
+ /* en la agencia el cobro lo hace COCHES628.buy */
+ const _pay=pay;
+ /* ---------- cámara ---------- */
+ const ZP={all:[3.4,1.3,1.0],near:[1.9,1.72,1.66],low:[2.3,.7,.4]};
+ function camTarget(){if(T.kind==='car'&&T.k){const g=T.k.g;const m=GA().BY[(CO().host(T.k).userData||{}).m541]||{L:4.5};const L=m.L||4.5;const z=T.zoom==='near'?[L*.75+1.2,1.4,.8]:T.zoom==='low'?[L*.85+1.6,.7,.4]:[L*1.05+2.2,1.9,.7];return {x:g.position.x,y:g.position.y,z:g.position.z,d:z[0],h:z[1],ly:z[2]}}
+  const z=ZP[T.zoom]||ZP.all;return {x:P.x,y:P.y||0,z:P.z,d:z[0],h:z[1],ly:z[2]}}
+ /* que la cámara no se meta en las paredes (tu cuarto es chico) */
+ function free(t,fx,fz,want){try{const V=VALLE624;const y=t.y+t.h;let d=.6;for(;d<want;d+=.2){const u=t.x+fx*d-V.OX,v=t.z+fz*d-V.OZ;if(V.colHit(u,v,y,.22))break}return Math.max(1.1,Math.min(want,d-.35))}catch(_){return want}}
+ function bestYaw(){/* te volteas hacia donde hay más espacio, para que la cámara te vea de frente */try{const t=camTarget();let best=T.yaw0,bd=-1;for(let i=0;i<16;i++){const a=i*Math.PI/8;const th=T.yaw0+a;const d=free(t,-Math.sin(th),-Math.cos(th),t.d);const sc=d-Math.min(a,6.283-a)*.15;if(sc>bd){bd=sc;best=th}}return best}catch(_){return T.yaw0}}
+ try{const _c=cams;cams=function(){const r=_c.apply(this,arguments);if(!T.on)return r;try{const t=camTarget();const th=T.yaw0+T.ang;const fx=-Math.sin(th),fz=-Math.cos(th);t.d=free(t,fx,fz,t.d);const cx=t.x+fx*t.d,cz=t.z+fz*t.d;cam.position.set(cx,t.y+t.h,cz);
+    if(T.kind==='pj'){body.visible=true;body.position.set(P.x,t.y,P.z);body.rotation.y=T.yaw0}
+    /* el panel está a la izquierda: el personaje o el coche se ven a la derecha */const dx=t.x-cx,dz=t.z-cz,d=Math.hypot(dx,dz)||1;const rx=-dz/d,rz=dx/d;const off=t.d*.32;cam.lookAt(t.x-rx*off,t.y+t.ly,t.z-rz*off)}catch(e){err('cámara',e)}return r};window.cams=cams}catch(e){err('cámara',e)}
+ try{const cv=R.domElement;let id=null,lx=0;cv.addEventListener('pointerdown',v=>{if(!T.on)return;id=v.pointerId;lx=v.clientX});cv.addEventListener('pointermove',v=>{if(!T.on||v.pointerId!==id)return;T.ang-=(v.clientX-lx)*.01;lx=v.clientX;T.drag=1.5});['pointerup','pointercancel'].forEach(n=>cv.addEventListener(n,v=>{if(v.pointerId===id)id=null}))}catch(_){}
+ try{const _st=step;step=function(dt){const r=_st.apply(this,arguments);try{if(T.wantCrear&&!T.on){let ins=true;try{ins=CASA626.inside}catch(_){ins=false}if(!ins)crear()}if(T.on){const d=Math.min(.1,dt||0);if(T.kind==='pj'&&!DRV){P.x=T.px;P.z=T.pz;P.yaw=T.yaw0}if(DRV&&T.kind==='car'&&T.k===DRV.k)DRV.v=0;if(T.drag>0)T.drag-=d;else if(T.kind==='car')T.ang+=d*.2;
+    if(T.kind==='car'&&T.k&&T.k!==T.tmp&&(!DRV||DRV.k!==T.k))end(false)}}catch(e){err('paso',e)}return r}}catch(e){err('paso',e)}
+ try{addEventListener('keydown',e=>{if(T.on&&e.key==='Escape'){e.preventDefault();back()}})}catch(_){}
+ try{NV600.G[1][1].push('🪞 Tiendas y taller como en GTA V: un panel a un lado y la cámara alrededor de ti o de tu coche; picas y se ve puesto, compras si te gusta, y si te sales regresa como estaba')}catch(_){}
+ return {M,T,begin,end,go,back,render,tienda,crear,crearDone,crearRandom,taller,agencia,get ui(){return ui}};
+})();
+try{window.EST630=EST630}catch(_){}
+/*RB625-RB630_ESTUDIO-END*/
 
 /*RB625-RB625_JUGAR-BEGIN*/
 /* RUTA BRAVA V5.125 · UN SOLO JUEGO (pedido del productor: «no tienes que poder escoger entre online e historia, tiene que aparecer
