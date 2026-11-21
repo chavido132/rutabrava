@@ -26890,7 +26890,7 @@ const VIVO627=(()=>{
  /* ================= EL TRÁFICO TE PITA ================= */
  function honkStep(dt){if(!DRV||!DRV.k)return;const me=DRV.k.g.position;if(Math.abs(DRV.v||0)>1.2)return;let TR=[];try{TR=VIDA625.TR}catch(_){}
   for(const t of TR){const p=t.k.g.position;const d=Math.hypot(p.x-me.x,p.z-me.z);if(d<11&&(t.sp||0)<.6){t.honk627=(t.honk627||0)+dt;if(t.honk627>2.6){t.honk627=-4-rnd()*4;honk(.55);M.honks++;if(rnd()<.7)bubble(t.k.g,pick(GRITOS.pita),2.6)}}else if(t.honk627>0)t.honk627=0}}
- function honk(vol){try{if(!AC||AC.state!=='running')return;const t=AC.currentTime;const g=AC.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.09*vol,t+.02);g.gain.setValueAtTime(.09*vol,t+.32);g.gain.linearRampToValueAtTime(0,t+.38);g.connect(AC.destination);
+ function honk(vol){try{if(window.SON627){SON627.horn(vol);return}}catch(_){}try{if(!AC||AC.state!=='running')return;const t=AC.currentTime;const g=AC.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.09*vol,t+.02);g.gain.setValueAtTime(.09*vol,t+.32);g.gain.linearRampToValueAtTime(0,t+.38);g.connect(AC.destination);
    for(const f of [415,523]){const o=AC.createOscillator();o.type='square';o.frequency.value=f*(.96+rnd()*.08);const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=1800;o.connect(lp);lp.connect(g);o.start(t);o.stop(t+.4)}}catch(_){}}
  /* ================= CHISPAS, VIDRIOS, HUMO Y FUEGO ================= */
  const FX=[];let SPM=null,GLM=null;
@@ -27078,6 +27078,68 @@ const ACTO2627=(()=>{
 })();
 try{window.ACTO2627=ACTO2627}catch(_){}
 /*RB625-RB627_ACTO2-END*/
+
+/*RB625-RB627_SONIDO-BEGIN*/
+/* RUTA BRAVA V5.127b · SONIDO DE VERDAD (reporte del productor: «¿las cosas se escuchan o solo se escucha el motor?»).
+   Antes casi todo era un «bip». Ahora, todo hecho con el sintetizador del teléfono (no descarga nada):
+   · 🚨 SIRENAS de patrulla que suben y bajan («uuuIIIuuu»), más fuerte entre más cerca está la patrulla; de cerca, el «yelp».
+   · 🔫 BALAZOS con trueno y eco de ciudad (tuyos y de la policía/enemigos); 💥 CHOQUES con golpe seco, lámina y vidrios.
+   · 📯 CLAXONS de dos tonos, de verdad.  · 🛞 LLANTAS que rechinan al derrapar o frenar fuerte.
+   · 🏙️ LA CIUDAD: rumor del tráfico (más fuerte en avenidas con coches), murmullo de gente en plazas, pajaritos de día,
+     perros a lo lejos de noche y sirenas lejanas de vez en cuando.
+   · Se respeta el volumen/apagado de «Voces»; en el teléfono, app «Sonido» para bajar o apagar los sonidos de la ciudad. */
+const SON627=(()=>{
+ const V=VALLE624;const M={errors:[],shots:0,crash:0,horn:0,siren:0,screech:0,bird:0,dog:0};const err=(w,e)=>{if(M.errors.length<8)M.errors.push(w+': '+(e&&e.message||e))};
+ const rnd=Math.random;const inNew=()=>{try{return V.ready&&V.inW(P.x,P.z)}catch(_){return false}};
+ const PREF=(()=>{try{const o=JSON.parse(localStorage.getItem('rb627_son')||'null');if(o)return {vol:Math.max(0,Math.min(1,+o.vol||0)),amb:o.amb!==false}}catch(_){}return {vol:1,amb:true}})();
+ const savePref=()=>{try{localStorage.setItem('rb627_son',JSON.stringify(PREF))}catch(_){}};
+ const ok=()=>{try{return AC&&AC.state==='running'&&PREF.vol>0}catch(_){return false}};
+ let OUT=null,REV=null,NOISE=null;
+ function bus(){if(OUT)return OUT;OUT=AC.createGain();OUT.gain.value=PREF.vol;OUT.connect(AC.destination);
+  /* eco de ciudad (para balazos y choques) */try{REV=AC.createDelay(1);REV.delayTime.value=.13;const fb=AC.createGain();fb.gain.value=.32;const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=1600;REV.connect(lp);lp.connect(fb);fb.connect(REV);const wet=AC.createGain();wet.gain.value=.5;lp.connect(wet);wet.connect(OUT)}catch(_){}
+  const b=AC.createBuffer(1,AC.sampleRate*2,AC.sampleRate),d=b.getChannelData(0);let last=0;for(let i=0;i<d.length;i++){const w=Math.random()*2-1;last=(last+.02*w)/1.02;d[i]=i%2?w:last*3.5}NOISE=b;return OUT}
+ function noise(t,dur,type,f,q,gain,dest,rate){const s=AC.createBufferSource();s.buffer=NOISE;if(rate)s.playbackRate.value=rate;const fl=AC.createBiquadFilter();fl.type=type;fl.frequency.value=f;if(q)fl.Q.value=q;const g=AC.createGain();g.gain.setValueAtTime(gain,t);g.gain.exponentialRampToValueAtTime(.0008,t+dur);s.connect(fl);fl.connect(g);g.connect(dest||OUT);s.start(t,Math.random()*1.5);s.stop(t+dur+.05);return g}
+ function tone(t,dur,type,f0,f1,gain,dest){const o=AC.createOscillator();o.type=type;o.frequency.setValueAtTime(f0,t);if(f1)o.frequency.exponentialRampToValueAtTime(f1,t+dur);const g=AC.createGain();g.gain.setValueAtTime(gain,t);g.gain.exponentialRampToValueAtTime(.0008,t+dur);o.connect(g);g.connect(dest||OUT);o.start(t);o.stop(t+dur+.05);return g}
+ const distVol=(x,z,R)=>{const d=Math.hypot(x-P.x,z-P.z);return Math.max(0,1-d/(R||120))};
+ /* ---------- efectos ---------- */
+ function gunshot(v){if(!ok())return;bus();const t=AC.currentTime;v=Math.max(.05,Math.min(1,v));M.shots++;const g=noise(t,.16,'lowpass',3800,.7,.55*v);if(REV)g.connect(REV);noise(t,.05,'highpass',2500,.5,.4*v);tone(t,.18,'sine',150,45,.6*v)}
+ function crash(v,glass){if(!ok())return;bus();const t=AC.currentTime;v=Math.max(.1,Math.min(1,v));M.crash++;const g=noise(t,.45,'lowpass',900,.8,.75*v);if(REV)g.connect(REV);tone(t,.3,'sine',90,35,.8*v);noise(t+.02,.35,'bandpass',2200,3,.25*v,null,.7);
+  if(glass)for(let i=0;i<7;i++){const tt=t+.05+i*.035+rnd()*.03;tone(tt,.12,'sine',2500+rnd()*3500,null,.06*v)}}
+ function horn(v){if(!ok())return;bus();const t=AC.currentTime;M.horn++;const g=AC.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.16*v,t+.02);g.gain.setValueAtTime(.16*v,t+.38);g.gain.linearRampToValueAtTime(0,t+.45);const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2400;lp.connect(g);g.connect(OUT);
+  for(const f of [370,466]){const o=AC.createOscillator();o.type='sawtooth';o.frequency.value=f*(.97+rnd()*.06);o.connect(lp);o.start(t);o.stop(t+.5)}}
+ /* ---------- sirena (continua) ---------- */
+ let SIR=null;function sirenNode(){if(SIR)return SIR;bus();const o=AC.createOscillator();o.type='sawtooth';const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2600;const g=AC.createGain();g.gain.value=0;o.connect(lp);lp.connect(g);g.connect(OUT);o.frequency.value=700;o.start();SIR={o,g,ph:0};return SIR}
+ function sirenStep(dt){let vol=0,yelp=false;try{if((S.wanted||0)>0){let best=1e9;for(const q of POLI626.U){const d=Math.hypot(q.u+V.OX-P.x,q.v+V.OZ-P.z);if(d<best)best=d}if(best<260){vol=Math.max(0,1-best/260);yelp=best<45}}}catch(_){}
+  if(!ok()){if(SIR)SIR.g.gain.value=0;return}if(vol<=0&&!SIR)return;const s=sirenNode();s.ph+=dt*(yelp?6:.55);const w=yelp?(Math.sin(s.ph*Math.PI*2)>0?1:0):(.5-.5*Math.cos(s.ph*Math.PI*2));const f=yelp?(w?1350:900):650+w*800;s.o.frequency.setTargetAtTime(f,AC.currentTime,yelp?.01:.05);s.g.gain.setTargetAtTime(vol*.11,AC.currentTime,.15);if(vol>0)M.siren++}
+ /* ---------- llantas ---------- */
+ let SCR=null;function screechStep(dt){if(!ok()){if(SCR)SCR.g.gain.value=0;return}let v=0;try{if(DRV&&DRV.k){const sp=Math.abs(DRV.v||0);const k=DRV.k;const th=k.g.rotation.y;const dy=Math.abs(((th-(k.prevYaw627??th))+Math.PI)%(2*Math.PI)-Math.PI)/Math.max(dt,.001);k.prevYaw627=th;const dv=(k.prevV627??sp)-sp;k.prevV627=sp;
+   if(sp>10&&dy>.9)v=Math.min(1,(dy-.9)*.6)*Math.min(1,sp/25);if(sp>8&&dv/Math.max(dt,.001)>9)v=Math.max(v,.7)}}catch(_){}
+  if(v<=0&&!SCR)return;if(!SCR){bus();const s=AC.createBufferSource();s.buffer=NOISE;s.loop=true;const bp=AC.createBiquadFilter();bp.type='bandpass';bp.frequency.value=1800;bp.Q.value=6;const g=AC.createGain();g.gain.value=0;s.connect(bp);bp.connect(g);g.connect(OUT);s.start();SCR={g,bp}}SCR.g.gain.setTargetAtTime(v*.18,AC.currentTime,.05);if(v>0)M.screech++}
+ /* ---------- la ciudad ---------- */
+ let AMB=null;function ambNodes(){if(AMB)return AMB;bus();const mk=(type,f,q)=>{const s=AC.createBufferSource();s.buffer=NOISE;s.loop=true;const fl=AC.createBiquadFilter();fl.type=type;fl.frequency.value=f;fl.Q.value=q||1;const g=AC.createGain();g.gain.value=0;s.connect(fl);fl.connect(g);g.connect(OUT);s.start(0,Math.random()*1.5);return g};
+  AMB={traffic:mk('lowpass',260,.7),crowd:mk('bandpass',700,.8)};return AMB}
+ let birdT=3,dogT=12,farT=25;
+ function ambient(dt){if(!ok()||!PREF.amb){if(AMB){AMB.traffic.gain.value=0;AMB.crowd.gain.value=0}return}const a=ambNodes();let n=0,peds=0;try{for(const t of VIDA625.TR){const d=Math.hypot(t.u+V.OX-P.x,t.v+V.OZ-P.z);if(d<90)n+=1-d/90}for(const p of VIDA625.PD){const d=Math.hypot(p.u+V.OX-P.x,p.v+V.OZ-P.z);if(d<30)peds+=1-d/30}}catch(_){}
+  const inside=(()=>{try{return CASA626.inside}catch(_){return false}})();const k=inside?.15:1;a.traffic.gain.setTargetAtTime(Math.min(.2,.035+n*.02)*k,AC.currentTime,.4);a.crowd.gain.setTargetAtTime(Math.min(.09,peds*.012)*k,AC.currentTime,.4);
+  let h=12;try{h=W537.clock().h}catch(_){}const day=h>=6&&h<19;
+  birdT-=dt;if(birdT<=0){birdT=2+rnd()*6;if(day&&!inside&&!DRV){M.bird++;const t=AC.currentTime;const f=2600+rnd()*1800;for(let i=0;i<2+(rnd()*3|0);i++)tone(t+i*.11,.08,'sine',f,f*(1.2+rnd()*.3),.025)}}
+  dogT-=dt;if(dogT<=0){dogT=15+rnd()*25;if(!day){M.dog++;const t=AC.currentTime;for(let i=0;i<2;i++){noise(t+i*.28,.14,'bandpass',520,2,.06);tone(t+i*.28,.14,'triangle',360,200,.05)}}}
+  farT-=dt;if(farT<=0){farT=30+rnd()*50;if(!(S.wanted>0)&&!inside){/* sirena lejana */const t=AC.currentTime;const o=AC.createOscillator();o.type='sine';const g=AC.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.025,t+1);g.gain.linearRampToValueAtTime(0,t+5);for(let i=0;i<5;i++){o.frequency.setValueAtTime(700,t+i);o.frequency.linearRampToValueAtTime(1300,t+i+.5);o.frequency.linearRampToValueAtTime(700,t+i+1)}o.connect(g);g.connect(OUT);o.start(t);o.stop(t+5.2)}}}
+ /* ---------- enganches: lo que ya hacía «bip» ahora suena de verdad ---------- */
+ try{const _snd=snd;snd=function(k){try{if(ok()){if(k==='crash'){crash(.9,false);return}if(k==='honk'){horn(.9);return}if(k==='siren'){return}if(k==='hit'){try{if(TIRO541.active()){gunshot(.75);return}}catch(_){}}/* la sirena ya suena sola */}}catch(e){err('snd',e)}return _snd.apply(this,arguments)};window.snd=snd}catch(e){err('snd',e)}
+ /* balaceras con coberturas (TIRO541): tus disparos también suenan */try{const T5=TIRO541;const _fo=T5.fireOpen;T5.fireOpen=function(){const r=_fo.apply(this,arguments);try{if(S.w>=2)gunshot(1)}catch(_){}return r}}catch(e){err('tiroteo',e)}
+ try{const _tr=tracer;tracer=function(a,b,c,d,e,f){const r=_tr.apply(this,arguments);try{gunshot(Math.max(.15,distVol(a,c,140)))}catch(_){}return r};window.tracer=tracer}catch(e){err('tracer',e)}
+ try{const _ci=carImpact;carImpact=function(k,speed){const r=_ci.apply(this,arguments);try{if(k&&k.g&&speed>4){const p=k.g.position;crash(Math.min(1,speed/22)*Math.max(.2,distVol(p.x,p.z,90)),speed>13)}}catch(_){}return r};window.carImpact=carImpact}catch(e){err('carImpact',e)}
+ /* los claxons de la ciudad (los de VIVO627) */try{if(window.VIVO627){const H=VIVO627;H.horn=horn}}catch(_){}
+ /* ---------- teléfono ---------- */
+ try{Phone58.register({id:'sonido627',name:'Sonido',icon:'🔊',render(api){return {title:'🔊 Sonido',text:'Volumen de sirenas, balazos, choques y ciudad: '+Math.round(PREF.vol*100)+'%. Ciudad (tráfico, gente, pájaros, perros): '+(PREF.amb?'prendida':'apagada')+'.',rows:[],
+   buttons:[['🔉 Bajar',()=>{PREF.vol=Math.max(0,+(PREF.vol-.25).toFixed(2));if(OUT)OUT.gain.value=PREF.vol;savePref();api.refresh?api.refresh():api.close()}],['🔊 Subir',()=>{PREF.vol=Math.min(1,+(PREF.vol+.25).toFixed(2));if(OUT)OUT.gain.value=PREF.vol;savePref();api.refresh?api.refresh():api.close()}],[PREF.amb?'🏙️ Apagar ciudad':'🏙️ Prender ciudad',()=>{PREF.amb=!PREF.amb;savePref();api.refresh?api.refresh():api.close()}],['Volver',()=>api.home()]]}}})}catch(e){err('teléfono',e)}
+ try{const _st=step;step=function(dt){const r=_st.apply(this,arguments);try{const d=Math.min(.1,Math.max(0,dt||0));sirenStep(d);screechStep(d);if(inNew())ambient(d);else if(AMB){AMB.traffic.gain.value=0;AMB.crowd.gain.value=0}}catch(e){err('paso',e)}return r}}catch(e){err('paso',e)}
+ try{NV600.G[1][1].push('🔊 Sonido de verdad: sirenas, balazos con eco, choques con vidrios, claxons, llantas que rechinan, tráfico, gente, pájaros y perros')}catch(_){}
+ return {M,PREF,gunshot,crash,horn};
+})();
+try{window.SON627=SON627}catch(_){}
+/*RB625-RB627_SONIDO-END*/
 
 /*RB625-RB625_JUGAR-BEGIN*/
 /* RUTA BRAVA V5.125 · UN SOLO JUEGO (pedido del productor: «no tienes que poder escoger entre online e historia, tiene que aparecer
