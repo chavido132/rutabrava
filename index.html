@@ -25903,7 +25903,7 @@ const VIDA625=(()=>{
   g.add(new THREE.Mesh(mergeParts(bodyP),PMAT));
   const lg=[-1,1].map(sg=>{const p=new THREE.Group();p.position.set(sg*.11,.8,0);p.add(new THREE.Mesh(mergeParts([[LGG,pn,0,-.4,0],[FTG,0x222222,0,-.78,-.05]]),PMAT));g.add(p);return p});
   const ar=[-1,1].map(sg=>{const p=new THREE.Group();p.position.set(sg*.34,1.44,0);p.add(new THREE.Mesh(mergeParts([[ARG,sh,0,-.29,0],[HND,sk,0,-.6,0]]),PMAT));g.add(p);return p});
-  g.userData.lg=lg;g.userData.ar=ar;g.userData.lite625=1;return g}
+  g.userData.lg=lg;g.userData.ar=ar;g.userData.lite625=1;try{if(window.CUERPO635)CUERPO635.liteEyes(g)}catch(_){}return g}
  function newPerson(){let g;try{g=litePerson(SH[(rnd()*SH.length)|0],PNs[(rnd()*PNs.length)|0],SKs[(rnd()*SKs.length)|0],HRs[(rnd()*HRs.length)|0],rnd()<.12?2:rnd()<.1?3:0)}catch(e){try{g=person(SH[0],PNs[0],SKs[0],HRs[0],0)}catch(_){err('persona',e);return null}}g.userData.p625=1;sc.add(g);return g}
  function spawnPed(){const pu=P.x-V.OX,pv=P.z-V.OZ;
   /* en una plaza cercana */if(rnd()<.35){for(const [u,v,r] of PLAZAS){if(Math.hypot(u-pu,v-pv)<200){const g=newPerson();if(!g)return;const a=rnd()*6.28,d=rnd()*r*.8;const p={g,mode:'plaza',c:[u,v,r],u:u+Math.cos(a)*d,v:v+Math.sin(a)*d,tu:0,tv:0,w:0,sp:1.1+rnd()*.5};pickPlaza(p);PD.push(p);M.spawnP++;posPed(p);return}}}
@@ -28345,6 +28345,105 @@ const CARGA634=(()=>{
 })();
 try{window.CARGA634=CARGA634}catch(_){}
 /*RB625-RB634_CARGA-END*/
+
+/*RB625-RB635_CUERPO-BEGIN*/
+/* RUTA BRAVA V5.134 · CUERPOS QUE SE VEN DE PERSONA (pedido del productor: «lo que le hace falta para que pueda ser nominado a
+   juego del año»; primero: que la gente se vea bien).
+   · Mismas piezas y mismas medidas que antes (todo lo que viste, anima o pinta a la gente sigue funcionando), pero con forma:
+     torso con pecho, cintura y cadera (ya no es un barril redondo: es más ancho que hondo), hombros, brazos con deltoide,
+     bíceps, codo y antebrazo, manos planas, cabeza con mandíbula y barbilla, piernas con muslo, rodilla y pantorrilla,
+     y tenis redondeados con suela.
+   · Lo hace cambiando la forma de las piezas compartidas (una sola vez para todo el juego): no cuesta nada extra al dibujar. */
+const CUERPO635=(()=>{
+ const M={errors:[],swapped:[],legs:0};const err=(w,e)=>{if(M.errors.length<8)M.errors.push(w+': '+(e&&e.message||e))};
+ const V2=(x,y)=>new THREE.Vector2(x,y);
+ /* reemplaza el contenido de una geometría compartida sin cambiar el objeto (todas las mallas que la usan cambian solas) */
+ function swap(dst,src,name){try{if(!dst||!src)return;const idx=src.index;dst.setIndex(idx?idx.clone():null);for(const k of Object.keys(dst.attributes))dst.deleteAttribute(k);for(const k of Object.keys(src.attributes))dst.setAttribute(k,src.attributes[k].clone());dst.groups=[];dst.clearGroups&&dst.clearGroups();for(const g of src.groups)dst.addGroup(g.start,g.count,g.materialIndex);dst.setDrawRange(0,Infinity);dst.boundingBox=null;dst.boundingSphere=null;dst.computeBoundingSphere();src.dispose();M.swapped.push(name)}catch(e){err(name,e)}}
+ /* lathe con perfil (r,y) y aplastado en z (más ancho que hondo) */
+ function lathe(pts,seg,sz,sx){const g=new THREE.LatheGeometry(pts.map(p=>V2(p[0],p[1])),seg);if(sz!==1||sx!==1)g.scale(sx||1,1,sz);g.computeVertexNormals();return g}
+ /* une piezas en una sola geometría (posición + normal) */
+ const mt=(x,y,z,rx,ry,rz,sx,sy,sz)=>new THREE.Matrix4().compose(new THREE.Vector3(x,y,z),new THREE.Quaternion().setFromEuler(new THREE.Euler(rx||0,ry||0,rz||0)),new THREE.Vector3(sx||1,sy||1,sz||1));
+ function fus(ps){let n=0;const gs=ps.map(p=>{const q=p[0].index?p[0].toNonIndexed():p[0].clone();q.applyMatrix4(p[1]);n+=q.attributes.position.count;return q});
+  const pos=new Float32Array(n*3),nor=new Float32Array(n*3),uv=new Float32Array(n*2);let o=0,o2=0;
+  for(const q of gs){pos.set(q.attributes.position.array,o);nor.set(q.attributes.normal.array,o);if(q.attributes.uv)uv.set(q.attributes.uv.array,o2);o+=q.attributes.position.count*3;o2+=q.attributes.position.count*2;q.dispose()}
+  const out=new THREE.BufferGeometry();out.setAttribute('position',new THREE.BufferAttribute(pos,3));out.setAttribute('normal',new THREE.BufferAttribute(nor,3));out.setAttribute('uv',new THREE.BufferAttribute(uv,2));return out}
+ const E=(r,w,h)=>new THREE.SphereGeometry(r,w||12,h||8);
+ /* ---------- formas ---------- */
+ /* TORSO (origen en la cadera, alto .74): cadera, cintura, pecho, hombros, trapecio y base del cuello */
+ const TORSO=[[.001,0],[.17,.005],[.215,.05],[.235,.13],[.222,.24],[.215,.31],[.24,.4],[.268,.48],[.29,.54],[.302,.6],[.292,.64],[.22,.685],[.13,.712],[.085,.728],[.001,.74]];
+ /* BRAZO (centrado, de +.29 hombro a -.29 muñeca): deltoide, bíceps, codo, antebrazo */
+ const BRAZO=[[.001,.27],[.045,.262],[.068,.24],[.077,.2],[.07,.14],[.066,.07],[.055,.0],[.052,-.03],[.06,-.09],[.058,-.16],[.047,-.24],[.04,-.29],[.001,-.3]];
+ /* PIERNA de lejos (centrada, de +.4 cadera a -.4 tobillo) */
+ const PIERNA=[[.001,.41],[.1,.4],[.108,.3],[.098,.16],[.08,.04],[.072,-.01],[.078,-.1],[.08,-.16],[.064,-.28],[.05,-.37],[.048,-.4],[.001,-.405]];
+ /* CABEZA (centro en 0, radio ~.19; la cara mira a -z): coronilla, sienes, pómulos, mandíbula y barbilla */
+ const CABEZA=[[.001,-.215],[.06,-.212],[.105,-.19],[.14,-.15],[.166,-.09],[.183,-.02],[.19,.04],[.186,.1],[.168,.15],[.13,.19],[.07,.212],[.001,.218]];
+ /* CABELLO (casquete de .2 que se ve arriba de la cabeza) */
+ function pelo(){const g=new THREE.SphereGeometry(.2,16,9,0,6.29,0,1.45);g.scale(.93,1.04,1.02);g.rotateX(.38);return g}
+ function cabeza(){const g=lathe(CABEZA,18,1,.93);/* mandíbula un poco al frente y nuca redonda */const p=g.attributes.position;for(let i=0;i<p.count;i++){const y=p.getY(i),z=p.getZ(i);if(y<-.05&&z<0)p.setZ(i,z*1.04);if(y>-.02&&z>0)p.setZ(i,z*1.03)}g.computeVertexNormals();return g}
+ /* MANO plana con dedos juntos (centro en 0): palma, dedos y pulgar */
+ function mano(){return fus([[E(.06,10,7),mt(0,0,0,0,0,0,.55,1.0,.95)],[E(.05,8,6),mt(0,-.055,-.004,0,0,0,.5,.85,.86)]])}
+ /* TENIS (relativo a la rodilla, como el de antes): suela, empeine redondo, punta y talón */
+ function tenis(){return fus([[new THREE.BoxGeometry(.13,.03,.29),mt(0,-.4035,-.055)],[E(.08,12,8),mt(0,-.372,-.07,0,0,0,.82,.62,1.72)],[E(.06,10,6),mt(0,-.388,-.175,0,0,0,1.0,.6,1.0)],[E(.06,10,6),mt(0,-.375,.065,0,0,0,1.05,.85,.8)],[new THREE.CylinderGeometry(.058,.06,.08,12),mt(0,-.33,0)]])}
+ function zapatoLejos(){return fus([[new THREE.BoxGeometry(.13,.03,.27),mt(0,-.025,-.03)],[E(.07,10,6),mt(0,.0,-.04,0,0,0,.9,.55,1.75)]])}
+ /* muslo y pierna baja de cerca (los que dobla la rodilla) */
+ const MUSLO=[[.001,.0],[.104,-.005],[.108,-.06],[.1,-.2],[.088,-.33],[.078,-.42],[.001,-.425]];
+ const ESPIN=[[.001,.07],[.06,.065],[.078,.02],[.079,-.06],[.081,-.11],[.07,-.2],[.056,-.3],[.048,-.37],[.05,-.405],[.001,-.41]];
+ /* ---------- aplicar ---------- */
+ try{swap(LGE,lathe(TORSO,20,.66,1),'torso')}catch(e){err('torso',e)}
+ try{swap(ARG,lathe(BRAZO,12,.92,1),'brazo')}catch(e){err('brazo',e)}
+ try{swap(LGG,lathe(PIERNA,12,.95,1),'pierna')}catch(e){err('pierna',e)}
+ try{swap(HD,cabeza(),'cabeza')}catch(e){err('cabeza',e)}
+ try{swap(HRG,pelo(),'pelo')}catch(e){err('pelo',e)}
+ try{swap(HND,mano(),'mano')}catch(e){err('mano',e)}
+ try{if(typeof FTG!=='undefined')swap(FTG,zapatoLejos(),'zapato')}catch(e){err('zapato',e)}
+ try{swap(NKG,lathe([[.001,-.06],[.07,-.055],[.064,0],[.06,.05],[.001,.055]],12,.92,1),'cuello')}catch(e){err('cuello',e)}
+ /* piezas de cerca (rb574): se buscan en el protagonista y se cambian una sola vez (son compartidas por todos) */
+ function legs574(g){try{const u=g&&g.userData;if(!u||!u.lg)return false;let did=false;for(const grp of u.lg){const muslo=grp.children.find(c=>c.isMesh&&c.name==='g574');const rod=grp.children.find(c=>c.isGroup&&c.name==='g574');
+    if(muslo&&!muslo.geometry.userData.c635){swap(muslo.geometry,lathe(MUSLO,12,.95,1),'muslo');muslo.geometry.userData.c635=1;did=true}
+    if(rod){const [esp,zap]=rod.children;if(esp&&esp.geometry&&!esp.geometry.userData.c635){swap(esp.geometry,lathe(ESPIN,12,.95,1),'espinilla');esp.geometry.userData.c635=1;did=true}
+     if(zap&&zap.geometry&&!zap.geometry.userData.c635){swap(zap.geometry,tenis(),'tenis');zap.geometry.userData.c635=1;did=true}}}
+   /* camisa y cinturón de rb574: al torso nuevo (más ancho que hondo) */
+   const t=g.children.find(c=>c.isMesh&&c.geometry===LGE);if(t)for(const c of t.children){if(c.name==='g574'&&c.isMesh&&!c.geometry.userData.c635){c.geometry.scale(1,1,.68);c.geometry.computeBoundingSphere();c.geometry.userData.c635=1;did=true}}
+   /* cara de rb574 (nariz y orejas): orejas pegadas a la cabeza más angosta */
+   const h=g.children.find(c=>c.isMesh&&c.geometry===HD);if(h)for(const c of h.children){if(c.name==='g574'&&c.isMesh&&c.material===h.material&&!c.geometry.userData.c635&&c.geometry.attributes.position.count<200){const p=c.geometry.attributes.position;for(let i=0;i<p.count;i++){const x=p.getX(i);if(Math.abs(x)>.15)p.setX(i,x*.92)}p.needsUpdate=true;c.geometry.userData.c635=1;did=true}}
+   if(did)M.legs++;return did}catch(e){err('rb574',e);return false}}
+ /* ---------- OJOS de verdad: blanco del ojo + iris + brillo, y parpadean ---------- */
+ /* las cajitas negras de antes (rb544 y rb574) se dejan de dibujar: sus dos primeras cajas eran los ojos (36 vértices c/u) */
+ try{if(typeof GENTE544!=='undefined'&&GENTE544.FACE)for(const k of Object.keys(GENTE544.FACE)){const g=GENTE544.FACE[k];if(g&&g.attributes.position.count>=72+36)g.setDrawRange(72,Infinity)}}catch(e){err('ojos544',e)}
+ const OJ574=new Set();
+ function ojos574(g){try{const h=g.children.find(c=>c.isMesh&&c.geometry===HD);if(!h)return;const hr=g.children.find(c=>c.isMesh&&c.geometry===HRG);for(const c of h.children){if(hr&&c.name==='g574'&&c.isMesh&&c.material===hr.material){const q=c.geometry,p=q.attributes.position;if(!OJ574.has(q)&&p.count>72){let fl=true;for(let i=0;i<36;i++)if(p.getZ(i)>-.12){fl=false;break}if(fl)q.setDrawRange(36,Infinity);OJ574.add(q)}continue}if(c.name==='g574'&&c.isMesh&&c.material!==h.material){const q=c.geometry;if(!OJ574.has(q)&&q.attributes.position.count===180){q.setDrawRange(72,Infinity);OJ574.add(q)}}}}catch(e){err('ojos574',e)}}
+
+ /* mangas de la ropa (rb544): de cilindro con tapa a manga redonda que cae del hombro */
+ const SLV=new Set();
+ function mangas(g){try{const u=g&&g.userData;if(!u||!u.ar)return;for(const a of u.ar)a.traverse(o=>{const q=o.geometry;if(!o.isMesh||!q||SLV.has(q)||q.type!=='CylinderGeometry'||!q.parameters)return;const P=q.parameters;
+    if(Math.abs(P.height-.22)<.001&&Math.abs(P.radiusTop-.082)<.001){swap(q,lathe([[.001,.1],[.05,.095],[.078,.075],[.088,.04],[.086,0],[.08,-.08],[.078,-.11]],16,.95,1),'manga');SLV.add(q)}
+    else if(Math.abs(P.height-.24)<.001&&Math.abs(P.radiusTop-.098)<.001){swap(q,lathe([[.001,.105],[.055,.1],[.085,.08],[.098,.045],[.097,0],[.09,-.09],[.088,-.12]],16,.95,1),'mangaAncha');SLV.add(q)}})}catch(e){err('mangas',e)}}
+ const EMAT=new THREE.MeshLambertMaterial({vertexColors:true});
+ function colorize(g,c){const n=g.attributes.position.count,a=new Float32Array(n*3),C=new THREE.Color(c);for(let i=0;i<n;i++){a[i*3]=C.r;a[i*3+1]=C.g;a[i*3+2]=C.b}g.setAttribute('color',new THREE.BufferAttribute(a,3));return g}
+ function ojosGeo(iris){const parts=[];for(const s of [-1,1]){const x=s*.066;
+   parts.push([colorize(E(.03,8,6),0xf4efe6),mt(x,.03,-.166,0,0,0,1,.72,.5)]);
+   parts.push([colorize(E(.0165,8,5),iris),mt(x,.03,-.1795,0,0,0,1,1,.42)]);
+   parts.push([colorize(E(.008,6,4),0x0b0806),mt(x,.03,-.1855,0,0,0,1,1,.35)]);
+   parts.push([colorize(E(.0045,4,3),0xffffff),mt(x+.006,.037,-.1885,0,0,0,1,1,.4)])}
+  let n=0;const gs=parts.map(p=>{const q=p[0].toNonIndexed();q.applyMatrix4(p[1]);n+=q.attributes.position.count;return q});
+  const pos=new Float32Array(n*3),nor=new Float32Array(n*3),col=new Float32Array(n*3);let o=0;for(const q of gs){pos.set(q.attributes.position.array,o);nor.set(q.attributes.normal.array,o);col.set(q.attributes.color.array,o);o+=q.attributes.position.count*3}
+  const out=new THREE.BufferGeometry();out.setAttribute('position',new THREE.BufferAttribute(pos,3));out.setAttribute('normal',new THREE.BufferAttribute(nor,3));out.setAttribute('color',new THREE.BufferAttribute(col,3));return out}
+ const OJOS=[0x3b2414,0x2a1a0e,0x4a3018,0x5a3b1c,0x1d120a,0x3d5a2a].map(ojosGeo);/* cafés (casi todos) y alguno verde */
+ const EYES=[];M.eyes=0;
+ function ponOjos(g,i){try{const h=g&&g.children&&g.children.find(c=>c.isMesh&&c.geometry===HD);if(!h||h.userData.o635)return;h.userData.o635=1;
+   const m=new THREE.Mesh(OJOS[(i==null?(Math.random()*OJOS.length)|0:i)%OJOS.length],EMAT);m.name='o635';m.userData.bl=2+Math.random()*4;h.add(m);EYES.push(m);M.eyes++;ojos574(g);
+   if(EYES.length>400){for(let k=EYES.length-1;k>=0;k--){let r=EYES[k];while(r.parent)r=r.parent;if(r!==sc)EYES.splice(k,1)}}}catch(e){err('ponOjos',e)}}
+ try{const _p=person;person=function(){const g=_p.apply(this,arguments);try{ponOjos(g);if(SLV.size<2)mangas(g)}catch(_){}return g};window.person=person}catch(e){err('person',e)}
+ try{ponOjos(body,0)}catch(_){}
+ function liteEyes(g){try{const m=new THREE.Mesh(OJOS[(Math.random()*OJOS.length)|0],EMAT);m.name='o635';m.position.set(0,1.7,0);m.userData.bl=2+Math.random()*4;g.add(m);EYES.push(m);M.eyes++}catch(e){err('lite',e)}}
+ /* parpadeo: cada 2–6 s, una décima de segundo */
+ let bT=0,lodT=0;function blink(dt){bT+=dt;if(bT<.05)return;const d=bT;bT=0;const W=new THREE.Vector3();const far=(lodT+=d)>.3;if(far)lodT=0;for(const m of EYES){const u=m.userData;if(far){m.getWorldPosition(W);m.visible=W.distanceToSquared(cam.position)<26*26}u.bl-=d;if(u.bl<=0){if(u.bl<-.12){u.bl=2+Math.random()*4;m.scale.y=1}else m.scale.y=.12}}}
+ let tries=0;try{legs574(body)}catch(_){}
+ try{const _st=step;step=function(dt){const r=_st.apply(this,arguments);try{if(M.legs<1&&tries<600&&(++tries%30===0)){legs574(body);ojos574(body)}if(SLV.size<2&&tries<900&&(++tries%45===0)){mangas(body);try{for(const p of (VIDA625.PD||[]))if(p.g&&SLV.size<2)mangas(p.g)}catch(_){}}blink(Math.min(.2,dt||0))}catch(_){}return r}}catch(e){err('paso',e)}
+ return {M,legs574,ponOjos,liteEyes,EYES,TORSO,BRAZO};
+})();
+try{window.CUERPO635=CUERPO635}catch(_){}
+/*RB625-RB635_CUERPO-END*/
 
 /*RB625-RB625_JUGAR-BEGIN*/
 /* RUTA BRAVA V5.125 · UN SOLO JUEGO (pedido del productor: «no tienes que poder escoger entre online e historia, tiene que aparecer
