@@ -25260,7 +25260,7 @@ const VALLE624=(()=>{
   return g}
  const NSC=new Map();
  function nameSign(t){let m=NSC.get(t);if(!m){const tex=canvasTex(512,96,(x,w,h)=>{x.fillStyle='#1d6b3a';x.fillRect(0,0,w,h);x.strokeStyle='#fff';x.lineWidth=5;x.strokeRect(6,6,w-12,h-12);x.fillStyle='#fff';x.textAlign='center';x.textBaseline='middle';let fs=56;x.font='bold '+fs+'px Arial,Helvetica,sans-serif';while(x.measureText(t).width>w-40&&fs>20){fs-=3;x.font='bold '+fs+'px Arial,Helvetica,sans-serif'}x.fillText(t,w/2,h/2+2)});tex.wrapS=tex.wrapT=THREE.ClampToEdgeWrapping;
-  m=new THREE.MeshBasicMaterial({map:tex,side:THREE.DoubleSide});NSC.set(t,m)}const L=Math.min(7,2.2+t.length*.17);const me=new THREE.Mesh(new THREE.PlaneGeometry(L,L*96/512),m);return me}
+  m=new THREE.MeshBasicMaterial({map:tex,side:THREE.FrontSide});NSC.set(t,m)}const L=Math.min(7,2.2+t.length*.17);/* V5.131: dos caras (antes se leía al revés por detrás) */const gq=new THREE.PlaneGeometry(L,L*96/512);const me=new THREE.Group();const f1=new THREE.Mesh(gq,m),f2=new THREE.Mesh(gq,m);f2.rotation.y=Math.PI;me.add(f1);me.add(f2);return me}
  /* ---------- colisiones propias (rejilla) ---------- */
  const CG=new Map(),CGC=16;
  let COLS=null;/* mientras se arma un pedazo, sus choques se anotan aquí para quitarlos cuando el pedazo se borra */
@@ -26918,7 +26918,7 @@ const VIVO627=(()=>{
  function fxStep(dt){for(let i=FX.length-1;i>=0;i--){const f=FX[i];f.t-=dt;if(f.t<=0){sc.remove(f.o);try{f.o.geometry.dispose();if(f.k==='sp')f.o.material.dispose()}catch(_){}FX.splice(i,1);continue}
    if(f.k==='sp'){const a=f.o.geometry.attributes.position;for(let j=0;j<f.vel.length;j++){f.vel[j][1]-=9.8*dt;a.array[j*3]+=f.vel[j][0]*dt;a.array[j*3+1]+=f.vel[j][1]*dt;a.array[j*3+2]+=f.vel[j][2]*dt}a.needsUpdate=true;f.o.material.opacity=f.t/.7}
    else{f.vel[1]-=9.8*dt;f.o.position.x+=f.vel[0]*dt;f.o.position.y=Math.max(f.o.position.y+f.vel[1]*dt,G512.h(f.o.position.x,f.o.position.z)+.02);f.o.position.z+=f.vel[2]*dt;f.o.rotation.x+=f.spin*dt}}
-  /* humo de coches muy golpeados (cerca de ti) */smT-=dt;if(smT<=0){smT=.16;for(const k of CARS){if(!k.g||k.condition==null||k.condition>40)continue;const p=k.g.position;if(Math.hypot(p.x-P.x,p.z-P.z)>70)continue;const th=k.g.rotation.y;const hx=p.x+Math.cos(th)*1.6,hz=p.z-Math.sin(th)*1.6;
+  /* humo de coches muy golpeados (cerca de ti) */smT-=dt;if(smT<=0){smT=.16;for(const k of CARS){if(!k.g||k.condition==null||k.condition>40)continue;/* V5.131: el humo de TU coche no te tapa la vista (solo sale cuando ya está por morirse, y bajito) */if(DRV&&DRV.k===k&&k.condition>15)continue;const p=k.g.position;if(Math.hypot(p.x-P.x,p.z-P.z)>70)continue;const th=k.g.rotation.y;const hx=p.x+Math.cos(th)*1.6,hz=p.z-Math.sin(th)*1.6;
     puff(hx+(rnd()-.5)*.3,p.y+1.1,hz+(rnd()-.5)*.3,k.condition<15?0x222222:0x9a9a9a,false);if(k.condition<15&&rnd()<.7)puff(hx,p.y+.95,hz,0xff7a1a,true);M.smoke++}}
   for(let i=SMK.length-1;i>=0;i--){const o=SMK[i];o.t-=dt;if(o.t<=0){sc.remove(o.s);o.s.material.dispose();SMK.splice(i,1);continue}const a=1-o.t/o.t0;o.s.position.y+=dt*(o.fire?1.4:1.1);const sz=o.fire?.6+a*.5:.6+a*2.4;o.s.scale.set(sz,sz,1);o.s.material.opacity=(o.fire?.9:.55)*(1-a)}}
  /* ================= SONIDOS DE LA CIUDAD ================= */
@@ -28046,6 +28046,47 @@ const EST630=(()=>{
 })();
 try{window.EST630=EST630}catch(_){}
 /*RB625-RB630_ESTUDIO-END*/
+
+/*RB625-RB631_NOCHE-BEGIN*/
+/* RUTA BRAVA V5.131 · VIDA QUE SE RECUPERA Y NOCHES QUE SE VEN (pedido del productor: «aparecí con baja vida, no se regeneró…
+   la noche está bien pero se tiene que ver mejor, la iluminación tiene que verse mejor»).
+   · VIDA: el hambre y la sed ya no te dejan en 1 de vida: como mucho te bajan a 25. Si estás comido y con agua, la vida se
+     recupera sola poco a poco (como en GTA) después de unos segundos sin que te peguen. El hambre y la sed bajan a la mitad de rápido.
+     Al empezar o al despertar en tu casa ya comiste algo (comida, agua y energía al menos 60 y vida al menos 60).
+     Si tienes mucha hambre o sed, te dice dónde comer (puestos de tacos o el refri de tu casa).
+   · NOCHE EN LA CDMX: más luz de luna, el resplandor naranja de la ciudad en el suelo y en el cielo (como se ve de verdad la
+     Ciudad de México de noche), niebla menos negra: los edificios ya no son sombras con ventanas flotando. */
+const NOCHE631=(()=>{
+ const M={errors:[],regen:0,floor:0,topups:0,hints:0,night:0};const err=(w,e)=>{if(M.errors.length<6)M.errors.push(w+': '+(e&&e.message||e))};
+ const inNew=()=>{try{return VALLE624.ready&&VALLE624.inW(P.x,P.z)}catch(_){return false}};
+ let hurtT=-1e9,tNow=0;
+ try{const _h=hurtP;hurtP=function(d){if(typeof d==='number'&&d>0)hurtT=tNow;return _h.apply(this,arguments)};window.hurtP=hurtP}catch(e){err('vida',e)}
+ /* al empezar o despertar en tu casa: ya comiste */
+ function topUp(){try{if(typeof L510!=='undefined'){for(const k of ['food','water','energy'])L510[k]=Math.max(L510[k]||0,60)}S.hp=Math.max(S.hp||0,60);M.topups++;try{upd()}catch(_){}}catch(e){err('casa',e)}}
+ try{const _s=CASA626.start;CASA626.start=function(){const r=_s.apply(this,arguments);topUp();return r}}catch(e){err('inicio',e)}
+ let prev=null,hintT=40;
+ function life(dt){if(typeof L510==='undefined')return;
+  /* hambre y sed a la mitad de rápido */if(prev){for(const k of ['food','water']){const d=prev[k]-L510[k];if(d>0&&d<1)L510[k]=Math.min(100,L510[k]+d*.5)}}
+  const starving=L510.food<12||L510.water<12;
+  /* el hambre no te deja en 1 */if(starving&&S.hp<25&&tNow-hurtT>1.5){S.hp=25;M.floor++}
+  /* se recupera sola si estás comido */if(!starving&&L510.food>=25&&L510.water>=25&&tNow-hurtT>8&&S.hp>0&&S.hp<100){S.hp=Math.min(100,S.hp+dt*(S.hp<50?1.2:.6));M.regen+=dt}
+  hintT-=dt;if(hintT<=0&&(L510.food<20||L510.water<20)){hintT=150;M.hints++;try{toast(L510.food<20?'🌮 Tienes hambre: come en un puesto de tacos o en el refri de tu casa':'🥤 Tienes sed: compra agua en un puesto o en una tiendita')}catch(_){}}
+  prev={food:L510.food,water:L510.water}}
+ /* ---------- la noche ---------- */
+ const C=h=>[(h>>16&255)/255,(h>>8&255)/255,(h&255)/255];const lerp=(a,b,k)=>[a[0]+(b[0]-a[0])*k,a[1]+(b[1]-a[1])*k,a[2]+(b[2]-a[2])*k];
+ const get=c=>[c.r,c.g,c.b];const set=(c,v)=>{if(c&&c.setRGB)c.setRGB(v[0],v[1],v[2])};
+ const NH=C(0x8a9cc8),NG=C(0x6a4a34),NF=C(0x262c44),NS=C(0x2e3456),MOON=C(0xb8c8ee);
+ function night(){try{const a=DIA538.last;if(!a)return;const n=a.night||0;M.night=n;if(n<=0||!inNew())return;const hemi=VIS536.hemi,sun=VIS536.sun;const k=n;
+   if(hemi){const base=VIS536.base.hemi||1;hemi.intensity=Math.max(hemi.intensity,hemi.intensity+(base*.62-hemi.intensity)*k);set(hemi.color,lerp(get(hemi.color),NH,k*.8));set(hemi.groundColor,lerp(get(hemi.groundColor),NG,k*.85))}
+   if(sun){sun.intensity=Math.max(sun.intensity,.34*k);set(sun.color,lerp(get(sun.color),MOON,k))}
+   if(sc.fog){set(sc.fog.color,lerp(get(sc.fog.color),NF,k));if(sc.background&&sc.background.isColor)set(sc.background,lerp(get(sc.background),NF,k))}
+   const sky=VIS536.sky;if(sky&&sky.material&&sky.material.color)set(sky.material.color,lerp(get(sky.material.color),NS,k))}catch(e){err('noche',e)}}
+ try{const _st=step;step=function(dt){const r=_st.apply(this,arguments);try{const d=Math.min(.2,Math.max(0,dt||0));tNow+=d;if(inNew())life(d);night()}catch(e){err('paso',e)}return r}}catch(e){err('paso',e)}
+ try{NV600.G[1][1].push('❤️ La vida se recupera sola si estás comido; el hambre ya no te deja en 1; al empezar en tu casa ya comiste · 🌙 Noches de la CDMX con luz de luna y el resplandor naranja de la ciudad')}catch(_){}
+ return {M,topUp,life,night};
+})();
+try{window.NOCHE631=NOCHE631}catch(_){}
+/*RB625-RB631_NOCHE-END*/
 
 /*RB625-RB625_JUGAR-BEGIN*/
 /* RUTA BRAVA V5.125 · UN SOLO JUEGO (pedido del productor: «no tienes que poder escoger entre online e historia, tiene que aparecer
