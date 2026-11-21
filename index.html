@@ -20273,7 +20273,7 @@ const HIST572=(()=>{
      ['Chuy','En el Puerto. Vi lo del banco en las noticias… y supe que eras tú. Te pareces a mí, carnal. Por eso te hablo.'],
      ['Chuy','Escúchame bien: no le creas a mi papá. Esa deuda no es lo que te contó. Chendo y él tienen algo pendiente desde antes de que naciéramos.'],
      ['Chuy','Ven al Puerto cuando estés listo. Y no le digas a nadie. A nadie, Toño.'],
-     ['','FIN DEL ACTO 1 · LA CALLE\n\nEl Acto 2 · «El Puerto» llega en la próxima versión.','Continuar']]},()=>{toast('◆ Fin del Acto 1');try{save()}catch(_){}})}}
+     ['','FIN DEL ACTO 1 · LA CALLE\n\nEmpieza el Acto 2 · «El Puerto».','Continuar']]},()=>{toast('◆ Fin del Acto 1');try{save()}catch(_){}try{ACTO2627.begin()}catch(_){}})}}
  ];
  /* ---------------- vigilar ---------------- */
  let acc=0,wait=0;
@@ -25913,6 +25913,7 @@ const VIDA625=(()=>{
   for(let i=PD.length-1;i>=0;i--){const p=PD[i];const d=Math.hypot(p.u-pu,p.v-pv);if(d>(p.keep?600:300)){rmPed(i);continue}
    if(p.down){p.down-=dt;if(p.down<=0){rmPed(i)}continue}
    /* atropellado */if(me&&DRV&&Math.abs(DRV.v)>4){const c=me.g.position;if(Math.hypot(c.x-p.g.position.x,c.z-p.g.position.z)<1.7&&Math.abs(c.y-p.g.position.y)<2){p.down=6;p.g.rotation.x=-Math.PI/2;p.g.position.y+=.25;M.hitP++;try{snd('crash')}catch(_){}continue}}
+   /* V5.127: alguien más la controla (huye, se agacha, graba con el celular…) */if(p.ext){try{if(p.ext(p,dt)!==false)continue}catch(_){p.ext=null}}
    let mv=true;
    if(p.mode==='plaza'){const dx=p.tu-p.u,dz=p.tv-p.v,dd=Math.hypot(dx,dz);if(p.w>0){p.w-=dt;mv=false}else if(dd<.6){p.w=1+rnd()*5;pickPlaza(p);mv=false}else{p.u+=dx/dd*p.sp*dt;p.v+=dz/dd*p.sp*dt}}
    else if(p.mode==='av'){p.s+=p.dir*p.sp*dt;if(p.s<3||p.s>p.r.len-3){if(p.r.closed)p.s=((p.s%p.r.len)+p.r.len)%p.r.len;else p.dir*=-1}}
@@ -25922,7 +25923,7 @@ const VIDA625=(()=>{
  function clearAll(){for(let i=TR.length-1;i>=0;i--)rmCar(TR[i]);for(let i=PD.length-1;i>=0;i--)rmPed(i)}
  /* para el modo prueba: gente alrededor de un punto (camina en una «plaza» invisible de radio r) */
  function spawnAround(u,v,n,r){let k=0;for(let i=0;i<n;i++){const g=newPerson();if(!g)break;const a=rnd()*6.28,d=2+rnd()*r*.8;const p={g,mode:'plaza',c:[u,v,r],u:u+Math.cos(a)*d,v:v+Math.sin(a)*d,tu:0,tv:0,w:0,sp:1.1+rnd()*.5,keep:1};pickPlaza(p);PD.push(p);posPed(p);k++}return k}
- const API={M,TR,PD,SIG,clearAll,spawnAround,lightFor,off:false};
+ const API={M,TR,PD,SIG,clearAll,spawnAround,lightFor,off:false,rmPed:p=>{const i=PD.indexOf(p);if(i>=0)rmPed(i)}};
  const _st=step;step=function(dt){const r=_st.apply(this,arguments);try{const inside=V.ready&&V.inW(P.x,P.z)&&!API.off;if(inside){const d=Math.min(.1,Math.max(0,dt||0));sigInit();sigStep(d);carStep(d);pedStep(d)}else if(TR.length||PD.length)clearAll()}catch(e){err('paso',e)}return r};
  return API;
 })();
@@ -26826,6 +26827,257 @@ const TRAB626=(()=>{
 })();
 try{window.TRAB626=TRAB626}catch(_){}
 /*RB625-RB626_TRABAJOS-END*/
+
+/*RB625-RB627_VIVO-BEGIN*/
+/* RUTA BRAVA V5.127 · CIUDAD VIVA (lo que más se siente en los primeros minutos):
+   · LA GENTE REACCIONA: si disparas, chocas fuerte, te subes a la banqueta o le apuntas a alguien, la gente corre, se agacha o…
+     saca el celular y te GRABA (los «chismosos»: si grabaron un delito, a los segundos llaman al 911 y te sube la Alerta C5).
+     Si casi atropellas a alguien, brinca a un lado y te grita («¡Fíjate, güey!»). Globitos con lo que dicen.
+   · EL TRÁFICO SE DESESPERA: si le estorbas, te pita y te grita.
+   · CHOQUES CON TODO: chispas, vidrios que vuelan, humo cuando el motor ya está mal y fuego cuando está por morirse.
+   · SONIDOS DE LA CIUDAD: claxons a lo lejos, sirenas y las camionetas del «fierro viejo» y de los tamales con su grabación
+     (voz del teléfono), la más famosa de la CDMX.
+   · RADIO CAPITAL: en el coche, el locutor cuenta lo que pasa en la ciudad (persecuciones, asaltos, tráfico… lo que tú haces).
+     Se apaga en el teléfono → Ajustes de la radio (app «Radio Capital»). */
+const VIVO627=(()=>{
+ const V=VALLE624;const M={errors:[],reacts:0,flee:0,duck:0,film:0,reports:0,yells:0,honks:0,sparks:0,glass:0,smoke:0,voice:0,radio:0};const err=(w,e)=>{if(M.errors.length<8)M.errors.push(w+': '+(e&&e.message||e))};
+ const OX=V.OX,OZ=V.OZ;const inNew=()=>{try{return V.ready&&V.inW(P.x,P.z)}catch(_){return false}};const rnd=Math.random;const pick=a=>a[(rnd()*a.length)|0];
+ const st=()=>{try{RB.v627=RB.v627&&typeof RB.v627==='object'?RB.v627:{voz:1};return RB.v627}catch(_){return {voz:1}}};
+ /* ================= GLOBITOS ================= */
+ const BUB=[];const TEX=new Map();
+ function bubTex(t){let x=TEX.get(t);if(x)return x;const c=document.createElement('canvas');c.width=256;c.height=80;const g=c.getContext('2d');g.fillStyle='#fffdf5';g.strokeStyle='#222';g.lineWidth=4;const r=18;g.beginPath();g.moveTo(r,4);g.lineTo(252-r,4);g.quadraticCurveTo(252,4,252,4+r);g.lineTo(252,60-r);g.quadraticCurveTo(252,60,252-r,60);g.lineTo(70,60);g.lineTo(52,76);g.lineTo(56,60);g.lineTo(r,60);g.quadraticCurveTo(4,60,4,60-r);g.lineTo(4,4+r);g.quadraticCurveTo(4,4,r,4);g.closePath();g.fill();g.stroke();
+  g.fillStyle='#111';g.textAlign='center';g.textBaseline='middle';let fs=30;g.font='bold '+fs+'px Arial';while(g.measureText(t).width>230&&fs>14){fs-=2;g.font='bold '+fs+'px Arial'}g.fillText(t,128,33);x=new THREE.CanvasTexture(c);TEX.set(t,x);return x}
+ function bubble(obj,text,h){if(!obj)return;for(let i=BUB.length-1;i>=0;i--)if(BUB[i].obj===obj){try{obj.remove(BUB[i].s)}catch(_){}BUB.splice(i,1)}if(BUB.length>=4){const o=BUB.shift();try{o.obj.remove(o.s)}catch(_){}}
+  const s=new THREE.Sprite(new THREE.SpriteMaterial({map:bubTex(text),depthTest:false,transparent:true}));s.scale.set(2.4,.75,1);s.position.set(0,h||2.45,0);s.renderOrder=9;obj.add(s);BUB.push({obj,s,t:2.6})}
+ function bubStep(dt){for(let i=BUB.length-1;i>=0;i--){const b=BUB[i];b.t-=dt;if(b.t<=0||!b.obj.parent){try{b.obj.remove(b.s);b.s.material.dispose()}catch(_){}BUB.splice(i,1)}else if(b.t<.4)b.s.material.opacity=b.t/.4}}
+ const GRITOS={casi:['¡Fíjate, güey!','¡Ay, cabrón!','¡Bájale!','¡Ni que fuera tuya la calle!','¡Aguas!','¡Casi me matas!','¡Qué te pasa!'],tiro:['¡Corran!','¡Está armado!','¡Ay, Diosito!','¡Llamen a la policía!','¡Al suelo!'],
+  choque:['¡Uuuy!','¡Ya se dieron!','¡Qué madrazo!','¡Uy, ese ya no arranca!'],graba:['¡Ya te grabé!','¡Esto va pa’ Facebook!','¡Sonríele a la cámara!','Grabando…'],banqueta:['¡Es banqueta!','¡Bájate de la banqueta!','¡Loco!'],
+  pita:['¡Muévete!','¡Avánzale!','¡Ándale, güey!','¡Es pa’ hoy!','¡Órale!'],apunta:['¡No me dispare!','¡Tranquilo, tranquilo!','¡Llévese todo!']};
+ /* ================= LA GENTE REACCIONA ================= */
+ let PHONE=null;function phoneMesh(){if(!PHONE){PHONE=new THREE.BoxGeometry(.08,.15,.02)}const m=new THREE.Mesh(PHONE,new THREE.MeshBasicMaterial({color:0x111111}));const sc2=new THREE.Mesh(new THREE.PlaneGeometry(.065,.12),new THREE.MeshBasicMaterial({color:0x9fd3ff}));sc2.position.z=-.012;sc2.rotation.y=Math.PI;m.add(sc2);return m}
+ const WITNESS=[];/* chismosos que grabaron un delito: {t,why} */
+ function peds(){try{return VIDA625.PD}catch(_){return []}}
+ function react(u,v,R,kind,why){if(!inNew())return;let n=0;for(const p of peds()){if(p.down||p.react)continue;const d=Math.hypot(p.u-u,p.v-v);if(d>R)continue;
+   let r=rnd();let mode=kind==='tiro'||kind==='apunta'?(r<.62?'flee':r<.84?'duck':'film'):kind==='choque'?(r<.3?'flee':r<.62?'film':'look'):kind==='banqueta'?(r<.7?'flee':'film'):'flee';
+   if(kind==='apunta'&&d<4)mode='hands';start(p,mode,u,v,kind);n++;if(n<=2||rnd()<.25){const set=mode==='film'?GRITOS.graba:mode==='hands'?GRITOS.apunta:GRITOS[kind]||GRITOS.casi;if(rnd()<.6){bubble(p.g,pick(set));M.yells++}}
+   if(mode==='film'&&why)WITNESS.push({t:3+rnd()*4,why})}if(n)M.reacts++;return n}
+ function start(p,mode,u,v,kind){p.react={mode,t:mode==='flee'?7+rnd()*5:mode==='duck'?4+rnd()*3:mode==='film'?6+rnd()*4:mode==='hands'?4:2.5,su:u,sv:v,sp:mode==='flee'?4.2+rnd()*1.6:0};p.keep=1;M[mode==='hands'?'duck':mode==='look'?'reacts':mode]=(M[mode==='hands'?'duck':mode==='look'?'reacts':mode]||0)+1;
+  if(mode==='film'){try{const ar=p.g.userData.ar;if(ar){ar[1].rotation.x=-1.9;const ph=phoneMesh();ph.position.set(0,-.62,-.05);ar[1].add(ph);p.react.ph=ph}}catch(_){}}
+  if(mode==='hands'){try{const ar=p.g.userData.ar;if(ar){ar[0].rotation.x=-3;ar[1].rotation.x=-3}}catch(_){}}
+  p.ext=extStep}
+ function endReact(p){try{const ar=p.g.userData.ar;if(ar){ar[0].rotation.x=0;ar[1].rotation.x=0;if(p.react.ph)ar[1].remove(p.react.ph)}}catch(_){}p.g.scale.y=1;p.react=null;p.ext=null}
+ function extStep(p,dt){const R=p.react;if(!R){p.ext=null;return false}R.t-=dt;const g=p.g;
+  if(R.mode==='flee'){/* corre lejos del peligro, sin meterse a los edificios */let dx=p.u-R.su,dz=p.v-R.sv;const d=Math.hypot(dx,dz)||1;dx/=d;dz/=d;if(R.jx==null){R.jx=(rnd()-.5)*.8}const a=Math.atan2(dz,dx)+R.jx;let nu=p.u+Math.cos(a)*R.sp*dt,nv=p.v+Math.sin(a)*R.sp*dt;
+   const y=g.position.y;if(V.colHit(nu,nv,y+.8,.3)){R.jx+=(rnd()<.5?1:-1)*1.2;nu=p.u;nv=p.v}p.u=nu;p.v=nv;const s=V.surface(nu,nv,y);g.position.set(nu+OX,s.y,nv+OZ);g.rotation.y=Math.atan2(-Math.cos(a),-Math.sin(a));try{anim(g,true,dt*1.8)}catch(_){}
+   try{const ar=g.userData.ar;if(ar){ar[0].rotation.x=-2.6+Math.sin(R.t*12)*.3;ar[1].rotation.x=-2.6-Math.sin(R.t*12)*.3}}catch(_){}}
+  else if(R.mode==='duck'||R.mode==='hands'){g.scale.y=R.mode==='duck'?.55:1;try{anim(g,false,dt)}catch(_){}}
+  else if(R.mode==='film'||R.mode==='look'){/* voltea a ver */const fx=(DRV&&DRV.k?DRV.k.g.position.x:P.x)-g.position.x,fz=(DRV&&DRV.k?DRV.k.g.position.z:P.z)-g.position.z;g.rotation.y=Math.atan2(-fx,-fz);try{anim(g,false,dt)}catch(_){}}
+  if(R.t<=0){const mode=R.mode;endReact(p);if(mode==='flee'){/* se fue: si ya no lo ves, desaparece */const d=Math.hypot(p.u-(P.x-OX),p.v-(P.z-OZ));if(d>35){try{VIDA625.rmPed(p)}catch(_){}return true}}p.keep=0;
+   /* vuelve a su camino: si estaba en banqueta lejos de su ruta, mejor camina en «plaza» donde quedó */if(p.mode!=='plaza'){p.mode='plaza';p.c=[p.u,p.v,8];p.tu=p.u+(rnd()-.5)*10;p.tv=p.v+(rnd()-.5)*10;p.w=0;p.sp=p.sp||1.2}return false}
+  return true}
+ /* chismosos: si grabaron un delito, al rato llaman */
+ function witStep(dt){for(let i=WITNESS.length-1;i>=0;i--){const w=WITNESS[i];w.t-=dt;if(w.t>0)continue;WITNESS.splice(i,1);try{if((S.wanted||0)===0){POLI626.setLevel(1,w.why+' · un testigo lo grabó y llamó al 911');M.reports++}}catch(_){}}}
+ /* ---------- qué los asusta ---------- */
+ try{const _sh=shoot;shoot=function(){const r=_sh.apply(this,arguments);try{if(inNew()&&S.w>=2){const pu=P.x-OX,pv=P.z-OZ;react(pu,pv,45,'tiro','Disparos en la calle')}}catch(e){err('tiro',e)}return r};window.shoot=shoot}catch(e){err('shoot',e)}
+ try{const _ci=carImpact;carImpact=function(k,speed){const r=_ci.apply(this,arguments);try{if(inNew()&&k&&k.g&&speed>6){const p=k.g.position;fx(p,speed);if(speed>9)react(p.x-OX,p.z-OZ,30,'choque',DRV&&DRV.k===k&&speed>14?'Choque fuerte':null)}}catch(e){err('choque',e)}return r};window.carImpact=carImpact}catch(e){err('carImpact',e)}
+ let aimT=0,walkT=0,nearT=0;
+ function threats(dt){const pu=P.x-OX,pv=P.z-OZ;
+  /* le apuntas a alguien */aimT-=dt;if(!DRV&&aimT<=0&&S.w>=2&&(typeof AIM!=='undefined'&&AIM)){aimT=.5;const fx=Math.cos(P.yaw+Math.PI/2),fz=-Math.sin(P.yaw+Math.PI/2);for(const p of peds()){if(p.react||p.down)continue;const dx=p.u-pu,dz=p.v-pv,d=Math.hypot(dx,dz);if(d<10&&(dx*fx+dz*fz)/d>.8){react(p.u,p.v,4,'apunta',null);react(pu,pv,22,'tiro','Amenazó a alguien con un arma');break}}}
+  if(!DRV||!DRV.k)return;const k=DRV.k,c=k.g.position,v=DRV.v||0;
+  /* casi atropellas: brincan a un lado y te gritan */nearT-=dt;if(Math.abs(v)>7&&nearT<=0){const th=k.g.rotation.y,fx=Math.cos(th)*Math.sign(v),fz=-Math.sin(th)*Math.sign(v);for(const p of peds()){if(p.react||p.down)continue;const dx=p.g.position.x-c.x,dz=p.g.position.z-c.z,d=Math.hypot(dx,dz);if(d>9||d<1.8)continue;const ahead=(dx*fx+dz*fz);if(ahead<0)continue;const side=Math.abs(dx*-fz+dz*fx);if(side<2.6){
+     /* brinca */const sg=(dx*-fz+dz*fx)>=0?1:-1;const nu=p.u+(-fz)*sg*1.8,nv=p.v+fx*sg*1.8;if(!V.colHit(nu,nv,p.g.position.y+.8,.3)){p.u=nu;p.v=nv;p.g.position.x=nu+OX;p.g.position.z=nv+OZ}bubble(p.g,pick(GRITOS.casi));M.yells++;start(p,rnd()<.5?'look':'flee',c.x-OX,c.z-OZ,'casi');nearT=.7;break}}}
+  /* manejas por la banqueta */walkT-=dt;if(walkT<=0&&Math.abs(v)>4){walkT=.6;try{const s=V.surface(c.x-OX,c.z-OZ,c.y);if(s.walk)react(c.x-OX,c.z-OZ,18,'banqueta',null)}catch(_){}}}
+ /* ================= EL TRÁFICO TE PITA ================= */
+ function honkStep(dt){if(!DRV||!DRV.k)return;const me=DRV.k.g.position;if(Math.abs(DRV.v||0)>1.2)return;let TR=[];try{TR=VIDA625.TR}catch(_){}
+  for(const t of TR){const p=t.k.g.position;const d=Math.hypot(p.x-me.x,p.z-me.z);if(d<11&&(t.sp||0)<.6){t.honk627=(t.honk627||0)+dt;if(t.honk627>2.6){t.honk627=-4-rnd()*4;honk(.55);M.honks++;if(rnd()<.7)bubble(t.k.g,pick(GRITOS.pita),2.6)}}else if(t.honk627>0)t.honk627=0}}
+ function honk(vol){try{if(!AC||AC.state!=='running')return;const t=AC.currentTime;const g=AC.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.09*vol,t+.02);g.gain.setValueAtTime(.09*vol,t+.32);g.gain.linearRampToValueAtTime(0,t+.38);g.connect(AC.destination);
+   for(const f of [415,523]){const o=AC.createOscillator();o.type='square';o.frequency.value=f*(.96+rnd()*.08);const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=1800;o.connect(lp);lp.connect(g);o.start(t);o.stop(t+.4)}}catch(_){}}
+ /* ================= CHISPAS, VIDRIOS, HUMO Y FUEGO ================= */
+ const FX=[];let SPM=null,GLM=null;
+ function fx(p,speed){/* chispas */if(!SPM)SPM=new THREE.PointsMaterial({color:0xffb347,size:.18,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending});const n=Math.min(40,10+speed*1.5|0);const pos=new Float32Array(n*3),vel=[];for(let i=0;i<n;i++){pos[i*3]=p.x;pos[i*3+1]=p.y+.7;pos[i*3+2]=p.z;vel.push([(rnd()-.5)*8,2+rnd()*5,(rnd()-.5)*8])}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));const pts=new THREE.Points(g,SPM.clone());sc.add(pts);FX.push({o:pts,vel,t:.7,k:'sp'});M.sparks++;
+  /* vidrios */if(speed>13){if(!GLM)GLM=new THREE.MeshBasicMaterial({color:0xcfe8f5,transparent:true,opacity:.8});for(let i=0;i<10;i++){const m=new THREE.Mesh(new THREE.BoxGeometry(.08,.02,.06),GLM);m.position.set(p.x+(rnd()-.5),p.y+1,p.z+(rnd()-.5));sc.add(m);FX.push({o:m,vel:[(rnd()-.5)*6,2+rnd()*3,(rnd()-.5)*6],t:1.6,k:'gl',spin:rnd()*10})}M.glass++}}
+ const SMK=[];let smT=0;let SMT=null;
+ function smokeTex(){if(SMT)return SMT;const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');const gr=g.createRadialGradient(32,32,2,32,32,30);gr.addColorStop(0,'rgba(255,255,255,.9)');gr.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=gr;g.fillRect(0,0,64,64);SMT=new THREE.CanvasTexture(c);return SMT}
+ function puff(x,y,z,col,fire){if(SMK.length>40){const o=SMK.shift();sc.remove(o.s);o.s.material.dispose()}const s=new THREE.Sprite(new THREE.SpriteMaterial({map:smokeTex(),color:col,transparent:true,depthWrite:false,opacity:fire?.9:.55,blending:fire?THREE.AdditiveBlending:THREE.NormalBlending}));s.position.set(x,y,z);s.scale.set(.6,.6,1);sc.add(s);SMK.push({s,t:fire?.5:1.8,t0:fire?.5:1.8,fire})}
+ function fxStep(dt){for(let i=FX.length-1;i>=0;i--){const f=FX[i];f.t-=dt;if(f.t<=0){sc.remove(f.o);try{f.o.geometry.dispose();if(f.k==='sp')f.o.material.dispose()}catch(_){}FX.splice(i,1);continue}
+   if(f.k==='sp'){const a=f.o.geometry.attributes.position;for(let j=0;j<f.vel.length;j++){f.vel[j][1]-=9.8*dt;a.array[j*3]+=f.vel[j][0]*dt;a.array[j*3+1]+=f.vel[j][1]*dt;a.array[j*3+2]+=f.vel[j][2]*dt}a.needsUpdate=true;f.o.material.opacity=f.t/.7}
+   else{f.vel[1]-=9.8*dt;f.o.position.x+=f.vel[0]*dt;f.o.position.y=Math.max(f.o.position.y+f.vel[1]*dt,G512.h(f.o.position.x,f.o.position.z)+.02);f.o.position.z+=f.vel[2]*dt;f.o.rotation.x+=f.spin*dt}}
+  /* humo de coches muy golpeados (cerca de ti) */smT-=dt;if(smT<=0){smT=.16;for(const k of CARS){if(!k.g||k.condition==null||k.condition>40)continue;const p=k.g.position;if(Math.hypot(p.x-P.x,p.z-P.z)>70)continue;const th=k.g.rotation.y;const hx=p.x+Math.cos(th)*1.6,hz=p.z-Math.sin(th)*1.6;
+    puff(hx+(rnd()-.5)*.3,p.y+1.1,hz+(rnd()-.5)*.3,k.condition<15?0x222222:0x9a9a9a,false);if(k.condition<15&&rnd()<.7)puff(hx,p.y+.95,hz,0xff7a1a,true);M.smoke++}}
+  for(let i=SMK.length-1;i>=0;i--){const o=SMK[i];o.t-=dt;if(o.t<=0){sc.remove(o.s);o.s.material.dispose();SMK.splice(i,1);continue}const a=1-o.t/o.t0;o.s.position.y+=dt*(o.fire?1.4:1.1);const sz=o.fire?.6+a*.5:.6+a*2.4;o.s.scale.set(sz,sz,1);o.s.material.opacity=(o.fire?.9:.55)*(1-a)}}
+ /* ================= SONIDOS DE LA CIUDAD ================= */
+ let ambT=4,vozT=8;const VOCES={fierro:'Se compran colchones, tambores, refrigeradores, estufas, lavadoras, microondas, o algo de fierro viejo que vendan.',tamales:'Tamales oaxaqueños, tamales calientitos. Pida sus ricos tamales oaxaqueños.',gas:'¡El gaaas! ¡Gas de calidad, al mejor precio!'};
+ let VOICE=null;function voice(){if(VOICE!==null)return VOICE;try{const L=speechSynthesis.getVoices();VOICE=L.find(v=>/es-MX/i.test(v.lang))||L.find(v=>/^es/i.test(v.lang))||false}catch(_){VOICE=false}return VOICE}
+ function say627(text,vol,rate,pitch){try{if(!st().voz)return false;try{if(window.VOCES556){const ok=VOCES556.speak(text,{lang:'es-MX',fem:false,seed:(text.length*37)%9999,pitch:pitch||1,rate:rate||1,vol:Math.max(.1,Math.min(1,vol)),kind:'gente',pri:2});M.voice++;return ok!==false}}catch(_){}if(!window.speechSynthesis||!AC||AC.state!=='running')return false;if(speechSynthesis.speaking)return false;const u=new SpeechSynthesisUtterance(text);const v=voice();if(v)u.voice=v;u.lang=(v&&v.lang)||'es-MX';u.volume=Math.max(.05,Math.min(1,vol));u.rate=rate||1;u.pitch=pitch||1;speechSynthesis.speak(u);M.voice++;return true}catch(_){return false}}
+ function vendors(){/* las camionetas del fierro viejo / tamales / gas: unas pickups del tráfico */let TR=[];try{TR=VIDA625.TR}catch(_){}let h=12;try{h=W537.clock().h}catch(_){}const kind=h>=6&&h<10||h>=19&&h<23?'tamales':h>=10&&h<18?(rnd()<.6?'fierro':'gas'):null;
+  let have=TR.find(t=>t.k.vendor627);if(!have&&kind){const c=TR.find(t=>!t.k.cop626&&!t.bus&&!t.k.taxi625&&(t.k.vt==='pickup'||t.k.vt==='sedan')&&Math.hypot(t.u-(P.x-OX),t.v-(P.z-OZ))<260);if(c){c.k.vendor627=kind;have=c}}
+  if(!have)return;const d=Math.hypot(have.u-(P.x-OX),have.v-(P.z-OZ));if(d<90){const vol=Math.max(.1,1-d/90)*(DRV?.6:1);if(say627(VOCES[have.k.vendor627],vol,have.k.vendor627==='fierro'?.95:1,have.k.vendor627==='gas'?1.2:.9)){bubble(have.k.g,have.k.vendor627==='fierro'?'🔊 ¡Fierro viejo!':have.k.vendor627==='gas'?'🔊 ¡El gaaas!':'🔊 ¡Tamales!',2.8)}}}
+ function ambient(dt){ambT-=dt;if(ambT<=0){ambT=6+rnd()*10;let n=0;try{n=VIDA625.TR.length}catch(_){}if(n>5)honk(.15+rnd()*.15)}
+  vozT-=dt;if(vozT<=0){vozT=14+rnd()*10;vendors()}}
+ /* ================= RADIO CAPITAL (el locutor cuenta lo que haces) ================= */
+ const RQ=[];let rT=0,lastW=0,lastJob=null;
+ function news(t){RQ.push(t);if(RQ.length>3)RQ.shift()}
+ function radioStep(dt){const w=S.wanted||0;let place='la ciudad';try{place=CIUDAD626.calle(P.x-OX,P.z-OZ)||CIUDAD626.colonia(P.x-OX,P.z-OZ)}catch(_){}
+  if(w>lastW){if(lastW===0)news(pick(['Interrumpimos la música: reportan una persecución sobre '+place+'. Si va por ahí, mejor tome otra ruta.','Atención: el C5 reporta un operativo en '+place+'.','Última hora: la policía persigue a un sospechoso en '+place+'.']));else if(w>=4)news('Esto se puso feo: helicópteros y patrullas en '+place+'. El C5 pide a los vecinos no salir.')}
+  if(w===0&&lastW>0)news(pick(['Y el sospechoso de la persecución… se les escapó otra vez. Así las cosas en la capital.','La policía perdió el rastro del sospechoso. Seguimos con la música.']));lastW=w;
+  try{const J=TRAB626.job;const k=J&&J.kind;if(k!==lastJob){if(k==='valores')news('Reportan movimiento raro cerca de un camión de valores en Insurgentes.');lastJob=k}}catch(_){}
+  rT-=dt;if(rT>0)return;rT=4;if(!DRV||!RQ.length)return;const t=RQ.shift();M.radio++;try{toast('📻 Radio Capital: '+t)}catch(_){}say627(t,.75,1.05,1)}
+ /* tráfico y clima cada tanto */let repT=45;function reports(dt){repT-=dt;if(repT>0)return;repT=80+rnd()*60;if(!DRV)return;const L=['Tráfico pesado en el Periférico a la altura de San Antonio. Paciencia.','El Segundo Piso fluye bien, nada más cuidado con los motociclistas.','Insurgentes a vuelta de rueda por el Metrobús. Ni modo.','En Puebla, la Atlixcáyotl con carga vehicular rumbo a Angelópolis.','Hoy la capital amaneció con sol y 24 grados. Y ahorita, ¡un temazo!','Viaducto con un carro descompuesto en el carril de alta. Precaución.'];news(pick(L))}
+ /* app del teléfono para apagar la voz */try{Phone58.register({id:'radio627',name:'Radio Capital',icon:'📻',render(api){const s=st();return {title:'📻 Radio Capital',text:'El locutor y los vendedores de la calle hablan con la voz del teléfono. '+(s.voz?'Ahora: PRENDIDO.':'Ahora: APAGADO.'),rows:[],buttons:[[s.voz?'🔇 Apagar voces':'🔊 Prender voces',()=>{s.voz=s.voz?0:1;try{if(!s.voz)speechSynthesis.cancel()}catch(_){}try{save()}catch(_){}api.refresh?api.refresh():api.close()}],['Volver',()=>api.home()]]}}})}catch(e){err('teléfono',e)}
+ /* ================= PASO ================= */
+ try{const _st=step;step=function(dt){const r=_st.apply(this,arguments);try{const d=Math.min(.1,Math.max(0,dt||0));bubStep(d);fxStep(d);if(inNew()){threats(d);witStep(d);honkStep(d);ambient(d);radioStep(d);reports(d)}}catch(e){err('paso',e)}return r}}catch(e){err('paso',e)}
+ try{NV600.G[1][1].push('🗣️ Ciudad viva: la gente corre, se agacha o te graba (y llama al 911); te gritan y te pitan; chispas, vidrios, humo y fuego en los choques; el fierro viejo y Radio Capital')}catch(_){}
+ return {M,react,bubble,fx,news,say:say627,BUB,FX,WITNESS};
+})();
+try{window.VIVO627=VIVO627}catch(_){}
+/*RB625-RB627_VIVO-END*/
+
+/*RB625-RB627_ACTO2-BEGIN*/
+/* RUTA BRAVA V5.127 · ACTO 2 · «EL PUERTO» (la historia sigue después de la llamada de Chuy al final del Acto 1).
+   Chuy no está en el Puerto: se esconde en PUEBLA, donde «Los del Puerto» (la gente que mueve mercancía de Veracruz por la
+   autopista) tienen su bodega. Cinco misiones en el mapa nuevo:
+   1. CAMINO A PUEBLA — Tomas la autopista. En la caseta, los halcones de Los del Puerto reconocen tu coche: dos camionetas negras
+      te persiguen y te disparan. Piérdelas o sácalas del camino y llega a la pirámide de Cholula, donde te espera Chuy.
+   2. EL TRÁILER — Sigues un tráiler de «Transportes del Golfo» desde San Martín Texmelucan hasta su bodega, sin que te vean:
+      ni muy cerca (te descubren) ni muy lejos (lo pierdes).
+   3. LA BODEGA — De noche entras a la bodega en Puebla: balacera con coberturas (dos oleadas y su jefe, «El Güero del Puerto»).
+      Encuentras LA LIBRETA: las cuentas de Los del Puerto… con el nombre de tu papá.
+   4. LA LIBRETA — Los del Puerto quieren su libreta: tres camionetas te persiguen por la autopista de regreso a la CDMX.
+   5. LA VERDAD — En tu casa, con la libreta en la mesa: tu papá te cuenta lo que nunca te dijo. Tú decides qué hacer con eso.
+      Don Chendo llama. Fin del Acto 2 → Acto 3 «La Plaza» (tu propia gente).
+   Cada paso se guarda; si fallas, lo repites desde el principio de ese paso. App «Acto 2» en el teléfono. */
+const ACTO2627=(()=>{
+ const V=VALLE624,A=V.api;const M={errors:[],steps:0,fails:0,chasers:0,rams:0,tail:0,won:0};const err=(w,e)=>{if(M.errors.length<8)M.errors.push(w+': '+(e&&e.message||e))};
+ const OX=V.OX,OZ=V.OZ,{geo,rgb}=A;const G=(u,v)=>A.Ht(u,v);const rnd=Math.random;const fmt=n=>'$'+Math.round(n).toLocaleString('es-MX');const T=t=>{try{toast(t)}catch(_){}};
+ const inNew=()=>{try{return V.ready&&V.inW(P.x,P.z)}catch(_){return false}};
+ const ST=()=>{try{if(!RB.a2_627||typeof RB.a2_627!=='object')RB.a2_627={paso:0,know:{}};return RB.a2_627}catch(_){return {paso:0,know:{}}}};
+ const NAMES=['','Camino a Puebla','El tráiler','La bodega','La libreta','La verdad'];
+ /* ---------------- diálogos con voz ---------------- */
+ const VOZ={Chuy:{seed:7712,pitch:.95,rate:1.02},'Don Rogelio':{seed:5401,pitch:.78,rate:.94},'Don Chendo':{seed:3311,pitch:.7,rate:.9},Mamá:{seed:9021,fem:true,pitch:1.1,rate:1},'El Güero':{seed:4471,pitch:.85,rate:1.08},Radio:{seed:1200,pitch:1,rate:1.1}};
+ function line(who,txt){try{const v=VOZ[who];if(v&&!/^\(/.test(txt))VOCES556.speak(txt.replace(/\(.*?\)/g,''),{lang:'es-MX',fem:!!v.fem,seed:v.seed,pitch:v.pitch,rate:v.rate,kind:'mision',pri:6})}catch(_){}}
+ function talk(lines,done){let i=0;const nx=()=>{if(i>=lines.length){try{done&&done()}catch(e){err('escena',e)}return}const [who,txt,btn,alt]=lines[i++];line(who,txt);try{say(who||'',txt,alt?alt:[[btn||'…',nx]])}catch(e){err('diálogo',e);nx()}};nx()}
+ /* ---------------- lugares ---------------- */
+ const L={};
+ function nearRoad(u,v,kinds){let best=null;for(const r of V.ROADS){if(kinds&&!kinds.includes(r.kind))continue;if(/^ramp|^retorno/.test(r.id))continue;for(let i=0;i<r.pts.length;i+=2){const p=r.pts[i];const d=Math.hypot(p.u-u,p.v-v);if(!best||d<best.d)best={r,s:p.s,d}}}return best}
+ function walkAt(r,s,side){const q=V.sampleAt(r,s);const K=V.SPEC(r);const o=V.halfW(r)+(K.walk?K.walk*.55:1.6);return [q.u+q.nx*o*(side||1),q.v+q.nz*o*(side||1)]}
+ function besideFree(r,s,side,off,rx,rz){for(const sd of [side,-side])for(const ds of [0,30,-30,60,-60,100,-100,160,-160,220,-220]){const ss=s+ds;if(ss<20||ss>r.len-20)continue;const q=V.sampleAt(r,ss);if(q.y-V.Ht(q.u,q.v)>1.5)continue;const o=V.halfW(r)+(V.SPEC(r).walk||0)+off;const u=q.u+q.nx*o*sd,v=q.v+q.nz*o*sd;
+   let bad=false;for(let a=-rx;a<=rx&&!bad;a+=3)for(let b=-rz;b<=rz&&!bad;b+=3){const pu=u+q.tx*a-q.nx*sd*b,pv=v+q.tz*a-q.nz*sd*b;if(V.roadHits(pu,pv,.8).length)bad=true}
+   if(!bad&&V.KEEP.some(k=>Math.hypot(k.u-u,k.v-v)<(k.r!=null?k.r:Math.max(k.rx,k.rz))+Math.max(rx,rz)+2))bad=true;
+   if(!bad)return {u,v,ang:Math.atan2(q.tz,q.tx),tx:q.tx,tz:q.tz,nx:-q.nx*sd,nz:-q.nz*sd,front:[q.u+q.nx*(V.halfW(r)+(V.SPEC(r).walk||0)*.5)*sd,q.v+q.nz*(V.halfW(r)+(V.SPEC(r).walk||0)*.5)*sd]}}return null}
+ function box(mg,u,v,y,w,h,d,col,ang){mg.add(geo('box'),u+OX,y+h/2,v+OZ,-(ang||0),w,h,d,col)}
+ function colBox(u,v,w,d,ang,y0,y1){A.colOBB(u,v,Math.cos(ang||0),Math.sin(ang||0),w/2,d/2,y0,y1)}
+ const TEXC=new Map();function sign(text,w,h,bg,fg,sub){const k=text+bg+fg+(sub||'');let t=TEXC.get(k);if(!t){t=A.canvasTex(512,Math.round(512*h/w),(x,W,H)=>{x.fillStyle=bg;x.fillRect(0,0,W,H);x.fillStyle=fg;x.textAlign='center';x.textBaseline='middle';let fs=Math.min(H*(sub?.42:.6),W/(text.length*.6));x.font='bold '+Math.round(fs)+'px Arial,Helvetica,sans-serif';x.fillText(text,W/2,sub?H*.38:H/2);if(sub){x.font=Math.round(fs*.5)+'px Arial';x.fillText(sub,W/2,H*.78)}});TEXC.set(k,t)}return new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:t,side:THREE.DoubleSide}))}
+ function place(){try{
+  /* Cholula: al pie de la pirámide */{const b=nearRoad(8372,3790,['art','ci','calle']);if(b){L.cholula=walkAt(b.r,b.s,1)}}
+  /* la caseta de la autopista (donde te reconocen) y Texmelucan (de donde sale el tráiler) */{const r=A.road('autopista');if(r){let bs=0,bd=1e18;for(const p of r.pts){const d=Math.hypot(p.u-3303,p.v-956);if(d<bd){bd=d;bs=p.s}}L.caseta={r,s:bs};let ts=0;bd=1e18;for(const p of r.pts){const d=Math.hypot(p.u-6720,p.v-1420);if(d<bd){bd=d;ts=p.s}}L.texme={r,s:ts}}}
+  /* la bodega de «Transportes del Golfo» en Puebla */{const b=nearRoad(10250,4150,['art','ci']);const p=b&&besideFree(b.r,b.s,1,22,24,18);if(p){L.bodega=p;A.addKeep({u:p.u,v:p.v,rx:25,rz:19,ang:p.ang});A.addPad({u:p.u,v:p.v,rx:26,rz:20,ang:p.ang,rect:1,bl:10});
+    A.LMS.push({id:'a2:bodega',name:'Transportes del Golfo',u:p.u,v:p.v,r:30,far:200,build:()=>{const g=new THREE.Group();try{bodega(g,p)}catch(e){err('bodega',e)}return g}})}}
+  M.placed=!!(L.cholula&&L.caseta&&L.bodega)}catch(e){err('lugares',e)}}
+ A.READY.push(place);
+ function bodega(g,p){const F=(a,b)=>[p.u+p.tx*a+p.nx*b,p.v+p.tz*a+p.nz*b];const mg=A.Merger();const y=G(p.u,p.v)-.2;
+  for(const [a0,b0,a1,b1] of [[-24,-18,24,-18],[-24,-18,-24,18],[24,-18,24,18],[-24,18,-6,18],[6,18,24,18]]){const c=F((a0+a1)/2,(b0+b1)/2);const len=Math.hypot(a1-a0,b1-b0);const ang=Math.abs(a1-a0)>.1?p.ang:p.ang+Math.PI/2;box(mg,c[0],c[1],y,len,3,.35,0x8a857a,ang);colBox(c[0],c[1],len,.5,ang,y-1,y+3.2)}
+  const w=F(0,-10);box(mg,w[0],w[1],y,30,8,12,0xb9b29f,p.ang);colBox(w[0],w[1],30,12,p.ang,y-1,y+8.2);box(mg,w[0],w[1],y+8,30.6,.3,12.6,0x6b6f74,p.ang);const d=F(0,-3.95);box(mg,d[0],d[1],y,6,5,.1,0x3a3f44,p.ang);
+  for(const [a,b] of L2.cover)box(mg,...F(a,b),y,1.6,1.3,1.6,0x8a5a2b,p.ang);
+  for(const a of [-14,14]){const t=F(a,8);box(mg,t[0],t[1],y,2.5,3.2,11,0xe9e4da,p.ang+Math.PI/2);colBox(t[0],t[1],2.6,11,p.ang+Math.PI/2,y-1,y+3.4)}
+  g.add(mg.mesh(A.MAT.conc));const s=sign('TRANSPORTES DEL GOLFO',10,1.4,'#1d3557','#ffffff','fletes · mudanzas · Veracruz–Puebla–México');const sp=F(0,18.3);s.position.set(sp[0]+OX,y+3.9,sp[1]+OZ);s.lookAt(sp[0]+OX+p.nx,y+3.9,sp[1]+OZ+p.nz);g.add(s)}
+ const L2={cover:[[-8,2],[8,2],[-3,7],[3,7],[0,-1],[-12,-1],[12,-1]]};
+ /* ---------------- marcas y GPS ---------------- */
+ let MK=null;function mark(x,z,col){unmark();try{MK=new THREE.Mesh(new THREE.CylinderGeometry(1.4,1.4,46,10,1,true),new THREE.MeshBasicMaterial({color:col||0xffc83a,transparent:true,opacity:.34,depthWrite:false}));MK.position.set(x,V.surface(x-OX,z-OZ,null).y+23,z);sc.add(MK)}catch(e){err('marca',e)}}
+ function unmark(){if(MK){try{sc.remove(MK);MK.geometry.dispose();MK.material.dispose()}catch(_){}MK=null}}
+ function gps(u,v,name){try{GPS625.setDest(u,v,name)}catch(_){}}
+ /* ---------------- camionetas de Los del Puerto (persecuciones) ---------------- */
+ const CH=[];
+ function mkChaser(u,v,yaw){let k=null;try{k=window.__rb526.newVehicle('sierra250',u+OX,v+OZ,null,true)}catch(_){try{k=rbVehicle('pickup',u+OX,v+OZ,null,true)}catch(e){err('camioneta',e);return null}}
+  try{k.g.traverse(o=>{if(o.isMesh&&o.material&&o.material.color&&o!==k.g.children[0]&&!o.material.userData.g557){}});const b0=k.g.children[0];if(b0&&b0.material&&b0.material.color){b0.material=b0.material.clone();b0.material.color.setHex(0x111214)}k.c541=0x111214;k.lock552=1;k.enemy627=1}catch(_){}
+  const s=V.surface(u,v,null);k.g.position.y=s.y;k.g.rotation.y=yaw||0;const c={k,u,v,y:s.y,yaw:yaw||0,sp:0,hp:100,shotT:2+rnd()*2,ram:0,dead:false};CH.push(c);M.chasers++;return c}
+ function rmChaser(c){try{sc.remove(c.k.g);const i=CARS.indexOf(c.k);if(i>=0)CARS.splice(i,1)}catch(_){}const j=CH.indexOf(c);if(j>=0)CH.splice(j,1)}
+ function clearChasers(){for(let i=CH.length-1;i>=0;i--)rmChaser(CH[i])}
+ function chaseStep(dt){if(!CH.length)return;const me=DRV&&DRV.k?DRV.k:null;const tp=me?me.g.position:P;const vme=me?(DRV.v||0):0;const th=me?me.g.rotation.y:0;
+  for(const c of CH){const k=c.k;if(c.dead){c.sp*=Math.exp(-2*dt);}else{
+    const lead=Math.min(1.2,Math.hypot(tp.x-OX-c.u,tp.z-OZ-c.v)/30);const tu=tp.x-OX+Math.cos(th)*vme*lead,tv=tp.z-OZ-Math.sin(th)*vme*lead;const want=Math.atan2(-(tv-c.v),tu-c.u);let dy=want-c.yaw;while(dy>Math.PI)dy-=2*Math.PI;while(dy<-Math.PI)dy+=2*Math.PI;
+    const D=Math.hypot(tu-c.u,tv-c.v);let vmax=Math.min(40,Math.max(10,Math.abs(vme)+(D>40?9:D>15?3:-2)));vmax*=Math.max(.35,Math.cos(Math.min(1.5,Math.abs(dy))));c.sp+=Math.max(-14*dt,Math.min(8*dt,vmax-c.sp));c.yaw+=Math.min(Math.abs(dy),2.2*dt)*Math.sign(dy)}
+   const fx=Math.cos(c.yaw),fz=-Math.sin(c.yaw);let nu=c.u+fx*c.sp*dt,nv=c.v+fz*c.sp*dt;
+   if(V.colHit(nu+fx*2.2,nv+fz*2.2,c.y+.9,.6)){c.sp*=.3;nu=c.u;nv=c.v;c.stuck=(c.stuck||0)+dt;if(c.stuck>2){c.yaw+=Math.PI*.6;c.stuck=0}}
+   try{const h=V.wallHit(c.u,c.v,nu,nv,c.y,1.1,false,c.road);if(h){nu+=h.nx*h.dl;nv+=h.nz*h.dl;c.sp*=.9}}catch(_){}
+   for(const o of CH){if(o===c)continue;const dx=nu-o.u,dz=nv-o.v,d=Math.hypot(dx,dz);if(d<3.8&&d>0){nu+=dx/d*(3.8-d)*.5;nv+=dz/d*(3.8-d)*.5}}
+   if(me){const mp=me.g.position;const dx=nu+OX-mp.x,dz=nv+OZ-mp.z,d=Math.hypot(dx,dz);if(d<4&&d>0){nu+=dx/d*(4-d);nv+=dz/d*(4-d);const rel=Math.abs(c.sp-Math.abs(vme));if(rel>3&&(c.ram-=dt)<=0){c.ram=1;M.rams++;
+      /* ¿quién le pegó a quién? si tú vas más rápido, el daño se lo lleva la camioneta */if(Math.abs(vme)>c.sp+2){c.hp-=rel*4.5;try{VIVO627.fx(k.g.position,rel*1.5)}catch(_){}}else{try{carImpact(me,Math.min(18,rel*1.3));DRV.v*=.8}catch(_){}}try{snd('crash')}catch(_){}c.sp*=.6}}}
+   const s=V.surface(nu,nv,c.y,c.road);c.y=s.y;c.road=s.road?s.road.r.id:null;c.u=nu;c.v=nv;k.g.position.set(nu+OX,s.y,nv+OZ);k.g.rotation.y=c.yaw;k.deck624=null;
+   if(!c.dead&&c.hp<=0){c.dead=true;k.condition=8;T('💥 ¡Sacaste del camino a una camioneta!');try{VIVO627.fx(k.g.position,22)}catch(_){}}
+   /* disparan desde la ventana */if(!c.dead&&me){c.shotT-=dt;const d=Math.hypot(tp.x-OX-c.u,tp.z-OZ-c.v);if(c.shotT<=0&&d<50){c.shotT=1.1+rnd()*.9;try{tracer(k.g.position.x,k.g.position.y+1.5,k.g.position.z,tp.x,tp.y+1.1,tp.z);snd('hit')}catch(_){}if(rnd()<Math.max(.15,.5-d*.008)){try{carImpact(me,7);hurtP(3)}catch(_){}}}}}}
+ /* ---------------- tráiler a seguir ---------------- */
+ let TRK=null;
+ function pathBetween(a,b){const N=GPS625.build();if(!N)return null;const near=(u,v)=>{let k=-1,bd=1e18;for(let i=0;i<N.length;i++){const d=(N[i].u-u)**2+(N[i].v-v)**2;if(d<bd){bd=d;k=i}}return k};const s=near(a[0],a[1]),t=near(b[0],b[1]);
+  const dist=new Float64Array(N.length).fill(Infinity),prev=new Int32Array(N.length).fill(-1);dist[s]=0;const H=[[0,s]];const push=x=>{H.push(x);let i=H.length-1;while(i>0){const p=(i-1)>>1;if(H[p][0]<=H[i][0])break;[H[p],H[i]]=[H[i],H[p]];i=p}};
+  const pop=()=>{const t0=H[0],l=H.pop();if(H.length){H[0]=l;let i=0;for(;;){const a2=2*i+1,b2=a2+1;let m=i;if(a2<H.length&&H[a2][0]<H[m][0])m=a2;if(b2<H.length&&H[b2][0]<H[m][0])m=b2;if(m===i)break;[H[m],H[i]]=[H[i],H[m]];i=m}}return t0};
+  while(H.length){const [d,i]=pop();if(d>dist[i])continue;if(i===t)break;for(const [j] of N[i].adj){const nd=d+Math.hypot(N[j].u-N[i].u,N[j].v-N[i].v);if(nd<dist[j]){dist[j]=nd;prev[j]=i;push([nd,j])}}}
+  const path=[];for(let i=t;i>=0;i=prev[i]){const n=N[i];let o=n;try{const q=V.sampleAt(n.r,n.s);const K=V.SPEC(n.r);o={u:n.u,v:n.v,q,lat:K.med/2+K.lw*.5}}catch(_){}path.push(o)}path.reverse();
+  /* al carril de la derecha según el sentido */for(let i=0;i<path.length;i++){const p=path[i],nx2=path[Math.min(path.length-1,i+1)],pv2=path[Math.max(0,i-1)];if(!p.q)continue;const dx=nx2.u-pv2.u,dz=nx2.v-pv2.v;const dir=(dx*p.q.tx+dz*p.q.tz)>=0?1:-1;p.x=p.u+p.q.nx*p.lat*dir;p.z=p.v+p.q.nz*p.lat*dir}
+  return path.map(p=>[p.x!=null?p.x:p.u,p.z!=null?p.z:p.v])}
+ function trkStep(dt){const t=TRK;if(!t)return;if(t.i>=t.path.length-1){t.done=true;return}const a=t.path[t.i],b=t.path[t.i+1];const L0=Math.hypot(b[0]-a[0],b[1]-a[1])||1;t.f+=t.sp*dt/L0;while(t.f>=1&&t.i<t.path.length-2){t.f-=1;t.i++}if(t.i>=t.path.length-2&&t.f>=1){t.done=true;t.f=1}
+  const p=t.path[t.i],q=t.path[t.i+1];const u=p[0]+(q[0]-p[0])*Math.min(1,t.f),v=p[1]+(q[1]-p[1])*Math.min(1,t.f);const s=V.surface(u,v,t.y);t.y=s.y;t.u=u;t.v=v;t.k.g.position.set(u+OX,s.y,v+OZ);const yaw=Math.atan2(-(q[1]-p[1]),q[0]-p[0]);let dy=yaw-t.k.g.rotation.y;while(dy>Math.PI)dy-=2*Math.PI;while(dy<-Math.PI)dy+=2*Math.PI;t.k.g.rotation.y+=dy*Math.min(1,dt*3)}
+ /* ---------------- pasos ---------------- */
+ let RUN=null,PEND=null;
+ function begin(){const s=ST();if(s.paso>0)return;s.paso=1;try{save()}catch(_){}T('◆ ACTO 2 · EL PUERTO');PEND={n:1,t:1.5}}
+ function fail(why){if(!RUN)return;const n=RUN.n;cleanup();M.fails++;try{say('❌ '+NAMES[n],why,[['🔁 Intentarlo otra vez',()=>start(n)],['Más tarde',()=>T('Puedes retomarlo en el teléfono → «Acto 2»')]])}catch(_){}}
+ function cleanup(){clearChasers();if(TRK){try{sc.remove(TRK.k.g);const i=CARS.indexOf(TRK.k);if(i>=0)CARS.splice(i,1)}catch(_){}TRK=null}if(RUN&&RUN.D){try{RUN.D.finish()}catch(_){}}if(RUN&&RUN.props)for(const g of RUN.props)try{sc.remove(g)}catch(_){}unmark();try{GPS625.clear()}catch(_){}RUN=null}
+ function next(n){const s=ST();cleanup();s.paso=n+1;M.steps++;try{save()}catch(_){}if(n+1<=5)PEND={n:n+1,t:1.2}}
+ function start(n){if(!V.ready)return;cleanup();const s=ST();s.paso=n;RUN={n,t:0,stage:0};
+  if(n===1){talk([['Chuy','(Mensaje) No estoy en el Puerto, Toño. Eso le digo a todos. Estoy en Puebla.','Leer'],['Chuy','(Mensaje) Te espero en Cholula, al pie de la pirámide. Ven por la autopista y fíjate quién te sigue.','Ir']],()=>{const c=L.cholula;mark(c[0]+OX,c[1]+OZ,0xffc83a);gps(c[0],c[1],'◆ Cholula · la pirámide');T('◆ Ve a Puebla por la autopista México–Puebla')})}
+  else if(n===2){talk([['Chuy','Esa libreta es todo, Toño. Ahí está quién les debe, quién cobra… y quién se calla. La guardan en su bodega.'],['Chuy','Los martes sale un tráiler de Texmelucan con su mercancía. Síguelo y nos lleva directito. Pero de lejos, ¿eh? Si te ven, se acabó.','Va']],()=>{const r=L.texme.r;const q=V.sampleAt(r,L.texme.s);mark(q.u+OX,q.v+OZ,0x3dd2ff);gps(q.u,q.v,'◆ San Martín Texmelucan (el tráiler)');T('◆ Ve a San Martín Texmelucan, sobre la autopista')})}
+  else if(n===3){talk([['Chuy','Ya sabemos dónde está. De noche nada más hay unos cuantos… pero el Güero del Puerto duerme ahí.'],['Chuy','Entras por el portón, te los quitas de encima y buscas la libreta en la oficina. Yo te cubro afuera con el coche.','¿Y si sale mal?'],['Chuy','Entonces corre. Como cuando éramos niños y nos agarraba el de la tienda.','Vamos']],()=>{const b=L.bodega;mark(b.front[0]+OX,b.front[1]+OZ,0xff4d4d);gps(b.front[0],b.front[1],'◆ Transportes del Golfo (la bodega)');T('◆ Ve a la bodega. Lleva un arma (de noche es más fácil: menos guardias)')})}
+  else if(n===4){talk([['Chuy','(Por radio) ¡Toño, ya vienen! Tres camionetas por la autopista. ¡Llévate la libreta a la casa, yo los distraigo!','¡Chuy!'],['Chuy','¡Que te vayas! ¡Llévasela a mi papá! ¡Que vea lo que es!','Arrancar']],()=>{const h=CASA626.hm();const d=h.H(2.8,-6);mark(d[0]+OX,d[1]+OZ,0xffc83a);gps(d[0],d[1],'◆ Tu casa (Narvarte)');RUN.chase=0;RUN.need=3;T('◆ Llega a tu casa con la libreta. Te van a perseguir')})}
+  else if(n===5){const h=CASA626.hm();const pi=h.H(-2.6,1.3);RUN.home=1;T('◆ Entra a tu casa. Tu papá te espera en la sala');const d=h.H(2.8,-1.4);mark(d[0]+OX,d[1]+OZ,0xffc83a);gps(d[0],d[1],'◆ Tu casa · habla con tu papá')}}
+ function stepRun(dt){const R=RUN;if(!R)return;R.t+=dt;const pu=P.x-OX,pv=P.z-OZ;const me=DRV&&DRV.k?DRV.k.g.position:null;
+  if(R.n===1){/* la caseta: te reconocen */if(R.stage===0){const q=V.sampleAt(L.caseta.r,L.caseta.s);if(Math.hypot(pu-q.u,pv-q.v)<90){R.stage=1;R.w=1.8;T('📱 Un halcón en la caseta te tomó una foto…')}}
+   if(R.stage===1&&R.w!=null){R.w-=dt;if(R.w<=0){R.w=null;try{talk([['Chuy','(Mensaje) ¡Ya te ubicaron! Dos camionetas negras atrás de ti. ¡No pares!','¡Ya los vi!']],()=>{for(let i=0;i<2;i++){const a=(me||P);const th=DRV&&DRV.k?DRV.k.g.rotation.y:0;const bu=a.x-OX-Math.cos(th)*(45+i*12),bv=a.z-OZ+Math.sin(th)*(45+i*12);mkChaser(bu,bv,th)}R.stage=2})}catch(e){err('caseta',e)}}}
+   if(R.stage===2){const alive=CH.filter(c=>!c.dead);const far=alive.every(c=>Math.hypot(c.u-pu,c.v-pv)>220);if(!alive.length||far){R.lost=(R.lost||0)+dt;if(R.lost>4){clearChasers();R.stage=3;T('😮‍💨 Te los quitaste de encima. Sigue a Cholula')}}else R.lost=0}
+   if(Math.hypot(pu-L.cholula[0],pv-L.cholula[1])<14&&(R.stage===0||R.stage===3)){if(DRV&&Math.abs(DRV.v||0)>3)return;unmark();R.n=0;talk([['Chuy','(Sale de la sombra, flaco, con barba de días.) … Toño.'],['Tú','¡Chuy! ¡Cabrón! (Lo abrazas. Huele a gasolina y a miedo.)'],['Chuy','No tenemos mucho tiempo. Escúchame: la deuda de mi papá no es con Chendo. Es con Los del Puerto. Chendo nada más cobra para ellos.'],
+     ['Chuy','Hace veinte años mi papá les manejaba un camión. Algo salió mal, se perdió una carga… y desde entonces le cobran. A él. Y ahora a ti.'],['Tú','¿Y tú qué tienes que ver?'],['Chuy','Yo trabajé para ellos para pagarla. Y vi su libreta: ahí está todo. Si la tenemos, no nos pueden tocar.','Vamos por ella']],()=>next(1))}
+   if(R.stage===0&&R.t>1&&!V.inW(P.x,P.z))return}
+  else if(R.n===2){if(!TRK){const q=V.sampleAt(L.texme.r,L.texme.s);if(Math.hypot(pu-q.u,pv-q.v)<70){/* el tráiler arranca */let k=null;try{k=rbVehicle('truck',q.u+OX,q.v+OZ,null,true);k.lock552=1;const lab=sign('TRANSPORTES DEL GOLFO',3.6,.7,'#1d3557','#fff');lab.position.set(-1.2,2.2,1.32);k.g.add(lab)}catch(e){err('tráiler',e);return}
+     const path=pathBetween([q.u,q.v],L.bodega.front);if(!path||path.length<3){err('ruta','sin camino');return}TRK={k,path,i:0,f:0,sp:15,y:q.y,u:q.u,v:q.v,far:0,close:0};unmark();T('🚛 Ahí va el tráiler. Síguelo de lejos (entre 30 y 160 m)')}}
+   else{trkStep(dt);const d=Math.hypot(TRK.u-pu,TRK.v-pv);if(MK)MK.position.set(TRK.u+OX,TRK.y+23,TRK.v+OZ);else mark(TRK.u+OX,TRK.v+OZ,0x3dd2ff);
+    if(d<28){TRK.close+=dt;if(TRK.close>2.5)return fail('Te acercaste demasiado: el chofer te vio por el espejo y se desvió.')}else TRK.close=Math.max(0,TRK.close-dt*.5);
+    if(d>170){TRK.far+=dt;if(TRK.far>8)return fail('Lo perdiste de vista.')}else TRK.far=0;M.tail=Math.round(d);
+    try{const el=document.getElementById('a2tail')||(()=>{const e=document.createElement('div');e.id='a2tail';e.style.cssText='position:fixed;left:50%;bottom:calc(64px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:55;font:700 13px system-ui;color:#fff;background:#0c1218d8;border-radius:10px;padding:5px 12px';document.body.appendChild(e);return e})();el.style.display='block';el.textContent=(d<28?'🔴 ¡Muy cerca!':d>160?'🟠 ¡Lo pierdes!':'🟢 Distancia buena')+' · '+Math.round(d*5.3)+' m'}catch(_){}
+    if(TRK.done){const e=document.getElementById('a2tail');if(e)e.style.display='none';T('🚛 Entró a la bodega «Transportes del Golfo»');talk([['Chuy','(Por teléfono) Ahí es. Transportes del Golfo, ni se esconden. Vente, hay que esperar a que oscurezca.','Va']],()=>next(2))}}}
+  else if(R.n===3){const b=L.bodega;const F=(a,c)=>[b.u+b.tx*a+b.nx*c,b.v+b.tz*a+b.nz*c];
+   if(!R.D&&!R.loot&&Math.hypot(pu-b.front[0],pv-b.front[1])<16&&!DRV){if((S.w||0)<2){if(!R.warn){R.warn=1;T('🔫 Saca un arma antes de entrar')}return}
+    /* la balacera */const cv=L2.cover.map(([a,c])=>{const q=F(a,c);return [q[0]+OX,q[1]+OZ,1.6,1.6]});const C=F(0,4);const e1=F(-18,-6),e2=F(18,-6),pr=F(0,14);let h=12;try{h=W537.clock().h}catch(_){}const night=h>=21||h<5;
+    try{R.D=TIRO541.encounter({layout:{C:{x:C[0]+OX,z:C[1]+OZ},cover:cv,obstacles:[],entries:[[e1[0]+OX,e1[1]+OZ],[e2[0]+OX,e2[1]+OZ]],press:[pr[0]+OX,pr[1]+OZ]},waves:night?[2,{count:3,boss:true}]:[3,4,{count:4,boss:true}],seed:'bodega627',
+      onWin:()=>{R.won=1;M.won++;T('🔫 Ya no queda nadie. Busca la libreta en la oficina');const o=F(0,-3.4);mark(o[0]+OX,o[1]+OZ,0xffc83a)},onLose:()=>{R.D=null;setTimeout(()=>fail('Te tumbaron en la bodega. Chuy te sacó a rastras.'),600)}})}catch(e){err('balacera',e);return}
+    P.x=C[0]+OX+b.nx*8;P.z=C[1]+OZ+b.nz*8;if(!R.D.start()){R.D=null;T('Ahora no se puede');return}try{POLI626.setLevel(Math.max(S.wanted||0,2),'Balacera en una bodega de Puebla')}catch(_){}T('🚨 ¡Balacera! Cúbrete y acaba con ellos'+(night?'':' (de día hay más)'))}
+   if(R.won&&!R.loot){const o=F(0,-3.4);if(Math.hypot(pu-o[0],pv-o[1])<2.6){R.loot=1;unmark();talk([['','(En un cajón, debajo de unos recibos de fletes, una libreta negra con liga. La abres.)'],['','(Nombres. Fechas. Cantidades. Una página tiene esquina doblada: «R. Hernández — carga perdida, 1998 — debe».)'],['Tú','… Papá.','Guardarla']],()=>next(3))}}}
+  else if(R.n===4){if(R.chase<R.need&&!CH.length&&R.t>2){const a=me||P;const th=DRV&&DRV.k?DRV.k.g.rotation.y:0;for(let i=0;i<R.need;i++){mkChaser(a.x-OX-Math.cos(th)*(60+i*14)+(i-1)*4,a.z-OZ+Math.sin(th)*(60+i*14),th)}R.chase=R.need;T('🚙 ¡Tres camionetas atrás de ti!')}
+   const h=CASA626.hm();const d=h.H(2.8,-6);const alive=CH.filter(c=>!c.dead);if(alive.length&&alive.every(c=>Math.hypot(c.u-pu,c.v-pv)>260)){R.lost=(R.lost||0)+dt;if(R.lost>6){clearChasers();T('😮‍💨 Los perdiste. Llega a tu casa')}}else R.lost=0;
+   if(Math.hypot(pu-d[0],pv-d[1])<14){if(CH.some(c=>!c.dead&&Math.hypot(c.u-pu,c.v-pv)<200)){if(!R.warn2){R.warn2=1;T('⚠️ ¡No los lleves a tu casa! Piérdelos primero')}return}if((S.wanted||0)>0){if(!R.warn3){R.warn3=1;T('⚠️ Con la policía atrás no. Piérdela primero')}return}next(4)}}
+  else if(R.n===5){if(CASA626.inside){const pi=CASA626.hm().H(-2.6,1.3);if(Math.hypot(pu-pi[0],pv-pi[1])<2.8&&!R.talked){R.talked=1;unmark();finale()}}}}
+ function finale(){const s=ST();talk([['','(Pones la libreta en la mesa. Tu papá la ve y se queda quieto mucho rato.)'],['Don Rogelio','… ¿De dónde sacaste eso?'],['Tú','De la bodega de Los del Puerto. Con Chuy. Chuy está vivo, papá.'],
+   ['Don Rogelio','(Se le quiebra la voz.) Vivo… (Se tapa la cara.) Mil novecientos noventa y ocho. Yo manejaba para ellos. Me robaron la carga en la sierra, en Río Frío, y dijeron que fui yo.'],
+   ['Don Rogelio','Chendo me «ayudó». Me prestó para pagar… y desde entonces le pago. Veinticinco años, mijo. Y cuando ya no pude, fueron por tus hermanos.'],
+   ['Don Rogelio','No te dije nada porque me daba vergüenza. Prefería que me odiaran a que supieran que su papá era… eso.','¿Qué le dices?',
+    [['🤝 «Ya no estás solo, pa. Esto lo arreglamos juntos.»',()=>{s.know.papa='perdon';end2(true)}],['😠 «Nos mentiste toda la vida. Ahora lo arreglo yo, a mi manera.»',()=>{s.know.papa='coraje';end2(false)}]]]],null)}
+ function end2(kind){const s=ST();talk([['Don Rogelio',kind?'(Te abraza. Huele a café y a cansancio.) … Gracias, Toño. Gracias.':'(No dice nada. Se queda viendo la libreta.) … Haz lo que tengas que hacer.'],
+   ['','(Suena tu teléfono. «Don Chendo».)','Contestar'],['Don Chendo','Muchacho. Me dicen que fuiste de paseo a Puebla. Y que te trajiste un recuerdito.'],
+   ['Don Chendo','Esa libreta no es tuya. Pero fíjate qué curioso: con ella, ya nadie le cobra a tu papá. Ni yo. Ahora el que cobra… eres tú.'],
+   ['Don Chendo','Tienes dos opciones: me la das y seguimos como amigos… o te quedas con ella y te haces tu propia plaza. Pero entonces ya no eres mi muchacho. Eres mi competencia.','…'],
+   ['','FIN DEL ACTO 2 · EL PUERTO\n\nLa deuda de tu papá se acabó. Ahora tienes la libreta… y un enemigo.\n\nActo 3 · «La Plaza»: arma tu propia gente.','Continuar']],()=>{s.paso=6;s.done=1;try{const d=HIST540.st.deuda;if(d){d.pagado=d.total;d.activa=false}}catch(_){}M.steps++;T('◆ Fin del Acto 2');try{save();upd()}catch(_){}})}
+ /* ---------------- disparadores ---------------- */
+ /* el final del Acto 1 ya no dice «próxima versión»: arranca el Acto 2 */
+ let acc=0;function watch(){const s=ST();if(s.paso>0)return;try{const kn=(RB.hist572&&RB.hist572.know)||{};if(kn.chuy&&!dl)begin()}catch(_){}}
+ try{const _st=step;step=function(dt){const r=_st.apply(this,arguments);try{const d=Math.min(.1,Math.max(0,dt||0));if(PEND&&!dl){PEND.t-=d;if(PEND.t<=0){const n=PEND.n;PEND=null;start(n)}}if(inNew()||RUN&&RUN.n===1){chaseStep(d);stepRun(d)}acc+=d;if(acc>2){acc=0;watch();resume()}}catch(e){err('paso',e)}return r}}catch(e){err('paso',e)}
+ /* al cargar la partida a la mitad del acto, se retoma ese paso */let resumed=false;function resume(){if(resumed||!V.ready||!inNew()||dl)return;resumed=true;const s=ST();if(s.paso>=1&&s.paso<=5&&!RUN&&!s.done)start(s.paso)}
+ /* teléfono */
+ try{Phone58.register({id:'acto2_627',name:'Acto 2',icon:'◆',render(api){const s=ST();const rows=NAMES.slice(1).map((n,i)=>({title:(s.paso>i+1||s.done?'✅ ':s.paso===i+1?'▶ ':'🔒 ')+(i+1)+'. '+n,sub:s.paso===i+1?'En curso':s.paso>i+1||s.done?'Hecho':'Pendiente'}));
+   const btn=[];if(s.paso>=1&&s.paso<=5&&!RUN)btn.push(['▶ Retomar «'+NAMES[s.paso]+'»',()=>{api.close();start(s.paso)}]);try{if(window.PRUEBA625&&PRUEBA625.M&&s.paso===0)btn.push(['🛠️ (Prueba) Empezar el Acto 2',()=>{api.close();begin()}])}catch(_){}btn.push(['Volver',()=>api.home()]);
+   return {title:'◆ Acto 2 · El Puerto',text:s.done?'Terminado. '+(s.know.papa==='perdon'?'Perdonaste a tu papá.':'Le reclamaste a tu papá.')+' Chendo te espera.':s.paso?'Paso '+Math.min(5,s.paso)+' de 5.':'Se abre al final del Acto 1 (cuando te llama Chuy).',rows,buttons:btn}}})}catch(e){err('teléfono',e)}
+ try{NV600.G[1][1].push('◆ Acto 2 · El Puerto: Chuy en Puebla, la persecución en la autopista, seguir el tráiler, la balacera en la bodega y la verdad de tu papá')}catch(_){}
+ return {M,L,ST,begin,start,next,cleanup,CH,get RUN(){return RUN},get TRK(){return TRK}};
+})();
+try{window.ACTO2627=ACTO2627}catch(_){}
+/*RB625-RB627_ACTO2-END*/
 
 /*RB625-RB625_JUGAR-BEGIN*/
 /* RUTA BRAVA V5.125 · UN SOLO JUEGO (pedido del productor: «no tienes que poder escoger entre online e historia, tiene que aparecer
